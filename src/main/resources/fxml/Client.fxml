@@ -6,37 +6,35 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.shape.Rectangle?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="de.tuberlin.sqe.ss18.reqexchange.view.controller.ClientController"
-          prefHeight="400.0" prefWidth="600.0">
+          prefHeight="400.0" prefWidth="600.0"
+          stylesheets="@../css/Client.css">
+
     <columnConstraints>
-        <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
-        <ColumnConstraints percentWidth="75" hgrow="ALWAYS"/>
+        <ColumnConstraints percentWidth="100" hgrow="ALWAYS"/>
     </columnConstraints>
 
     <rowConstraints>
-        <RowConstraints percentHeight="100" vgrow="ALWAYS"/>
+        <RowConstraints percentHeight="25" vgrow="ALWAYS"/>
+        <RowConstraints percentHeight="75" vgrow="ALWAYS"/>
     </rowConstraints>
 
-    <VBox fx:id="vBoxMenu"
+    <HBox fx:id="hBoxActions"
           GridPane.columnIndex="0"
           GridPane.rowIndex="0">
-        <Button fx:id="buttonFunction1"
-                text="Funktion 1"/>
+        <Button fx:id="buttonCreateProject"
+                text="create project"
+                onAction="#handleButtonCreateProjectAction"/>
 
-        <Button fx:id="buttonFunction2"
-                text="Funktion 2"/>
+        <Button fx:id="buttonJoinProject"
+                text="join project"
+                onAction="#handleButtonJoinProjectAction"/>
+    </HBox>
 
-        <Button fx:id="buttonFunction3"
-                text="Funktion 3"/>
-    </VBox>
-
-    <FlowPane fx:id="flowPaneProjects"
-              GridPane.columnIndex="1"
-              GridPane.rowIndex="0">
-
-    </FlowPane>
+    <TilePane fx:id="tilePaneProjects"
+              GridPane.columnIndex="0"
+              GridPane.rowIndex="1"/>
 
 </GridPane>
