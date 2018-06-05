@@ -18,7 +18,7 @@ public class ViewService {
 
     public void showMain(Stage primaryStage) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml"));
-        fxmlLoader.setControllerFactory(t -> ReqExchangeApplication.springContext.getBean(t));
+        fxmlLoader.setControllerFactory(t -> ReqExchangeApplication.getSpringContext().getBean(t));
 
         Parent root;
         try {
@@ -39,7 +39,7 @@ public class ViewService {
     public void showClient() {
         if (clientStage == null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Client.fxml"));
-            fxmlLoader.setControllerFactory(t -> ReqExchangeApplication.springContext.getBean(t));
+            fxmlLoader.setControllerFactory(t -> ReqExchangeApplication.getSpringContext().getBean(t));
 
             Parent root;
             try {
@@ -68,7 +68,7 @@ public class ViewService {
     public void showServer() {
         if (serverStage == null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Server.fxml"));
-            fxmlLoader.setControllerFactory(t -> ReqExchangeApplication.springContext.getBean(t));
+            fxmlLoader.setControllerFactory(t -> ReqExchangeApplication.getSpringContext().getBean(t));
 
             Parent root;
             try {

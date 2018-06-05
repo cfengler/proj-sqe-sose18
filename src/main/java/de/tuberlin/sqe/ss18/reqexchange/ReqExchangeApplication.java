@@ -10,8 +10,13 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 public class ReqExchangeApplication extends Application {
 
-    public static final ConfigurableApplicationContext springContext
-            = SpringApplication.run(ReqExchangeApplication.class);
+    private static ConfigurableApplicationContext springContext;
+    public static  ConfigurableApplicationContext getSpringContext() {
+        if (springContext == null) {
+            springContext = SpringApplication.run(ReqExchangeApplication.class);
+        }
+        return springContext;
+    }
 
     private ViewService viewService;
 
@@ -25,12 +30,12 @@ public class ReqExchangeApplication extends Application {
     }
 
     public void start(Stage primaryStage) throws Exception {
-        this.viewService = springContext.getBean(ViewService.class);
+        this.viewService = getSpringContext().getBean(ViewService.class);
         this.viewService.showMain(primaryStage);
     }
 
     @Override
     public void stop() throws Exception {
-        this.springContext.stop();
+        this.getSpringContext().stop();
     }
 }
