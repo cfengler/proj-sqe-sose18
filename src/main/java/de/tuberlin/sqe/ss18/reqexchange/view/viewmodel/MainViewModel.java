@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 public class MainViewModel {
 
     public MainViewModel() {
-        System.out.println("MainViewModel init");
+        System.out.println(getClass().getSimpleName() + " ctor");
     }
 }
