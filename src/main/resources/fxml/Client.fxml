@@ -25,16 +25,18 @@
           GridPane.columnIndex="0"
           GridPane.rowIndex="0">
         <Button fx:id="buttonCreateProject"
-                text="create project"
                 onAction="#handleButtonCreateProjectAction"/>
 
         <Button fx:id="buttonJoinProject"
-                text="join project"
                 onAction="#handleButtonJoinProjectAction"/>
     </HBox>
 
-    <TilePane fx:id="tilePaneProjects"
-              GridPane.columnIndex="0"
-              GridPane.rowIndex="1"/>
+    <ScrollPane fx:id="scrollPaneProjects"
+                GridPane.columnIndex="0"
+                GridPane.rowIndex="1"
+                hbarPolicy="NEVER">
+        <TilePane fx:id="tilePaneProjects" GridPane.fillWidth="true"/>
+    </ScrollPane>
+
 
 </GridPane>

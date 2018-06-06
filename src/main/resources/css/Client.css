@@ -1,3 +1,11 @@
+#buttonCreateProject {
+    -fx-graphic: url("/icons/icon_create_project.png");
+}
+
+#buttonJoinProject {
+    -fx-graphic: url("/icons/icon_join_project.png");
+}
+
 .button {
     -fx-background-color: lightgray;
 }
