@@ -6,37 +6,31 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="de.tuberlin.sqe.ss18.reqexchange.view.controller.ClientController"
           prefHeight="400.0" prefWidth="600.0"
           stylesheets="@../css/Client.css">
 
-    <columnConstraints>
-        <ColumnConstraints percentWidth="100" hgrow="ALWAYS"/>
-    </columnConstraints>
+    <top>
+        <HBox fx:id="hBoxActions"
+              GridPane.columnIndex="0"
+              GridPane.rowIndex="0">
+            <Button fx:id="buttonCreateProject"
+                    onAction="#handleButtonCreateProjectAction"/>
 
-    <rowConstraints>
-        <RowConstraints percentHeight="25" vgrow="ALWAYS"/>
-        <RowConstraints percentHeight="75" vgrow="ALWAYS"/>
-    </rowConstraints>
+            <Button fx:id="buttonJoinProject"
+                    onAction="#handleButtonJoinProjectAction"/>
+        </HBox>
+    </top>
 
-    <HBox fx:id="hBoxActions"
-          GridPane.columnIndex="0"
-          GridPane.rowIndex="0">
-        <Button fx:id="buttonCreateProject"
-                onAction="#handleButtonCreateProjectAction"/>
+    <center>
+        <ScrollPane fx:id="scrollPaneProjects"
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="1"
+                    hbarPolicy="NEVER">
+            <TilePane fx:id="tilePaneProjects" GridPane.fillWidth="true"/>
+        </ScrollPane>
+    </center>
 
-        <Button fx:id="buttonJoinProject"
-                onAction="#handleButtonJoinProjectAction"/>
-    </HBox>
-
-    <ScrollPane fx:id="scrollPaneProjects"
-                GridPane.columnIndex="0"
-                GridPane.rowIndex="1"
-                hbarPolicy="NEVER">
-        <TilePane fx:id="tilePaneProjects" GridPane.fillWidth="true"/>
-    </ScrollPane>
-
-
-</GridPane>
+</BorderPane>

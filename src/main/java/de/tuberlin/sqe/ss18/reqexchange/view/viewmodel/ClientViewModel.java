@@ -12,12 +12,13 @@ import java.util.List;
 @Component
 public class ClientViewModel {
 
-    private StringProperty info = new SimpleStringProperty();
+    private StringProperty info;
     private SimpleListProperty<ProjectViewModel> projects;
 
     public ClientViewModel() {
         System.out.println(getClass().getSimpleName() + " ctor");
 
+        info = new SimpleStringProperty();
         projects = new SimpleListProperty<>();
         projects.set(FXCollections.observableArrayList());
 

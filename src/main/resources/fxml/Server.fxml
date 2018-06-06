@@ -6,9 +6,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="de.tuberlin.sqe.ss18.reqexchange.view.controller.ServerController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@../css/Server.css">
 
-</AnchorPane>
+    <center>
+        <Button fx:id="buttonStartPause" onAction="#handleButtonStartPauseAction"/>
+    </center>
+
+</BorderPane>
