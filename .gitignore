@@ -53,3 +53,5 @@ nbdist/
 # Mac
 .DS_Store
 
+#Application
+db.sqlite
