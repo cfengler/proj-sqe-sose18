@@ -1,51 +1,46 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
+import de.tuberlin.sqe.ss18.reqexchange.server.service.ServerProjectService;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ServerViewModel {
 
-    private StringProperty info;
-    private BooleanProperty running;
+    private ServerProjectService projectService;
 
-    public ServerViewModel() {
-        info = new SimpleStringProperty();
+
+    private BooleanProperty running;
+    public boolean isRunning() {
+        return running.get();
+    }
+    public BooleanProperty runningProperty() {
+        return running;
+    }
+    public void setRunning(boolean running) {
+        this.running.set(running);
+    }
+
+
+    @Autowired
+    public ServerViewModel(ServerProjectService projectService) {
+        this.projectService = projectService;
+
         running = new SimpleBooleanProperty(false);
 
-        System.out.println(getClass().getSimpleName() + " ctor");
-
-        setInfo("Das ist die Server info.");
+        addSomeData();
     }
 
     public void handleStartStop() {
         running.set(!running.get());
     }
 
-    public final String getInfo() {
-        return info.get();
+    private void addSomeData() {
+        //TODO: some testdata?
     }
 
-    public final void setInfo(String newValue) {
-        info.set(newValue);
-    }
-
-    public StringProperty infoProperty() {
-        return info;
-    }
-
-    public boolean isRunning() {
-        return running.get();
-    }
-
-    public BooleanProperty runningProperty() {
-        return running;
-    }
-
-    public void setRunning(boolean running) {
-        this.running.set(running);
-    }
 }

@@ -1,10 +1,12 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
+import de.tuberlin.sqe.ss18.reqexchange.client.data.repository.ClientProjectInfoRepository;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,17 +14,20 @@ import java.util.List;
 @Component
 public class ClientViewModel {
 
-    private StringProperty info;
+    private ClientProjectInfoRepository projectInfoRepository;
+
     private SimpleListProperty<ProjectViewModel> projects;
 
-    public ClientViewModel() {
-        System.out.println(getClass().getSimpleName() + " ctor");
+    @Autowired
+    public ClientViewModel(ClientProjectInfoRepository projectInfoRepository) {
+        this.projectInfoRepository = projectInfoRepository;
 
-        info = new SimpleStringProperty();
         projects = new SimpleListProperty<>();
         projects.set(FXCollections.observableArrayList());
-
-        setInfo("Das ist die Client info.");
+        //TODO: hier muss noch mehr passieren, binding oder manuell
+        projectInfoRepository.findAll().stream().forEach(projectInfo -> {
+            projects.add(new ProjectViewModel(projectInfo.getName(),false,false));
+        });
     }
 
     public void handleCreateProject(String name, String password, String filepath) {
@@ -34,8 +39,4 @@ public class ClientViewModel {
         System.out.println("join project procedure invoked");
         //TODO handle join project
     }
-
-    public final String getInfo() { return info.get(); }
-    public final void setInfo(String newValue) { info.set(newValue); }
-    public StringProperty infoProperty() { return info; }
 }

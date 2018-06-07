@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class ProjectViewModel {
-
+    //TODO: namen aus dem model übernehmen, nicht local changed und serverchanged
     private SimpleStringProperty name;
     private SimpleBooleanProperty localChanged;
     private SimpleBooleanProperty serverChanged;
