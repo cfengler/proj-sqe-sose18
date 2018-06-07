@@ -4,10 +4,16 @@ import de.tuberlin.sqe.ss18.reqexchange.view.ViewService;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+//@EnableAutoConfiguration
+//@ComponentScan(basePackages = {
+//        "de.tuberlin.sqe.ss18.reqexchange.server.data.repository"
+//})
 public class ReqExchangeApplication extends Application {
 
     private static ConfigurableApplicationContext springContext;
