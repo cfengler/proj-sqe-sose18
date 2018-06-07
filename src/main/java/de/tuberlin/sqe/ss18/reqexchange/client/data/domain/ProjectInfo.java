@@ -7,5 +7,5 @@ public class ProjectInfo {
     private String name;
     private String password;
     private String filename;
-    //private DateTime pullTimestamp;
+    private DateTime pullTimestamp;
 }
