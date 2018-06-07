@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="de.tuberlin.sqe.ss18.reqexchange.view.controller.ProjectController"
+          prefHeight="400.0" prefWidth="600.0"
+          stylesheets="@../css/Project.css">
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="34" hgrow="ALWAYS"/>
+        <ColumnConstraints percentWidth="33" hgrow="ALWAYS"/>
+        <ColumnConstraints percentWidth="33" hgrow="ALWAYS"/>
+    </columnConstraints>
+
+    <rowConstraints>
+        <RowConstraints percentHeight="25" vgrow="ALWAYS"/>
+        <RowConstraints percentHeight="50" vgrow="ALWAYS"/>
+        <RowConstraints percentHeight="25" vgrow="ALWAYS"/>
+    </rowConstraints>
+
+    <Button fx:id="buttonLeaveProject"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="0"
+            onAction="#handleButtonLeaveProjectAction"/>
+
+    <Button fx:id="buttonPullChanges"
+            GridPane.columnIndex="1"
+            GridPane.rowIndex="0"
+            onAction="#handleButtonPullChangesAction"/>
+
+    <Button fx:id="buttonPushChanges"
+            GridPane.columnIndex="2"
+            GridPane.rowIndex="0"
+            onAction="#handleButtonPushChangesAction"/>
+
+</GridPane>
