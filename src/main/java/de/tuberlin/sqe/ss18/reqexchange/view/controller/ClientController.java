@@ -1,8 +1,10 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
+import de.tuberlin.sqe.ss18.reqexchange.client.data.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -130,17 +134,23 @@ public class ClientController {
         grid.setVgap(5);
         TextField name = new TextField();
         PasswordField password = new PasswordField();
+        ChoiceBox choice = new ChoiceBox();
+        List<Object> choices = Arrays.asList(ReqExchangeFileType.values());
+        choices.add(0, "---");
+        choice.setItems(FXCollections.observableArrayList(choices));
         grid.add(new Label("Project Name:"), 0, 0);
         grid.add(new Label("Password:"), 0, 1);
+        grid.add(new Label("File Type"), 0, 2);
         grid.add(name, 1, 0);
         grid.add(password, 1, 1);
+        grid.add(choice, 1, 2);
         for(Node n: grid.getChildren()) {
             GridPane.setHalignment(n, HPos.RIGHT);
         }
         Node ok = dialog.getDialogPane().lookupButton(ButtonType.OK);
         ok.setDisable(true);
         ChangeListener changeListener = (observable, oldValue, newValue) -> {
-            ok.setDisable(name.getText().equals("") || password.getText().equals(""));
+            ok.setDisable(name.getText().equals("") || password.getText().equals("") || choice.getSelectionModel().getSelectedIndex() == 0);
         };
         name.textProperty().addListener(changeListener);
         password.textProperty().addListener(changeListener);

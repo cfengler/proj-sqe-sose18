@@ -1,8 +1,34 @@
 package de.tuberlin.sqe.ss18.reqexchange.client.data.domain;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public enum ReqExchangeFileType {
-    ReqIF,
-    SysML,
-    Docx,
-    Xslx
+    ReqIF("ReqIF", ".reqif", ".reqifz"),
+    SysML("SysML"),
+    Docx("Excel Sheet", ".doc", ".docx"),
+    Xslx("Word Document", ".xls", ".xlsx");
+
+    private String name;
+    private List<String> filetypes;
+
+    private ReqExchangeFileType(String name, String... filetypes) {
+        this.name = name;
+        this.filetypes = new ArrayList<>();
+        this.filetypes.addAll(Arrays.asList(filetypes));
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<String> getFiletypes() {
+        return filetypes;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
