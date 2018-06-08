@@ -1,5 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
+import de.tuberlin.sqe.ss18.reqexchange.client.data.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.client.data.repository.ClientProjectInfoRepository;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -35,7 +36,7 @@ public class ClientViewModel {
         //TODO handle create project
     }
 
-    public void handleJoinProject(String name, String password) {
+    public void handleJoinProject(String name, String password, ReqExchangeFileType filetype, String filepath) {
         System.out.println("join project procedure invoked");
         //TODO handle join project
     }

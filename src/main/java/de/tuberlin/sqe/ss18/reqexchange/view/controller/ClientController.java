@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -125,7 +126,7 @@ public class ClientController {
     }
 
     @FXML protected void handleButtonJoinProjectAction(ActionEvent event) {
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        Dialog<Pair<Pair<String, String>, Pair<ReqExchangeFileType, String>>> dialog = new Dialog<>();
         dialog.setTitle("Join Project");
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
@@ -136,36 +137,60 @@ public class ClientController {
         PasswordField password = new PasswordField();
         ChoiceBox choice = new ChoiceBox();
         List<Object> choices = Arrays.asList(ReqExchangeFileType.values());
-        choices.add(0, "---");
         choice.setItems(FXCollections.observableArrayList(choices));
+        choice.getSelectionModel().select(0);
+        BorderPane border = new BorderPane();
+        Button file = new Button("...");
+        Label filename = new Label();
+        file.setOnAction(fileEvent -> {
+            filename.setMaxWidth(border.getBoundsInParent().getMinX());
+            FileChooser chooser = new FileChooser();
+            chooser.setTitle("Save File As");
+            ReqExchangeFileType filetype = (ReqExchangeFileType)choice.getSelectionModel().getSelectedItem();
+            List<String> filetypeFilters = new ArrayList<>();
+            for(String s: filetype.getFiletypes()) {
+                filetypeFilters.add("*." + s);
+            }
+            chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(filetype.getName(), filetypeFilters));
+            File chosen = chooser.showSaveDialog(grid.getScene().getWindow());
+            if(chosen != null) {
+                filename.setText(chosen.getAbsolutePath());
+            }
+        });
+        border.setCenter(filename);
+        border.setRight(file);
         grid.add(new Label("Project Name:"), 0, 0);
         grid.add(new Label("Password:"), 0, 1);
-        grid.add(new Label("File Type"), 0, 2);
+        grid.add(new Label("File Type:"), 0, 2);
+        grid.add(new Label("Save File As:"), 0, 3);
         grid.add(name, 1, 0);
         grid.add(password, 1, 1);
         grid.add(choice, 1, 2);
+        grid.add(border, 1, 3);
         for(Node n: grid.getChildren()) {
             GridPane.setHalignment(n, HPos.RIGHT);
         }
         Node ok = dialog.getDialogPane().lookupButton(ButtonType.OK);
         ok.setDisable(true);
         ChangeListener changeListener = (observable, oldValue, newValue) -> {
-            ok.setDisable(name.getText().equals("") || password.getText().equals("") || choice.getSelectionModel().getSelectedIndex() == 0);
+            ok.setDisable(name.getText().equals("") || password.getText().equals("") || filename.getText().equals(""));
         };
         name.textProperty().addListener(changeListener);
         password.textProperty().addListener(changeListener);
+        choice.itemsProperty().addListener(changeListener);
+        filename.textProperty().addListener(changeListener);
         dialog.getDialogPane().setContent(grid);
         Platform.runLater(name::requestFocus);
         dialog.setResultConverter(dialogButton -> {
             if(dialogButton == ButtonType.OK) {
-                return new Pair<>(name.getText(), password.getText());
+                return new Pair<>(new Pair<>(name.getText(), password.getText()), new Pair<>((ReqExchangeFileType)choice.getSelectionModel().getSelectedItem(), filename.getText()));
             }
             return null;
         });
 
-        Optional<Pair<String, String>> result = dialog.showAndWait();
+        Optional<Pair<Pair<String, String>, Pair<ReqExchangeFileType, String>>> result = dialog.showAndWait();
         result.ifPresent(pair -> {
-            clientViewModel.handleJoinProject(pair.getKey(), pair.getValue());
+            clientViewModel.handleJoinProject(pair.getKey().getKey(), pair.getKey().getValue(), pair.getValue().getKey(), pair.getValue().getValue());
         });
     }
 
