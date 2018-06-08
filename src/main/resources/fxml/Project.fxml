@@ -39,4 +39,9 @@
             GridPane.rowIndex="0"
             onAction="#handleButtonPushChangesAction"/>
 
+    <Label fx:id="labelProjectName"
+           GridPane.columnIndex="1"
+           GridPane.rowIndex="0"
+           GridPane.columnSpan="3"/>
+
 </GridPane>
