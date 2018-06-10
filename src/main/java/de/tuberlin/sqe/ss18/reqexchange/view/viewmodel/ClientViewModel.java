@@ -29,7 +29,8 @@ public class ClientViewModel {
             newViewModel.setName(projectInfo.getName());
             ReqExchangeFileType determinedFileType  = null;
             if(projectInfo.getFilename() != null) {
-                String ending = projectInfo.getFilename().substring(projectInfo.getFilename().lastIndexOf("/") + 1);
+                String[] segments = projectInfo.getFilename().split("\\.");
+                String ending = segments[segments.length - 1];
                 for(ReqExchangeFileType type: ReqExchangeFileType.values()) {
                     if(type.getFiletypes().contains(ending)) {
                         determinedFileType = type;

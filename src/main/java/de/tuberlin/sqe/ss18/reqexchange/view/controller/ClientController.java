@@ -72,10 +72,7 @@ public class ClientController {
     }
 
     private void addProjectInfoController(ProjectInfoViewModel projectInfoViewModel) {
-        ProjectInfoViewModel newViewModel = new ProjectInfoViewModel();
-        newViewModel.nameProperty().bind(projectInfoViewModel.nameProperty());
-        newViewModel.setFileType(ReqExchangeFileType.ReqIF);
-        ProjectInfoController newController = new ProjectInfoController(newViewModel);
+        ProjectInfoController newController = new ProjectInfoController(projectInfoViewModel);
         TilePane.setMargin(newController, new Insets(10));
         newController.prefWidthProperty().bind(scrollPaneProjects.widthProperty().subtract(80).divide(3));
         newController.prefHeightProperty().bind(scrollPaneProjects.widthProperty().subtract(80).divide(3));
