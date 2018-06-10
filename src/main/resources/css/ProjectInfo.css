@@ -1,0 +1,47 @@
+#root {
+    -fx-background-color: lightslategray;
+    -fx-padding: 5px;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+}
+
+#root:hover {
+    -fx-background-color: slategray;
+}
+
+#buttonLeaveProject {
+    -fx-background-image: url("/icons/icon_leave_project.png");
+    -fx-background-size: 50px 50px;
+}
+
+#buttonPullChanges {
+    -fx-background-image: url("/icons/icon_pull_changes.png");
+    -fx-background-size: 50px 50px;
+}
+
+#buttonPushChanges {
+    -fx-background-image: url("/icons/icon_push_changes.png");
+    -fx-background-size: 50px 50px;
+}
+
+#buttonExportProject {
+
+}
+
+#labelProjectName {
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+    -fx-text-fill: whitesmoke;
+}
+
+.button {
+    -fx-background-color: lightgray;
+}
+
+.button:hover {
+    -fx-background-color: darkgray;
+}
+
+.button:pressed {
+    -fx-background-color: gray;
+}

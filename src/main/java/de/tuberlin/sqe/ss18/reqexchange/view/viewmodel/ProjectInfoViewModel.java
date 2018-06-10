@@ -1,24 +1,27 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
+import de.tuberlin.sqe.ss18.reqexchange.client.data.domain.ReqExchangeFileType;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class ProjectViewModel {
-    //TODO: namen aus dem model übernehmen, nicht local changed und serverchanged
+public class ProjectInfoViewModel {
+
     private SimpleStringProperty name;
+    private ReqExchangeFileType fileType;
     private SimpleBooleanProperty localChanged;
     private SimpleBooleanProperty serverChanged;
 
-    public ProjectViewModel() {
-        this(null, false, false);
+    public ProjectInfoViewModel() {
+        this(null, null, false, false);
     }
 
-    public ProjectViewModel(String name) {
-        this(name, false, false);
+    public ProjectInfoViewModel(String name) {
+        this(name, null, false, false);
     }
 
-    public ProjectViewModel(String name, boolean localChanged, boolean serverChanged) {
+    public ProjectInfoViewModel(String name, ReqExchangeFileType fileType, boolean localChanged, boolean serverChanged) {
         this.name = new SimpleStringProperty(name);
+        this.fileType = fileType;
         this.localChanged = new SimpleBooleanProperty(localChanged);
         this.serverChanged = new SimpleBooleanProperty(serverChanged);
     }
@@ -33,6 +36,14 @@ public class ProjectViewModel {
 
     public void setName(String name) {
         this.name.set(name);
+    }
+
+    public ReqExchangeFileType getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(ReqExchangeFileType fileType) {
+        this.fileType = fileType;
     }
 
     public boolean isLocalChanged() {
@@ -64,7 +75,7 @@ public class ProjectViewModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProjectViewModel that = (ProjectViewModel) o;
+        ProjectInfoViewModel that = (ProjectInfoViewModel) o;
 
         return name != null ? name.equals(that.name) : that.name == null;
     }

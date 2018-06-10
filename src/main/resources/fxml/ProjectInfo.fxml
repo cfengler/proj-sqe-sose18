@@ -6,11 +6,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane xmlns="http://javafx.com/javafx"
+<fx:root type="GridPane" xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
-          fx:controller="de.tuberlin.sqe.ss18.reqexchange.view.controller.ProjectController"
-          prefHeight="400.0" prefWidth="600.0"
-          stylesheets="@../css/Project.css">
+          prefHeight="200.0" prefWidth="200.0"
+          stylesheets="@../css/ProjectInfo.css"
+          fx:id="root">
 
     <columnConstraints>
         <ColumnConstraints percentWidth="34" hgrow="ALWAYS"/>
@@ -27,21 +27,37 @@
     <Button fx:id="buttonLeaveProject"
             GridPane.columnIndex="0"
             GridPane.rowIndex="0"
+            prefWidth="50"
+            prefHeight="50"
             onAction="#handleButtonLeaveProjectAction"/>
 
     <Button fx:id="buttonPullChanges"
             GridPane.columnIndex="1"
             GridPane.rowIndex="0"
-            onAction="#handleButtonPullChangesAction"/>
+            prefWidth="50"
+            prefHeight="50"
+            onAction="#handleButtonPullChangesAction"
+            GridPane.halignment="RIGHT"/>
 
     <Button fx:id="buttonPushChanges"
             GridPane.columnIndex="2"
             GridPane.rowIndex="0"
+            prefWidth="50"
+            prefHeight="50"
             onAction="#handleButtonPushChangesAction"/>
 
     <Label fx:id="labelProjectName"
-           GridPane.columnIndex="1"
-           GridPane.rowIndex="0"
-           GridPane.columnSpan="3"/>
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="1"
+            GridPane.columnSpan="3"
+            GridPane.halignment="CENTER"/>
 
-</GridPane>
+    <Button fx:id="buttonExportProject"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="2"
+            GridPane.columnSpan="3"
+            prefWidth="200"
+            prefHeight="50"
+            onAction="#handleButtonExportProjectAction"/>
+
+</fx:root>

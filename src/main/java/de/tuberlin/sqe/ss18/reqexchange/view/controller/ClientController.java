@@ -2,9 +2,11 @@ package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
 import de.tuberlin.sqe.ss18.reqexchange.client.data.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
+import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ProjectInfoViewModel;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -43,15 +45,36 @@ public class ClientController {
 
     @FXML
     public void initialize() {
-        initializeFlowPaneProjects();
+        //initializeFlowPaneProjects();
+        clientViewModel.getProjects().forEach(this::addProjectInfoController);
+        clientViewModel.getProjects().addListener((ListChangeListener<? super ProjectInfoViewModel>) c -> {
+            c.getRemoved().forEach(projectInfoViewModel -> {
+                tilePaneProjects.getChildren().forEach(node -> {
+                    ProjectInfoController controller = (ProjectInfoController) node;
+                    if(controller.getProjectInfoViewModel().equals(projectInfoViewModel)) {
+                        tilePaneProjects.getChildren().remove(controller);
+                    }
+                });
+            });
+            c.getAddedSubList().forEach(this::addProjectInfoController);
+        });
     }
 
-    private EventHandler<ActionEvent> buttonFunction1_onAction = e -> {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Nachricht");
-        alert.setContentText("Diese Nachricht zeigt an, dass eine Funktion ausgeführt werden sollte...wird es aber noch nicht");
-        alert.showAndWait();
-    };
+    private void initializeFlowPaneProjects() {
+        for (int i = 0; i < 15; i++) {
+            ProjectInfoViewModel projectinfo = new ProjectInfoViewModel("Peter Pan", ReqExchangeFileType.ReqIF, false, true);
+            ProjectInfoController projectInfo = new ProjectInfoController(projectinfo);
+            tilePaneProjects.getChildren().add(projectInfo);
+        }
+    }
+
+    private void addProjectInfoController(ProjectInfoViewModel projectInfoViewModel) {
+        ProjectInfoViewModel newViewModel = new ProjectInfoViewModel();
+        newViewModel.nameProperty().bind(projectInfoViewModel.nameProperty());
+        newViewModel.setFileType(ReqExchangeFileType.ReqIF);
+        ProjectInfoController newController = new ProjectInfoController(newViewModel);
+        tilePaneProjects.getChildren().add(newController);
+    }
 
     @FXML protected void handleButtonCreateProjectAction(ActionEvent event) {
         Dialog<Pair<String, Pair<String, String>>> dialog = new Dialog<>();
@@ -192,14 +215,5 @@ public class ClientController {
         result.ifPresent(pair -> {
             clientViewModel.handleJoinProject(pair.getKey().getKey(), pair.getKey().getValue(), pair.getValue().getKey(), pair.getValue().getValue());
         });
-    }
-
-    private void initializeFlowPaneProjects() {
-        for (int i = 0; i < 15; i++) {
-            Button newButton = new Button();
-            newButton.setMinWidth(200);
-            newButton.setMinHeight(200);
-            tilePaneProjects.getChildren().add(newButton);
-        }
     }
 }
