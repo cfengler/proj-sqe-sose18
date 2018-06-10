@@ -17,10 +17,18 @@
               GridPane.columnIndex="0"
               GridPane.rowIndex="0">
             <Button fx:id="buttonCreateProject"
-                    onAction="#handleButtonCreateProjectAction"/>
+                    onAction="#handleButtonCreateProjectAction">
+                <tooltip>
+                    <Tooltip text="create project" />
+                </tooltip>
+            </Button>
 
             <Button fx:id="buttonJoinProject"
-                    onAction="#handleButtonJoinProjectAction"/>
+                    onAction="#handleButtonJoinProjectAction">
+                <tooltip>
+                    <Tooltip text="join project" />
+                </tooltip>
+            </Button>
         </HBox>
     </top>
 

@@ -31,7 +31,11 @@
             GridPane.valignment="TOP"
             prefWidth="50"
             prefHeight="50"
-            onAction="#handleButtonLeaveProjectAction"/>
+            onAction="#handleButtonLeaveProjectAction">
+        <tooltip>
+            <Tooltip text="leave project" />
+        </tooltip>
+    </Button>
 
     <Button fx:id="buttonPullChanges"
             GridPane.columnIndex="1"
@@ -40,7 +44,11 @@
             prefWidth="50"
             prefHeight="50"
             onAction="#handleButtonPullChangesAction"
-            GridPane.halignment="RIGHT"/>
+            GridPane.halignment="RIGHT">
+        <tooltip>
+            <Tooltip text="pull changes" />
+        </tooltip>
+    </Button>
 
     <Button fx:id="buttonPushChanges"
             GridPane.columnIndex="2"
@@ -48,7 +56,11 @@
             GridPane.valignment="TOP"
             prefWidth="50"
             prefHeight="50"
-            onAction="#handleButtonPushChangesAction"/>
+            onAction="#handleButtonPushChangesAction">
+        <tooltip>
+            <Tooltip text="push changes" />
+        </tooltip>
+    </Button>
 
     <Label fx:id="labelProjectName"
             GridPane.columnIndex="0"
@@ -64,6 +76,10 @@
             GridPane.halignment="CENTER"
             prefWidth="200"
             prefHeight="50"
-            onAction="#handleButtonExportProjectAction"/>
+            onAction="#handleButtonExportProjectAction">
+        <tooltip>
+            <Tooltip text="export project" />
+        </tooltip>
+    </Button>
 
 </fx:root>
