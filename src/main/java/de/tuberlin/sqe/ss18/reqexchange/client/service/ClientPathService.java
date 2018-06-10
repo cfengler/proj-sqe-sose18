@@ -1,5 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.client.service;
 
+import de.tuberlin.sqe.ss18.reqexchange.common.service.PathService;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -7,14 +8,8 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
 @Component
-public class ClientPathService {
-
-    private Path pathOfRunningJar;
-    public Path getPathOfRunningJar() {
-        return pathOfRunningJar;
-    }
+public class ClientPathService extends PathService {
 
     private Path clientPath;
     public Path getClientPath() {
@@ -27,14 +22,15 @@ public class ClientPathService {
     }
 
     public ClientPathService() {
-        try {
-            pathOfRunningJar = Paths.get(ClientPathService.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        clientPath = pathOfRunningJar.resolve("client");
+        super();
+
+        clientPath = getPathOfRunningJar().resolve("client");
         projectsPath = clientPath.resolve("projects");
 
+        createPaths();
+    }
+
+    private void createPaths() {
         new File(clientPath.toString()).mkdir();
         new File(projectsPath.toString()).mkdir();
     }
