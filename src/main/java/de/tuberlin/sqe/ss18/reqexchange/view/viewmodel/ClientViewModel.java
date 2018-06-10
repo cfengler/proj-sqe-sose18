@@ -23,6 +23,7 @@ public class ClientViewModel {
         projects = new SimpleListProperty<>();
         projects.set(FXCollections.observableArrayList());
 
+        //TODO binding an die Projekte!?
         projectInfoRepository.findAll().forEach(projectInfo -> {
             ProjectInfoViewModel newViewModel = new ProjectInfoViewModel();
             newViewModel.setName(projectInfo.getName());

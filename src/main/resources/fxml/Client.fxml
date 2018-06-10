@@ -27,9 +27,8 @@
     <center>
         <ScrollPane fx:id="scrollPaneProjects"
                     GridPane.columnIndex="0"
-                    GridPane.rowIndex="1"
-                    hbarPolicy="NEVER">
-            <TilePane fx:id="tilePaneProjects" GridPane.fillWidth="true"/>
+                    GridPane.rowIndex="1">
+            <TilePane fx:id="tilePaneProjects" />
         </ScrollPane>
     </center>
 

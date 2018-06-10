@@ -31,12 +31,30 @@ public class ClientProjectInfoRepository {
     }
 
     private void createTestData() {
-        ProjectInfo projectInfo = new ProjectInfo();
-        projectInfo.setName("Test Project 1");
-        projectInfo.setPassword("123456");
-        projectInfo.setPullTimestamp(new DateTime());
-        projectInfo.setFilename(null);
-        save(projectInfo);
+        ProjectInfo projectInfo1 = new ProjectInfo();
+        projectInfo1.setName("Test Project 1");
+        projectInfo1.setPassword("123456");
+        projectInfo1.setPullTimestamp(new DateTime());
+        projectInfo1.setFilename(null);
+        save(projectInfo1);
+        ProjectInfo projectInfo2 = new ProjectInfo();
+        projectInfo2.setName("Crackdown");
+        projectInfo2.setPassword("abcd");
+        projectInfo2.setPullTimestamp(new DateTime());
+        projectInfo2.setFilename("wordfile.docx");
+        save(projectInfo2);
+        ProjectInfo projectInfo3 = new ProjectInfo();
+        projectInfo3.setName("PeterPan");
+        projectInfo3.setPassword("parole");
+        projectInfo3.setPullTimestamp(new DateTime());
+        projectInfo3.setFilename("exceltest.xls");
+        save(projectInfo3);
+        ProjectInfo projectInfo4 = new ProjectInfo();
+        projectInfo4.setName("SQE Quark");
+        projectInfo4.setPassword("12ab12ab");
+        projectInfo4.setPullTimestamp(new DateTime());
+        projectInfo4.setFilename("reqif_lame.reqifz");
+        save(projectInfo4);
     }
 
 

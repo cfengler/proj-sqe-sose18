@@ -7,10 +7,11 @@
 <?import javafx.scene.layout.*?>
 
 <fx:root type="GridPane" xmlns="http://javafx.com/javafx"
-          xmlns:fx="http://javafx.com/fxml"
-          prefHeight="200.0" prefWidth="200.0"
-          stylesheets="@../css/ProjectInfo.css"
-          fx:id="root">
+         xmlns:fx="http://javafx.com/fxml"
+         minWidth="200"
+         minHeight="200"
+         stylesheets="@../css/ProjectInfo.css"
+         fx:id="root">
 
     <columnConstraints>
         <ColumnConstraints percentWidth="34" hgrow="ALWAYS"/>
@@ -27,6 +28,7 @@
     <Button fx:id="buttonLeaveProject"
             GridPane.columnIndex="0"
             GridPane.rowIndex="0"
+            GridPane.valignment="TOP"
             prefWidth="50"
             prefHeight="50"
             onAction="#handleButtonLeaveProjectAction"/>
@@ -34,6 +36,7 @@
     <Button fx:id="buttonPullChanges"
             GridPane.columnIndex="1"
             GridPane.rowIndex="0"
+            GridPane.valignment="TOP"
             prefWidth="50"
             prefHeight="50"
             onAction="#handleButtonPullChangesAction"
@@ -42,6 +45,7 @@
     <Button fx:id="buttonPushChanges"
             GridPane.columnIndex="2"
             GridPane.rowIndex="0"
+            GridPane.valignment="TOP"
             prefWidth="50"
             prefHeight="50"
             onAction="#handleButtonPushChangesAction"/>
@@ -56,6 +60,8 @@
             GridPane.columnIndex="0"
             GridPane.rowIndex="2"
             GridPane.columnSpan="3"
+            GridPane.valignment="BOTTOM"
+            GridPane.halignment="CENTER"
             prefWidth="200"
             prefHeight="50"
             onAction="#handleButtonExportProjectAction"/>

@@ -1,8 +1,5 @@
 #root {
     -fx-background-color: lightslategray;
-    -fx-padding: 5px;
-    -fx-border-insets: 5px;
-    -fx-background-insets: 5px;
 }
 
 #root:hover {
@@ -30,7 +27,6 @@
 
 #labelProjectName {
     -fx-font-weight: bold;
-    -fx-font-size: 24;
     -fx-text-fill: whitesmoke;
 }
 

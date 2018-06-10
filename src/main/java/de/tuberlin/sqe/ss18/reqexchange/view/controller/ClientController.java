@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -33,6 +34,7 @@ public class ClientController {
     @FXML private Button buttonCreateProject;
     @FXML private Button buttonJoinProject;
     @FXML private TilePane tilePaneProjects;
+    @FXML private ScrollPane scrollPaneProjects;
 
     private ClientViewModel clientViewModel;
 
@@ -45,6 +47,7 @@ public class ClientController {
 
     @FXML
     public void initialize() {
+        tilePaneProjects.setPrefColumns(3);
         //initializeFlowPaneProjects();
         clientViewModel.getProjects().forEach(this::addProjectInfoController);
         clientViewModel.getProjects().addListener((ListChangeListener<? super ProjectInfoViewModel>) c -> {
@@ -73,6 +76,9 @@ public class ClientController {
         newViewModel.nameProperty().bind(projectInfoViewModel.nameProperty());
         newViewModel.setFileType(ReqExchangeFileType.ReqIF);
         ProjectInfoController newController = new ProjectInfoController(newViewModel);
+        TilePane.setMargin(newController, new Insets(10));
+        newController.prefWidthProperty().bind(scrollPaneProjects.widthProperty().subtract(80).divide(3));
+        newController.prefHeightProperty().bind(scrollPaneProjects.widthProperty().subtract(80).divide(3));
         tilePaneProjects.getChildren().add(newController);
     }
 
