@@ -34,4 +34,16 @@ public class ReqContainer {
     public void setPushTimestamp(DateTime pushTimestamp) {
         this.pushTimestamp = pushTimestamp;
     }
+
+    private Specification specification;
+    public Specification getSpecification() {return specification; }
+    public void setSpecification(Specification specification) { this.specification = specification; }
+
+    private String description;
+    public String getdescription() {
+        return description;
+    }
+    public void setdescription(String description) {
+        this.description = description;
+    }
 }

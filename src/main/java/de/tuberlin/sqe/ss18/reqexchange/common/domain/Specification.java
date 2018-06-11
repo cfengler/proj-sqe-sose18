@@ -34,4 +34,16 @@ public class Specification {
     public void setPushTimestamp(DateTime pushTimestamp) {
         this.pushTimestamp = pushTimestamp;
     }
+
+    private Project project;
+    public  Project getProject() { return  project; }
+    public void setProject(Project project) { this.project = project; }
+
+    private String description;
+    public String getdescription() {
+        return description;
+    }
+    public void setdescription(String description) {
+        this.description = description;
+    }
 }
