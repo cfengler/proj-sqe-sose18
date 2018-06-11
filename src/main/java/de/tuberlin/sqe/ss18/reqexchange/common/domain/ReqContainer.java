@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Requirement {
+public class ReqContainer {
 
     @Id
     @GeneratedValue
