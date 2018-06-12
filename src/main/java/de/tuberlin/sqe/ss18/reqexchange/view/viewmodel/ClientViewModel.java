@@ -1,13 +1,9 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
-import de.tuberlin.sqe.ss18.reqexchange.ReqExchangeApplication;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.common.service.ProjectInfoService;
-import de.tuberlin.sqe.ss18.reqexchange.view.controller.ClientController;
-import javafx.application.Platform;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import io.reactivex.schedulers.Schedulers;
 import javafx.beans.property.BooleanProperty;
@@ -15,10 +11,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ProgressIndicator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Component
@@ -37,24 +31,6 @@ public class ClientViewModel {
         projects.set(FXCollections.observableArrayList());
         busy = new SimpleBooleanProperty(false);
 
-        /*projectInfoRepository.findAll().forEach(projectInfo -> {
-            ProjectInfoViewModel newViewModel = new ProjectInfoViewModel();
-            newViewModel.setName(projectInfo.getName());
-            ReqExchangeFileType determinedFileType  = null;
-            if(projectInfo.getFilename() != null) {
-                String[] segments = projectInfo.getFilename().split("\\.");
-                String ending = segments[segments.length - 1];
-                for(ReqExchangeFileType type: ReqExchangeFileType.values()) {
-                    if(type.getFiletypes().contains(ending)) {
-                        determinedFileType = type;
-                    }
-                }
-            } else {
-                determinedFileType = ReqExchangeFileType.ReqIF;
-            }
-            newViewModel.setFileType(determinedFileType);
-            projects.add(newViewModel);
-        });*/
         this.projectInfoService.getAll().forEach(this::addProjectFromProjectInfo);
     }
 
@@ -62,6 +38,11 @@ public class ClientViewModel {
         ProjectInfoViewModel viewModel = new ProjectInfoViewModel();
         viewModel.setName(projectInfo.getName());
         viewModel.setProjectInfo(projectInfo);
+        viewModel.setCanPull(projectInfo.isRemoteChanged());
+        projectInfo.addPropertyChangeListener(event -> {
+            //TODO
+        });
+        viewModel.setCanPush(projectInfo.isLocalChanged());
         ReqExchangeFileType determinedFileType  = ReqExchangeFileType.getFileTypeFromFileName(projectInfo.getFileName());
         viewModel.setFileType(determinedFileType == null ? ReqExchangeFileType.ReqIF : determinedFileType);
         projects.add(viewModel);
@@ -116,10 +97,6 @@ public class ClientViewModel {
 
     public SimpleListProperty<ProjectInfoViewModel> projectsProperty() {
         return projects;
-    }
-
-    public boolean isBusy() {
-        return busy.get();
     }
 
     public BooleanProperty busyProperty() {
