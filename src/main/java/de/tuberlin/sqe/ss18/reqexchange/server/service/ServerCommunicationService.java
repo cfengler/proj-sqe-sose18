@@ -9,6 +9,6 @@ public class ServerCommunicationService {
     }
 
     public void stop() {
-        //TODO: stop Git Server
+        //TODO: stop Server
     }
 }
