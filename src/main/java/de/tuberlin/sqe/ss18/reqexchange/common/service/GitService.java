@@ -1,4 +1,4 @@
-package de.tuberlin.sqe.ss18.reqexchange.client.service;
+package de.tuberlin.sqe.ss18.reqexchange.common.service;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
@@ -16,14 +16,14 @@ import java.util.List;
 @Component
 public class GitService {
 
-    private ClientPathService clientPathService;
+    private PathService pathService;
     private GitPropertiesService gitPropertiesService;
 
     private CredentialsProvider credentialsProvider;
 
     @Autowired
-    public GitService(ClientPathService clientPathService, GitPropertiesService gitPropertiesService) {
-        this.clientPathService = clientPathService;
+    public GitService(PathService pathService, GitPropertiesService gitPropertiesService) {
+        this.pathService = pathService;
         this.gitPropertiesService = gitPropertiesService;
 
         credentialsProvider = new UsernamePasswordCredentialsProvider(
@@ -177,7 +177,7 @@ public class GitService {
     }
 
     private File getLocalGitRepositoryFile(String name) {
-        return clientPathService.getProjectsPath().resolve(name).toFile();
+        return pathService.getProjectsPath().resolve(name).toFile();
     }
 
     private String getRemoteGitRepository(String name) {

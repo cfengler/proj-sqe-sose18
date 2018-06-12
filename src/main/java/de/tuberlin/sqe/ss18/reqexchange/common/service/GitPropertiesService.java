@@ -1,4 +1,4 @@
-package de.tuberlin.sqe.ss18.reqexchange.client.service;
+package de.tuberlin.sqe.ss18.reqexchange.common.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import java.util.Properties;
 @Component
 public class GitPropertiesService extends Properties {
 
-    private ClientPathService clientPathService;
+    private PathService pathService;
 
     private String username;
     public String getUsername() {
@@ -22,10 +22,10 @@ public class GitPropertiesService extends Properties {
     }
 
     @Autowired
-    public GitPropertiesService(ClientPathService clientPathService) {
-        this.clientPathService = clientPathService;
+    public GitPropertiesService(PathService pathService) {
+        this.pathService = pathService;
         try {
-            load(Files.newInputStream(clientPathService.getPathOfRunningJar().resolve("git.properties")));
+            load(Files.newInputStream(pathService.getPathOfRunningJar().resolve("git.properties")));
 
             init();
         }

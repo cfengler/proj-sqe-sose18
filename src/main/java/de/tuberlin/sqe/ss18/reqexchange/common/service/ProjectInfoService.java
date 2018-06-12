@@ -1,9 +1,7 @@
-package de.tuberlin.sqe.ss18.reqexchange.client.data.repository;
+package de.tuberlin.sqe.ss18.reqexchange.common.service;
 
-import de.tuberlin.sqe.ss18.reqexchange.client.data.domain.ProjectInfo;
-import de.tuberlin.sqe.ss18.reqexchange.client.service.ClientPathService;
+import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import de.tuberlin.sqe.ss18.reqexchange.common.service.JsonSerializerService;
-import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,13 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ClientProjectInfoRepository {
+public class ProjectInfoService {
 
     private JsonSerializerService jsonSerializerService;
-    private ClientPathService pathService;
+    private PathService pathService;
 
     @Autowired
-    public ClientProjectInfoRepository(JsonSerializerService jsonSerializerService, ClientPathService pathService) {
+    public ProjectInfoService(
+            JsonSerializerService jsonSerializerService,
+            PathService pathService) {
         this.jsonSerializerService = jsonSerializerService;
         this.pathService = pathService;
 

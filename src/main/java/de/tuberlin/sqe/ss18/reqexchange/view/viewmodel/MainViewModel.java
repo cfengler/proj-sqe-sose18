@@ -1,6 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
-import de.tuberlin.sqe.ss18.reqexchange.client.service.GitService;
+import de.tuberlin.sqe.ss18.reqexchange.common.service.GitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

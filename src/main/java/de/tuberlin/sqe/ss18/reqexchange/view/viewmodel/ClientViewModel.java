@@ -1,8 +1,7 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
-import antlr.StringUtils;
-import de.tuberlin.sqe.ss18.reqexchange.client.data.domain.ReqExchangeFileType;
-import de.tuberlin.sqe.ss18.reqexchange.client.data.repository.ClientProjectInfoRepository;
+import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
+import de.tuberlin.sqe.ss18.reqexchange.common.service.ProjectInfoService;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,12 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClientViewModel {
 
-    private ClientProjectInfoRepository projectInfoRepository;
+    private ProjectInfoService projectInfoRepository;
 
     private SimpleListProperty<ProjectInfoViewModel> projects;
 
     @Autowired
-    public ClientViewModel(ClientProjectInfoRepository projectInfoRepository) {
+    public ClientViewModel(ProjectInfoService projectInfoRepository) {
         this.projectInfoRepository = projectInfoRepository;
 
         projects = new SimpleListProperty<>();

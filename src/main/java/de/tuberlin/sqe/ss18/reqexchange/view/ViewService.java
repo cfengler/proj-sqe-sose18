@@ -14,7 +14,6 @@ import java.io.IOException;
 public class ViewService {
 
     private Stage clientStage;
-    private Stage serverStage;
 
     public void showMain(Stage primaryStage) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml"));
@@ -65,32 +64,4 @@ public class ViewService {
         }
     }
 
-    public void showServer() {
-        if (serverStage == null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Server.fxml"));
-            fxmlLoader.setControllerFactory(t -> ReqExchangeApplication.getSpringContext().getBean(t));
-
-            Parent root;
-            try {
-                root = fxmlLoader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
-
-            Scene serverScene = new Scene(root, 800, 600);
-
-            serverStage = new Stage();
-            serverStage.setTitle("Server");
-            serverStage.setScene(serverScene);
-            serverStage.initModality(Modality.NONE);
-            serverStage.setOnCloseRequest(event -> {
-                serverStage = null;
-            });
-            serverStage.show();
-        }
-        else {
-            serverStage.toFront();
-        }
-    }
 }

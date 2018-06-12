@@ -49,9 +49,9 @@ public class MainController {
             this.viewService.showClient();
         });
 
-        buttonServer.setOnAction(e -> {
-            this.viewService.showServer();
-        });
+//        buttonServer.setOnAction(e -> {
+//            this.viewService.showServer();
+//        });
     }
 
 
