@@ -55,12 +55,7 @@ public class ClientController {
         clientViewModel.getProjects().addListener((ListChangeListener<? super ProjectInfoViewModel>) c -> {
             c.next();
             c.getRemoved().forEach(projectInfoViewModel -> {
-                tilePaneProjects.getChildren().forEach(node -> {
-                    ProjectInfoController controller = (ProjectInfoController) node;
-                    if(controller.getProjectInfoViewModel().equals(projectInfoViewModel)) {
-                        tilePaneProjects.getChildren().remove(controller);
-                    }
-                });
+                tilePaneProjects.getChildren().removeIf(project -> ((ProjectInfoController)project).getProjectInfoViewModel().equals(projectInfoViewModel));
             });
             c.getAddedSubList().forEach(this::addProjectInfoController);
         });
