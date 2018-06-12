@@ -9,6 +9,5 @@ public class ServerCommunicationService {
     }
 
     public void stop() {
-        //TODO: stop Server
     }
 }
