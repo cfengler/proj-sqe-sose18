@@ -1,5 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.client.service;
 
+import de.tuberlin.sqe.ss18.reqexchange.test_and_crap.NotAnSerializerService;
 import junit.framework.TestCase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.rmf.reqif10.AttributeValueString;

@@ -1,30 +1,32 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
-import antlr.StringUtils;
-import de.tuberlin.sqe.ss18.reqexchange.client.data.domain.ReqExchangeFileType;
-import de.tuberlin.sqe.ss18.reqexchange.client.data.repository.ClientProjectInfoRepository;
+import de.tuberlin.sqe.ss18.reqexchange.ReqExchangeApplication;
+import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
+import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
+import de.tuberlin.sqe.ss18.reqexchange.common.service.ProjectInfoService;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Component
 public class ClientViewModel {
 
-    private ClientProjectInfoRepository projectInfoRepository;
+    private ProjectInfoService projectInfoRepository;
 
     private SimpleListProperty<ProjectInfoViewModel> projects;
 
     @Autowired
-    public ClientViewModel(ClientProjectInfoRepository projectInfoRepository) {
+    public ClientViewModel(ProjectInfoService projectInfoRepository) {
         this.projectInfoRepository = projectInfoRepository;
 
         projects = new SimpleListProperty<>();
         projects.set(FXCollections.observableArrayList());
 
-        //TODO binding an die Projekte!?
-        projectInfoRepository.findAll().forEach(projectInfo -> {
+        /*projectInfoRepository.findAll().forEach(projectInfo -> {
             ProjectInfoViewModel newViewModel = new ProjectInfoViewModel();
             newViewModel.setName(projectInfo.getName());
             ReqExchangeFileType determinedFileType  = null;
@@ -41,17 +43,27 @@ public class ClientViewModel {
             }
             newViewModel.setFileType(determinedFileType);
             projects.add(newViewModel);
+        });*/
+        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).getAll().forEach(projectInfo -> {
+            ProjectInfoViewModel viewModel = new ProjectInfoViewModel();
+            viewModel.setName(projectInfo.getName());
+            viewModel.setProjectInfo(projectInfo);
+            ReqExchangeFileType determinedFileType  = ReqExchangeFileType.getFileTypeFromFileName(projectInfo.getFileName());
+            viewModel.setFileType(determinedFileType == null ? ReqExchangeFileType.ReqIF : determinedFileType);
+            projects.add(viewModel);
         });
     }
 
     public void handleCreateProject(String name, String password, String filepath) {
-        System.out.println("create project procedure invoked");
-        //TODO handle create project
+        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath));
     }
 
     public void handleJoinProject(String name, String password, ReqExchangeFileType filetype, String filepath) {
-        System.out.println("join project procedure invoked");
-        //TODO handle join project
+        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).join(name, Paths.get(filepath), filetype);
+    }
+
+    public void handleLeaveProject(ProjectInfoViewModel projectInfoViewModel) {
+        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).leave(projectInfoViewModel.getProjectInfo());
     }
 
     public ObservableList<ProjectInfoViewModel> getProjects() {

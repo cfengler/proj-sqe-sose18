@@ -1,4 +1,4 @@
-package de.tuberlin.sqe.ss18.reqexchange.client.service;
+package de.tuberlin.sqe.ss18.reqexchange.test_and_crap;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;

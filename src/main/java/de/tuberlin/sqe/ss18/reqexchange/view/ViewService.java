@@ -14,10 +14,9 @@ import java.io.IOException;
 public class ViewService {
 
     private Stage clientStage;
-    private Stage serverStage;
 
     public void showMain(Stage primaryStage) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml"));
+        /*FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml"));
         fxmlLoader.setControllerFactory(t -> ReqExchangeApplication.getSpringContext().getBean(t));
 
         Parent root;
@@ -33,10 +32,7 @@ public class ViewService {
         primaryStage.setTitle("ReqExchange");
         primaryStage.setScene(scene);
 
-        primaryStage.show();
-    }
-
-    public void showClient() {
+        primaryStage.show();*/
         if (clientStage == null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Client.fxml"));
             fxmlLoader.setControllerFactory(t -> ReqExchangeApplication.getSpringContext().getBean(t));
@@ -51,46 +47,21 @@ public class ViewService {
 
             Scene clientScene = new Scene(root, 800, 600);
 
-            clientStage = new Stage();
-            clientStage.setTitle("Client");
-            clientStage.setScene(clientScene);
-            clientStage.initModality(Modality.NONE);
-            clientStage.setOnCloseRequest(event -> {
+            primaryStage.setTitle("Client");
+            primaryStage.setScene(clientScene);
+            primaryStage.initModality(Modality.NONE);
+            primaryStage.setOnCloseRequest(event -> {
                 clientStage = null;
             });
-            clientStage.show();
+            primaryStage.show();
         }
         else {
-            clientStage.toFront();
+            primaryStage.toFront();
         }
     }
 
-    public void showServer() {
-        if (serverStage == null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Server.fxml"));
-            fxmlLoader.setControllerFactory(t -> ReqExchangeApplication.getSpringContext().getBean(t));
+    public void showClient() {
 
-            Parent root;
-            try {
-                root = fxmlLoader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
-
-            Scene serverScene = new Scene(root, 800, 600);
-
-            serverStage = new Stage();
-            serverStage.setTitle("Server");
-            serverStage.setScene(serverScene);
-            serverStage.initModality(Modality.NONE);
-            serverStage.setOnCloseRequest(event -> {
-                serverStage = null;
-            });
-            serverStage.show();
-        }
-        else {
-            serverStage.toFront();
-        }
     }
+
 }
