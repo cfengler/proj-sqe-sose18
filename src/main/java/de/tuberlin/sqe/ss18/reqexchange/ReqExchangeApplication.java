@@ -16,15 +16,13 @@ import java.io.IOException;
 @SpringBootApplication
 public class ReqExchangeApplication extends Application {
 
-    private static ConfigurableApplicationContext springContext;
-    public static  ConfigurableApplicationContext getSpringContext() {
+    private ConfigurableApplicationContext springContext;
+    public ConfigurableApplicationContext getSpringContext() {
         if (springContext == null) {
             springContext = SpringApplication.run(ReqExchangeApplication.class);
         }
         return springContext;
     }
-
-    private ViewService viewService;
 
     public ReqExchangeApplication() {
         System.out.println(getClass().getSimpleName() + " ctor");
@@ -36,9 +34,8 @@ public class ReqExchangeApplication extends Application {
     }
 
     public void start(Stage primaryStage) throws Exception {
-        //this.viewService = getSpringContext().getBean(ViewService.class);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Client.fxml"));
-        fxmlLoader.setControllerFactory(t -> ReqExchangeApplication.getSpringContext().getBean(t));
+        fxmlLoader.setControllerFactory(t -> getSpringContext().getBean(t));
 
         Parent root;
         try {
