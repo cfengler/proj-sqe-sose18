@@ -13,23 +13,31 @@
           stylesheets="@../css/Client.css">
 
     <top>
-        <HBox fx:id="hBoxActions"
-              GridPane.columnIndex="0"
-              GridPane.rowIndex="0">
-            <Button fx:id="buttonCreateProject"
-                    onAction="#handleButtonCreateProjectAction">
-                <tooltip>
-                    <Tooltip text="create project" />
-                </tooltip>
-            </Button>
+        <BorderPane>
+            <center>
+                <HBox fx:id="hBoxActions"
+                      GridPane.columnIndex="0"
+                      GridPane.rowIndex="0">
+                    <Button fx:id="buttonCreateProject"
+                            onAction="#handleButtonCreateProjectAction">
+                        <tooltip>
+                            <Tooltip text="create project" />
+                        </tooltip>
+                    </Button>
 
-            <Button fx:id="buttonJoinProject"
-                    onAction="#handleButtonJoinProjectAction">
-                <tooltip>
-                    <Tooltip text="join project" />
-                </tooltip>
-            </Button>
-        </HBox>
+                    <Button fx:id="buttonJoinProject"
+                            onAction="#handleButtonJoinProjectAction">
+                        <tooltip>
+                            <Tooltip text="join project" />
+                        </tooltip>
+                    </Button>
+                </HBox>
+            </center>
+            <right>
+                <ProgressIndicator fx:id="progressIndicator" visible="false"/>
+            </right>
+        </BorderPane>
+
     </top>
 
     <center>

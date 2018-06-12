@@ -1,5 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
+import com.sun.javaws.progress.Progress;
 import de.tuberlin.sqe.ss18.reqexchange.ReqExchangeApplication;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
@@ -37,6 +38,7 @@ public class ClientController {
     @FXML private Button buttonJoinProject;
     @FXML private TilePane tilePaneProjects;
     @FXML private ScrollPane scrollPaneProjects;
+    @FXML private ProgressIndicator progressIndicator;
 
     private ClientViewModel clientViewModel;
 
@@ -145,7 +147,7 @@ public class ClientController {
 
         Optional<Pair<String, Pair<String, String>>> result = dialog.showAndWait();
         result.ifPresent(triplet -> {
-            clientViewModel.handleCreateProject(triplet.getKey(), triplet.getValue().getKey(), triplet.getValue().getValue());
+            clientViewModel.handleCreateProject(triplet.getKey(), triplet.getValue().getKey(), triplet.getValue().getValue(), progressIndicator);
         });
     }
 
@@ -216,5 +218,9 @@ public class ClientController {
         result.ifPresent(pair -> {
             clientViewModel.handleJoinProject(pair.getKey().getKey(), pair.getKey().getValue(), pair.getValue().getKey(), pair.getValue().getValue());
         });
+    }
+
+    public ProgressIndicator getProgressIndicator() {
+        return progressIndicator;
     }
 }

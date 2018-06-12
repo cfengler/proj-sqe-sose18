@@ -4,9 +4,12 @@ import de.tuberlin.sqe.ss18.reqexchange.ReqExchangeApplication;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.common.service.ProjectInfoService;
+import de.tuberlin.sqe.ss18.reqexchange.view.controller.ClientController;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ProgressIndicator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.nio.file.Path;
@@ -44,9 +47,7 @@ public class ClientViewModel {
             newViewModel.setFileType(determinedFileType);
             projects.add(newViewModel);
         });*/
-        this.projectInfoService.getAll().forEach(projectInfo -> {
-            addProjectFromProjectInfo(projectInfo);
-        });
+        this.projectInfoService.getAll().forEach(this::addProjectFromProjectInfo);
     }
 
     private void addProjectFromProjectInfo(ProjectInfo projectInfo) {
@@ -58,11 +59,16 @@ public class ClientViewModel {
         projects.add(viewModel);
     }
 
-    public void handleCreateProject(String name, String password, String filepath) {
-        ProjectInfo projectInfo = projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath));
-        if(projectInfo != null) {
-            addProjectFromProjectInfo(projectInfo);
-        }
+    public void handleCreateProject(String name, String password, String filepath, ProgressIndicator progress) {
+        new Thread(() -> {
+            Platform.runLater(() -> progress.setVisible(true));
+            ProjectInfo projectInfo = projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath));
+            if(projectInfo != null) {
+                Platform.runLater(() -> addProjectFromProjectInfo(projectInfo));
+            }
+            Platform.runLater(() -> progress.setVisible(false));
+        }).start();
+
     }
 
     public void handleJoinProject(String name, String password, ReqExchangeFileType filetype, String filepath) {
