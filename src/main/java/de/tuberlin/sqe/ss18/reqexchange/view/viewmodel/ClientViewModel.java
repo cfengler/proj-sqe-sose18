@@ -35,7 +35,7 @@ public class ClientViewModel {
     }
 
     private void addProjectFromProjectInfo(ProjectInfo projectInfo) {
-        ProjectInfoViewModel viewModel = new ProjectInfoViewModel();
+        ProjectInfoViewModel viewModel = new ProjectInfoViewModel(projectInfo);
         viewModel.setName(projectInfo.getName());
         viewModel.setProjectInfo(projectInfo);
         viewModel.setCanPull(projectInfo.isRemoteChanged());
