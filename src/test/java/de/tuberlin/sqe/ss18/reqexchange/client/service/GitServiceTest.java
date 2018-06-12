@@ -2,7 +2,7 @@
 //
 //import de.tuberlin.sqe.ss18.reqexchange.common.service.GitPropertiesService;
 //import de.tuberlin.sqe.ss18.reqexchange.common.service.GitService;
-//import de.tuberlin.sqe.ss18.reqexchange.common.service.PathService;
+//import de.tuberlin.sqe.ss18.reqexchange.common.service.DefaultPathService;
 //import junit.framework.TestCase;
 //import org.apache.commons.io.FileUtils;
 //import org.joda.time.DateTime;
@@ -18,12 +18,12 @@
 //@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 //public class GitServiceTest extends TestCase {
 //
-//    private PathService pathService;
+//    private DefaultPathService pathService;
 //    private GitPropertiesService gitPropertiesService;
 //    private GitService gitService;
 //
 //    public GitServiceTest() {
-//        pathService = new PathService();
+//        pathService = new DefaultPathService();
 //        gitPropertiesService = new GitPropertiesService(pathService);
 //        gitService = new GitService(pathService, gitPropertiesService);
 //
