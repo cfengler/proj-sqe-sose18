@@ -1,15 +1,14 @@
 package de.tuberlin.sqe.ss18.reqexchange.common.service;
 
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
+import org.eclipse.jgit.api.CherryPickResult;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.lib.BranchTrackingStatus;
 import org.eclipse.jgit.transport.*;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
-import java.util.Collection;
 
 @Component
 public class GitService {
@@ -44,10 +43,8 @@ public class GitService {
 
     public boolean canPull(ProjectInfo projectInfo) {
         try (Git git = getLocalGitRepository(projectInfo)) {
-            FetchResult fetchResult = git.fetch().call();
-
-            Collection<TrackingRefUpdate> trackingRefUpdates = fetchResult.getTrackingRefUpdates();
-            return !trackingRefUpdates.isEmpty();
+            FetchResult fetchResult = git.fetch().setDryRun(true).call();
+            return !fetchResult.getAdvertisedRefs().isEmpty();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -80,7 +77,6 @@ public class GitService {
             return false;
         }
     }
-
 
     //TODO: muss falsch sein, ist nur bei Add und remove angesprungen
 //    public boolean canCommit(ProjectInfo projectInfo) {
@@ -132,8 +128,10 @@ public class GitService {
 
     public boolean canPush(ProjectInfo projectInfo) {
         try (Git git = getLocalGitRepository(projectInfo)) {
-            BranchTrackingStatus branchTrackingStatus = BranchTrackingStatus.of(git.getRepository(), "master");
-            return branchTrackingStatus.getAheadCount() > 0;
+            CherryPickResult cherryPickResult = git.cherryPick().call();
+            return !cherryPickResult.getCherryPickedRefs().isEmpty();
+            //BranchTrackingStatus branchTrackingStatus = BranchTrackingStatus.of(git.getRepository(), "master");
+            //return branchTrackingStatus.getAheadCount() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

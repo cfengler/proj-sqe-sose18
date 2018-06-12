@@ -16,8 +16,12 @@ public class ProjectInfoViewModel {
     private BooleanProperty canPush;
 
     public ProjectInfoViewModel(ProjectInfo projectInfo) {
-        //this(null, null, false, false, new ProjectInfo());
-        setProjectInfo(projectInfo);
+        this.name = new SimpleStringProperty(projectInfo.getName());
+        this.fileType = ReqExchangeFileType.getFileTypeFromFileName(projectInfo.getFileName());
+        this.canPull = new SimpleBooleanProperty(projectInfo.isRemoteChanged());
+        this.canPush = new SimpleBooleanProperty(projectInfo.isLocalChanged());
+        this.projectInfo = projectInfo;
+
         projectInfo.addPropertyChangeListener(e -> {
             switch (e.getPropertyName()) {
                 case "name":
@@ -37,18 +41,6 @@ public class ProjectInfoViewModel {
             }
         });
     }
-
-    //public ProjectInfoViewModel(String name) {
-        //this(name, null, false, false, new ProjectInfo());
-    //}
-
-//    public ProjectInfoViewModel(String name, ReqExchangeFileType fileType, boolean canPull, boolean canPush, ProjectInfo projectInfo) {
-//        this.name = new SimpleStringProperty(name);
-//        this.fileType = fileType;
-//        this.canPull = new SimpleBooleanProperty(canPull);
-//        this.canPush = new SimpleBooleanProperty(canPush);
-//        this.projectInfo = projectInfo;
-//    }
 
     public String getName() {
         return name.get();
@@ -96,14 +88,6 @@ public class ProjectInfoViewModel {
 
     public ProjectInfo getProjectInfo() {
         return projectInfo;
-    }
-
-    private void setProjectInfo(ProjectInfo projectInfo) {
-        this.projectInfo = projectInfo;
-        setName(projectInfo.getName());
-        setFileType(ReqExchangeFileType.getFileTypeFromFileName(projectInfo.getFileName()));
-        setCanPull(projectInfo.isRemoteChanged());
-        setCanPush(projectInfo.isLocalChanged());
     }
 
     @Override
