@@ -64,7 +64,7 @@ public class ProjectInfoService {
         return false;
     }
 
-    public boolean delete() {
+    public boolean delete(ProjectInfo projectInfo) {
         //TODO: implement
         return false;
     }
