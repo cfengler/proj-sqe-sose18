@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="commonmodell" nsURI="http://reqexchange.ss18.sqe.tu-berlin.de/commonmodell"
+    nsPrefix="commonmodell">
+  <eClassifiers xsi:type="ecore:EClass" name="Identifiable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectR" eSuperTypes="#//Identifiable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//Property"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relation" eType="#//Relation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Specification" eSuperTypes="#//Identifiable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Objects" upperBound="-1"
+        eType="#//ObjectR"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relation" upperBound="2"
+        eType="#//Relation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reqcontainer" eType="#//ReqContainer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="propertyset" eType="#//PropertySet"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specification" eType="#//Specification"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="datatype" eType="#//DataType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RelationalType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specification" eType="#//Specification"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relation" upperBound="-1"
+        eType="#//Relation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Relation" eSuperTypes="#//Identifiable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//Property"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReqContainer" eSuperTypes="#//Identifiable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reqcontainer" eType="#//ReqContainer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requirement" eType="#//Requirement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//Identifiable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="propertyset" eType="#//PropertySet"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relation" eType="#//Relation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertySet" eSuperTypes="#//Identifiable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//Property"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Property">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="datatype" upperBound="-1"
+        eType="#//DataType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="datavalue" lowerBound="1"
+        eType="#//DataValue"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataValue"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataType"/>
+</ecore:EPackage>
