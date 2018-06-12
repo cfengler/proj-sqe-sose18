@@ -55,7 +55,6 @@ public class ProjectInfoService {
 
     public boolean create(String name, Path filePath, ReqExchangeFileType fileType) {
         ///aktuell nur fileType = ReqIF
-        //TODO: implement
 
         //TODO: error handling
         //TODO: git repository anlegen
