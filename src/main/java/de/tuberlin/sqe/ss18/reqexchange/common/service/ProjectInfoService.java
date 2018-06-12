@@ -98,16 +98,18 @@ public class ProjectInfoService {
         return !getProjectInfoFile(projectName).exists();
     }
 
-    public boolean join(String name, Path filePath, ReqExchangeFileType fileType) {
+    public ProjectInfo join(String name, Path filePath, ReqExchangeFileType fileType) {
         if (!isNewProject(name)) {
-            return false;
+            return null;
         }
 
         ProjectInfo projectInfo = new ProjectInfo();
         projectInfo.setName(name);
         projectInfo.setFileName(filePath.toString());
 
-        gitService.clone(projectInfo);
+        if (!gitService.clone(projectInfo)) {
+            return null;
+        }
         //TODO: gewünschte Datei aus common modell erstellen
 
         //TODO: ersetzen gegen mapper funktion
@@ -115,7 +117,7 @@ public class ProjectInfoService {
         //TODO: projectInfo speichern
         File projectInfoFile = getProjectInfoFile(name);
         jsonSerializerService.serializeToFile(projectInfo, projectInfoFile);
-        return true;
+        return projectInfo;
     }
 
     public boolean leave(ProjectInfo projectInfo) {
