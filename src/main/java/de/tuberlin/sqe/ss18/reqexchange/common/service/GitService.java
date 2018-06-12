@@ -2,6 +2,7 @@ package de.tuberlin.sqe.ss18.reqexchange.common.service;
 
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.transport.*;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.nio.file.Path;
+import java.util.List;
 
 @Component
 public class GitService {
@@ -75,19 +77,24 @@ public class GitService {
 //        }
 //    }
 //
-//    public boolean canCommit(String name) {
-//        try {
-//            Git git = getLocalGitRepository(name);
-//            List<DiffEntry> diffEntries = git.diff().call();
-//            return !diffEntries.isEmpty();
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
-//
+    public boolean canCommit(ProjectInfo projectInfo) {
+        try {
+            Git git = getLocalGitRepository(projectInfo);
+            List<DiffEntry> diffEntries = git.diff().call();
+            return !diffEntries.isEmpty();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean commit(ProjectInfo projectInfo) {
+
+        if (!canCommit(projectInfo)) {
+            return false;
+        }
+
         try {
             Git git = getLocalGitRepository(projectInfo);
             git.commit()
@@ -138,6 +145,7 @@ public class GitService {
         try {
             Git git = getLocalGitRepository(projectInfo);
             git.push()
+                    .setPushAll()
                     .setCredentialsProvider(credentialsProvider)
                     .call();
             return true;
