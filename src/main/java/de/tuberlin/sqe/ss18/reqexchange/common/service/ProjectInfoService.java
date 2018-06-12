@@ -56,6 +56,7 @@ public class ProjectInfoService {
     public boolean create(String name, Path filePath, ReqExchangeFileType fileType) {
         ///aktuell nur fileType = ReqIF
         //TODO: implement
+        //TODO: error handling
         File projectInfoFile = getProjectInfoFile(name);
 
         if (projectInfoFile.exists()) {
@@ -65,18 +66,23 @@ public class ProjectInfoService {
         ProjectInfo projectInfo = new ProjectInfo();
         projectInfo.setName(name);;
         projectInfo.setFileName(filePath.toFile().getAbsolutePath());
-        jsonSerializerService.serializeToFile(projectInfo, projectInfoFile);
 
-        //TODO: error handling
+
+
 
         //TODO: git repository clonen
-        gitService.clone(projectInfo);
+        if (!gitService.clone(projectInfo)) {
+            return false;
+        }
 
         //TODO: file nach common modell übersetzen
         createDummyFile(projectInfo);
         //TODO: git dateien auf remote pushen
+        gitService.commit(projectInfo);
         gitService.push(projectInfo);
 
+
+        jsonSerializerService.serializeToFile(projectInfo, projectInfoFile);
         return true;
     }
 

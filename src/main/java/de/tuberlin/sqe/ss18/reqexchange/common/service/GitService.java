@@ -3,6 +3,7 @@ package de.tuberlin.sqe.ss18.reqexchange.common.service;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.transport.*;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -86,23 +87,23 @@ public class GitService {
 //        }
 //    }
 //
-//    public boolean commit(String name) {
-//        try {
-//            Git git = getLocalGitRepository(name);
-//            git.commit()
-//                    .setAll(true)
-//                    .setMessage("Commit" +
-//                            " am " + new DateTime().toString("dd.MM.yyy") +
-//                            " um " + new DateTime().toString("HH:mm:ss"))
-//                    .call();
-//            return true;
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
-//
+    public boolean commit(ProjectInfo projectInfo) {
+        try {
+            Git git = getLocalGitRepository(projectInfo);
+            git.commit()
+                    .setAll(true)
+                    .setMessage("Commit" +
+                            " am " + new DateTime().toString("dd.MM.yyy") +
+                            " um " + new DateTime().toString("HH:mm:ss"))
+                    .call();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 //    public boolean checkout(String name) {
 //        try {
 //            Git git = getLocalGitRepository(name);
@@ -129,23 +130,23 @@ public class GitService {
 //        }
 //    }
 //
-//    public boolean push(String name) {
-//        if (!canPush(name)) {
-//            return false;
-//        }
-//
-//        try {
-//            Git git = getLocalGitRepository(name);
-//            git.push()
-//                    .setCredentialsProvider(credentialsProvider)
-//                    .call();
-//            return true;
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
+    public boolean push(ProjectInfo projectInfo) {
+        //if (!canPush(name)) {
+        //    return false;
+        //}
+
+        try {
+            Git git = getLocalGitRepository(projectInfo);
+            git.push()
+                    .setCredentialsProvider(credentialsProvider)
+                    .call();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     private Git getLocalGitRepository(ProjectInfo projectInfo) {
         try {
