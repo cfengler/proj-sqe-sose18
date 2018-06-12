@@ -149,8 +149,7 @@ public class ProjectInfoService {
 
     public boolean refresh(ProjectInfo projectInfo) {
         //TODO: implement has RemoteChanges
-        //projectInfo.setLocalChanged(gitService. );
-        projectInfo.setLocalChanged(!projectInfo.isLocalChanged());
+        projectInfo.setLocalChanged(gitService.canPush(projectInfo));
         //TODO: implement has LocalChanges
         projectInfo.setRemoteChanged(gitService.canPull(projectInfo));
         return false;

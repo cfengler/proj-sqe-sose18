@@ -2,6 +2,7 @@ package de.tuberlin.sqe.ss18.reqexchange.common.service;
 
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.BranchTrackingStatus;
 import org.eclipse.jgit.transport.*;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,18 +129,17 @@ public class GitService {
 //            return false;
 //        }
 //    }
-//
-//    public boolean canPush(String name) {
-//        Git git = getLocalGitRepository(name);
-//        try {
-//            BranchTrackingStatus branchTrackingStatus = BranchTrackingStatus.of(git.getRepository(), "master");
-//            return branchTrackingStatus.getAheadCount() > 0;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
-//
+
+    public boolean canPush(ProjectInfo projectInfo) {
+        try (Git git = getLocalGitRepository(projectInfo)) {
+            BranchTrackingStatus branchTrackingStatus = BranchTrackingStatus.of(git.getRepository(), "master");
+            return branchTrackingStatus.getAheadCount() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean pushAll(ProjectInfo projectInfo) {
         //if (!canPush(name)) {
         //    return false;
