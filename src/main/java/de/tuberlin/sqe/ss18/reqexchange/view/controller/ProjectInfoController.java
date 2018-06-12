@@ -27,14 +27,16 @@ public class ProjectInfoController extends GridPane {
     @FXML private Label labelProjectName;
 
     private ProjectInfoViewModel projectInfoViewModel;
+    private ClientViewModel clientViewModel;
 
     public ProjectInfoController() {
 
     }
 
-    public ProjectInfoController(ProjectInfoViewModel projectInfoViewModel) {
+    public ProjectInfoController(ProjectInfoViewModel projectInfoViewModel, ClientViewModel clientViewModel) {
         System.out.println(getClass().getSimpleName() + " ctor");
         this.projectInfoViewModel = projectInfoViewModel;
+        this.clientViewModel = clientViewModel;
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProjectInfo.fxml"));
         loader.setRoot(this);
@@ -56,7 +58,7 @@ public class ProjectInfoController extends GridPane {
     }
 
     @FXML protected void handleButtonLeaveProjectAction(ActionEvent event) {
-        ReqExchangeApplication.getSpringContext().getBean(ClientViewModel.class).handleLeaveProject(projectInfoViewModel);
+        clientViewModel.handleLeaveProject(projectInfoViewModel);
     }
 
     @FXML protected void handleButtonPullChangesAction(ActionEvent event) {
