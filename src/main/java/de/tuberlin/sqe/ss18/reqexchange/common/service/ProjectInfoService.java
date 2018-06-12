@@ -53,7 +53,7 @@ public class ProjectInfoService {
         return result;
     }
 
-    public boolean create(String name, String filePath, ReqExchangeFileType fileType) {
+    public boolean create(String name, Path filePath, ReqExchangeFileType fileType) {
         ///aktuell nur fileType = ReqIF
         //TODO: implement
 
@@ -68,11 +68,8 @@ public class ProjectInfoService {
         }
 
         ProjectInfo projectInfo = new ProjectInfo();
-        projectInfo.setName(name);;
+        projectInfo.setName(name);
         projectInfo.setFileName(filePath.toFile().getAbsolutePath());
-
-
-
 
         //TODO: git repository clonen
         if (!gitService.clone(projectInfo)) {
