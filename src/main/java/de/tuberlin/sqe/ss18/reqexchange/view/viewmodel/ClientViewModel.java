@@ -64,25 +64,27 @@ public class ClientViewModel {
     }
 
     public void handleCreateProject(String name, String password, String filepath, ProgressIndicator progress) {
-        new Thread(() -> {
-            Platform.runLater(() -> progress.setVisible(true));
-            ProjectInfo projectInfo = projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath));
-            if(projectInfo != null) {
-                Platform.runLater(() -> addProjectFromProjectInfo(projectInfo));
-            }
-            Platform.runLater(() -> progress.setVisible(false));
-        }).start();
-        /*
+//        new Thread(() -> {
+//            Platform.runLater(() -> progress.setVisible(true));
+//            ProjectInfo projectInfo = projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath));
+//            if(projectInfo != null) {
+//                Platform.runLater(() -> addProjectFromProjectInfo(projectInfo));
+//            }
+//            Platform.runLater(() -> progress.setVisible(false));
+//        }).start();
+
+        progress.setVisible(true);
+
         Observable.just(1)
-        .subscribeOn(Schedulers.newThread())
-        .map(i -> projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath)))
-        .observeOn(JavaFxScheduler.platform())
-        .subscribe(projectInfo -> {
-            if(projectInfo != null) {
-                addProjectFromProjectInfo(projectInfo);
-            }
-        });
-         */
+            .subscribeOn(Schedulers.newThread())
+            .map(i -> projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath)))
+            .observeOn(JavaFxScheduler.platform())
+            .subscribe(projectInfo -> {
+                if(projectInfo != null) {
+                    addProjectFromProjectInfo(projectInfo);
+                }
+                progress.setVisible(false);
+            });
     }
 
     public void handleJoinProject(String name, String password, ReqExchangeFileType filetype, String filepath) {
