@@ -77,9 +77,24 @@ public class GitService {
 //        }
 //    }
 //
-    public boolean canCommit(ProjectInfo projectInfo) {
+    public boolean addAllFiles(ProjectInfo projectInfo) {
+        Git git = getLocalGitRepository(projectInfo);
+
         try {
-            Git git = getLocalGitRepository(projectInfo);
+            git.add().addFilepattern(".").call();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    //TODO: muss falsch sein, ist nur bei Add und remove angesprungen
+    public boolean canCommit(ProjectInfo projectInfo) {
+        Git git = getLocalGitRepository(projectInfo);
+        try {
             List<DiffEntry> diffEntries = git.diff().call();
             return !diffEntries.isEmpty();
         }
@@ -89,11 +104,7 @@ public class GitService {
         }
     }
 
-    public boolean commit(ProjectInfo projectInfo) {
-
-        if (!canCommit(projectInfo)) {
-            return false;
-        }
+    public boolean commitAll(ProjectInfo projectInfo) {
 
         try {
             Git git = getLocalGitRepository(projectInfo);
@@ -137,7 +148,7 @@ public class GitService {
 //        }
 //    }
 //
-    public boolean push(ProjectInfo projectInfo) {
+    public boolean pushAll(ProjectInfo projectInfo) {
         //if (!canPush(name)) {
         //    return false;
         //}

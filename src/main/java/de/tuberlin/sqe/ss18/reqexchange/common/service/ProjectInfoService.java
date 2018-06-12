@@ -69,12 +69,15 @@ public class ProjectInfoService {
 
         //TODO: file nach common modell übersetzen
         createDummyFile(projectInfo);
-
-        if (!gitService.commit(projectInfo)) {
+        if (!gitService.addAllFiles(projectInfo)) {
             return null;
         }
-        //TODO: pusht noch nicht neue Dateien, was geht da schieß?
-        if (!gitService.push(projectInfo)) {
+
+        if (!gitService.commitAll(projectInfo)) {
+            return null;
+        }
+
+        if (!gitService.pushAll(projectInfo)) {
             return null;
         }
 
