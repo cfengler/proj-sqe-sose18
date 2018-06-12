@@ -1,6 +1,5 @@
 package de.tuberlin.sqe.ss18.reqexchange;
 
-import de.tuberlin.sqe.ss18.reqexchange.view.ViewService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
