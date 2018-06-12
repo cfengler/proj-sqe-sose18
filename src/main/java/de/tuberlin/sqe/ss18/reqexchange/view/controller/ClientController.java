@@ -61,6 +61,9 @@ public class ClientController {
             });
             c.getAddedSubList().forEach(this::addProjectInfoController);
         });
+        clientViewModel.busyProperty().bindBidirectional(progressIndicator.visibleProperty());
+        clientViewModel.busyProperty().bindBidirectional(buttonCreateProject.disableProperty());
+        clientViewModel.busyProperty().bindBidirectional(buttonJoinProject.disableProperty());
     }
 
     private void initializeFlowPaneProjects() {
@@ -90,6 +93,9 @@ public class ClientController {
         TextField name = new TextField();
         PasswordField password = new PasswordField();
         PasswordField confirmPassword = new PasswordField();
+        name.setText("proj-sqe-sose18-test");
+        password.setText("a");
+        confirmPassword.setText("a");
         BorderPane border = new BorderPane();
         Button file = new Button("...");
         Label filename = new Label();
@@ -147,7 +153,7 @@ public class ClientController {
 
         Optional<Pair<String, Pair<String, String>>> result = dialog.showAndWait();
         result.ifPresent(triplet -> {
-            clientViewModel.handleCreateProject(triplet.getKey(), triplet.getValue().getKey(), triplet.getValue().getValue(), progressIndicator);
+            clientViewModel.handleCreateProject(triplet.getKey(), triplet.getValue().getKey(), triplet.getValue().getValue());
         });
     }
 
@@ -162,6 +168,8 @@ public class ClientController {
         TextField name = new TextField();
         PasswordField password = new PasswordField();
         ChoiceBox choice = new ChoiceBox();
+        name.setText("proj-sqe-sose18-test");
+        password.setText("a");
         List<Object> choices = Arrays.asList(ReqExchangeFileType.values());
         choice.setItems(FXCollections.observableArrayList(choices));
         choice.getSelectionModel().select(0);

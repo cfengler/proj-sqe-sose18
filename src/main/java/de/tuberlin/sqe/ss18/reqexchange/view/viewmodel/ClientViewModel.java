@@ -10,6 +10,8 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import io.reactivex.schedulers.Schedulers;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +27,7 @@ public class ClientViewModel {
     private ProjectInfoService projectInfoService;
 
     private SimpleListProperty<ProjectInfoViewModel> projects;
+    private BooleanProperty busy;
 
     @Autowired
     public ClientViewModel(ProjectInfoService projectInfoService) {
@@ -32,6 +35,7 @@ public class ClientViewModel {
 
         projects = new SimpleListProperty<>();
         projects.set(FXCollections.observableArrayList());
+        busy = new SimpleBooleanProperty(false);
 
         /*projectInfoRepository.findAll().forEach(projectInfo -> {
             ProjectInfoViewModel newViewModel = new ProjectInfoViewModel();
@@ -63,17 +67,8 @@ public class ClientViewModel {
         projects.add(viewModel);
     }
 
-    public void handleCreateProject(String name, String password, String filepath, ProgressIndicator progress) {
-//        new Thread(() -> {
-//            Platform.runLater(() -> progress.setVisible(true));
-//            ProjectInfo projectInfo = projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath));
-//            if(projectInfo != null) {
-//                Platform.runLater(() -> addProjectFromProjectInfo(projectInfo));
-//            }
-//            Platform.runLater(() -> progress.setVisible(false));
-//        }).start();
-
-        progress.setVisible(true);
+    public void handleCreateProject(String name, String password, String filepath) {
+        busy.set(true);
 
         Observable.just(1)
             .subscribeOn(Schedulers.newThread())
@@ -83,22 +78,36 @@ public class ClientViewModel {
                 if(projectInfo != null) {
                     addProjectFromProjectInfo(projectInfo);
                 }
-                progress.setVisible(false);
+                busy.set(false);
             });
     }
 
     public void handleJoinProject(String name, String password, ReqExchangeFileType filetype, String filepath) {
-        ProjectInfo projectInfo = projectInfoService.join(name, Paths.get(filepath), filetype);
-        if(projectInfo != null) {
-            addProjectFromProjectInfo(projectInfo);
-        }
+        busy.set(true);
+        Observable.just(1)
+                .subscribeOn(Schedulers.newThread())
+                .map(i -> projectInfoService.join(name, Paths.get(filepath), filetype))
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(projectInfo -> {
+                    if(projectInfo != null) {
+                        addProjectFromProjectInfo(projectInfo);
+                    }
+                    busy.set(false);
+                });
     }
 
     public void handleLeaveProject(ProjectInfoViewModel projectInfoViewModel) {
-        boolean left = projectInfoService.leave(projectInfoViewModel.getProjectInfo());
-        if(left) {
-            projects.removeIf(project -> project.getProjectInfo().equals(projectInfoViewModel.getProjectInfo()));
-        }
+        busy.set(true);
+        Observable.just(1)
+                .subscribeOn(Schedulers.newThread())
+                .map(i -> projectInfoService.leave(projectInfoViewModel.getProjectInfo()))
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(left -> {
+                    if(left) {
+                        projects.removeIf(project -> project.getProjectInfo().equals(projectInfoViewModel.getProjectInfo()));
+                    }
+                    busy.set(false);
+                });
     }
 
     public ObservableList<ProjectInfoViewModel> getProjects() {
@@ -107,5 +116,13 @@ public class ClientViewModel {
 
     public SimpleListProperty<ProjectInfoViewModel> projectsProperty() {
         return projects;
+    }
+
+    public boolean isBusy() {
+        return busy.get();
+    }
+
+    public BooleanProperty busyProperty() {
+        return busy;
     }
 }
