@@ -15,14 +15,14 @@ public class PathService {
         return pathOfRunningJar;
     }
 
-    private Path clientPath;
-    public Path getClientPath() {
-        return clientPath;
+    private Path projectInfosPath;
+    public Path getProjectInfosPath() {
+        return projectInfosPath;
     }
 
-    private Path projectsPath;
-    public Path getProjectsPath() {
-        return projectsPath;
+    private Path projectRepositoriesPath;
+    public Path getProjectRepositoriesPath() {
+        return projectRepositoriesPath;
     }
 
     public PathService() {
@@ -32,18 +32,14 @@ public class PathService {
             e.printStackTrace();
         }
 
-        clientPath = getPathOfRunningJar().resolve("client");
-        projectsPath = clientPath.resolve("projects");
+        projectInfosPath = getPathOfRunningJar().resolve("projectInfos");
+        projectRepositoriesPath = getPathOfRunningJar().resolve("projectRepositories");
 
         createPaths();
     }
 
     private void createPaths() {
-        new File(clientPath.toString()).mkdir();
-        new File(projectsPath.toString()).mkdir();
-    }
-
-    public Path getProjectPath(String name) {
-        return projectsPath.resolve(name);
+        projectInfosPath.toFile().mkdir();
+        projectRepositoriesPath.toFile().mkdir();
     }
 }
