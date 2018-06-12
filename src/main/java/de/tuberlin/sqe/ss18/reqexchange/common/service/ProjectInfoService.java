@@ -1,6 +1,7 @@
 package de.tuberlin.sqe.ss18.reqexchange.common.service;
 
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
+import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.common.service.JsonSerializerService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,8 @@ public class ProjectInfoService {
         return result;
     }
 
-    public boolean create(String name, Path filePath) {
+    public boolean create(String name, Path filePath, ReqExchangeFileType fileType) {
+        ///aktuell nur fileType = ReqIF
         //TODO: implement
 
         //TODO: error handling
@@ -69,7 +71,7 @@ public class ProjectInfoService {
         return true;
     }
 
-    public boolean join(String name) {
+    public boolean join(String name, Path filePath, ReqExchangeFileType fileType) {
         //TODO: implement
         //TODO: git repository clonen
         //TODO: gewünschte Datei aus common modell erstellen
