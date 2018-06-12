@@ -98,7 +98,7 @@ public class ProjectInfoViewModel {
         return projectInfo;
     }
 
-    public void setProjectInfo(ProjectInfo projectInfo) {
+    private void setProjectInfo(ProjectInfo projectInfo) {
         this.projectInfo = projectInfo;
         setName(projectInfo.getName());
         setFileType(ReqExchangeFileType.getFileTypeFromFileName(projectInfo.getFileName()));

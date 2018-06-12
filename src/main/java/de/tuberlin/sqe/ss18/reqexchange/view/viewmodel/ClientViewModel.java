@@ -4,6 +4,7 @@ import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.common.service.ProjectInfoService;
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import io.reactivex.schedulers.Schedulers;
 import javafx.beans.property.BooleanProperty;
@@ -14,6 +15,7 @@ import javafx.collections.ObservableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.nio.file.Paths;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class ClientViewModel {
@@ -32,17 +34,21 @@ public class ClientViewModel {
         busy = new SimpleBooleanProperty(false);
 
         this.projectInfoService.getAll().forEach(this::addProjectFromProjectInfo);
+
+        Observable.interval(10, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).subscribe(i -> {
+            projects.forEach(projectInfoViewModel -> projectInfoService.refresh(projectInfoViewModel.getProjectInfo()));
+        });
     }
 
     private void addProjectFromProjectInfo(ProjectInfo projectInfo) {
         ProjectInfoViewModel viewModel = new ProjectInfoViewModel(projectInfo);
-        viewModel.setName(projectInfo.getName());
-        viewModel.setProjectInfo(projectInfo);
-        viewModel.setCanPull(projectInfo.isRemoteChanged());
-        projectInfo.addPropertyChangeListener(event -> {
-            //TODO
-        });
-        viewModel.setCanPush(projectInfo.isLocalChanged());
+        //viewModel.setName(projectInfo.getName());
+        //viewModel.setProjectInfo(projectInfo);
+        //viewModel.setCanPull(projectInfo.isRemoteChanged());
+        //projectInfo.addPropertyChangeListener(event -> {
+        //    //TODO
+        //});
+        //viewModel.setCanPush(projectInfo.isLocalChanged());
         ReqExchangeFileType determinedFileType  = ReqExchangeFileType.getFileTypeFromFileName(projectInfo.getFileName());
         viewModel.setFileType(determinedFileType == null ? ReqExchangeFileType.ReqIF : determinedFileType);
         projects.add(viewModel);
