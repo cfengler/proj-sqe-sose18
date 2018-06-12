@@ -8,46 +8,67 @@
     operationReflection="true" importOrganizing="true">
   <foreignModel>commonmodell.ecore</foreignModel>
   <testsDirectory xsi:nil="true"/>
-  <genPackages prefix="Commonmodell" disposableProviderFactory="true" ecorePackage="commonmodell.ecore#/">
+  <genPackages prefix="Commonmodell" basePackage="de.tuberlin.sqe.ss18.reqexchange.commonmodell"
+      disposableProviderFactory="true" ecorePackage="commonmodell.ecore#/">
     <genClasses ecoreClass="commonmodell.ecore#//Identifiable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commonmodell.ecore#//Identifiable/ID"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commonmodell.ecore#//Identifiable/Version"/>
     </genClasses>
-    <genClasses ecoreClass="commonmodell.ecore#//ObjectR">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//ObjectR/property"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//ObjectR/relation"/>
+    <genClasses ecoreClass="commonmodell.ecore#//ContentObject">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//ContentObject/propertys"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commonmodell.ecore#//ContentObject/name"/>
     </genClasses>
     <genClasses ecoreClass="commonmodell.ecore#//Specification">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/Objects"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/relation"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/reqcontainer"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/propertyset"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/specification"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/datatype"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/contentObjects"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/reqContainer"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/propertySets"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/otherSpecification"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/datatypes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/relationTypes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/relations"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commonmodell.ecore#//Specification/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commonmodell.ecore#//Specification/description"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Specification/propertys"/>
     </genClasses>
     <genClasses ecoreClass="commonmodell.ecore#//RelationalType">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//RelationalType/specification"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//RelationalType/relation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commonmodell.ecore#//RelationalType/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//RelationalType/propertys"/>
     </genClasses>
     <genClasses ecoreClass="commonmodell.ecore#//Relation">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Relation/property"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Relation/propertys"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Relation/contentObjects"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Relation/specification"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Relation/relationaltype"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Relation/requirements"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commonmodell.ecore#//Relation/name"/>
     </genClasses>
     <genClasses ecoreClass="commonmodell.ecore#//ReqContainer">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//ReqContainer/reqcontainer"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//ReqContainer/requirement"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//ReqContainer/ReqContainerChilds"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//ReqContainer/requirements"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commonmodell.ecore#//ReqContainer/name"/>
     </genClasses>
     <genClasses ecoreClass="commonmodell.ecore#//Requirement">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Requirement/propertyset"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Requirement/relation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Requirement/propertySets"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Requirement/relations"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commonmodell.ecore#//Requirement/name"/>
     </genClasses>
     <genClasses ecoreClass="commonmodell.ecore#//PropertySet">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//PropertySet/property"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//PropertySet/propertys"/>
     </genClasses>
     <genClasses ecoreClass="commonmodell.ecore#//Property">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Property/datatype"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Property/datavalue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commonmodell.ecore#//Property/name"/>
     </genClasses>
-    <genClasses ecoreClass="commonmodell.ecore#//DataValue"/>
+    <genClasses ecoreClass="commonmodell.ecore#//DataValue">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//DataValue/value"/>
+    </genClasses>
     <genClasses ecoreClass="commonmodell.ecore#//DataType"/>
+    <genClasses ecoreClass="commonmodell.ecore#//Project">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commonmodell.ecore#//Project/specifications"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commonmodell.ecore#//Project/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commonmodell.ecore#//Project/password"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commonmodell.ecore#//Project/address"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
