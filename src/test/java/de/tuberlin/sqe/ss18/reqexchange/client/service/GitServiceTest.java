@@ -1,5 +1,8 @@
 package de.tuberlin.sqe.ss18.reqexchange.client.service;
 
+import de.tuberlin.sqe.ss18.reqexchange.common.service.GitPropertiesService;
+import de.tuberlin.sqe.ss18.reqexchange.common.service.GitService;
+import de.tuberlin.sqe.ss18.reqexchange.common.service.PathService;
 import junit.framework.TestCase;
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
@@ -7,9 +10,7 @@ import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,18 +18,18 @@ import java.nio.file.Path;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GitServiceTest extends TestCase {
 
-    private ClientPathService clientPathService;
+    private PathService pathService;
     private GitPropertiesService gitPropertiesService;
     private GitService gitService;
 
     public GitServiceTest() {
-        clientPathService = new ClientPathService();
-        gitPropertiesService = new GitPropertiesService(clientPathService);
-        gitService = new GitService(clientPathService, gitPropertiesService);
+        pathService = new PathService();
+        gitPropertiesService = new GitPropertiesService(pathService);
+        gitService = new GitService(pathService, gitPropertiesService);
 
         try {
-            if (Files.exists(clientPathService.getProjectPath(testRepositoryName))) {
-                FileUtils.deleteDirectory(clientPathService.getProjectPath(testRepositoryName).toFile());
+            if (Files.exists(pathService.getProjectPath(testRepositoryName))) {
+                FileUtils.deleteDirectory(pathService.getProjectPath(testRepositoryName).toFile());
             }
         }
         catch (Exception e) {
@@ -41,8 +42,8 @@ public class GitServiceTest extends TestCase {
     public void test_10_cloneRepository() {
         boolean cloneResult = gitService.clone(testRepositoryName);
         assertEquals(cloneResult, true);
-        assertTrue(clientPathService.getProjectPath(testRepositoryName).toFile().exists());
-        assertTrue(clientPathService.getProjectPath(testRepositoryName).resolve(".git").toFile().exists());
+        assertTrue(pathService.getProjectPath(testRepositoryName).toFile().exists());
+        assertTrue(pathService.getProjectPath(testRepositoryName).resolve(".git").toFile().exists());
     }
 
     public void test_20_canPull() {
@@ -60,13 +61,13 @@ public class GitServiceTest extends TestCase {
         assertFalse(canCommitResult);
 
         String newFileName = createNewFileInPath(
-                clientPathService.getProjectPath(testRepositoryName), "new File");
+                pathService.getProjectPath(testRepositoryName), "new File");
 
         canCommitResult = gitService.canCommit(testRepositoryName);
         assertTrue(canCommitResult);
 
         removeFileInPath(
-                clientPathService.getProjectPath(testRepositoryName),
+                pathService.getProjectPath(testRepositoryName),
                 newFileName);
 
         canCommitResult = gitService.canCommit(testRepositoryName);
@@ -78,17 +79,17 @@ public class GitServiceTest extends TestCase {
         assertFalse(canCommitResult);
 
         String previousContent = getContentOfFileInPath(
-                clientPathService.getProjectPath(testRepositoryName),
+                pathService.getProjectPath(testRepositoryName),
                 "README.MD");
 
-        changeContentOfFileInPath(clientPathService.getProjectPath(testRepositoryName),
+        changeContentOfFileInPath(pathService.getProjectPath(testRepositoryName),
                 "README.MD");
 
         canCommitResult = gitService.canCommit(testRepositoryName);
         assertTrue(canCommitResult);
 
         changeContentOfFileInPathToContent(
-                clientPathService.getProjectPath(testRepositoryName),
+                pathService.getProjectPath(testRepositoryName),
                 "README.MD",
                 previousContent);
 
@@ -101,10 +102,10 @@ public class GitServiceTest extends TestCase {
         assertFalse(canCommitResult);
 
         String previousContent = getContentOfFileInPath(
-                clientPathService.getProjectPath(testRepositoryName),
+                pathService.getProjectPath(testRepositoryName),
                 "README.MD");
 
-        removeFileInPath(clientPathService.getProjectPath(testRepositoryName),
+        removeFileInPath(pathService.getProjectPath(testRepositoryName),
                 "README.MD");
 
         canCommitResult = gitService.canCommit(testRepositoryName);

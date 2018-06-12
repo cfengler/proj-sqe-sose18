@@ -1,6 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
-import de.tuberlin.sqe.ss18.reqexchange.client.data.domain.ReqExchangeFileType;
+import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 

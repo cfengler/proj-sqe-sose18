@@ -1,4 +1,4 @@
-package de.tuberlin.sqe.ss18.reqexchange.client.data.domain;
+package de.tuberlin.sqe.ss18.reqexchange.common.domain;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,6 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
-import de.tuberlin.sqe.ss18.reqexchange.client.data.domain.ReqExchangeFileType;
+import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ProjectInfoViewModel;
 import javafx.application.Platform;
@@ -8,7 +8,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
