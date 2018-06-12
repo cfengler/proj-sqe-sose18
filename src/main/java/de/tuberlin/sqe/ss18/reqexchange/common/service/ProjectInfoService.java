@@ -53,15 +53,13 @@ public class ProjectInfoService {
 
     public ProjectInfo create(String name, Path filePath, ReqExchangeFileType fileType) {
         ///aktuell nur fileType = ReqIF
-        File projectInfoFile = getProjectInfoFile(name);
-
-        if (projectInfoFile.exists()) {
+        if (!isNewProject(name)) {
             return null;
         }
 
         ProjectInfo projectInfo = new ProjectInfo();
         projectInfo.setName(name);
-        projectInfo.setFileName(filePath.toFile().getAbsolutePath());
+        projectInfo.setFileName(filePath.toString());
 
         if (!gitService.clone(projectInfo)) {
             return null;
@@ -69,30 +67,24 @@ public class ProjectInfoService {
 
         //TODO: file nach common modell übersetzen
         createDummyFile(projectInfo);
-        if (!gitService.addAllFiles(projectInfo)) {
+        if (!gitService.executeAddCommitPushAll(projectInfo)) {
             return null;
         }
 
-        if (!gitService.commitAll(projectInfo)) {
-            return null;
-        }
-
-        if (!gitService.pushAll(projectInfo)) {
-            return null;
-        }
-
+        File projectInfoFile = getProjectInfoFile(name);
         jsonSerializerService.serializeToFile(projectInfo, projectInfoFile);
 
         return projectInfo;
     }
 
+    //TODO: remove after mapping works
     private void createDummyFile(ProjectInfo projectInfo) {
         createNewFileInPathWithName(
                 pathService.getLocalGitRepositoryPath(projectInfo),
                 "dummyFile.txt",
                 "Diese Datei stellt ein Beispiel dar..");
     }
-
+    //TODO: remove after mapping works
     private void createNewFileInPathWithName(Path path, String fileName, String content) {
         try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path.resolve(fileName))) {
             bufferedWriter.write(content);
@@ -102,12 +94,28 @@ public class ProjectInfoService {
         }
     }
 
+    public boolean isNewProject(String projectName) {
+        return !getProjectInfoFile(projectName).exists();
+    }
+
     public boolean join(String name, Path filePath, ReqExchangeFileType fileType) {
-        //TODO: implement
-        //TODO: git repository clonen
+        if (!isNewProject(name)) {
+            return false;
+        }
+
+        ProjectInfo projectInfo = new ProjectInfo();
+        projectInfo.setName(name);
+        projectInfo.setFileName(filePath.toString());
+
+        gitService.clone(projectInfo);
         //TODO: gewünschte Datei aus common modell erstellen
+
+        //TODO: ersetzen gegen mapper funktion
+        createNewFileInPathWithName(filePath.getParent(), filePath.getFileName().toString(), "Ich bin eine neue Datei im gewünschten Format.");
         //TODO: projectInfo speichern
-        return false;
+        File projectInfoFile = getProjectInfoFile(name);
+        jsonSerializerService.serializeToFile(projectInfo, projectInfoFile);
+        return true;
     }
 
     public boolean leave(ProjectInfo projectInfo) {

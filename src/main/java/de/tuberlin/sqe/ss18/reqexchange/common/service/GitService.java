@@ -2,15 +2,13 @@ package de.tuberlin.sqe.ss18.reqexchange.common.service;
 
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.transport.*;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
-import java.nio.file.Path;
-import java.util.List;
+import java.util.Collection;
 
 @Component
 public class GitService {
@@ -43,24 +41,22 @@ public class GitService {
             return false;
         }
     }
-//
-//    public boolean canPull(String name) {
-//        try {
-//            Git git = getLocalGitRepository(name);
-//
-//            FetchResult fetchResult = git
-//                    .fetch()
-//                    .call();
-//
-//            Collection<TrackingRefUpdate> trackingRefUpdates = fetchResult.getTrackingRefUpdates();
-//            return !trackingRefUpdates.isEmpty();
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
-//
+
+    public boolean canPull(ProjectInfo projectInfo) {
+        try {
+            Git git = getLocalGitRepository(projectInfo);
+
+            FetchResult fetchResult = git.fetch().call();
+
+            Collection<TrackingRefUpdate> trackingRefUpdates = fetchResult.getTrackingRefUpdates();
+            return !trackingRefUpdates.isEmpty();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 //    public boolean pull(String name) {
 //        if (!canPull(name)) {
 //            return false;
@@ -92,17 +88,17 @@ public class GitService {
 
 
     //TODO: muss falsch sein, ist nur bei Add und remove angesprungen
-    public boolean canCommit(ProjectInfo projectInfo) {
-        Git git = getLocalGitRepository(projectInfo);
-        try {
-            List<DiffEntry> diffEntries = git.diff().call();
-            return !diffEntries.isEmpty();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+//    public boolean canCommit(ProjectInfo projectInfo) {
+//        Git git = getLocalGitRepository(projectInfo);
+//        try {
+//            List<DiffEntry> diffEntries = git.diff().call();
+//            return !diffEntries.isEmpty();
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
     public boolean commitAll(ProjectInfo projectInfo) {
 
@@ -110,9 +106,7 @@ public class GitService {
             Git git = getLocalGitRepository(projectInfo);
             git.commit()
                     .setAll(true)
-                    .setMessage("Commit" +
-                            " am " + new DateTime().toString("dd.MM.yyy") +
-                            " um " + new DateTime().toString("HH:mm:ss"))
+                    .setMessage(getCommitMessage())
                     .call();
             return true;
         }
@@ -120,6 +114,11 @@ public class GitService {
             e.printStackTrace();
             return false;
         }
+    }
+    private String getCommitMessage() {
+        return "Commit" +
+                " am " + new DateTime().toString("dd.MM.yyy") +
+                " um " + new DateTime().toString("HH:mm:ss");
     }
 
 //    public boolean checkout(String name) {
@@ -159,6 +158,24 @@ public class GitService {
                     .setPushAll()
                     .setCredentialsProvider(credentialsProvider)
                     .call();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public boolean executeAddCommitPushAll(ProjectInfo projectInfo) {
+        try (Git git = getLocalGitRepository(projectInfo)) {
+
+            git.add().addFilepattern(".").call();
+
+            git.commit().setAll(true).setMessage(getCommitMessage()).call();
+
+            git.push().setPushAll().setCredentialsProvider(credentialsProvider).call();
+
             return true;
         }
         catch (Exception e) {
