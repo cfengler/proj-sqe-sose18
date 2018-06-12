@@ -1,5 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.common.service;
 
+import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -36,6 +37,10 @@ public class PathService {
         projectRepositoriesPath = getPathOfRunningJar().resolve("projectRepositories");
 
         createPaths();
+    }
+
+    public Path getLocalGitRepositoryPath(ProjectInfo projectInfo) {
+        return getProjectRepositoriesPath().resolve(projectInfo.getName());
     }
 
     private void createPaths() {

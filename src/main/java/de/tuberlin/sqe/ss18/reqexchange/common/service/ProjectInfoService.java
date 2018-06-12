@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -18,15 +19,19 @@ import java.util.List;
 @Component
 public class ProjectInfoService {
 
-    private JsonSerializerService jsonSerializerService;
     private PathService pathService;
+    private JsonSerializerService jsonSerializerService;
+    private GitService gitService;
 
     @Autowired
     public ProjectInfoService(
+            PathService pathService,
             JsonSerializerService jsonSerializerService,
-            PathService pathService) {
+            GitService gitService) {
         this.jsonSerializerService = jsonSerializerService;
         this.pathService = pathService;
+        this.gitService = gitService;
+
     }
 
     public List<ProjectInfo> getAll() {
@@ -51,11 +56,6 @@ public class ProjectInfoService {
     public boolean create(String name, Path filePath, ReqExchangeFileType fileType) {
         ///aktuell nur fileType = ReqIF
         //TODO: implement
-
-        //TODO: error handling
-        //TODO: git repository anlegen
-        //TODO: file nach common modell übersetzen
-        //TODO: git dateien auf remote pushen
         File projectInfoFile = getProjectInfoFile(name);
 
         if (projectInfoFile.exists()) {
@@ -65,10 +65,35 @@ public class ProjectInfoService {
         ProjectInfo projectInfo = new ProjectInfo();
         projectInfo.setName(name);;
         projectInfo.setFileName(filePath.toFile().getAbsolutePath());
-
         jsonSerializerService.serializeToFile(projectInfo, projectInfoFile);
 
+        //TODO: error handling
+
+        //TODO: git repository clonen
+        gitService.clone(projectInfo);
+
+        //TODO: file nach common modell übersetzen
+        createDummyFile(projectInfo);
+        //TODO: git dateien auf remote pushen
+        gitService.push(projectInfo);
+
         return true;
+    }
+
+    private void createDummyFile(ProjectInfo projectInfo) {
+        createNewFileInPathWithName(
+                pathService.getLocalGitRepositoryPath(projectInfo),
+                "dummyFile.txt",
+                "Diese Datei stellt ein Beispiel dar..");
+    }
+
+    private void createNewFileInPathWithName(Path path, String fileName, String content) {
+        try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path.resolve(fileName))) {
+            bufferedWriter.write(content);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean join(String name, Path filePath, ReqExchangeFileType fileType) {

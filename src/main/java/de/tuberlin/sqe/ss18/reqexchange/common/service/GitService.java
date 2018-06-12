@@ -1,49 +1,45 @@
-//package de.tuberlin.sqe.ss18.reqexchange.common.service;
-//
-//import org.eclipse.jgit.api.Git;
-//import org.eclipse.jgit.diff.DiffEntry;
-//import org.eclipse.jgit.lib.BranchTrackingStatus;
-//import org.eclipse.jgit.transport.*;
-//import org.joda.time.DateTime;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Component;
-//
-//import java.io.File;
-//import java.io.IOException;
-//import java.util.Collection;
-//import java.util.List;
-//
-//@Component
-//public class GitService {
-//
-//    private PathService pathService;
-//    private GitPropertiesService gitPropertiesService;
-//
-//    private CredentialsProvider credentialsProvider;
-//
-//    @Autowired
-//    public GitService(PathService pathService, GitPropertiesService gitPropertiesService) {
-//        this.pathService = pathService;
-//        this.gitPropertiesService = gitPropertiesService;
-//
-//        credentialsProvider = new UsernamePasswordCredentialsProvider(
-//                gitPropertiesService.getUsername(),
-//                gitPropertiesService.getPassword());
-//    }
-//
-//    public boolean clone(String name) {
-//        try {
-//            Git.cloneRepository()
-//                    .setURI(getRemoteGitRepository(name))
-//                    .setDirectory(getLocalGitRepositoryFile(name))
-//                    .call();
-//            return true;
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
+package de.tuberlin.sqe.ss18.reqexchange.common.service;
+
+import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.transport.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.net.URI;
+import java.nio.file.Path;
+
+@Component
+public class GitService {
+
+    private PathService pathService;
+    private GitPropertiesService gitPropertiesService;
+
+    private CredentialsProvider credentialsProvider;
+
+    @Autowired
+    public GitService(PathService pathService, GitPropertiesService gitPropertiesService) {
+        this.pathService = pathService;
+        this.gitPropertiesService = gitPropertiesService;
+
+        credentialsProvider = new UsernamePasswordCredentialsProvider(
+                gitPropertiesService.getUsername(),
+                gitPropertiesService.getPassword());
+    }
+
+    public boolean clone(ProjectInfo projectInfo) {
+        try {
+            Git.cloneRepository()
+                    .setURI(getRemoteGitRepositoryURI(projectInfo).toString())
+                    .setDirectory(pathService.getLocalGitRepositoryPath(projectInfo).toFile())
+                    .call();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 //
 //    public boolean canPull(String name) {
 //        try {
@@ -150,23 +146,19 @@
 //            return false;
 //        }
 //    }
+
+    private Git getLocalGitRepository(ProjectInfo projectInfo) {
+        try {
+            return Git.open(pathService.getLocalGitRepositoryPath(projectInfo).toFile());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private URI getRemoteGitRepositoryURI(ProjectInfo projectInfo) {
+        return URI.create("https://github.com/cfengler/" + projectInfo.getName() + ".git");
+    }
 //
-//    private Git getLocalGitRepository(String name) {
-//        try {
-//            return Git.open(getLocalGitRepositoryFile(name));
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-//
-//    private File getLocalGitRepositoryFile(String name) {
-//        return pathService.getProjectsPath().resolve(name).toFile();
-//    }
-//
-//    private String getRemoteGitRepository(String name) {
-//        return "https://github.com/cfengler/" + name + ".git";
-//    }
-//
-//}
+}
