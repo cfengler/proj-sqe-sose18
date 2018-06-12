@@ -7,14 +7,11 @@ import java.util.List;
 
 public class ProjectService {
 
-    public List<Project> getProjects() {
-        //TODO: implement
-        return null;
-    }
+    //public List<Project> getAll() {
+    //    //TODO: implement
+    //    return null;
+    //}
 
-    public Project createProject(String name, File file) {
-        //TODO: implement
-        return null;
-    }
+
 
 }
