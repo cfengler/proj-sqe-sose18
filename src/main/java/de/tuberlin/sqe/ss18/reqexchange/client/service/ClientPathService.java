@@ -30,6 +30,8 @@ public class ClientPathService extends PathService {
         createPaths();
     }
 
+
+
     private void createPaths() {
         new File(clientPath.toString()).mkdir();
         new File(projectsPath.toString()).mkdir();

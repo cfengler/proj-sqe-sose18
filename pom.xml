@@ -97,6 +97,63 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- EMF -->
+        <dependency>
+            <groupId>org.eclipse.emf.common</groupId>
+            <artifactId>emf-common</artifactId>
+            <version>2.10.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.emf.common_2.10.1.v20150123-0348.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.emf.ecore</groupId>
+            <artifactId>emf-ecore</artifactId>
+            <version>2.10.2</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.emf.ecore_2.10.2.v20150123-0348.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.emf.ecore.xmi</groupId>
+            <artifactId>emf-ecore-xmi</artifactId>
+            <version>2.10.2</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.emf.ecore.xmi_2.10.2.v20150123-0348.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.sphinx.emf.serialization</groupId>
+            <artifactId>sphinx-emf-serialization</artifactId>
+            <version>0.9.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.sphinx.emf.serialization_0.9.1.201509170812.jar</systemPath>
+        </dependency>
+
+        <!-- RMF -->
+        <dependency>
+            <groupId>org.eclipse.rmf.reqif10</groupId>
+            <artifactId>rmf</artifactId>
+            <version>0.14.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.rmf.reqif10_0.14.0.201805110300.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.rmf.reqif10.serialization</groupId>
+            <artifactId>rmf-serialization</artifactId>
+            <version>0.14.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.rmf.reqif10.serialization_0.14.0.201805110300.jar</systemPath>
+        </dependency>
+
+        <!-- JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+
 
     </dependencies>
 
