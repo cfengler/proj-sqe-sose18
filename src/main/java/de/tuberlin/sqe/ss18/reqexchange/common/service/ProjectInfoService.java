@@ -147,6 +147,15 @@ public class ProjectInfoService {
         return true;
     }
 
+    public boolean refresh(ProjectInfo projectInfo) {
+        //TODO: implement has RemoteChanges
+        //TODO: implement has LocalChanges
+
+        return false;
+    }
+
+
+
     private File getProjectInfoFile(ProjectInfo projectInfo) {
         return getProjectInfoFile(projectInfo.getName());
     }
