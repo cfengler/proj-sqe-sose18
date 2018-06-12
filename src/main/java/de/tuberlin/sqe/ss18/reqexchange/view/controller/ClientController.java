@@ -68,7 +68,7 @@ public class ClientController {
 
     private void initializeFlowPaneProjects() {
         for (int i = 0; i < 15; i++) {
-            ProjectInfoViewModel projectinfo = new ProjectInfoViewModel("Peter Pan", ReqExchangeFileType.ReqIF, false, new ProjectInfo());
+            ProjectInfoViewModel projectinfo = new ProjectInfoViewModel("Peter Pan", ReqExchangeFileType.ReqIF, false, false, new ProjectInfo());
             ProjectInfoController projectInfo = new ProjectInfoController(projectinfo, clientViewModel);
             tilePaneProjects.getChildren().add(projectInfo);
         }

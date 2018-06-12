@@ -50,7 +50,8 @@ public class ProjectInfoController extends GridPane {
 
     @FXML public void initialize() {
         labelProjectName.textProperty().bind(projectInfoViewModel.nameProperty());
-        buttonPushChanges.disableProperty().bind(projectInfoViewModel.localChangedProperty().not());
+        buttonPushChanges.disableProperty().bind(projectInfoViewModel.canPushProperty().not());
+        buttonPullChanges.disableProperty().bind(projectInfoViewModel.canPullProperty().not());
         buttonExportProject.setText("export " + projectInfoViewModel.getFileType().getName());
         buttonExportProject.prefWidthProperty().bind(this.widthProperty());
         ObjectExpression<Font> fontTracking = Bindings.createObjectBinding(() -> Font.font(getWidth() / 10), widthProperty());

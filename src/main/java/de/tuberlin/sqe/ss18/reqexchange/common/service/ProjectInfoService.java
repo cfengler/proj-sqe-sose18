@@ -102,12 +102,12 @@ public class ProjectInfoService {
         }
     }
 
-    public boolean join(String name, Path filePath, ReqExchangeFileType fileType) {
+    public ProjectInfo join(String name, Path filePath, ReqExchangeFileType fileType) {
         //TODO: implement
         //TODO: git repository clonen
         //TODO: gewünschte Datei aus common modell erstellen
         //TODO: projectInfo speichern
-        return false;
+        return null;
     }
 
     public boolean leave(ProjectInfo projectInfo) {
