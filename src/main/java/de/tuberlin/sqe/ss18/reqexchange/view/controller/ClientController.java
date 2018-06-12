@@ -53,6 +53,7 @@ public class ClientController {
         //initializeFlowPaneProjects();
         clientViewModel.getProjects().forEach(this::addProjectInfoController);
         clientViewModel.getProjects().addListener((ListChangeListener<? super ProjectInfoViewModel>) c -> {
+            c.next();
             c.getRemoved().forEach(projectInfoViewModel -> {
                 tilePaneProjects.getChildren().forEach(node -> {
                     ProjectInfoController controller = (ProjectInfoController) node;
