@@ -17,11 +17,22 @@ public class ProjectInfoViewModel {
 
     public ProjectInfoViewModel(ProjectInfo projectInfo) {
         //this(null, null, false, false, new ProjectInfo());
-        this.projectInfo = projectInfo;
+        setProjectInfo(projectInfo);
         projectInfo.addPropertyChangeListener(e -> {
             switch (e.getPropertyName()) {
-                case "Magnus":
+                case "name":
+                    setName(String.valueOf(e.getNewValue()));
+                    break;
+                case "fileName":
+                    fileType = ReqExchangeFileType.getFileTypeFromFileName(String.valueOf(e.getNewValue()));
+                    break;
+                case "localChanged":
+                    setCanPush((Boolean)e.getNewValue());
+                    break;
+                case "remoteChanged":
                     setCanPull((Boolean)e.getNewValue());
+                    break;
+                default:
                     break;
             }
         });
@@ -89,6 +100,10 @@ public class ProjectInfoViewModel {
 
     public void setProjectInfo(ProjectInfo projectInfo) {
         this.projectInfo = projectInfo;
+        setName(projectInfo.getName());
+        setFileType(ReqExchangeFileType.getFileTypeFromFileName(projectInfo.getFileName()));
+        setCanPull(projectInfo.isRemoteChanged());
+        setCanPush(projectInfo.isLocalChanged());
     }
 
     @Override
