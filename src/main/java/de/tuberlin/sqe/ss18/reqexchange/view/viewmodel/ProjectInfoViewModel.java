@@ -15,21 +15,29 @@ public class ProjectInfoViewModel {
     private BooleanProperty canPull;
     private BooleanProperty canPush;
 
-    public ProjectInfoViewModel() {
-        this(null, null, false, false, new ProjectInfo());
-    }
-
-    public ProjectInfoViewModel(String name) {
-        this(name, null, false, false, new ProjectInfo());
-    }
-
-    public ProjectInfoViewModel(String name, ReqExchangeFileType fileType, boolean canPull, boolean canPush, ProjectInfo projectInfo) {
-        this.name = new SimpleStringProperty(name);
-        this.fileType = fileType;
-        this.canPull = new SimpleBooleanProperty(canPull);
-        this.canPush = new SimpleBooleanProperty(canPush);
+    public ProjectInfoViewModel(ProjectInfo projectInfo) {
+        //this(null, null, false, false, new ProjectInfo());
         this.projectInfo = projectInfo;
+        projectInfo.addPropertyChangeListener(e -> {
+            switch (e.getPropertyName()) {
+                case "Magnus":
+                    setCanPull((Boolean)e.getNewValue());
+                    break;
+            }
+        });
     }
+
+    //public ProjectInfoViewModel(String name) {
+        //this(name, null, false, false, new ProjectInfo());
+    //}
+
+//    public ProjectInfoViewModel(String name, ReqExchangeFileType fileType, boolean canPull, boolean canPush, ProjectInfo projectInfo) {
+//        this.name = new SimpleStringProperty(name);
+//        this.fileType = fileType;
+//        this.canPull = new SimpleBooleanProperty(canPull);
+//        this.canPush = new SimpleBooleanProperty(canPush);
+//        this.projectInfo = projectInfo;
+//    }
 
     public String getName() {
         return name.get();

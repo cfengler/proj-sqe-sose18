@@ -66,13 +66,13 @@ public class ClientController {
         clientViewModel.busyProperty().bindBidirectional(buttonJoinProject.disableProperty());
     }
 
-    private void initializeFlowPaneProjects() {
-        for (int i = 0; i < 15; i++) {
-            ProjectInfoViewModel projectinfo = new ProjectInfoViewModel("Peter Pan", ReqExchangeFileType.ReqIF, false, false, new ProjectInfo());
-            ProjectInfoController projectInfo = new ProjectInfoController(projectinfo, clientViewModel);
-            tilePaneProjects.getChildren().add(projectInfo);
-        }
-    }
+//    private void initializeFlowPaneProjects() {
+//        for (int i = 0; i < 15; i++) {
+//            ProjectInfoViewModel projectinfo = new ProjectInfoViewModel("Peter Pan", ReqExchangeFileType.ReqIF, false, false, new ProjectInfo());
+//            ProjectInfoController projectInfo = new ProjectInfoController(projectinfo, clientViewModel);
+//            tilePaneProjects.getChildren().add(projectInfo);
+//        }
+//    }
 
     private void addProjectInfoController(ProjectInfoViewModel projectInfoViewModel) {
         ProjectInfoController newController = new ProjectInfoController(projectInfoViewModel, clientViewModel);
