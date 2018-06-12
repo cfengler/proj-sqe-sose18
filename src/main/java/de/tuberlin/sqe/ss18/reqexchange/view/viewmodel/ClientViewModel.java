@@ -45,17 +45,24 @@ public class ClientViewModel {
             projects.add(newViewModel);
         });*/
         this.projectInfoService.getAll().forEach(projectInfo -> {
-            ProjectInfoViewModel viewModel = new ProjectInfoViewModel();
-            viewModel.setName(projectInfo.getName());
-            viewModel.setProjectInfo(projectInfo);
-            ReqExchangeFileType determinedFileType  = ReqExchangeFileType.getFileTypeFromFileName(projectInfo.getFileName());
-            viewModel.setFileType(determinedFileType == null ? ReqExchangeFileType.ReqIF : determinedFileType);
-            projects.add(viewModel);
+            addProjectFromProjectInfo(projectInfo);
         });
     }
 
+    private void addProjectFromProjectInfo(ProjectInfo projectInfo) {
+        ProjectInfoViewModel viewModel = new ProjectInfoViewModel();
+        viewModel.setName(projectInfo.getName());
+        viewModel.setProjectInfo(projectInfo);
+        ReqExchangeFileType determinedFileType  = ReqExchangeFileType.getFileTypeFromFileName(projectInfo.getFileName());
+        viewModel.setFileType(determinedFileType == null ? ReqExchangeFileType.ReqIF : determinedFileType);
+        projects.add(viewModel);
+    }
+
     public void handleCreateProject(String name, String password, String filepath) {
-        projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath));
+        ProjectInfo projectInfo = projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath));
+        if(projectInfo != null) {
+            addProjectFromProjectInfo(projectInfo);
+        }
     }
 
     public void handleJoinProject(String name, String password, ReqExchangeFileType filetype, String filepath) {
