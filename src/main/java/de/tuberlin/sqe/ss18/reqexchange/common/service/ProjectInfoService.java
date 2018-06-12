@@ -2,8 +2,6 @@ package de.tuberlin.sqe.ss18.reqexchange.common.service;
 
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
-import de.tuberlin.sqe.ss18.reqexchange.common.service.JsonSerializerService;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -71,9 +69,17 @@ public class ProjectInfoService {
 
         //TODO: file nach common modell übersetzen
         createDummyFile(projectInfo);
-        gitService.commit(projectInfo);
-        //TODO: pusht noch nicht neue Dateien, was geht da schieß?
-        gitService.push(projectInfo);
+        if (!gitService.addAllFiles(projectInfo)) {
+            return null;
+        }
+
+        if (!gitService.commitAll(projectInfo)) {
+            return null;
+        }
+
+        if (!gitService.pushAll(projectInfo)) {
+            return null;
+        }
 
         jsonSerializerService.serializeToFile(projectInfo, projectInfoFile);
 
