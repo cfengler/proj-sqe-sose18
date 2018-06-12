@@ -27,6 +27,30 @@ public enum ReqExchangeFileType {
         return filetypes;
     }
 
+    /**
+     * reads file ending and determines what ReqExchangeFileType it is
+     * @param filename filename to be examined
+     * @return determined ReqExchangeFileType, if none was found it returns null
+     */
+    public static ReqExchangeFileType getFileTypeFromFileName(String filename) {
+        ReqExchangeFileType determinedFileType  = null;
+        if(filename != null) {
+            String[] segments = filename.split("\\.");
+            String ending = "";
+            if(segments.length > 0) {
+                ending = segments[segments.length - 1];
+            } else {
+                return null;
+            }
+            for(ReqExchangeFileType type: ReqExchangeFileType.values()) {
+                if(type.getFiletypes().contains(ending)) {
+                    determinedFileType = type;
+                }
+            }
+        }
+        return determinedFileType;
+    }
+
     @Override
     public String toString() {
         return name;

@@ -16,7 +16,7 @@ public class ViewService {
     private Stage clientStage;
 
     public void showMain(Stage primaryStage) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml"));
+        /*FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml"));
         fxmlLoader.setControllerFactory(t -> ReqExchangeApplication.getSpringContext().getBean(t));
 
         Parent root;
@@ -32,10 +32,7 @@ public class ViewService {
         primaryStage.setTitle("ReqExchange");
         primaryStage.setScene(scene);
 
-        primaryStage.show();
-    }
-
-    public void showClient() {
+        primaryStage.show();*/
         if (clientStage == null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Client.fxml"));
             fxmlLoader.setControllerFactory(t -> ReqExchangeApplication.getSpringContext().getBean(t));
@@ -50,18 +47,21 @@ public class ViewService {
 
             Scene clientScene = new Scene(root, 800, 600);
 
-            clientStage = new Stage();
-            clientStage.setTitle("Client");
-            clientStage.setScene(clientScene);
-            clientStage.initModality(Modality.NONE);
-            clientStage.setOnCloseRequest(event -> {
+            primaryStage.setTitle("Client");
+            primaryStage.setScene(clientScene);
+            primaryStage.initModality(Modality.NONE);
+            primaryStage.setOnCloseRequest(event -> {
                 clientStage = null;
             });
-            clientStage.show();
+            primaryStage.show();
         }
         else {
-            clientStage.toFront();
+            primaryStage.toFront();
         }
+    }
+
+    public void showClient() {
+
     }
 
 }

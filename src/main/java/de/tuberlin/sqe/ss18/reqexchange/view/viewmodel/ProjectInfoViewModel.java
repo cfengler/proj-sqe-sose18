@@ -1,5 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
+import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -8,22 +9,22 @@ public class ProjectInfoViewModel {
 
     private SimpleStringProperty name;
     private ReqExchangeFileType fileType;
+    private ProjectInfo projectInfo;
     private SimpleBooleanProperty localChanged;
-    private SimpleBooleanProperty serverChanged;
 
     public ProjectInfoViewModel() {
-        this(null, null, false, false);
+        this(null, null, false, new ProjectInfo());
     }
 
     public ProjectInfoViewModel(String name) {
-        this(name, null, false, false);
+        this(name, null, false, new ProjectInfo());
     }
 
-    public ProjectInfoViewModel(String name, ReqExchangeFileType fileType, boolean localChanged, boolean serverChanged) {
+    public ProjectInfoViewModel(String name, ReqExchangeFileType fileType, boolean localChanged, ProjectInfo projectInfo) {
         this.name = new SimpleStringProperty(name);
         this.fileType = fileType;
         this.localChanged = new SimpleBooleanProperty(localChanged);
-        this.serverChanged = new SimpleBooleanProperty(serverChanged);
+        this.projectInfo = projectInfo;
     }
 
     public String getName() {
@@ -58,16 +59,12 @@ public class ProjectInfoViewModel {
         this.localChanged.set(localChanged);
     }
 
-    public boolean isServerChanged() {
-        return serverChanged.get();
+    public ProjectInfo getProjectInfo() {
+        return projectInfo;
     }
 
-    public SimpleBooleanProperty serverChangedProperty() {
-        return serverChanged;
-    }
-
-    public void setServerChanged(boolean serverChanged) {
-        this.serverChanged.set(serverChanged);
+    public void setProjectInfo(ProjectInfo projectInfo) {
+        this.projectInfo = projectInfo;
     }
 
     @Override

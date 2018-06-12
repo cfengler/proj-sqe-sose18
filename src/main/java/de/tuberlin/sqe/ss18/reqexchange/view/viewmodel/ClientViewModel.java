@@ -1,5 +1,7 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
+import de.tuberlin.sqe.ss18.reqexchange.ReqExchangeApplication;
+import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.common.service.ProjectInfoService;
 import javafx.beans.property.SimpleListProperty;
@@ -22,8 +24,7 @@ public class ClientViewModel {
         projects = new SimpleListProperty<>();
         projects.set(FXCollections.observableArrayList());
 
-        //TODO binding an die Projekte!?
-        projectInfoRepository.findAll().forEach(projectInfo -> {
+        /*projectInfoRepository.findAll().forEach(projectInfo -> {
             ProjectInfoViewModel newViewModel = new ProjectInfoViewModel();
             newViewModel.setName(projectInfo.getName());
             ReqExchangeFileType determinedFileType  = null;
@@ -40,17 +41,27 @@ public class ClientViewModel {
             }
             newViewModel.setFileType(determinedFileType);
             projects.add(newViewModel);
+        });*/
+        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).getAll().forEach(projectInfo -> {
+            ProjectInfoViewModel viewModel = new ProjectInfoViewModel();
+            viewModel.setName(projectInfo.getName());
+            viewModel.setProjectInfo(projectInfo);
+            ReqExchangeFileType determinedFileType  = ReqExchangeFileType.getFileTypeFromFileName(projectInfo.getFileName());
+            viewModel.setFileType(determinedFileType == null ? ReqExchangeFileType.ReqIF : determinedFileType);
+            projects.add(viewModel);
         });
     }
 
     public void handleCreateProject(String name, String password, String filepath) {
-        System.out.println("create project procedure invoked");
-        //TODO handle create project
+        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).create(name, filepath, ReqExchangeFileType.getFileTypeFromFileName(filepath));
     }
 
     public void handleJoinProject(String name, String password, ReqExchangeFileType filetype, String filepath) {
-        System.out.println("join project procedure invoked");
-        //TODO handle join project
+        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).join(name, filepath, filetype);
+    }
+
+    public void handleLeaveProject(ProjectInfoViewModel projectInfoViewModel) {
+        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).leave(projectInfoViewModel.getProjectInfo());
     }
 
     public ObservableList<ProjectInfoViewModel> getProjects() {
