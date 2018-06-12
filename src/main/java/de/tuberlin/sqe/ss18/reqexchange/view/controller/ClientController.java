@@ -68,13 +68,13 @@ public class ClientController {
     private void initializeFlowPaneProjects() {
         for (int i = 0; i < 15; i++) {
             ProjectInfoViewModel projectinfo = new ProjectInfoViewModel("Peter Pan", ReqExchangeFileType.ReqIF, false, new ProjectInfo());
-            ProjectInfoController projectInfo = new ProjectInfoController(projectinfo);
+            ProjectInfoController projectInfo = new ProjectInfoController(projectinfo, clientViewModel);
             tilePaneProjects.getChildren().add(projectInfo);
         }
     }
 
     private void addProjectInfoController(ProjectInfoViewModel projectInfoViewModel) {
-        ProjectInfoController newController = new ProjectInfoController(projectInfoViewModel);
+        ProjectInfoController newController = new ProjectInfoController(projectInfoViewModel, clientViewModel);
         TilePane.setMargin(newController, new Insets(10));
         newController.prefWidthProperty().bind(scrollPaneProjects.widthProperty().subtract(80).divide(3));
         newController.prefHeightProperty().bind(scrollPaneProjects.widthProperty().subtract(80).divide(3));
