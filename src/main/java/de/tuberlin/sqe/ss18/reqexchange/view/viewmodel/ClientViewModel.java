@@ -72,7 +72,17 @@ public class ClientViewModel {
             }
             Platform.runLater(() -> progress.setVisible(false));
         }).start();
-
+        /*
+        Observable.just(1)
+        .subscribeOn(Schedulers.newThread())
+        .map(i -> projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath)))
+        .observeOn(JavaFxScheduler.platform())
+        .subscribe(projectInfo -> {
+            if(projectInfo != null) {
+                addProjectFromProjectInfo(projectInfo);
+            }
+        });
+         */
     }
 
     public void handleJoinProject(String name, String password, ReqExchangeFileType filetype, String filepath) {
