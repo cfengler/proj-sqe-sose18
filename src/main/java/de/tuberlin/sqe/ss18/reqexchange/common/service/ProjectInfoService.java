@@ -2,6 +2,7 @@ package de.tuberlin.sqe.ss18.reqexchange.common.service;
 
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -131,7 +132,13 @@ public class ProjectInfoService {
     public boolean leave(ProjectInfo projectInfo) {
         File localGitRepository = pathService.getLocalGitRepositoryPath(projectInfo).toFile();
         if (localGitRepository.exists()) {
-            localGitRepository.delete();
+            try {
+                FileUtils.deleteDirectory(localGitRepository);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
         }
 
         File projectInfoFile = getProjectInfoFile(projectInfo);

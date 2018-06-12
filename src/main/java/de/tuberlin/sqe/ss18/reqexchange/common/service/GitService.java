@@ -29,11 +29,10 @@ public class GitService {
     }
 
     public boolean clone(ProjectInfo projectInfo) {
-        try {
-            Git.cloneRepository()
-                    .setURI(getRemoteGitRepositoryURI(projectInfo).toString())
-                    .setDirectory(pathService.getLocalGitRepositoryPath(projectInfo).toFile())
-                    .call();
+        try (Git git = Git.cloneRepository()
+                     .setURI(getRemoteGitRepositoryURI(projectInfo).toString())
+                     .setDirectory(pathService.getLocalGitRepositoryPath(projectInfo).toFile())
+                     .call()) {
             return true;
         }
         catch (Exception e) {
@@ -43,9 +42,7 @@ public class GitService {
     }
 
     public boolean canPull(ProjectInfo projectInfo) {
-        try {
-            Git git = getLocalGitRepository(projectInfo);
-
+        try (Git git = getLocalGitRepository(projectInfo)) {
             FetchResult fetchResult = git.fetch().call();
 
             Collection<TrackingRefUpdate> trackingRefUpdates = fetchResult.getTrackingRefUpdates();
@@ -62,8 +59,7 @@ public class GitService {
             return false;
         }
 
-        Git git = getLocalGitRepository(projectInfo);
-        try {
+        try (Git git = getLocalGitRepository(projectInfo)) {
             git.pull().call();
             return true;
         }
@@ -74,9 +70,7 @@ public class GitService {
     }
 
     public boolean addAllFiles(ProjectInfo projectInfo) {
-        Git git = getLocalGitRepository(projectInfo);
-
-        try {
+        try (Git git = getLocalGitRepository(projectInfo)) {
             git.add().addFilepattern(".").call();
             return true;
         }
@@ -102,8 +96,7 @@ public class GitService {
 
     public boolean commitAll(ProjectInfo projectInfo) {
 
-        try {
-            Git git = getLocalGitRepository(projectInfo);
+        try (Git git = getLocalGitRepository(projectInfo)) {
             git.commit()
                     .setAll(true)
                     .setMessage(getCommitMessage())
@@ -152,8 +145,7 @@ public class GitService {
         //    return false;
         //}
 
-        try {
-            Git git = getLocalGitRepository(projectInfo);
+        try (Git git = getLocalGitRepository(projectInfo)) {
             git.push()
                     .setPushAll()
                     .setCredentialsProvider(credentialsProvider)
