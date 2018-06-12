@@ -2,28 +2,32 @@ package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class ProjectInfoViewModel {
 
-    private SimpleStringProperty name;
+    private StringProperty name;
     private ReqExchangeFileType fileType;
     private ProjectInfo projectInfo;
-    private SimpleBooleanProperty localChanged;
+    private BooleanProperty canPull;
+    private BooleanProperty canPush;
 
     public ProjectInfoViewModel() {
-        this(null, null, false, new ProjectInfo());
+        this(null, null, false, false, new ProjectInfo());
     }
 
     public ProjectInfoViewModel(String name) {
-        this(name, null, false, new ProjectInfo());
+        this(name, null, false, false, new ProjectInfo());
     }
 
-    public ProjectInfoViewModel(String name, ReqExchangeFileType fileType, boolean localChanged, ProjectInfo projectInfo) {
+    public ProjectInfoViewModel(String name, ReqExchangeFileType fileType, boolean canPull, boolean canPush, ProjectInfo projectInfo) {
         this.name = new SimpleStringProperty(name);
         this.fileType = fileType;
-        this.localChanged = new SimpleBooleanProperty(localChanged);
+        this.canPull = new SimpleBooleanProperty(canPull);
+        this.canPush = new SimpleBooleanProperty(canPush);
         this.projectInfo = projectInfo;
     }
 
@@ -31,7 +35,7 @@ public class ProjectInfoViewModel {
         return name.get();
     }
 
-    public SimpleStringProperty nameProperty() {
+    public StringProperty nameProperty() {
         return name;
     }
 
@@ -47,16 +51,28 @@ public class ProjectInfoViewModel {
         this.fileType = fileType;
     }
 
-    public boolean isLocalChanged() {
-        return localChanged.get();
+    public boolean isCanPull() {
+        return canPull.get();
     }
 
-    public SimpleBooleanProperty localChangedProperty() {
-        return localChanged;
+    public BooleanProperty canPullProperty() {
+        return canPull;
     }
 
-    public void setLocalChanged(boolean localChanged) {
-        this.localChanged.set(localChanged);
+    public void setCanPull(boolean canPull) {
+        this.canPull.set(canPull);
+    }
+
+    public boolean isCanPush() {
+        return canPush.get();
+    }
+
+    public BooleanProperty canPushProperty() {
+        return canPush;
+    }
+
+    public void setCanPush(boolean canPush) {
+        this.canPush.set(canPush);
     }
 
     public ProjectInfo getProjectInfo() {

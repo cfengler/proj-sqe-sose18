@@ -66,11 +66,17 @@ public class ClientViewModel {
     }
 
     public void handleJoinProject(String name, String password, ReqExchangeFileType filetype, String filepath) {
-        projectInfoService.join(name, Paths.get(filepath), filetype);
+        ProjectInfo projectInfo = projectInfoService.join(name, Paths.get(filepath), filetype);
+        if(projectInfo != null) {
+            addProjectFromProjectInfo(projectInfo);
+        }
     }
 
     public void handleLeaveProject(ProjectInfoViewModel projectInfoViewModel) {
-        projectInfoService.leave(projectInfoViewModel.getProjectInfo());
+        boolean left = projectInfoService.leave(projectInfoViewModel.getProjectInfo());
+        if(left) {
+            projects.removeIf(project -> project.getProjectInfo().equals(projectInfoViewModel.getProjectInfo()));
+        }
     }
 
     public ObservableList<ProjectInfoViewModel> getProjects() {
