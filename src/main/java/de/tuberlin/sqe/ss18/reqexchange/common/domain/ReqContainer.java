@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Requirement {
+public class ReqContainer {
 
     @Id
     @GeneratedValue
@@ -35,9 +35,9 @@ public class Requirement {
         this.pushTimestamp = pushTimestamp;
     }
 
-    private ReqContainer reqContainer;
-    public ReqContainer getReqContainer() { return reqContainer; }
-    public void setReqContainer(ReqContainer reqContainer) { this.reqContainer = reqContainer; }
+    private Specification specification;
+    public Specification getSpecification() {return specification; }
+    public void setSpecification(Specification specification) { this.specification = specification; }
 
     private String description;
     public String getdescription() {

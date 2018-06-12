@@ -54,3 +54,4 @@ nbdist/
 
 #Application
 db.sqlite
+/src/main/resources/git.properties
