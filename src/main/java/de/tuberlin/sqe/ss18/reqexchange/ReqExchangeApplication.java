@@ -48,7 +48,6 @@ public class ReqExchangeApplication extends Application {
 
         primaryStage.setTitle("Client");
         primaryStage.setScene(clientScene);
-        primaryStage.initModality(Modality.NONE);
         primaryStage.show();
     }
 
