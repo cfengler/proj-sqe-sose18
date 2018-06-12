@@ -57,22 +57,22 @@ public class GitService {
         }
     }
 
-//    public boolean pull(String name) {
-//        if (!canPull(name)) {
-//            return false;
-//        }
-//
-//        try {
-//            Git git = getLocalGitRepository(name);
-//            git.pull().call();
-//            return true;
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();;
-//            return false;
-//        }
-//    }
-//
+    public boolean pull(ProjectInfo projectInfo) {
+        if (!canPull(projectInfo)) {
+            return false;
+        }
+
+        Git git = getLocalGitRepository(projectInfo);
+        try {
+            git.pull().call();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();;
+            return false;
+        }
+    }
+
     public boolean addAllFiles(ProjectInfo projectInfo) {
         Git git = getLocalGitRepository(projectInfo);
 

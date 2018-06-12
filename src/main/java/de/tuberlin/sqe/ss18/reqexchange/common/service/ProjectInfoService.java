@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,11 @@ public class ProjectInfoService {
     }
 
     public ProjectInfo create(String name, Path filePath, ReqExchangeFileType fileType) {
-        ///aktuell nur fileType = ReqIF
+        ///TODO: support for all ReqExchangeFileType
+        if (fileType != ReqExchangeFileType.ReqIF) {
+            return null;
+        }
+
         if (!isNewProject(name)) {
             return null;
         }
@@ -99,6 +104,11 @@ public class ProjectInfoService {
     }
 
     public ProjectInfo join(String name, Path filePath, ReqExchangeFileType fileType) {
+        ///TODO: support for all ReqExchangeFileType
+        if (fileType != ReqExchangeFileType.ReqIF) {
+            return null;
+        }
+
         if (!isNewProject(name)) {
             return null;
         }
@@ -110,26 +120,25 @@ public class ProjectInfoService {
         if (!gitService.clone(projectInfo)) {
             return null;
         }
-        //TODO: gewünschte Datei aus common modell erstellen
 
         //TODO: ersetzen gegen mapper funktion
         createNewFileInPathWithName(filePath.getParent(), filePath.getFileName().toString(), "Ich bin eine neue Datei im gewünschten Format.");
-        //TODO: projectInfo speichern
+
         File projectInfoFile = getProjectInfoFile(name);
         jsonSerializerService.serializeToFile(projectInfo, projectInfoFile);
         return projectInfo;
     }
 
     public boolean leave(ProjectInfo projectInfo) {
-        //TODO: implement
-        //TODO: git lokales repository löschen
+        File localGitRepository = pathService.getLocalGitRepositoryPath(projectInfo).toFile();
+        if (localGitRepository.exists()) {
+            localGitRepository.delete();
+        }
 
-        //TODO: requirementsdatei eher nicht löschen
-        //TODO: projectinfo löschen
         File projectInfoFile = getProjectInfoFile(projectInfo);
         projectInfoFile.delete();
 
-        return false;
+        return true;
     }
 
     private File getProjectInfoFile(ProjectInfo projectInfo) {
