@@ -147,10 +147,14 @@ public class ProjectInfoService {
         return true;
     }
 
-    public boolean refresh(ProjectInfo projectInfo) {
-        //TODO: implement has RemoteChanges
-        //TODO: implement has LocalChanges
+//    public boolean refresh(ProjectInfo projectInfo) {
+//        //TODO: implement has RemoteChanges
+//        //TODO: implement has LocalChanges
+//
+//        return false;
+//    }
 
+    public boolean sync(ProjectInfo projectInfo) {
         return false;
     }
 
