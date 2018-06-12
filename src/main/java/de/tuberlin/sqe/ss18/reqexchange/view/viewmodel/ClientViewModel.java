@@ -4,6 +4,10 @@ import de.tuberlin.sqe.ss18.reqexchange.ReqExchangeApplication;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.common.service.ProjectInfoService;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
+import io.reactivex.schedulers.Schedulers;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -59,10 +63,15 @@ public class ClientViewModel {
     }
 
     public void handleCreateProject(String name, String password, String filepath) {
-        ProjectInfo projectInfo = projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath));
-        if(projectInfo != null) {
-            addProjectFromProjectInfo(projectInfo);
-        }
+        Observable.just(1)
+                .subscribeOn(Schedulers.newThread())
+                .map(i -> projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath)))
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(projectInfo -> {
+                    if(projectInfo != null) {
+                        addProjectFromProjectInfo(projectInfo);
+                    }
+                });
     }
 
     public void handleJoinProject(String name, String password, ReqExchangeFileType filetype, String filepath) {
