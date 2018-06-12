@@ -15,13 +15,13 @@ import java.nio.file.Paths;
 @Component
 public class ClientViewModel {
 
-    private ProjectInfoService projectInfoRepository;
+    private ProjectInfoService projectInfoService;
 
     private SimpleListProperty<ProjectInfoViewModel> projects;
 
     @Autowired
-    public ClientViewModel(ProjectInfoService projectInfoRepository) {
-        this.projectInfoRepository = projectInfoRepository;
+    public ClientViewModel(ProjectInfoService projectInfoService) {
+        this.projectInfoService = projectInfoService;
 
         projects = new SimpleListProperty<>();
         projects.set(FXCollections.observableArrayList());
@@ -44,7 +44,7 @@ public class ClientViewModel {
             newViewModel.setFileType(determinedFileType);
             projects.add(newViewModel);
         });*/
-        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).getAll().forEach(projectInfo -> {
+        this.projectInfoService.getAll().forEach(projectInfo -> {
             ProjectInfoViewModel viewModel = new ProjectInfoViewModel();
             viewModel.setName(projectInfo.getName());
             viewModel.setProjectInfo(projectInfo);
@@ -55,15 +55,15 @@ public class ClientViewModel {
     }
 
     public void handleCreateProject(String name, String password, String filepath) {
-        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath));
+        projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath));
     }
 
     public void handleJoinProject(String name, String password, ReqExchangeFileType filetype, String filepath) {
-        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).join(name, Paths.get(filepath), filetype);
+        projectInfoService.join(name, Paths.get(filepath), filetype);
     }
 
     public void handleLeaveProject(ProjectInfoViewModel projectInfoViewModel) {
-        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).leave(projectInfoViewModel.getProjectInfo());
+        projectInfoService.leave(projectInfoViewModel.getProjectInfo());
     }
 
     public ObservableList<ProjectInfoViewModel> getProjects() {
