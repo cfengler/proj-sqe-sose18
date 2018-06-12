@@ -48,7 +48,7 @@ public class ProjectInfoService {
         return result;
     }
 
-    public boolean create(String name, Path filePath, ReqExchangeFileType fileType) {
+    public boolean create(String name, String filePath, ReqExchangeFileType fileType) {
         ///aktuell nur fileType = ReqIF
         //TODO: implement
 
@@ -64,14 +64,14 @@ public class ProjectInfoService {
 
         ProjectInfo projectInfo = new ProjectInfo();
         projectInfo.setName(name);;
-        projectInfo.setFileName(filePath.toFile().getAbsolutePath());
+        projectInfo.setFileName(new File(filePath).getAbsolutePath());
 
         jsonSerializerService.serializeToFile(projectInfo, projectInfoFile);
 
         return true;
     }
 
-    public boolean join(String name, Path filePath, ReqExchangeFileType fileType) {
+    public boolean join(String name, String filePath, ReqExchangeFileType fileType) {
         //TODO: implement
         //TODO: git repository clonen
         //TODO: gewünschte Datei aus common modell erstellen

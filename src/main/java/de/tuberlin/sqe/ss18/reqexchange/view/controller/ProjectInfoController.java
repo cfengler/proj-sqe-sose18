@@ -1,5 +1,8 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
+import de.tuberlin.sqe.ss18.reqexchange.ReqExchangeApplication;
+import de.tuberlin.sqe.ss18.reqexchange.common.service.ProjectInfoService;
+import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ProjectInfoViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectExpression;
@@ -45,7 +48,6 @@ public class ProjectInfoController extends GridPane {
 
     @FXML public void initialize() {
         labelProjectName.textProperty().bind(projectInfoViewModel.nameProperty());
-        buttonPullChanges.disableProperty().bind(projectInfoViewModel.serverChangedProperty().not());
         buttonPushChanges.disableProperty().bind(projectInfoViewModel.localChangedProperty().not());
         buttonExportProject.setText("export " + projectInfoViewModel.getFileType().getName());
         buttonExportProject.prefWidthProperty().bind(this.widthProperty());
@@ -54,8 +56,7 @@ public class ProjectInfoController extends GridPane {
     }
 
     @FXML protected void handleButtonLeaveProjectAction(ActionEvent event) {
-        System.out.println("leave project button");
-        //TODO button leave project action handling
+        ReqExchangeApplication.getSpringContext().getBean(ClientViewModel.class).handleLeaveProject(projectInfoViewModel);
     }
 
     @FXML protected void handleButtonPullChangesAction(ActionEvent event) {

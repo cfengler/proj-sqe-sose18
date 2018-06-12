@@ -1,6 +1,9 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
+import de.tuberlin.sqe.ss18.reqexchange.ReqExchangeApplication;
+import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
+import de.tuberlin.sqe.ss18.reqexchange.common.service.ProjectInfoService;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ProjectInfoViewModel;
 import javafx.application.Platform;
@@ -64,7 +67,7 @@ public class ClientController {
 
     private void initializeFlowPaneProjects() {
         for (int i = 0; i < 15; i++) {
-            ProjectInfoViewModel projectinfo = new ProjectInfoViewModel("Peter Pan", ReqExchangeFileType.ReqIF, false, true);
+            ProjectInfoViewModel projectinfo = new ProjectInfoViewModel("Peter Pan", ReqExchangeFileType.ReqIF, false, new ProjectInfo());
             ProjectInfoController projectInfo = new ProjectInfoController(projectinfo);
             tilePaneProjects.getChildren().add(projectInfo);
         }

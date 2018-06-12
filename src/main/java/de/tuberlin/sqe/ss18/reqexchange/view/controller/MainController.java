@@ -1,16 +1,12 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
 import de.tuberlin.sqe.ss18.reqexchange.view.ViewService;
-import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.MainViewModel;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.beans.EventHandler;
 
 @Component
 public class MainController {
@@ -20,16 +16,12 @@ public class MainController {
     @FXML private Button buttonServer;
 
 
-    private MainViewModel mainViewModel;
     private ViewService viewService;
 
     @Autowired
-    public MainController(
-            MainViewModel mainViewModel,
-            ViewService viewService) {
+    public MainController(ViewService viewService) {
         System.out.println(getClass().getSimpleName() + " ctor");
 
-        this.mainViewModel = mainViewModel;
         this.viewService = viewService;
     }
 

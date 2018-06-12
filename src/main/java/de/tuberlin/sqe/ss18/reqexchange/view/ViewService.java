@@ -47,17 +47,16 @@ public class ViewService {
 
             Scene clientScene = new Scene(root, 800, 600);
 
-            clientStage = new Stage();
-            clientStage.setTitle("Client");
-            clientStage.setScene(clientScene);
-            clientStage.initModality(Modality.NONE);
-            clientStage.setOnCloseRequest(event -> {
+            primaryStage.setTitle("Client");
+            primaryStage.setScene(clientScene);
+            primaryStage.initModality(Modality.NONE);
+            primaryStage.setOnCloseRequest(event -> {
                 clientStage = null;
             });
-            clientStage.show();
+            primaryStage.show();
         }
         else {
-            clientStage.toFront();
+            primaryStage.toFront();
         }
     }
 
