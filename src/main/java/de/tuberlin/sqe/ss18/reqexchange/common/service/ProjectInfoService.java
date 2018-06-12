@@ -147,14 +147,21 @@ public class ProjectInfoService {
         return true;
     }
 
-//    public boolean refresh(ProjectInfo projectInfo) {
-//        //TODO: implement has RemoteChanges
-//        //TODO: implement has LocalChanges
-//
-//        return false;
-//    }
+    public boolean refresh(ProjectInfo projectInfo) {
+        //TODO: implement has RemoteChanges
+        //projectInfo.setLocalChanged(gitService. );
+        projectInfo.setLocalChanged(!projectInfo.isLocalChanged());
+        //TODO: implement has LocalChanges
+        projectInfo.setRemoteChanged(gitService.canPull(projectInfo));
+        return false;
+    }
 
     public boolean sync(ProjectInfo projectInfo) {
+        //TODO: mapping
+        //TODO: commit wenn möglich
+        //TODO: pull wenn nötig
+        //TODO: push
+
         return false;
     }
 
