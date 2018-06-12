@@ -9,6 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Component
 public class ClientViewModel {
@@ -53,11 +55,11 @@ public class ClientViewModel {
     }
 
     public void handleCreateProject(String name, String password, String filepath) {
-        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).create(name, filepath, ReqExchangeFileType.getFileTypeFromFileName(filepath));
+        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath));
     }
 
     public void handleJoinProject(String name, String password, ReqExchangeFileType filetype, String filepath) {
-        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).join(name, filepath, filetype);
+        ReqExchangeApplication.getSpringContext().getBean(ProjectInfoService.class).join(name, Paths.get(filepath), filetype);
     }
 
     public void handleLeaveProject(ProjectInfoViewModel projectInfoViewModel) {

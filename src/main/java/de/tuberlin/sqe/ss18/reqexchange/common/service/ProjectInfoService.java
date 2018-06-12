@@ -53,10 +53,14 @@ public class ProjectInfoService {
         return result;
     }
 
-    public boolean create(String name, Path filePath, ReqExchangeFileType fileType) {
+    public boolean create(String name, String filePath, ReqExchangeFileType fileType) {
         ///aktuell nur fileType = ReqIF
         //TODO: implement
+
         //TODO: error handling
+        //TODO: git repository anlegen
+        //TODO: file nach common modell übersetzen
+        //TODO: git dateien auf remote pushen
         File projectInfoFile = getProjectInfoFile(name);
 
         if (projectInfoFile.exists()) {
@@ -83,6 +87,7 @@ public class ProjectInfoService {
 
 
         jsonSerializerService.serializeToFile(projectInfo, projectInfoFile);
+
         return true;
     }
 
