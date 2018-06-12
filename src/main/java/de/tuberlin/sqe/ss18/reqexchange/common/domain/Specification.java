@@ -6,11 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity
+//@Entity
 public class Specification {
 
-    @Id
-    @GeneratedValue
+    //@Id
+    //@GeneratedValue
     private Long id;
     public Long getId() {
         return id;

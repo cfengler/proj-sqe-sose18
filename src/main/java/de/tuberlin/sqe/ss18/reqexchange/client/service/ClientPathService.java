@@ -35,4 +35,7 @@ public class ClientPathService extends PathService {
         new File(projectsPath.toString()).mkdir();
     }
 
+    public Path getProjectPath(String name) {
+        return projectsPath.resolve(name);
+    }
 }
