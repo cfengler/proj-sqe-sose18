@@ -2,12 +2,8 @@ package de.tuberlin.sqe.ss18.reqexchange.common.domain;
 
 import org.joda.time.DateTime;
 
-
-//@Entity
 public class ReqContainer {
 
-    //@Id
-    //@GeneratedValue
     private Long id;
     public Long getId() {
         return id;
