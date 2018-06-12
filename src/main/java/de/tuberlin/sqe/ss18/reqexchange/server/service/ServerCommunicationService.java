@@ -5,7 +5,6 @@ public class ServerCommunicationService {
 
 
     public void start() {
-        //TODO: start Git Server
 
     }
 
