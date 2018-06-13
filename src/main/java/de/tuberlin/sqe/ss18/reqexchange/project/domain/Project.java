@@ -1,20 +1,17 @@
-package de.tuberlin.sqe.ss18.reqexchange.common.domain;
+package de.tuberlin.sqe.ss18.reqexchange.project.domain;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.nio.file.Path;
 
-public class ProjectInfo {
+public class Project {
 
-    private transient PropertyChangeSupport propertyChangeSupport;
+    private PropertyChangeSupport propertyChangeSupport;
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
     }
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
-    }
-
-    public ProjectInfo() {
-        propertyChangeSupport = new PropertyChangeSupport(this);
     }
 
     private String name;
@@ -25,15 +22,31 @@ public class ProjectInfo {
         this.name = newValue;
     }
 
-    private String fileName;
-    public String getFileName() {
-        return fileName;
+    private Path filePath;
+    public Path getFilePath() {
+        return filePath;
     }
-    public void setFileName(String newValue) {
-        this.fileName = newValue;
+    public void setFilePath(Path newValue) {
+        this.filePath = newValue;
     }
 
-    private transient boolean localChanged;
+    private Path localGitRepositoryPath;
+    public Path getLocalGitRepositoryPath() {
+        return localGitRepositoryPath;
+    }
+    public void setLocalGitRepositoryPath(Path newValue) {
+        this.localGitRepositoryPath = newValue;
+    }
+
+    private Path projectInfoFilePath;
+    public Path getProjectInfoFilePath() {
+        return projectInfoFilePath;
+    }
+    public void setProjectInfoFilePath(Path newValue) {
+        this.projectInfoFilePath = newValue;
+    }
+
+    private boolean localChanged;
     public boolean isLocalChanged() {
         return localChanged;
     }
@@ -45,7 +58,7 @@ public class ProjectInfo {
         }
     }
 
-    private transient boolean remoteChanged;
+    private boolean remoteChanged;
     public boolean isRemoteChanged() {
         return remoteChanged;
     }
@@ -55,6 +68,10 @@ public class ProjectInfo {
             remoteChanged = newValue;
             propertyChangeSupport.firePropertyChange("remoteChanged", oldValue, newValue);
         }
+    }
+
+    public Project() {
+        propertyChangeSupport = new PropertyChangeSupport(this);
     }
 
 }

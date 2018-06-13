@@ -1,13 +1,13 @@
-package de.tuberlin.sqe.ss18.reqexchange.common.service;
+package de.tuberlin.sqe.ss18.reqexchange.git.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
+import com.google.inject.Inject;
+import de.tuberlin.sqe.ss18.reqexchange.common.service.PathService;
 
 import java.nio.file.Files;
 import java.util.Properties;
 
-@Component
-public class GitPropertiesService extends Properties {
+public class DefaultGitPropertiesService extends Properties implements GitPropertiesService {
 
     private PathService pathService;
 
@@ -21,8 +21,8 @@ public class GitPropertiesService extends Properties {
         return password;
     }
 
-    @Autowired
-    public GitPropertiesService(PathService pathService) {
+    @Inject
+    public DefaultGitPropertiesService(PathService pathService) {
         this.pathService = pathService;
         try {
             load(Files.newInputStream(pathService.getPathOfRunningJar().resolve("git.properties")));

@@ -1,35 +1,29 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
-import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
+import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class ProjectInfoViewModel {
+public class ProjectViewModel {
 
     private StringProperty name;
     private ReqExchangeFileType fileType;
-    private ProjectInfo projectInfo;
+    private Project project;
     private BooleanProperty canPull;
     private BooleanProperty canPush;
 
-    public ProjectInfoViewModel(ProjectInfo projectInfo) {
-        this.name = new SimpleStringProperty(projectInfo.getName());
-        this.fileType = ReqExchangeFileType.getFileTypeFromFileName(projectInfo.getFileName());
-        this.canPull = new SimpleBooleanProperty(projectInfo.isRemoteChanged());
-        this.canPush = new SimpleBooleanProperty(projectInfo.isLocalChanged());
-        this.projectInfo = projectInfo;
+    public ProjectViewModel(Project project) {
+        this.name = new SimpleStringProperty(project.getName());
+        this.fileType = ReqExchangeFileType.getFileTypeFromFileName(project.getFilePath().toString());
+        this.canPull = new SimpleBooleanProperty(project.isRemoteChanged());
+        this.canPush = new SimpleBooleanProperty(project.isLocalChanged());
+        this.project = project;
 
-        projectInfo.addPropertyChangeListener(e -> {
+        project.addPropertyChangeListener(e -> {
             switch (e.getPropertyName()) {
-                case "name":
-                    setName(String.valueOf(e.getNewValue()));
-                    break;
-                case "fileName":
-                    fileType = ReqExchangeFileType.getFileTypeFromFileName(String.valueOf(e.getNewValue()));
-                    break;
                 case "localChanged":
                     setCanPush((Boolean)e.getNewValue());
                     break;
@@ -86,8 +80,8 @@ public class ProjectInfoViewModel {
         this.canPush.set(canPush);
     }
 
-    public ProjectInfo getProjectInfo() {
-        return projectInfo;
+    public Project getProject() {
+        return project;
     }
 
     @Override
@@ -95,7 +89,7 @@ public class ProjectInfoViewModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProjectInfoViewModel that = (ProjectInfoViewModel) o;
+        ProjectViewModel that = (ProjectViewModel) o;
 
         return name != null ? name.equals(that.name) : that.name == null;
     }

@@ -1,13 +1,9 @@
 package de.tuberlin.sqe.ss18.reqexchange.common.service;
 
-import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
-import org.springframework.stereotype.Component;
-
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@Component
 public class DefaultPathService implements PathService {
 
     private Path pathOfRunningJar;
@@ -38,8 +34,8 @@ public class DefaultPathService implements PathService {
         createPaths();
     }
 
-    public Path getLocalGitRepositoryPath(ProjectInfo projectInfo) {
-        return getProjectRepositoriesPath().resolve(projectInfo.getName());
+    public Path getLocalGitRepositoryPathByProjectName(String projectName) {
+        return getProjectRepositoriesPath().resolve(projectName);
     }
 
     private void createPaths() {

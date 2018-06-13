@@ -1,10 +1,10 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
-import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
+import com.google.inject.Inject;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
-import de.tuberlin.sqe.ss18.reqexchange.common.service.ProjectInfoService;
+import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
+import de.tuberlin.sqe.ss18.reqexchange.project.service.ProjectService;
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import io.reactivex.schedulers.Schedulers;
 import javafx.beans.property.BooleanProperty;
@@ -12,37 +12,34 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
-@Component
 public class ClientViewModel {
 
-    private ProjectInfoService projectInfoService;
+    private ProjectService projectService;
 
-    private SimpleListProperty<ProjectInfoViewModel> projects;
+    private SimpleListProperty<ProjectViewModel> projects;
     private BooleanProperty busy;
 
-    @Autowired
-    public ClientViewModel(ProjectInfoService projectInfoService) {
-        this.projectInfoService = projectInfoService;
+    @Inject
+    public ClientViewModel(ProjectService projectService) {
+        this.projectService = projectService;
 
         projects = new SimpleListProperty<>();
         projects.set(FXCollections.observableArrayList());
         busy = new SimpleBooleanProperty(false);
 
-        this.projectInfoService.getAll().forEach(this::addProjectFromProjectInfo);
+        this.projectService.getAll().forEach(this::addProjectFromProjectInfo);
 
         Observable.interval(10, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).subscribe(i -> {
-            projects.forEach(projectInfoViewModel -> projectInfoService.refresh(projectInfoViewModel.getProjectInfo()));
+            projects.forEach(projectViewModel -> projectService.refresh(projectViewModel.getProject()));
         });
     }
 
-    private void addProjectFromProjectInfo(ProjectInfo projectInfo) {
-        ProjectInfoViewModel viewModel = new ProjectInfoViewModel(projectInfo);
-        ReqExchangeFileType determinedFileType  = ReqExchangeFileType.getFileTypeFromFileName(projectInfo.getFileName());
+    private void addProjectFromProjectInfo(Project project) {
+        ProjectViewModel viewModel = new ProjectViewModel(project);
+        ReqExchangeFileType determinedFileType  = ReqExchangeFileType.getFileTypeFromFileName(project.getFilePath().toString());
         viewModel.setFileType(determinedFileType == null ? ReqExchangeFileType.ReqIF : determinedFileType);
         projects.add(viewModel);
     }
@@ -52,7 +49,7 @@ public class ClientViewModel {
 
         Observable.just(1)
             .subscribeOn(Schedulers.newThread())
-            .map(i -> projectInfoService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath)))
+            .map(i -> projectService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath)))
             .observeOn(JavaFxScheduler.platform())
             .subscribe(projectInfo -> {
                 if(projectInfo != null) {
@@ -66,7 +63,7 @@ public class ClientViewModel {
         busy.set(true);
         Observable.just(1)
                 .subscribeOn(Schedulers.newThread())
-                .map(i -> projectInfoService.join(name, Paths.get(filepath), filetype))
+                .map(i -> projectService.join(name, Paths.get(filepath), filetype))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(projectInfo -> {
                     if(projectInfo != null) {
@@ -76,25 +73,25 @@ public class ClientViewModel {
                 });
     }
 
-    public void handleLeaveProject(ProjectInfoViewModel projectInfoViewModel) {
+    public void handleLeaveProject(ProjectViewModel projectViewModel) {
         busy.set(true);
         Observable.just(1)
                 .subscribeOn(Schedulers.newThread())
-                .map(i -> projectInfoService.leave(projectInfoViewModel.getProjectInfo()))
+                .map(i -> projectService.leave(projectViewModel.getProject()))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(left -> {
                     if(left) {
-                        projects.removeIf(project -> project.getProjectInfo().equals(projectInfoViewModel.getProjectInfo()));
+                        projects.removeIf(project -> project.getProject().equals(projectViewModel.getProject()));
                     }
                     busy.set(false);
                 });
     }
 
-    public ObservableList<ProjectInfoViewModel> getProjects() {
+    public ObservableList<ProjectViewModel> getProjects() {
         return projects.get();
     }
 
-    public SimpleListProperty<ProjectInfoViewModel> projectsProperty() {
+    public SimpleListProperty<ProjectViewModel> projectsProperty() {
         return projects;
     }
 

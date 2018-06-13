@@ -1,40 +1,31 @@
 package de.tuberlin.sqe.ss18.reqexchange;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
 
-@SpringBootApplication
 public class ReqExchangeApplication extends Application {
 
-    private ConfigurableApplicationContext springContext;
-    public ConfigurableApplicationContext getSpringContext() {
-        if (springContext == null) {
-            springContext = SpringApplication.run(ReqExchangeApplication.class);
-        }
-        return springContext;
-    }
+    private Injector injector;
 
     public ReqExchangeApplication() {
         System.out.println(getClass().getSimpleName() + " ctor");
     }
 
     @Override
-    public void init() throws Exception {
-
+    public void init() {
+        injector = Guice.createInjector(new ReqExchangeModule());
     }
 
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage)  {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Client.fxml"));
-        fxmlLoader.setControllerFactory(t -> getSpringContext().getBean(t));
+        fxmlLoader.setControllerFactory(t -> injector.getInstance(t));
 
         Parent root;
         try {
@@ -53,6 +44,6 @@ public class ReqExchangeApplication extends Application {
 
     @Override
     public void stop() throws Exception {
-        this.getSpringContext().stop();
+
     }
 }

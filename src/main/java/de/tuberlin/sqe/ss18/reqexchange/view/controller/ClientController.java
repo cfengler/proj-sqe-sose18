@@ -1,12 +1,9 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
-import com.sun.javaws.progress.Progress;
-import de.tuberlin.sqe.ss18.reqexchange.ReqExchangeApplication;
-import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
+import com.google.inject.Inject;
 import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
-import de.tuberlin.sqe.ss18.reqexchange.common.service.ProjectInfoService;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
-import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ProjectInfoViewModel;
+import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ProjectViewModel;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -21,8 +18,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,7 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@Component
 public class ClientController {
 
     @FXML private HBox hBoxActions;
@@ -42,7 +36,7 @@ public class ClientController {
 
     private ClientViewModel clientViewModel;
 
-    @Autowired
+    @Inject
     public ClientController(ClientViewModel clientViewModel) {
         System.out.println(getClass().getSimpleName() + " ctor");
 
@@ -52,12 +46,11 @@ public class ClientController {
     @FXML
     public void initialize() {
         tilePaneProjects.setPrefColumns(3);
-        //initializeFlowPaneProjects();
         clientViewModel.getProjects().forEach(this::addProjectInfoController);
-        clientViewModel.getProjects().addListener((ListChangeListener<? super ProjectInfoViewModel>) c -> {
+        clientViewModel.getProjects().addListener((ListChangeListener<? super ProjectViewModel>) c -> {
             c.next();
             c.getRemoved().forEach(projectInfoViewModel -> {
-                tilePaneProjects.getChildren().removeIf(project -> ((ProjectInfoController)project).getProjectInfoViewModel().equals(projectInfoViewModel));
+                tilePaneProjects.getChildren().removeIf(project -> ((ProjectInfoController)project).getProjectViewModel().equals(projectInfoViewModel));
             });
             c.getAddedSubList().forEach(this::addProjectInfoController);
         });
@@ -66,16 +59,8 @@ public class ClientController {
         clientViewModel.busyProperty().bindBidirectional(buttonJoinProject.disableProperty());
     }
 
-//    private void initializeFlowPaneProjects() {
-//        for (int i = 0; i < 15; i++) {
-//            ProjectInfoViewModel projectinfo = new ProjectInfoViewModel("Peter Pan", ReqExchangeFileType.ReqIF, false, false, new ProjectInfo());
-//            ProjectInfoController projectInfo = new ProjectInfoController(projectinfo, clientViewModel);
-//            tilePaneProjects.getChildren().add(projectInfo);
-//        }
-//    }
-
-    private void addProjectInfoController(ProjectInfoViewModel projectInfoViewModel) {
-        ProjectInfoController newController = new ProjectInfoController(projectInfoViewModel, clientViewModel);
+    private void addProjectInfoController(ProjectViewModel projectViewModel) {
+        ProjectInfoController newController = new ProjectInfoController(projectViewModel, clientViewModel);
         TilePane.setMargin(newController, new Insets(10));
         newController.prefWidthProperty().bind(scrollPaneProjects.widthProperty().subtract(80).divide(3));
         newController.prefHeightProperty().bind(scrollPaneProjects.widthProperty().subtract(80).divide(3));

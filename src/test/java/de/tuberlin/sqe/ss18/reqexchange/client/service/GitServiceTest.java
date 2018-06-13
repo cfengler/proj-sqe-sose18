@@ -1,7 +1,7 @@
 //package de.tuberlin.sqe.ss18.reqexchange.client.service;
 //
-//import de.tuberlin.sqe.ss18.reqexchange.common.service.GitPropertiesService;
-//import de.tuberlin.sqe.ss18.reqexchange.common.service.GitService;
+//import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitPropertiesService;
+//import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitService;
 //import de.tuberlin.sqe.ss18.reqexchange.common.service.DefaultPathService;
 //import junit.framework.TestCase;
 //import org.apache.commons.io.FileUtils;
@@ -19,13 +19,13 @@
 //public class GitServiceTest extends TestCase {
 //
 //    private DefaultPathService pathService;
-//    private GitPropertiesService gitPropertiesService;
-//    private GitService gitService;
+//    private DefaultGitPropertiesService gitPropertiesService;
+//    private DefaultGitService gitService;
 //
 //    public GitServiceTest() {
 //        pathService = new DefaultPathService();
-//        gitPropertiesService = new GitPropertiesService(pathService);
-//        gitService = new GitService(pathService, gitPropertiesService);
+//        gitPropertiesService = new DefaultGitPropertiesService(pathService);
+//        gitService = new DefaultGitService(pathService, gitPropertiesService);
 //
 //        try {
 //            if (Files.exists(pathService.getProjectPath(testRepositoryName))) {

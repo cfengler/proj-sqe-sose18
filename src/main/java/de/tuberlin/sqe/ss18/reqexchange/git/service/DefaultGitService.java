@@ -1,25 +1,26 @@
-package de.tuberlin.sqe.ss18.reqexchange.common.service;
+package de.tuberlin.sqe.ss18.reqexchange.git.service;
 
-import de.tuberlin.sqe.ss18.reqexchange.common.domain.ProjectInfo;
+import com.google.inject.Inject;
+import de.tuberlin.sqe.ss18.reqexchange.common.service.PathService;
+import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
 import org.eclipse.jgit.api.CherryPickResult;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.transport.*;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.net.URI;
 
-@Component
-public class GitService {
+public class DefaultGitService implements GitService {
 
     private PathService pathService;
     private GitPropertiesService gitPropertiesService;
 
     private CredentialsProvider credentialsProvider;
 
-    @Autowired
-    public GitService(PathService pathService, GitPropertiesService gitPropertiesService) {
+    @Inject
+    public DefaultGitService(
+            PathService pathService,
+            GitPropertiesService gitPropertiesService) {
         this.pathService = pathService;
         this.gitPropertiesService = gitPropertiesService;
 
@@ -28,10 +29,10 @@ public class GitService {
                 gitPropertiesService.getPassword());
     }
 
-    public boolean clone(ProjectInfo projectInfo) {
+    public boolean clone(Project project) {
         try (Git git = Git.cloneRepository()
-                     .setURI(getRemoteGitRepositoryURI(projectInfo).toString())
-                     .setDirectory(pathService.getLocalGitRepositoryPath(projectInfo).toFile())
+                     .setURI(getRemoteGitRepositoryURI(project).toString())
+                     .setDirectory(project.getLocalGitRepositoryPath().toFile())
                      .call()) {
             return true;
         }
@@ -41,8 +42,8 @@ public class GitService {
         }
     }
 
-    public boolean canPull(ProjectInfo projectInfo) {
-        try (Git git = getLocalGitRepository(projectInfo)) {
+    public boolean canPull(Project project) {
+        try (Git git = getLocalGitRepository(project)) {
             FetchResult fetchResult = git.fetch().setDryRun(true).call();
             return !fetchResult.getAdvertisedRefs().isEmpty();
         }
@@ -52,12 +53,12 @@ public class GitService {
         }
     }
 
-    public boolean pull(ProjectInfo projectInfo) {
-        if (!canPull(projectInfo)) {
+    public boolean pull(Project project) {
+        if (!canPull(project)) {
             return false;
         }
 
-        try (Git git = getLocalGitRepository(projectInfo)) {
+        try (Git git = getLocalGitRepository(project)) {
             git.pull().call();
             return true;
         }
@@ -67,8 +68,8 @@ public class GitService {
         }
     }
 
-    public boolean addAllFiles(ProjectInfo projectInfo) {
-        try (Git git = getLocalGitRepository(projectInfo)) {
+    public boolean addAllFiles(Project project) {
+        try (Git git = getLocalGitRepository(project)) {
             git.add().addFilepattern(".").call();
             return true;
         }
@@ -91,9 +92,9 @@ public class GitService {
 //        }
 //    }
 
-    public boolean commitAll(ProjectInfo projectInfo) {
+    public boolean commitAll(Project project) {
 
-        try (Git git = getLocalGitRepository(projectInfo)) {
+        try (Git git = getLocalGitRepository(project)) {
             git.commit()
                     .setAll(true)
                     .setMessage(getCommitMessage())
@@ -126,8 +127,8 @@ public class GitService {
 //        }
 //    }
 
-    public boolean canPush(ProjectInfo projectInfo) {
-        try (Git git = getLocalGitRepository(projectInfo)) {
+    public boolean canPush(Project project) {
+        try (Git git = getLocalGitRepository(project)) {
             CherryPickResult cherryPickResult = git.cherryPick().call();
             return !cherryPickResult.getCherryPickedRefs().isEmpty();
             //BranchTrackingStatus branchTrackingStatus = BranchTrackingStatus.of(git.getRepository(), "master");
@@ -138,12 +139,12 @@ public class GitService {
         }
     }
 
-    public boolean pushAll(ProjectInfo projectInfo) {
+    public boolean pushAll(Project project) {
         //if (!canPush(name)) {
         //    return false;
         //}
 
-        try (Git git = getLocalGitRepository(projectInfo)) {
+        try (Git git = getLocalGitRepository(project)) {
             git.push()
                     .setPushAll()
                     .setCredentialsProvider(credentialsProvider)
@@ -157,8 +158,8 @@ public class GitService {
     }
 
 
-    public boolean executeAddCommitPushAll(ProjectInfo projectInfo) {
-        try (Git git = getLocalGitRepository(projectInfo)) {
+    public boolean executeAddCommitPushAll(Project project) {
+        try (Git git = getLocalGitRepository(project)) {
 
             git.add().addFilepattern(".").call();
 
@@ -174,9 +175,9 @@ public class GitService {
         }
     }
 
-    private Git getLocalGitRepository(ProjectInfo projectInfo) {
+    private Git getLocalGitRepository(Project project) {
         try {
-            return Git.open(pathService.getLocalGitRepositoryPath(projectInfo).toFile());
+            return Git.open(project.getLocalGitRepositoryPath().toFile());
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -184,8 +185,8 @@ public class GitService {
         }
     }
 
-    private URI getRemoteGitRepositoryURI(ProjectInfo projectInfo) {
-        return URI.create("https://github.com/cfengler/" + projectInfo.getName() + ".git");
+    private URI getRemoteGitRepositoryURI(Project project) {
+        return URI.create("https://github.com/cfengler/" + project.getName() + ".git");
     }
 //
 }
