@@ -42,13 +42,6 @@ public class ClientViewModel {
 
     private void addProjectFromProjectInfo(ProjectInfo projectInfo) {
         ProjectInfoViewModel viewModel = new ProjectInfoViewModel(projectInfo);
-        //viewModel.setName(projectInfo.getName());
-        //viewModel.setProjectInfo(projectInfo);
-        //viewModel.setCanPull(projectInfo.isRemoteChanged());
-        //projectInfo.addPropertyChangeListener(event -> {
-        //    //TODO
-        //});
-        //viewModel.setCanPush(projectInfo.isLocalChanged());
         ReqExchangeFileType determinedFileType  = ReqExchangeFileType.getFileTypeFromFileName(projectInfo.getFileName());
         viewModel.setFileType(determinedFileType == null ? ReqExchangeFileType.ReqIF : determinedFileType);
         projects.add(viewModel);
