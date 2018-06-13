@@ -9,9 +9,7 @@ import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitPropertiesService;
 import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitService;
 import de.tuberlin.sqe.ss18.reqexchange.git.service.GitPropertiesService;
 import de.tuberlin.sqe.ss18.reqexchange.git.service.GitService;
-import de.tuberlin.sqe.ss18.reqexchange.model.service.ModelService;
-import de.tuberlin.sqe.ss18.reqexchange.model.service.ModelTransformationService;
-import de.tuberlin.sqe.ss18.reqexchange.model.service.ModelValidationService;
+import de.tuberlin.sqe.ss18.reqexchange.model.service.*;
 import de.tuberlin.sqe.ss18.reqexchange.project.service.DefaultProjectService;
 import de.tuberlin.sqe.ss18.reqexchange.project.service.ProjectService;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
@@ -28,9 +26,9 @@ public class ReqExchangeModule extends AbstractModule {
         bind(GitService.class).to(DefaultGitService.class).asEagerSingleton();
 
         //model
-        bind(ModelService.class).asEagerSingleton();
-        bind(ModelTransformationService.class).asEagerSingleton();
-        bind(ModelValidationService.class).asEagerSingleton();
+        bind(ModelService.class).to(DefaultModelService.class).asEagerSingleton();
+        bind(ModelTransformationService.class).to(DefaultModelTransformationService.class).asEagerSingleton();
+        bind(ModelValidationService.class).to(DefaultModelValidationService.class).asEagerSingleton();
 
         //project
         bind(ProjectService.class).to(DefaultProjectService.class).asEagerSingleton();

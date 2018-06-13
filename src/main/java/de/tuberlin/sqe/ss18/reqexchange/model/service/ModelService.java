@@ -6,21 +6,12 @@ import de.tuberlin.sqe.ss18.reqexchange.model.domain.sysml.SysMLModel;
 
 import java.io.File;
 
-public class ModelService {
-    //vielleicht stellt File auch ein Directory dar, falls mehrere Dateien ein Modell darstellen oder File zeigt auf die Hauptdatei zu der relativ dann die weiteren Dateie liegen
-    public ReqIFModel getReqIFModel(File file) {
-        //TODO: implement
-        return new ReqIFModel();
-    }
+public interface ModelService {
 
-    public SysMLModel getSysMLModel(File file) {
-        //TODO: implement
-        return new SysMLModel();
-    }
+    ReqIFModel getReqIFModel(File file);
 
-    public CommonModel getCommonModel(File file) {
-        //TODO: implement
-        return new CommonModel();
-    }
+    SysMLModel getSysMLModel(File file);
+
+    CommonModel getCommonModel(File file);
 
 }
