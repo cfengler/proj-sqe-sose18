@@ -1,4 +1,4 @@
-package de.tuberlin.sqe.ss18.reqexchange.common.service;
+package de.tuberlin.sqe.ss18.reqexchange.serialization.service;
 
 import java.io.File;
 

@@ -1,7 +1,7 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
 import com.google.inject.Inject;
-import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
+import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
 import de.tuberlin.sqe.ss18.reqexchange.project.service.ProjectService;
 import io.reactivex.Observable;

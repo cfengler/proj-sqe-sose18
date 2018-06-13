@@ -1,7 +1,7 @@
 //package de.tuberlin.sqe.ss18.reqexchange.service;
 //
 //
-//import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
+//import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 //import de.tuberlin.sqe.ss18.reqexchange.common.service.*;
 //import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitPropertiesService;
 //import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitService;

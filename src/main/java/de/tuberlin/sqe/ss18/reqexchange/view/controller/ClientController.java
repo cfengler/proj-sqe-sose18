@@ -1,7 +1,7 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
 import com.google.inject.Inject;
-import de.tuberlin.sqe.ss18.reqexchange.common.domain.ReqExchangeFileType;
+import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ProjectViewModel;
 import javafx.application.Platform;

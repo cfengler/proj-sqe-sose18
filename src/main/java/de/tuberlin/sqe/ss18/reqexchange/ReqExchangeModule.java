@@ -2,8 +2,8 @@ package de.tuberlin.sqe.ss18.reqexchange;
 
 import com.google.inject.AbstractModule;
 import de.tuberlin.sqe.ss18.reqexchange.common.service.DefaultPathService;
-import de.tuberlin.sqe.ss18.reqexchange.common.service.DefaultJsonSerializerService;
-import de.tuberlin.sqe.ss18.reqexchange.common.service.JsonSerializerService;
+import de.tuberlin.sqe.ss18.reqexchange.serialization.service.DefaultJsonSerializerService;
+import de.tuberlin.sqe.ss18.reqexchange.serialization.service.JsonSerializerService;
 import de.tuberlin.sqe.ss18.reqexchange.common.service.PathService;
 import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitPropertiesService;
 import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitService;
