@@ -151,13 +151,45 @@
             <systemPath>${basedir}/libs/org.eclipse.rmf.reqif10.serialization_0.14.0.201805110300.jar</systemPath>
         </dependency>
 
-        <!-- SysML -->
+        <!-- SysML http://download.eclipse.org/modeling/mdt/papyrus/components/sysml14/oxygen/1.2.0_papyrus-sysml-oxygen_100/plugins/ -->
         <dependency>
             <groupId>org.eclipse.uml2.uml</groupId>
             <artifactId>uml</artifactId>
             <version>5.3.0</version>
             <scope>system</scope>
             <systemPath>${basedir}/libs/org.eclipse.uml2.uml_5.3.0.v20170605-1616.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.uml2.uml.resources</groupId>
+            <artifactId>uml-resources</artifactId>
+            <version>5.3.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.uml2.uml.resources_5.3.0.v20170605-1616.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.uml2.uml.types</groupId>
+            <artifactId>uml-types</artifactId>
+            <version>2.0.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.uml2.types_2.0.0.v20170605-1616.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.uml2.uml.profile.standard</groupId>
+            <artifactId>uml-profile-standard</artifactId>
+            <version>1.0.100</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.uml2.uml.profile.standard_1.0.100.v20170605-1616.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.uml2.common</groupId>
+            <artifactId>uml-common</artifactId>
+            <version>2.1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.uml2.common_2.1.0.v20170605-1616.jar</systemPath>
         </dependency>
 
         <dependency>

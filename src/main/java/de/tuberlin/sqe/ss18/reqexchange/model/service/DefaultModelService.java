@@ -3,10 +3,12 @@ package de.tuberlin.sqe.ss18.reqexchange.model.service;
 import de.tuberlin.sqe.ss18.reqexchange.model.domain.common.CommonModel;
 import de.tuberlin.sqe.ss18.reqexchange.model.domain.sysml.SysMLModel;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.papyrus.sysml14.sysmlPackage;
 import org.eclipse.rmf.reqif10.ReqIF;
 import org.eclipse.rmf.reqif10.ReqIF10Package;
@@ -17,7 +19,12 @@ import org.eclipse.papyrus.sysml14.blocks.BlocksPackage;
 import org.eclipse.papyrus.sysml14.modelelements.ModelelementsPackage;
 import org.eclipse.papyrus.sysml14.requirements.RequirementsPackage;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.internal.resource.UMLResourceFactoryImpl;
+import org.eclipse.uml2.uml.internal.resource.UMLResourceImpl;
 import org.eclipse.uml2.uml.resource.UMLResource;
+import org.eclipse.uml2.uml.resource.XMI2UMLResource;
+import org.eclipse.uml2.uml.util.UMLUtil;
+
 
 import java.io.File;
 import java.util.Map;
@@ -43,28 +50,25 @@ public class DefaultModelService implements ModelService{
     }
 
     public static void main(String[] args) {
-        String filePath = "samplefiles/04_Papyrus_ReqExchange_TreeTable/04_Papyrus_ReqExchange_TreeTable.uml";
+        String filePath = "/home/julian/IdeaProjects/proj-sqe-sose18/src/main/resources/samplefiles/04_Papyrus_ReqExchange_TreeTable/04_Papyrus_ReqExchange_TreeTable.uml";
         File file = new File(filePath);
 
-        getSysMLModel(file);
+        EObject eobj = getSysMLModel(file);
+
+        System.out.println(eobj);
+
     }
 
-    public static SysMLModel getSysMLModel(File file) {
 
-        ResourceSet resourceSet = new ResourceSetImpl();
-
-        resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
-
-        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-        Map uriMap = resourceSet.getURIConverter().getURIMap();
-        URI uri = URI.createURI("jar:file:/libs/org.eclipse.uml2.uml.resources_5.3.0.v20170605-1616.jar!/"); // for example
-        uriMap.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP), uri.appendSegment("libraries").appendSegment(""));
-        uriMap.put(URI.createURI(UMLResource.METAMODELS_PATHMAP), uri.appendSegment("metamodels").appendSegment(""));
-        uriMap.put(URI.createURI(UMLResource.PROFILES_PATHMAP), uri.appendSegment("profiles").appendSegment(""));
+    /*
+        Example
+        https://www.programcreek.com/java-api-examples/?code=ZhengshuaiPENG/org.lovian.eaxmireader/org.lovian.eaxmireader-master/src/org/lovian/eaxmireader/module/InitResourceSet.java#
+     */
+    public static EObject getSysMLModel(File file) {
 
 
+        UMLPackage.eINSTANCE.eClass();
 
-        /*
         ResourceSet resourceSet = new ResourceSetImpl();
         EPackage.Registry packageRegistry = resourceSet.getPackageRegistry();
 
@@ -76,45 +80,16 @@ public class DefaultModelService implements ModelService{
 
         Map<String, Object> extesionToFactoryMap = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
         UMLResourceFactoryImpl umlResourceFactory = new UMLResourceFactoryImpl();
-        extesionToFactoryMap.put(XMI2UMLResource.FILE_EXTENSION, umlResourceFactory);
+        extesionToFactoryMap.put("uml", umlResourceFactory);
 
 
         UMLResourceImpl resource = (UMLResourceImpl) resourceSet.getResource(URI.createURI(file.getAbsolutePath()), true);
 
 
 
-        EObject umlResource = resource.getContents().get(0);
+        EObject umlContent = resource.getContents().get(0);
 
-        */
-
-        /*
-
-        sysmlPackage.eINSTANCE.eClass();
-
-        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-        Map<String, Object> m = reg.getExtensionToFactoryMap();
-        m.put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-
-        ResourceSet resSet = new ResourceSetImpl();
-
-        Resource resource = resSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
-
-        Object sysmlModel = resource.getContents().get(0);
-
-        System.out.println(sysmlModel);
-        */
-
-        /*
-        ResourceSet resSet = new ResourceSetImpl();
-        resSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
-        resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-
-        Resource resource = resSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
-
-        UML
-        */
-        return new SysMLModel();
+        return umlContent;
     }
 
     private static void registSysMLPackages(EPackage.Registry packageRegistry) {
