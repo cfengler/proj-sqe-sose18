@@ -151,6 +151,29 @@
             <systemPath>${basedir}/libs/org.eclipse.rmf.reqif10.serialization_0.14.0.201805110300.jar</systemPath>
         </dependency>
 
+        <!-- SysML -->
+        <dependency>
+            <groupId>org.eclipse.uml2.uml</groupId>
+            <artifactId>uml</artifactId>
+            <version>5.3.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.uml2.uml_5.3.0.v20170605-1616.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.papyrus.sysml14</groupId>
+            <artifactId>sysml</artifactId>
+            <version>1.2.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.papyrus.sysml14_1.2.0.jar</systemPath>
+        </dependency>
+
+
+
+
+
+
+
         <!-- JUnit -->
         <dependency>
             <groupId>junit</groupId>
