@@ -6,6 +6,11 @@
     -fx-graphic: url("/icons/icon_join_project.png");
 }
 
+#hBoxActions {
+    -fx-spacing: 5;
+    -fx-padding: 5;
+}
+
 .button {
     -fx-background-color: lightgray;
 }

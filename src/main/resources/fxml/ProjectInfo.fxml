@@ -6,80 +6,69 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="GridPane" xmlns="http://javafx.com/javafx"
+<fx:root type="BorderPane" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          minWidth="200"
          minHeight="200"
          stylesheets="@../css/ProjectInfo.css"
+         prefWidth="200"
+         prefHeight="200"
          fx:id="root">
 
-    <columnConstraints>
-        <ColumnConstraints percentWidth="34" hgrow="ALWAYS"/>
-        <ColumnConstraints percentWidth="33" hgrow="ALWAYS"/>
-        <ColumnConstraints percentWidth="33" hgrow="ALWAYS"/>
-    </columnConstraints>
+    <top>
+        <Button fx:id="buttonLeaveProject"
+                prefWidth="50"
+                prefHeight="50"
+                onAction="#handleButtonLeaveProjectAction">
+            <tooltip>
+                <Tooltip text="leave project" />
+            </tooltip>
+        </Button>
+    </top>
 
-    <rowConstraints>
-        <RowConstraints percentHeight="25" vgrow="ALWAYS"/>
-        <RowConstraints percentHeight="50" vgrow="ALWAYS"/>
-        <RowConstraints percentHeight="25" vgrow="ALWAYS"/>
-    </rowConstraints>
+    <center>
+        <Label fx:id="labelProjectName"
+               BorderPane.alignment="CENTER"/>
+    </center>
 
-    <Button fx:id="buttonLeaveProject"
-            GridPane.columnIndex="0"
-            GridPane.rowIndex="0"
-            GridPane.valignment="TOP"
-            prefWidth="50"
-            prefHeight="50"
-            onAction="#handleButtonLeaveProjectAction">
-        <tooltip>
-            <Tooltip text="leave project" />
-        </tooltip>
-    </Button>
+    <bottom>
+        <BorderPane fx:id="borderPaneActions">
+            <left>
+                <Button fx:id="buttonExportProject"
+                        prefWidth="50"
+                        prefHeight="50"
+                        text="OUT"
+                        onAction="#handleButtonExportProjectAction">
+                    <tooltip>
+                        <Tooltip text="export project" />
+                    </tooltip>
+                </Button>
+            </left>
 
-    <Button fx:id="buttonPullChanges"
-            GridPane.columnIndex="1"
-            GridPane.rowIndex="0"
-            GridPane.valignment="TOP"
-            prefWidth="50"
-            prefHeight="50"
-            onAction="#handleButtonPullChangesAction"
-            GridPane.halignment="RIGHT">
-        <tooltip>
-            <Tooltip text="pull changes" />
-        </tooltip>
-    </Button>
+            <center>
+                <Button fx:id="buttonPullChanges"
+                        BorderPane.alignment="CENTER_RIGHT"
+                        prefWidth="50"
+                        prefHeight="50"
+                        onAction="#handleButtonPullChangesAction"
+                        GridPane.halignment="RIGHT">
+                    <tooltip>
+                        <Tooltip text="pull changes" />
+                    </tooltip>
+                </Button>
+            </center>
 
-    <Button fx:id="buttonPushChanges"
-            GridPane.columnIndex="2"
-            GridPane.rowIndex="0"
-            GridPane.valignment="TOP"
-            prefWidth="50"
-            prefHeight="50"
-            onAction="#handleButtonPushChangesAction">
-        <tooltip>
-            <Tooltip text="push changes" />
-        </tooltip>
-    </Button>
-
-    <Label fx:id="labelProjectName"
-            GridPane.columnIndex="0"
-            GridPane.rowIndex="1"
-            GridPane.columnSpan="3"
-            GridPane.halignment="CENTER"/>
-
-    <Button fx:id="buttonExportProject"
-            GridPane.columnIndex="0"
-            GridPane.rowIndex="2"
-            GridPane.columnSpan="3"
-            GridPane.valignment="BOTTOM"
-            GridPane.halignment="CENTER"
-            prefWidth="200"
-            prefHeight="50"
-            onAction="#handleButtonExportProjectAction">
-        <tooltip>
-            <Tooltip text="export project" />
-        </tooltip>
-    </Button>
+            <right>
+                <Button fx:id="buttonPushChanges"
+                        prefWidth="50"
+                        prefHeight="50"
+                        onAction="#handleButtonPushChangesAction">
+                    <tooltip>
+                        <Tooltip text="push changes" />
+                    </tooltip>
+                </Button>
+            </right>
+        </BorderPane>
+    </bottom>
 
 </fx:root>

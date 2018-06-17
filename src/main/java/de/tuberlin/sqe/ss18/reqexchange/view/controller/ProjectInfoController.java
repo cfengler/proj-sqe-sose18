@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 
 import java.io.IOException;
 
-public class ProjectInfoController extends GridPane {
+public class ProjectInfoController extends BorderPane {
 
     @FXML private Button buttonLeaveProject;
     @FXML private Button buttonPullChanges;
@@ -47,8 +47,6 @@ public class ProjectInfoController extends GridPane {
         labelProjectName.textProperty().bind(projectViewModel.nameProperty());
         buttonPushChanges.disableProperty().bind(projectViewModel.canPushProperty().not());
         buttonPullChanges.disableProperty().bind(projectViewModel.canPullProperty().not());
-        buttonExportProject.setText("export " + projectViewModel.getFileType().getName());
-        buttonExportProject.prefWidthProperty().bind(this.widthProperty());
         ObjectExpression<Font> fontTracking = Bindings.createObjectBinding(() -> Font.font(getWidth() / 10), widthProperty());
         labelProjectName.fontProperty().bind(fontTracking);
     }
@@ -59,16 +57,19 @@ public class ProjectInfoController extends GridPane {
 
     @FXML protected void handleButtonPullChangesAction(ActionEvent event) {
         System.out.println("pull changes button");
+        showFunctionNotImplementedError();
         //TODO button pull changes action handling
     }
 
     @FXML protected void handleButtonPushChangesAction(ActionEvent event) {
         System.out.println("push changes button");
+        showFunctionNotImplementedError();
         //TODO button push changes action handling
     }
 
     @FXML protected void handleButtonExportProjectAction(ActionEvent event) {
         System.out.println("export project button");
+        showFunctionNotImplementedError();
         //TODO button export project action handling
     }
 
@@ -78,5 +79,13 @@ public class ProjectInfoController extends GridPane {
 
     public ProjectViewModel getProjectViewModel() {
         return projectViewModel;
+    }
+
+    private void showFunctionNotImplementedError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Functionality not implemented");
+        alert.setHeaderText(null);
+        alert.setContentText("Unfortunately, this functionality has not yet been implemented!");
+        alert.showAndWait();
     }
 }

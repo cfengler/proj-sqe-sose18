@@ -1,10 +1,12 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
 import com.google.inject.Inject;
+import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ProjectViewModel;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -14,12 +16,15 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Pair;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,9 +35,10 @@ public class ClientController {
     @FXML private HBox hBoxActions;
     @FXML private Button buttonCreateProject;
     @FXML private Button buttonJoinProject;
-    @FXML private TilePane tilePaneProjects;
+    @FXML private FlowPane flowPaneProjects;
     @FXML private ScrollPane scrollPaneProjects;
     @FXML private ProgressIndicator progressIndicator;
+    @FXML private ImageView imageLogo;
 
     private ClientViewModel clientViewModel;
 
@@ -45,26 +51,29 @@ public class ClientController {
 
     @FXML
     public void initialize() {
-        tilePaneProjects.setPrefColumns(3);
+        imageLogo.setImage(new Image(getClass().getResourceAsStream("/images/Logo_ReqExchange.png")));
+        imageLogo.fitHeightProperty().bind(buttonCreateProject.heightProperty());
+        BorderPane.setMargin(imageLogo, new Insets(5));
+        flowPaneProjects.prefWrapLengthProperty().bind(scrollPaneProjects.widthProperty());
         clientViewModel.getProjects().forEach(this::addProjectInfoController);
         clientViewModel.getProjects().addListener((ListChangeListener<? super ProjectViewModel>) c -> {
             c.next();
             c.getRemoved().forEach(projectInfoViewModel -> {
-                tilePaneProjects.getChildren().removeIf(project -> ((ProjectInfoController)project).getProjectViewModel().equals(projectInfoViewModel));
+                flowPaneProjects.getChildren().removeIf(project -> ((ProjectInfoController)project).getProjectViewModel().equals(projectInfoViewModel));
             });
             c.getAddedSubList().forEach(this::addProjectInfoController);
         });
         clientViewModel.busyProperty().bindBidirectional(progressIndicator.visibleProperty());
         clientViewModel.busyProperty().bindBidirectional(buttonCreateProject.disableProperty());
         clientViewModel.busyProperty().bindBidirectional(buttonJoinProject.disableProperty());
+
+        addTestProjects();
     }
 
     private void addProjectInfoController(ProjectViewModel projectViewModel) {
         ProjectInfoController newController = new ProjectInfoController(projectViewModel, clientViewModel);
-        TilePane.setMargin(newController, new Insets(10));
-        newController.prefWidthProperty().bind(scrollPaneProjects.widthProperty().subtract(80).divide(3));
-        newController.prefHeightProperty().bind(scrollPaneProjects.widthProperty().subtract(80).divide(3));
-        tilePaneProjects.getChildren().add(newController);
+        FlowPane.setMargin(newController, new Insets(10));
+        flowPaneProjects.getChildren().add(newController);
     }
 
     @FXML protected void handleButtonCreateProjectAction(ActionEvent event) {
@@ -78,6 +87,7 @@ public class ClientController {
         TextField name = new TextField();
         PasswordField password = new PasswordField();
         PasswordField confirmPassword = new PasswordField();
+        //TODO Testdaten entfernen
         name.setText("proj-sqe-sose18-test");
         password.setText("a");
         confirmPassword.setText("a");
@@ -152,12 +162,12 @@ public class ClientController {
         grid.setVgap(5);
         TextField name = new TextField();
         PasswordField password = new PasswordField();
-        ChoiceBox choice = new ChoiceBox();
+        ChoiceBox<ReqExchangeFileType> choice = new ChoiceBox<>();
+        //TODO Testdaten entfernen
         name.setText("proj-sqe-sose18-test");
         password.setText("a");
-        List<Object> choices = Arrays.asList(ReqExchangeFileType.values());
+        List<ReqExchangeFileType> choices = Arrays.asList(ReqExchangeFileType.values());
         choice.setItems(FXCollections.observableArrayList(choices));
-        choice.getSelectionModel().select(0);
         BorderPane border = new BorderPane();
         Button file = new Button("...");
         Label filename = new Label();
@@ -165,7 +175,7 @@ public class ClientController {
             filename.setMaxWidth(border.getBoundsInParent().getMinX());
             FileChooser chooser = new FileChooser();
             chooser.setTitle("Save File As");
-            ReqExchangeFileType filetype = (ReqExchangeFileType)choice.getSelectionModel().getSelectedItem();
+            ReqExchangeFileType filetype = choice.getSelectionModel().getSelectedItem();
             List<String> filetypeFilters = new ArrayList<>();
             for(String s: filetype.getFiletypes()) {
                 filetypeFilters.add("*." + s);
@@ -192,17 +202,18 @@ public class ClientController {
         Node ok = dialog.getDialogPane().lookupButton(ButtonType.OK);
         ok.setDisable(true);
         ChangeListener changeListener = (observable, oldValue, newValue) -> {
-            ok.setDisable(name.getText().equals("") || password.getText().equals("") || filename.getText().equals(""));
+            ok.setDisable(name.getText().equals("") || password.getText().equals("") || filename.getText().equals("") || choice.getSelectionModel().getSelectedIndex() == -1);
         };
         name.textProperty().addListener(changeListener);
         password.textProperty().addListener(changeListener);
-        choice.itemsProperty().addListener(changeListener);
+        choice.getSelectionModel().selectedItemProperty().addListener(changeListener);
         filename.textProperty().addListener(changeListener);
+        file.disableProperty().bind(Bindings.equal(choice.getSelectionModel().selectedIndexProperty(), -1));
         dialog.getDialogPane().setContent(grid);
         Platform.runLater(name::requestFocus);
         dialog.setResultConverter(dialogButton -> {
             if(dialogButton == ButtonType.OK) {
-                return new Pair<>(new Pair<>(name.getText(), password.getText()), new Pair<>((ReqExchangeFileType)choice.getSelectionModel().getSelectedItem(), filename.getText()));
+                return new Pair<>(new Pair<>(name.getText(), password.getText()), new Pair<>(choice.getSelectionModel().getSelectedItem(), filename.getText()));
             }
             return null;
         });
@@ -213,7 +224,16 @@ public class ClientController {
         });
     }
 
-    public ProgressIndicator getProgressIndicator() {
-        return progressIndicator;
+    private void addTestProjects() {
+        for(int i = 0;i < 10;i++) {
+            Project project = new Project();
+            project.setName("Test " + i);
+            project.setFilePath(Paths.get("reqif.reqif"));
+            ProjectViewModel viewModel = new ProjectViewModel(project);
+            viewModel.setCanPull(true);
+            viewModel.setCanPush(true);
+            addProjectInfoController(viewModel);
+        }
+
     }
 }

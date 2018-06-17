@@ -6,35 +6,41 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
 <BorderPane xmlns="http://javafx.com/javafx"
-          xmlns:fx="http://javafx.com/fxml"
-          fx:controller="de.tuberlin.sqe.ss18.reqexchange.view.controller.ClientController"
-          prefHeight="400.0" prefWidth="600.0"
-          stylesheets="@../css/Client.css">
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="de.tuberlin.sqe.ss18.reqexchange.view.controller.ClientController"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@../css/Client.css">
 
     <top>
         <BorderPane>
-            <center>
-                <HBox fx:id="hBoxActions"
-                      GridPane.columnIndex="0"
-                      GridPane.rowIndex="0">
+            <left>
+                <HBox fx:id="hBoxActions">
                     <Button fx:id="buttonCreateProject"
                             onAction="#handleButtonCreateProjectAction">
                         <tooltip>
-                            <Tooltip text="create project" />
+                            <Tooltip text="create project"/>
                         </tooltip>
                     </Button>
 
                     <Button fx:id="buttonJoinProject"
                             onAction="#handleButtonJoinProjectAction">
                         <tooltip>
-                            <Tooltip text="join project" />
+                            <Tooltip text="join project"/>
                         </tooltip>
                     </Button>
                 </HBox>
+            </left>
+
+            <center>
+                <ProgressIndicator fx:id="progressIndicator"
+                                   visible="false"/>
             </center>
+
             <right>
-                <ProgressIndicator fx:id="progressIndicator" visible="false"/>
+                <ImageView fx:id="imageLogo"
+                           preserveRatio="true"/>
             </right>
         </BorderPane>
 
@@ -42,9 +48,8 @@
 
     <center>
         <ScrollPane fx:id="scrollPaneProjects"
-                    GridPane.columnIndex="0"
-                    GridPane.rowIndex="1">
-            <TilePane fx:id="tilePaneProjects" />
+                    hbarPolicy="NEVER">
+            <FlowPane fx:id="flowPaneProjects"/>
         </ScrollPane>
     </center>
 
