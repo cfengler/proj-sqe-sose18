@@ -1,6 +1,5 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.domain.common.CommonModel;
 import de.tuberlin.sqe.ss18.reqexchange.model.domain.sysml.SysMLModel;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -29,7 +28,7 @@ import org.eclipse.uml2.uml.util.UMLUtil;
 import java.io.File;
 import java.util.Map;
 
-public class DefaultModelService implements ModelService{
+public class DefaultModelService { //implements ModelService{
     //vielleicht stellt File auch ein Directory dar, falls mehrere Dateien ein Modell darstellen oder File zeigt auf die Hauptdatei zu der relativ dann die weiteren Dateie liegen
 
 
@@ -109,11 +108,6 @@ public class DefaultModelService implements ModelService{
         packageRegistry.put(UsecasesPackage.eNS_URI, UsecasesPackage.eINSTANCE);
         packageRegistry.put(UsecasesPackage.eNS_URI, UsecasesPackage.eINSTANCE);
         */
-    }
-
-    public CommonModel getCommonModel(File file) {
-        //TODO: implement
-        return new CommonModel();
     }
 
 }
