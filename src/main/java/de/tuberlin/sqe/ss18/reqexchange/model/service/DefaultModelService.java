@@ -1,17 +1,21 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
+import de.tuberlin.sqe.ss18.reqexchange.model.domain.reqif10.ReqIF;
 import de.tuberlin.sqe.ss18.reqexchange.model.domain.sysml.SysMLModel;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.papyrus.sysml14.sysmlPackage;
-import org.eclipse.rmf.reqif10.ReqIF;
-import org.eclipse.rmf.reqif10.ReqIF10Package;
-import org.eclipse.rmf.reqif10.serialization.ReqIF10ResourceFactoryImpl;
+//import org.eclipse.rmf.reqif10.ReqIF;
+//import org.eclipse.rmf.reqif10.ReqIF10Package;
+//import org.eclipse.rmf.reqif10.serialization.ReqIF10ResourceFactoryImpl;
 import org.eclipse.papyrus.sysml14.activities.ActivitiesPackage;
 import org.eclipse.papyrus.sysml14.allocations.AllocationsPackage;
 import org.eclipse.papyrus.sysml14.blocks.BlocksPackage;
@@ -33,29 +37,74 @@ public class DefaultModelService { //implements ModelService{
 
 
     public static ReqIF getReqIFModel(File file) {
-        ReqIF10Package.eINSTANCE.eClass();
+//        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("library", new XMIResourceFactoryImpl());
+//        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
+//        ResourceSet rs = new ResourceSetImpl();
+//        rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
+//        LibraryPackage.eINSTANCE.eClass();
 
-        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-        Map<String, Object> m = reg.getExtensionToFactoryMap();
-        m.put("reqif", new ReqIF10ResourceFactoryImpl());
 
-        ResourceSet resSet = new ResourceSetImpl();
 
-        Resource resource = resSet.getResource(URI.createURI(file.getAbsolutePath()), true);
 
-        ReqIF reqif = (ReqIF) resource.getContents().get(0);
+//        ReqIF10Package.eINSTANCE.eClass();
+//
+//        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+//        Map<String, Object> m = reg.getExtensionToFactoryMap();
+//        m.put("reqif", new ReqIF10ResourceFactoryImpl());
+//
+//        ResourceSet resSet = new ResourceSetImpl();
+//
+//        Resource resource = resSet.getResource(URI.createURI(file.getAbsolutePath()), true);
+//
+//        ReqIF reqif = (ReqIF) resource.getContents().get(0);
 
-        return reqif;
+        return null;
     }
 
+    private static String reqIFECoreFilePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\model\\reqif\\reqif10.ecore";
+    private static String reqIFFilePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\samplefiles\\02_ReqIF_oneReq\\My.reqif";
+
     public static void main(String[] args) {
-        String filePath = "/home/julian/IdeaProjects/proj-sqe-sose18/src/main/resources/samplefiles/04_Papyrus_ReqExchange_TreeTable/04_Papyrus_ReqExchange_TreeTable.uml";
-        File file = new File(filePath);
 
-        EObject eobj = getSysMLModel(file);
+        initECore();
 
-        System.out.println(eobj);
+        //String filePath = "/home/julian/IdeaProjects/proj-sqe-sose18/src/main/resources/samplefiles/04_Papyrus_ReqExchange_TreeTable/04_Papyrus_ReqExchange_TreeTable.uml";
+        //String filePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\samplefiles\\02_ReqIF_oneReq\\My.reqif";
+        //File file = new File(filePath);
 
+        //Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("library", new XMIResourceFactoryImpl());
+
+        //EObject eobj = getReqIFModel(file);
+
+        //System.out.println(eobj);
+
+    }
+
+    private static EPackage reqIFPackage;
+
+    private static void initECore() {
+        /*
+         * load existing EPackage
+         */
+        EcorePackage.eINSTANCE.eClass();
+        /*Initialize your EPackage*/
+        final Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+        final Map<String, Object> m = reg.getExtensionToFactoryMap();
+        m.put(EcorePackage.eNAME, new XMIResourceFactoryImpl());
+
+        final ResourceSet resSet = new ResourceSetImpl();
+        Resource resource = null;
+        try {
+            resource = resSet.getResource(URI.createFileURI(reqIFECoreFilePath), true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        /*load root and cast to EPackage*/
+        reqIFPackage = (EPackage) resource.getContents().get(0);
+
+        //reqIFPackage.eClass();
+
+        //ResourceSet reqIFResourceSet = reqIFPackage.get
     }
 
 
