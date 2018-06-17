@@ -16,19 +16,29 @@
          fx:id="root">
 
     <top>
-        <Button fx:id="buttonLeaveProject"
-                prefWidth="50"
-                prefHeight="50"
-                onAction="#handleButtonLeaveProjectAction">
-            <tooltip>
-                <Tooltip text="leave project" />
-            </tooltip>
-        </Button>
+        <BorderPane fx:id="borderPaneTop">
+            <left>
+                <Button fx:id="buttonLeaveProject"
+                        prefWidth="50"
+                        prefHeight="50"
+                        onAction="#handleButtonLeaveProjectAction">
+                    <tooltip>
+                        <Tooltip text="leave project" />
+                    </tooltip>
+                </Button>
+            </left>
+            <right>
+                <Label fx:id="labelFileType"
+                       BorderPane.alignment="TOP_RIGHT"/>
+            </right>
+        </BorderPane>
+
     </top>
 
     <center>
         <Label fx:id="labelProjectName"
-               BorderPane.alignment="CENTER"/>
+               BorderPane.alignment="CENTER"
+               wrapText="true"/>
     </center>
 
     <bottom>
@@ -37,7 +47,6 @@
                 <Button fx:id="buttonExportProject"
                         prefWidth="50"
                         prefHeight="50"
-                        text="OUT"
                         onAction="#handleButtonExportProjectAction">
                     <tooltip>
                         <Tooltip text="export project" />

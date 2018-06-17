@@ -6,6 +6,14 @@
     -fx-background-color: slategray;
 }
 
+#borderPaneTop {
+    -fx-padding: 5;
+}
+
+#borderPaneActions {
+    -fx-padding: 5;
+}
+
 #buttonLeaveProject {
     -fx-background-image: url("/icons/icon_leave_project.png");
     -fx-background-size: 50px 50px;
@@ -22,12 +30,19 @@
 }
 
 #buttonExportProject {
-
+    -fx-background-image: url("/icons/icon_export_file.png");
+    -fx-background-size: 50px 50px;
 }
 
 #labelProjectName {
     -fx-font-weight: bold;
     -fx-text-fill: whitesmoke;
+    -fx-padding: 5;
+}
+
+#labelFileType {
+    -fx-text-fill: whitesmoke;
+    -fx-padding: 5;
 }
 
 .button {

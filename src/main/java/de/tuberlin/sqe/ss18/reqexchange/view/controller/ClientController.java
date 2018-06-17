@@ -67,12 +67,13 @@ public class ClientController {
         clientViewModel.busyProperty().bindBidirectional(buttonCreateProject.disableProperty());
         clientViewModel.busyProperty().bindBidirectional(buttonJoinProject.disableProperty());
 
-        addTestProjects();
+        //TODO Testdaten entfernen
+        //addTestProjects();
     }
 
     private void addProjectInfoController(ProjectViewModel projectViewModel) {
         ProjectInfoController newController = new ProjectInfoController(projectViewModel, clientViewModel);
-        FlowPane.setMargin(newController, new Insets(10));
+        FlowPane.setMargin(newController, new Insets(5));
         flowPaneProjects.getChildren().add(newController);
     }
 
@@ -88,9 +89,9 @@ public class ClientController {
         PasswordField password = new PasswordField();
         PasswordField confirmPassword = new PasswordField();
         //TODO Testdaten entfernen
-        name.setText("proj-sqe-sose18-test");
-        password.setText("a");
-        confirmPassword.setText("a");
+        //name.setText("proj-sqe-sose18-test");
+        //password.setText("a");
+        //confirmPassword.setText("a");
         BorderPane border = new BorderPane();
         Button file = new Button("...");
         Label filename = new Label();
@@ -164,8 +165,8 @@ public class ClientController {
         PasswordField password = new PasswordField();
         ChoiceBox<ReqExchangeFileType> choice = new ChoiceBox<>();
         //TODO Testdaten entfernen
-        name.setText("proj-sqe-sose18-test");
-        password.setText("a");
+        //name.setText("proj-sqe-sose18-test");
+        //password.setText("a");
         List<ReqExchangeFileType> choices = Arrays.asList(ReqExchangeFileType.values());
         choice.setItems(FXCollections.observableArrayList(choices));
         BorderPane border = new BorderPane();
@@ -227,7 +228,7 @@ public class ClientController {
     private void addTestProjects() {
         for(int i = 0;i < 10;i++) {
             Project project = new Project();
-            project.setName("Test " + i);
+            project.setName("Dies-ist-ein-sehr-langer-test-name " + i);
             project.setFilePath(Paths.get("reqif.reqif"));
             ProjectViewModel viewModel = new ProjectViewModel(project);
             viewModel.setCanPull(true);

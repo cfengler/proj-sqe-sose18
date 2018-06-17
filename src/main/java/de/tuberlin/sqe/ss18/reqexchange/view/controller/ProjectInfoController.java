@@ -20,6 +20,7 @@ public class ProjectInfoController extends BorderPane {
     @FXML private Button buttonPushChanges;
     @FXML private Button buttonExportProject;
     @FXML private Label labelProjectName;
+    @FXML private Label labelFileType;
 
     private ProjectViewModel projectViewModel;
     private ClientViewModel clientViewModel;
@@ -49,6 +50,7 @@ public class ProjectInfoController extends BorderPane {
         buttonPullChanges.disableProperty().bind(projectViewModel.canPullProperty().not());
         ObjectExpression<Font> fontTracking = Bindings.createObjectBinding(() -> Font.font(getWidth() / 10), widthProperty());
         labelProjectName.fontProperty().bind(fontTracking);
+        labelFileType.setText(projectViewModel.getFileType().getName());
     }
 
     @FXML protected void handleButtonLeaveProjectAction(ActionEvent event) {
