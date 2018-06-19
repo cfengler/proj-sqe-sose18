@@ -22,6 +22,7 @@
 //
 //        Use a resource handler to pre/postprocess data that cannot be mapped automatically
 //
+//    Example implementation: https://www.eclipse.org/forums/index.php?t=tree&th=161950&goto=511954&#page_top
 //
 //     */
 //
