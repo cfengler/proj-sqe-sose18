@@ -5,33 +5,37 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class DefaultModelTransformationService implements ModelTransformationService {
 
     @Override
-    public boolean transform(File sourceFile, File destinationFile) {
-        if (sourceFile == null || destinationFile == null) {
+    public boolean transform(Path sourcePath, Path destinationPath) {
+        if (sourcePath == null || destinationPath == null) {
+            System.out.println("DefaultModelTransformationService.transform parameters null");
             return false;
         }
 
-        String sourceFileExtension = FilenameUtils.getExtension(sourceFile.getName());
-        String destinationFileExtension = FilenameUtils.getExtension(destinationFile.getName());
+        if (!Files.isRegularFile(sourcePath) || !Files.isRegularFile(destinationPath)) {
+            System.out.println("DefaultModelTransformationService.transform parameters not regular files");
+            return false;
+        }
 
-        if (FilenameUtils.getExtension(sourceFile.getName()).equals("reqif")
-                && FilenameUtils.getExtension(destinationFile.getName()).equals("cm")) {
-            return transformReqifToCm(sourceFile, destinationFile);
+        String sourcePathExtension = FilenameUtils.getExtension(sourcePath.toString());
+        String destinationPathExtension = FilenameUtils.getExtension(destinationPath.toString());
+
+        if (sourcePathExtension.equals("reqif") && destinationPathExtension.equals("cm")) {
+            return transformReqifToCm(sourcePath.toFile(), destinationPath.toFile());
         }
-        else if (sourceFileExtension.equals("cm")
-                && destinationFileExtension.equals("reqif")) {
-            return transformCmToReqif(sourceFile, destinationFile);
+        else if (sourcePathExtension.equals("cm") && destinationPathExtension.equals("reqif")) {
+            return transformCmToReqif(sourcePath.toFile(), destinationPath.toFile());
         }
-        else if (sourceFileExtension.equals("uml")
-                && destinationFileExtension.equals("cm")) {
-            return transformSysMLToCm(sourceFile, destinationFile);
+        else if (sourcePathExtension.equals("uml") && destinationPathExtension.equals("cm")) {
+            return transformSysMLToCm(sourcePath.toFile(), destinationPath.toFile());
         }
-        else if (sourceFileExtension.equals("cm")
-                && destinationFileExtension.equals("uml")) {
-            return transformCmToSysML(sourceFile, destinationFile);
+        else if (sourcePathExtension.equals("cm") && destinationPathExtension.equals("uml")) {
+            return transformCmToSysML(sourcePath.toFile(), destinationPath.toFile());
         }
         else {
             System.out.println("DefaultModelTransformationService.transform Extension not supported");

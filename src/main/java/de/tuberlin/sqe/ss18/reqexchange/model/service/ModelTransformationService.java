@@ -1,8 +1,8 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
-import java.io.File;
+import java.nio.file.Path;
 
 public interface ModelTransformationService {
 
-    boolean transform(File source, File destination);
+    boolean transform(Path source, Path destination);
 }

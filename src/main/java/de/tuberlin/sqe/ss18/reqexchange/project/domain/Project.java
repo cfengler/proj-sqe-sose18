@@ -30,6 +30,10 @@ public class Project {
         this.filePath = newValue;
     }
 
+    private Path commonModelFilePath;
+    public Path getCommonModelFilePath() { return commonModelFilePath; }
+    public void setCommonModelFilePath(Path newValue) { this.commonModelFilePath = newValue; }
+
     private Path localGitRepositoryPath;
     public Path getLocalGitRepositoryPath() {
         return localGitRepositoryPath;

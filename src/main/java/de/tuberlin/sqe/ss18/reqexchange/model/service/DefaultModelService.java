@@ -33,8 +33,6 @@ import java.io.File;
 import java.util.Map;
 
 public class DefaultModelService { //implements ModelService{
-    //vielleicht stellt File auch ein Directory dar, falls mehrere Dateien ein Modell darstellen oder File zeigt auf die Hauptdatei zu der relativ dann die weiteren Dateie liegen
-
 
     public static ReqIF getReqIFModel(File file) {
         /*

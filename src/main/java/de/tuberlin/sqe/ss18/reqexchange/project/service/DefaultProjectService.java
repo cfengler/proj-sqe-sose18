@@ -1,6 +1,7 @@
 package de.tuberlin.sqe.ss18.reqexchange.project.service;
 
 import com.google.inject.Inject;
+import de.tuberlin.sqe.ss18.reqexchange.model.service.ModelTransformationService;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.serialization.service.JsonSerializerService;
 import de.tuberlin.sqe.ss18.reqexchange.common.service.PathService;
@@ -24,15 +25,18 @@ public class DefaultProjectService implements ProjectService {
     private PathService pathService;
     private JsonSerializerService jsonSerializerService;
     private GitService gitService;
+    private ModelTransformationService modelTransformationService;
 
     @Inject
     public DefaultProjectService(
             PathService pathService,
             JsonSerializerService jsonSerializerService,
-            GitService gitService) {
+            GitService gitService,
+            ModelTransformationService modelTransformationService) {
         this.jsonSerializerService = jsonSerializerService;
         this.pathService = pathService;
         this.gitService = gitService;
+        this.modelTransformationService = modelTransformationService;
     }
 
     @Override
@@ -77,8 +81,10 @@ public class DefaultProjectService implements ProjectService {
             return null;
         }
 
-        //TODO: file nach common modell übersetzen
-        createDummyFile(newProject);
+        if (!modelTransformationService.transform(newProject.getFilePath(), newProject.getCommonModelFilePath())) {
+            leave(newProject);
+            return null;
+        }
 
         if (!gitService.executeAddCommitPushAll(newProject)) {
             return null;
@@ -91,11 +97,6 @@ public class DefaultProjectService implements ProjectService {
 
     @Override
     public Project join(String name, Path filePath, ReqExchangeFileType reqExchangeFileType) {
-        //TODO: support for all ReqExchangeFileType
-        if (reqExchangeFileType != ReqExchangeFileType.ReqIF) {
-            return null;
-        }
-
         Project joinProject = getProjectByNameAndFilePath(name, filePath);
         if (Files.exists(joinProject.getProjectInfoFilePath())) {
             return null;
@@ -105,8 +106,10 @@ public class DefaultProjectService implements ProjectService {
             return null;
         }
 
-        //TODO: ersetzen gegen mapper funktion
-        createNewFileInPathWithName(filePath.getParent(), filePath.getFileName().toString(), "Ich bin eine neue Datei im gewünschten Format.");
+        if (!modelTransformationService.transform(joinProject.getCommonModelFilePath(), joinProject.getFilePath())) {
+            leave(joinProject);
+            return null;
+        }
 
         saveProjectInfo(joinProject);
 
@@ -115,7 +118,6 @@ public class DefaultProjectService implements ProjectService {
 
     @Override
     public boolean leave(Project project) {
-        //File localGitRepository = pathService.getLocalGitRepositoryPath(projectInfo).toFile();
         if (project.getLocalGitRepositoryPath().toFile().exists()) {
             try {
                 FileUtils.deleteDirectory(project.getLocalGitRepositoryPath().toFile());
@@ -126,7 +128,10 @@ public class DefaultProjectService implements ProjectService {
             }
         }
 
-        project.getProjectInfoFilePath().toFile().delete();
+        //Files.delete(project.getProjectInfoFilePath());
+        if (!project.getProjectInfoFilePath().toFile().delete()) {
+            return false;
+        }
 
         return true;
     }
@@ -143,26 +148,10 @@ public class DefaultProjectService implements ProjectService {
         result.setName(name);
         result.setFilePath(filePath);
         result.setLocalGitRepositoryPath(pathService.getLocalGitRepositoryPathByProjectName(name));
-        result.setProjectInfoFilePath(pathService.getProjectInfosPath().resolve(name + "json"));
+        result.setCommonModelFilePath(pathService.getLocalGitRepositoryPathByProjectName(name).resolve("data.cm"));
+        result.setProjectInfoFilePath(pathService.getProjectInfosPath().resolve(name + ".json"));
 
         return result;
-    }
-
-    //TODO: remove after mapping works
-    private void createDummyFile(Project project) {
-        createNewFileInPathWithName(
-                project.getLocalGitRepositoryPath(),
-                "dummyFile.txt",
-                "Diese Datei stellt ein Beispiel dar..");
-    }
-    //TODO: remove after mapping works
-    private void createNewFileInPathWithName(Path path, String fileName, String content) {
-        try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path.resolve(fileName))) {
-            bufferedWriter.write(content);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void saveProjectInfo(Project project) {
