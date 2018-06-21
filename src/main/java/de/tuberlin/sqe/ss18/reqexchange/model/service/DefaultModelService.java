@@ -37,27 +37,21 @@ public class DefaultModelService { //implements ModelService{
 
 
     public static ReqIF getReqIFModel(File file) {
-//        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("library", new XMIResourceFactoryImpl());
-//        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
-//        ResourceSet rs = new ResourceSetImpl();
-//        rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
-//        LibraryPackage.eINSTANCE.eClass();
+        /*
+        ReqIF10Package.eINSTANCE.eClass();
 
+        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+        Map<String, Object> m = reg.getExtensionToFactoryMap();
+        m.put("reqif", new ReqIF10ResourceFactoryImpl());
 
+        ResourceSet resSet = new ResourceSetImpl();
 
+        Resource resource = resSet.getResource(URI.createURI(file.getAbsolutePath()), true);
 
-//        ReqIF10Package.eINSTANCE.eClass();
-//
-//        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-//        Map<String, Object> m = reg.getExtensionToFactoryMap();
-//        m.put("reqif", new ReqIF10ResourceFactoryImpl());
-//
-//        ResourceSet resSet = new ResourceSetImpl();
-//
-//        Resource resource = resSet.getResource(URI.createURI(file.getAbsolutePath()), true);
-//
-//        ReqIF reqif = (ReqIF) resource.getContents().get(0);
+        ReqIF reqif = (ReqIF) resource.getContents().get(0);
 
+        return reqif;
+        */
         return null;
     }
 

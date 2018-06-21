@@ -68,7 +68,7 @@ public class ClientController {
         clientViewModel.busyProperty().bindBidirectional(buttonJoinProject.disableProperty());
 
         //TODO Testdaten entfernen
-        //addTestProjects();
+        addTestProjects();
     }
 
     private void addProjectInfoController(ProjectViewModel projectViewModel) {
@@ -226,7 +226,7 @@ public class ClientController {
     }
 
     private void addTestProjects() {
-        for(int i = 0;i < 10;i++) {
+        /*for(int i = 0;i < 10;i++) {
             Project project = new Project();
             project.setName("Dies-ist-ein-sehr-langer-test-name " + i);
             project.setFilePath(Paths.get("reqif.reqif"));
@@ -234,7 +234,37 @@ public class ClientController {
             viewModel.setCanPull(true);
             viewModel.setCanPush(true);
             addProjectInfoController(viewModel);
-        }
+        }*/
+        Project project1 = new Project();
+        project1.setName("SQE Project");
+        project1.setFilePath(Paths.get("testdatei.reqif"));
+        ProjectViewModel viewModel1 = new ProjectViewModel(project1);
+        viewModel1.setCanPull(true);
+        viewModel1.setCanPush(false);
+        addProjectInfoController(viewModel1);
 
+        Project project2 = new Project();
+        project2.setName("Top Secret");
+        project2.setFilePath(Paths.get("testdatei.xlsx"));
+        ProjectViewModel viewModel2 = new ProjectViewModel(project2);
+        viewModel2.setCanPull(false);
+        viewModel2.setCanPush(false);
+        addProjectInfoController(viewModel2);
+
+        Project project3 = new Project();
+        project3.setName("Microsoft GitHub");
+        project3.setFilePath(Paths.get("testdatei.docx"));
+        ProjectViewModel viewModel3 = new ProjectViewModel(project3);
+        viewModel3.setCanPull(true);
+        viewModel3.setCanPush(true);
+        addProjectInfoController(viewModel3);
+
+        Project project4 = new Project();
+        project4.setName("Trade Plans");
+        project4.setFilePath(Paths.get("testdatei.docx"));
+        ProjectViewModel viewModel4 = new ProjectViewModel(project4);
+        viewModel4.setCanPull(false);
+        viewModel4.setCanPush(true);
+        addProjectInfoController(viewModel4);
     }
 }
