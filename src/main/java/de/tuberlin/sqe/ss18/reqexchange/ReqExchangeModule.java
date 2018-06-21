@@ -27,7 +27,7 @@ public class ReqExchangeModule extends AbstractModule {
 
         //model
         //bind(ModelService.class).to(DefaultModelService.class).asEagerSingleton();
-        //bind(ModelTransformationService.class).to(DefaultModelTransformationService.class).asEagerSingleton();
+        bind(ModelTransformationService.class).to(DefaultModelTransformationService.class).asEagerSingleton();
         bind(ModelValidationService.class).to(DefaultModelValidationService.class).asEagerSingleton();
 
         //project
