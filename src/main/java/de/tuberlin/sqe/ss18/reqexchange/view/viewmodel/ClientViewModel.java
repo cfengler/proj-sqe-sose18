@@ -8,6 +8,7 @@ import io.reactivex.Observable;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import io.reactivex.schedulers.Schedulers;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -19,7 +20,7 @@ public class ClientViewModel {
 
     private ProjectService projectService;
 
-    private SimpleListProperty<ProjectViewModel> projects;
+    private ListProperty<ProjectViewModel> projects;
     private BooleanProperty busy;
 
     @Inject
@@ -46,7 +47,6 @@ public class ClientViewModel {
 
     public void handleCreateProject(String name, String password, String filepath) {
         busy.set(true);
-
         Observable.just(1)
             .subscribeOn(Schedulers.newThread())
             .map(i -> projectService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath)))
@@ -87,11 +87,26 @@ public class ClientViewModel {
                 });
     }
 
+    public void handlePullChanges(ProjectViewModel projectViewModel) {
+        System.out.println("handle push changes");
+        //TODO handle push changes
+    }
+
+    public void handlePushChanges(ProjectViewModel projectViewModel) {
+        System.out.println("handle pull changes");
+        //TODO handle pull changes
+    }
+
+    public void handleExportProject(ProjectViewModel projectViewModel, ReqExchangeFileType fileType) {
+        System.out.println("handle export project");
+        //TODO handle export project
+    }
+
     public ObservableList<ProjectViewModel> getProjects() {
         return projects.get();
     }
 
-    public SimpleListProperty<ProjectViewModel> projectsProperty() {
+    public ListProperty<ProjectViewModel> projectsProperty() {
         return projects;
     }
 

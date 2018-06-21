@@ -1,5 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
+import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ProjectViewModel;
 import javafx.beans.binding.Bindings;
@@ -8,10 +9,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class ProjectInfoController extends BorderPane {
 
@@ -58,21 +62,23 @@ public class ProjectInfoController extends BorderPane {
     }
 
     @FXML protected void handleButtonPullChangesAction(ActionEvent event) {
-        System.out.println("pull changes button");
+        clientViewModel.handlePullChanges(projectViewModel);
         showFunctionNotImplementedError();
-        //TODO button pull changes action handling
     }
 
     @FXML protected void handleButtonPushChangesAction(ActionEvent event) {
-        System.out.println("push changes button");
+        clientViewModel.handlePushChanges(projectViewModel);
         showFunctionNotImplementedError();
-        //TODO button push changes action handling
     }
 
     @FXML protected void handleButtonExportProjectAction(ActionEvent event) {
-        System.out.println("export project button");
-        showFunctionNotImplementedError();
-        //TODO button export project action handling
+        ChoiceDialog<ReqExchangeFileType> dialog = new ChoiceDialog<>(ReqExchangeFileType.ReqIF, ReqExchangeFileType.values());
+        dialog.setTitle("Export " + projectViewModel.getName());
+        dialog.setHeaderText(null);
+        dialog.setContentText("File Type:");
+        dialog.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icons/icon_export_file.png"))));
+        Optional<ReqExchangeFileType> result = dialog.showAndWait();
+        result.ifPresent(fileType -> clientViewModel.handleExportProject(projectViewModel, fileType));
     }
 
     public void setProjectViewModel(ProjectViewModel projectViewModel) {

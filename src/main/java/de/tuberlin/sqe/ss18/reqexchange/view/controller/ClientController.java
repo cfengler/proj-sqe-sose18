@@ -68,7 +68,7 @@ public class ClientController {
         clientViewModel.busyProperty().bindBidirectional(buttonJoinProject.disableProperty());
 
         //TODO Testdaten entfernen
-        addTestProjects();
+        //addTestProjects();
     }
 
     private void addProjectInfoController(ProjectViewModel projectViewModel) {
@@ -81,6 +81,7 @@ public class ClientController {
         Dialog<Pair<String, Pair<String, String>>> dialog = new Dialog<>();
         dialog.setTitle("Create Project");
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icons/icon_create_project.png"))));
 
         GridPane grid = new GridPane();
         grid.setHgap(5);
@@ -157,6 +158,7 @@ public class ClientController {
         Dialog<Pair<Pair<String, String>, Pair<ReqExchangeFileType, String>>> dialog = new Dialog<>();
         dialog.setTitle("Join Project");
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icons/icon_join_project.png"))));
 
         GridPane grid = new GridPane();
         grid.setHgap(5);
@@ -245,7 +247,7 @@ public class ClientController {
 
         Project project2 = new Project();
         project2.setName("Top Secret");
-        project2.setFilePath(Paths.get("testdatei.xlsx"));
+        project2.setFilePath(Paths.get("testdatei.uml"));
         ProjectViewModel viewModel2 = new ProjectViewModel(project2);
         viewModel2.setCanPull(false);
         viewModel2.setCanPush(false);
@@ -253,7 +255,7 @@ public class ClientController {
 
         Project project3 = new Project();
         project3.setName("Microsoft GitHub");
-        project3.setFilePath(Paths.get("testdatei.docx"));
+        project3.setFilePath(Paths.get("testdatei.xlsx"));
         ProjectViewModel viewModel3 = new ProjectViewModel(project3);
         viewModel3.setCanPull(true);
         viewModel3.setCanPush(true);
