@@ -50,8 +50,10 @@ public class ProjectInfoController extends BorderPane {
 
     @FXML public void initialize() {
         labelProjectName.textProperty().bind(projectViewModel.nameProperty());
-        buttonPushChanges.disableProperty().bind(projectViewModel.canPushProperty().not());
-        buttonPullChanges.disableProperty().bind(projectViewModel.canPullProperty().not());
+        buttonPushChanges.disableProperty().bind(projectViewModel.canPushProperty().not().or(clientViewModel.busyProperty()));
+        buttonPullChanges.disableProperty().bind(projectViewModel.canPullProperty().not().or(clientViewModel.busyProperty()));
+        buttonLeaveProject.disableProperty().bind(clientViewModel.busyProperty());
+        buttonExportProject.disableProperty().bind(clientViewModel.busyProperty());
         ObjectExpression<Font> fontTracking = Bindings.createObjectBinding(() -> Font.font(getWidth() / 10), widthProperty());
         labelProjectName.fontProperty().bind(fontTracking);
         labelFileType.setText(projectViewModel.getFileType().getName());

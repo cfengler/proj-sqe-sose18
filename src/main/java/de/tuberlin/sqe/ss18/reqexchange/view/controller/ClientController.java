@@ -68,7 +68,7 @@ public class ClientController {
         clientViewModel.busyProperty().bindBidirectional(buttonJoinProject.disableProperty());
 
         //TODO Testdaten entfernen
-        //addTestProjects();
+        addTestProjects();
     }
 
     private void addProjectInfoController(ProjectViewModel projectViewModel) {
