@@ -74,6 +74,13 @@ public class ClientController {
     private void addProjectInfoController(ProjectViewModel projectViewModel) {
         ProjectInfoController newController = new ProjectInfoController(projectViewModel, clientViewModel);
         FlowPane.setMargin(newController, new Insets(5));
+        scrollPaneProjects.widthProperty().addListener(((observable, oldValue, newValue) -> {
+            double paneWidth = newController.getMinWidth() + FlowPane.getMargin(newController).getRight() + FlowPane.getMargin(newController).getLeft();
+            int panesInRow = (int) ((newValue.doubleValue()) / paneWidth);
+            double marginSize = FlowPane.getMargin(newController).getRight() * 2 * panesInRow;
+            double remaining = newValue.doubleValue() % paneWidth;
+            newController.setPrefWidth(newController.getMinWidth() + (remaining - 20) / panesInRow);
+        }));
         flowPaneProjects.getChildren().add(newController);
     }
 

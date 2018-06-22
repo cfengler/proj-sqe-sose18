@@ -49,6 +49,25 @@ public class ProjectInfoController extends BorderPane {
     }
 
     @FXML public void initialize() {
+        this.prefHeightProperty().bind(this.prefWidthProperty());
+        buttonLeaveProject.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
+        buttonLeaveProject.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
+        buttonPushChanges.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
+        buttonPushChanges.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
+        buttonPullChanges.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
+        buttonPullChanges.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
+        buttonExportProject.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
+        buttonExportProject.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
+
+        buttonLeaveProject.prefWidthProperty().bind(this.widthProperty().multiply(0.25));
+        buttonLeaveProject.prefHeightProperty().bind(buttonLeaveProject.prefWidthProperty());
+        buttonPushChanges.prefHeightProperty().bind(this.widthProperty().multiply(0.25));
+        buttonPushChanges.prefWidthProperty().bind(buttonPushChanges.prefHeightProperty());
+        buttonPullChanges.prefHeightProperty().bind(this.widthProperty().multiply(0.25));
+        buttonPullChanges.prefWidthProperty().bind(buttonPullChanges.prefHeightProperty());
+        buttonExportProject.prefWidthProperty().bind(this.widthProperty().multiply(0.25));
+        buttonExportProject.prefHeightProperty().bind(buttonExportProject.prefWidthProperty());
+
         labelProjectName.textProperty().bind(projectViewModel.nameProperty());
         buttonPushChanges.disableProperty().bind(projectViewModel.canPushProperty().not().or(clientViewModel.busyProperty()));
         buttonPullChanges.disableProperty().bind(projectViewModel.canPullProperty().not().or(clientViewModel.busyProperty()));

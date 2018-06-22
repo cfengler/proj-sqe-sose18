@@ -6,25 +6,36 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <fx:root type="BorderPane" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          minWidth="200"
          minHeight="200"
+         maxWidth="400"
+         maxHeight="400"
          stylesheets="@../css/ProjectInfo.css"
-         prefWidth="200"
-         prefHeight="200"
          fx:id="root">
 
     <top>
         <BorderPane fx:id="borderPaneTop">
             <left>
                 <Button fx:id="buttonLeaveProject"
-                        prefWidth="50"
-                        prefHeight="50"
+                        minWidth="50"
+                        minHeight="50"
+                        maxWidth="100"
+                        maxHeight="100"
                         onAction="#handleButtonLeaveProjectAction">
                     <tooltip>
                         <Tooltip text="leave project" />
                     </tooltip>
+                    <graphic>
+                        <ImageView fitWidth="100" fitHeight="100" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="/icons/icon_leave_project.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
                 </Button>
             </left>
             <right>
@@ -45,36 +56,68 @@
         <BorderPane fx:id="borderPaneActions">
             <left>
                 <Button fx:id="buttonExportProject"
-                        prefWidth="50"
-                        prefHeight="50"
+                        minWidth="50"
+                        minHeight="50"
+                        maxWidth="100"
+                        maxHeight="100"
                         onAction="#handleButtonExportProjectAction">
                     <tooltip>
                         <Tooltip text="export project" />
                     </tooltip>
+                    <graphic>
+                        <ImageView fitWidth="100" fitHeight="100" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="/icons/icon_export_file.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
                 </Button>
             </left>
 
             <center>
-                <Button fx:id="buttonPullChanges"
-                        BorderPane.alignment="CENTER_RIGHT"
-                        prefWidth="50"
-                        prefHeight="50"
-                        onAction="#handleButtonPullChangesAction"
-                        GridPane.halignment="RIGHT">
-                    <tooltip>
-                        <Tooltip text="pull changes" />
-                    </tooltip>
-                </Button>
+                <BorderPane fx:id="borderPaneBottomCenter">
+                    <right>
+                        <Button fx:id="buttonPullChanges"
+                                BorderPane.alignment="CENTER_RIGHT"
+                                minWidth="50"
+                                minHeight="50"
+                                maxWidth="100"
+                                maxHeight="100"
+                                onAction="#handleButtonPullChangesAction"
+                                GridPane.halignment="RIGHT">
+                            <tooltip>
+                                <Tooltip text="pull changes" />
+                            </tooltip>
+                            <graphic>
+                                <ImageView fitWidth="100" fitHeight="100" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="/icons/icon_pull_changes.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </right>
+                </BorderPane>
+
             </center>
 
             <right>
                 <Button fx:id="buttonPushChanges"
-                        prefWidth="50"
-                        prefHeight="50"
+                        minWidth="50"
+                        minHeight="50"
+                        maxWidth="100"
+                        maxHeight="100"
                         onAction="#handleButtonPushChangesAction">
                     <tooltip>
                         <Tooltip text="push changes" />
                     </tooltip>
+                    <graphic>
+                        <ImageView fitWidth="100" fitHeight="100" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="/icons/icon_push_changes.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
                 </Button>
             </right>
         </BorderPane>

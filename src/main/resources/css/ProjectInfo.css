@@ -1,9 +1,11 @@
 #root {
     -fx-background-color: lightslategray;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 1, 1);
 }
 
 #root:hover {
     -fx-background-color: slategray;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 20, 0, 1, 1);
 }
 
 #borderPaneTop {
@@ -12,26 +14,6 @@
 
 #borderPaneActions {
     -fx-padding: 5;
-}
-
-#buttonLeaveProject {
-    -fx-background-image: url("/icons/icon_leave_project.png");
-    -fx-background-size: 50px 50px;
-}
-
-#buttonPullChanges {
-    -fx-background-image: url("/icons/icon_pull_changes.png");
-    -fx-background-size: 50px 50px;
-}
-
-#buttonPushChanges {
-    -fx-background-image: url("/icons/icon_push_changes.png");
-    -fx-background-size: 50px 50px;
-}
-
-#buttonExportProject {
-    -fx-background-image: url("/icons/icon_export_file.png");
-    -fx-background-size: 50px 50px;
 }
 
 #labelProjectName {
