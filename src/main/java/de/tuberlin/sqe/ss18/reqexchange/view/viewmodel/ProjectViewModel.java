@@ -18,8 +18,8 @@ public class ProjectViewModel {
     public ProjectViewModel(Project project) {
         this.name = new SimpleStringProperty(project.getName());
         this.fileType = ReqExchangeFileType.getFileTypeFromFileName(project.getFilePath().toString());
-        this.canPull = new SimpleBooleanProperty(project.isRemoteChanged());
-        this.canPush = new SimpleBooleanProperty(project.isLocalChanged());
+        this.canPull = new SimpleBooleanProperty(project.isPullNeeded());
+        this.canPush = new SimpleBooleanProperty(project.isPushNeeded());
         this.project = project;
 
         project.addPropertyChangeListener(e -> {

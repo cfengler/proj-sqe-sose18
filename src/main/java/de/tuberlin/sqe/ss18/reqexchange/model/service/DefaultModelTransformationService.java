@@ -7,8 +7,15 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DefaultModelTransformationService implements ModelTransformationService {
+
+    private static final Set<String> SUPPORTED_EXTENSIONS = new HashSet<>(
+            Arrays.asList("reqif", "uml", "cm")
+    );
 
     @Override
     public boolean transform(Path sourcePath, Path destinationPath) {
@@ -17,13 +24,13 @@ public class DefaultModelTransformationService implements ModelTransformationSer
             return false;
         }
 
-        if (!Files.isRegularFile(sourcePath) || !Files.isRegularFile(destinationPath)) {
-            System.out.println("DefaultModelTransformationService.transform parameters not regular files");
-            return false;
-        }
-
         String sourcePathExtension = FilenameUtils.getExtension(sourcePath.toString());
         String destinationPathExtension = FilenameUtils.getExtension(destinationPath.toString());
+
+        if (!SUPPORTED_EXTENSIONS.contains(sourcePathExtension) || !SUPPORTED_EXTENSIONS.contains(destinationPathExtension)) {
+            System.out.println("DefaultModelTransformationService.transform files has unsupported extensions");
+            return false;
+        }
 
         if (sourcePathExtension.equals("reqif") && destinationPathExtension.equals("cm")) {
             return transformReqifToCm(sourcePath.toFile(), destinationPath.toFile());
@@ -44,21 +51,25 @@ public class DefaultModelTransformationService implements ModelTransformationSer
     }
 
     private boolean transformReqifToCm(File sourceFile, File destinationFile) {
+        //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
         return copy(sourceFile, destinationFile);
     }
 
     private boolean transformCmToReqif(File sourceFile, File destinationFile) {
+        //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
         return copy(sourceFile, destinationFile);
     }
 
     private boolean transformSysMLToCm(File sourceFile, File destinationFile) {
+        //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
         return copy(sourceFile, destinationFile);
     }
 
     private boolean transformCmToSysML(File sourceFile, File destinationFile) {
+        //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
         return copy(sourceFile, destinationFile);
     }

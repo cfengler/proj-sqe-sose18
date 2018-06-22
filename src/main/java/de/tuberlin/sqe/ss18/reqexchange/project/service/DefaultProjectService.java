@@ -10,7 +10,6 @@ import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.ProjectInfo;
 import org.apache.commons.io.FileUtils;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -52,6 +51,7 @@ public class DefaultProjectService implements ProjectService {
                         Project project = getProjectByNameAndFilePath(
                                 projectInfo.getName(),
                                 Paths.get(projectInfo.getFileName()));
+                        refresh(project);
                         //TODO: get information about push and pull?
                         result.add(project);
                     }
@@ -139,8 +139,54 @@ public class DefaultProjectService implements ProjectService {
     @Override
     public void refresh(Project project) {
         //TODO: ob das schon funktioniert? also der gitService
-        project.setLocalChanged(gitService.canPush(project));
-        project.setRemoteChanged(gitService.canPull(project));
+        project.setPushNeeded(checkPushNeeded(project));
+        project.setPullNeeded(checkPullNeeded(project));
+    }
+
+    private boolean checkPullNeeded(Project project) {
+        return gitService.checkPullNeeded(project);
+    }
+
+    private boolean checkPushNeeded(Project project) {
+        long userFileLastModified = project.getFilePath().toFile().lastModified();
+        long gitFileLastModified = project.getCommonModelFilePath().toFile().lastModified();
+
+        return userFileLastModified > gitFileLastModified;
+    }
+
+    @Override
+    public boolean pull(Project project) {
+        //TODO: similar complicated like push?
+        return gitService.pull(project);
+    }
+
+    @Override
+    public boolean push(Project project) {
+        //TODO: implement
+        //1. Validate userFile
+        //2. M2M Transformation
+        //3. Commit
+        //4. pull needed?
+
+        //no:
+        //5. push
+
+        //yes:
+        //5. pull
+        //6. merge strategy our
+        //7. validate Common Modell
+
+        //ok:
+        //8. push
+        //9. M2M Transformation to user File
+
+        //not ok:
+        //8. undo all local changes to the point from remote reset Hard
+
+
+        //4. Pull mit Merge take ours
+        //5.
+        return false;
     }
 
     private Project getProjectByNameAndFilePath(String name, Path filePath) {

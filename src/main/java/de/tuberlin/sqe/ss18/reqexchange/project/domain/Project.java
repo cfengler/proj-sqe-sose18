@@ -50,27 +50,27 @@ public class Project {
         this.projectInfoFilePath = newValue;
     }
 
-    private boolean localChanged;
-    public boolean isLocalChanged() {
-        return localChanged;
+    private boolean pushNeeded;
+    public boolean isPushNeeded() {
+        return pushNeeded;
     }
-    public void setLocalChanged(boolean newValue) {
-        if (localChanged != newValue) {
-            boolean oldValue = localChanged;
-            localChanged = newValue;
-            propertyChangeSupport.firePropertyChange("localChanged", oldValue, newValue);
+    public void setPushNeeded(boolean newValue) {
+        if (pushNeeded != newValue) {
+            boolean oldValue = pushNeeded;
+            pushNeeded = newValue;
+            propertyChangeSupport.firePropertyChange("pushNeeded", oldValue, newValue);
         }
     }
 
-    private boolean remoteChanged;
-    public boolean isRemoteChanged() {
-        return remoteChanged;
+    private boolean pullNeeded;
+    public boolean isPullNeeded() {
+        return pullNeeded;
     }
-    public void setRemoteChanged(boolean newValue) {
-        if (remoteChanged != newValue) {
-            boolean oldValue = remoteChanged;
-            remoteChanged = newValue;
-            propertyChangeSupport.firePropertyChange("remoteChanged", oldValue, newValue);
+    public void setPullNeeded(boolean newValue) {
+        if (pullNeeded != newValue) {
+            boolean oldValue = pullNeeded;
+            pullNeeded = newValue;
+            propertyChangeSupport.firePropertyChange("pullNeeded", oldValue, newValue);
         }
     }
 

@@ -9,9 +9,14 @@ import java.util.List;
 public interface ProjectService {
 
     List<Project> getAll();
+
     Project create(String name, Path filePath, ReqExchangeFileType reqExchangeFileType);
     Project join(String name, Path filePath, ReqExchangeFileType reqExchangeFileType);
     boolean leave(Project project);
+
     void refresh(Project project);
+
+    boolean push(Project project);
+    boolean pull(Project project);
 
 }
