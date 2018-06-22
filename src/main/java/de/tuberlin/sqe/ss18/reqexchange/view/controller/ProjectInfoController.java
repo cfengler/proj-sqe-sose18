@@ -1,5 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
+import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ProjectViewModel;
 import javafx.beans.binding.Bindings;
@@ -8,10 +9,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class ProjectInfoController extends BorderPane {
 
@@ -45,9 +49,30 @@ public class ProjectInfoController extends BorderPane {
     }
 
     @FXML public void initialize() {
+        this.prefHeightProperty().bind(this.prefWidthProperty());
+        buttonLeaveProject.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
+        buttonLeaveProject.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
+        buttonPushChanges.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
+        buttonPushChanges.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
+        buttonPullChanges.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
+        buttonPullChanges.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
+        buttonExportProject.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
+        buttonExportProject.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
+
+        buttonLeaveProject.prefWidthProperty().bind(this.widthProperty().multiply(0.25));
+        buttonLeaveProject.prefHeightProperty().bind(buttonLeaveProject.prefWidthProperty());
+        buttonPushChanges.prefHeightProperty().bind(this.widthProperty().multiply(0.25));
+        buttonPushChanges.prefWidthProperty().bind(buttonPushChanges.prefHeightProperty());
+        buttonPullChanges.prefHeightProperty().bind(this.widthProperty().multiply(0.25));
+        buttonPullChanges.prefWidthProperty().bind(buttonPullChanges.prefHeightProperty());
+        buttonExportProject.prefWidthProperty().bind(this.widthProperty().multiply(0.25));
+        buttonExportProject.prefHeightProperty().bind(buttonExportProject.prefWidthProperty());
+
         labelProjectName.textProperty().bind(projectViewModel.nameProperty());
-        buttonPushChanges.disableProperty().bind(projectViewModel.canPushProperty().not());
-        buttonPullChanges.disableProperty().bind(projectViewModel.canPullProperty().not());
+        buttonPushChanges.disableProperty().bind(projectViewModel.canPushProperty().not().or(clientViewModel.busyProperty()));
+        buttonPullChanges.disableProperty().bind(projectViewModel.canPullProperty().not().or(clientViewModel.busyProperty()));
+        buttonLeaveProject.disableProperty().bind(clientViewModel.busyProperty());
+        buttonExportProject.disableProperty().bind(clientViewModel.busyProperty());
         ObjectExpression<Font> fontTracking = Bindings.createObjectBinding(() -> Font.font(getWidth() / 10), widthProperty());
         labelProjectName.fontProperty().bind(fontTracking);
         labelFileType.setText(projectViewModel.getFileType().getName());
@@ -58,21 +83,23 @@ public class ProjectInfoController extends BorderPane {
     }
 
     @FXML protected void handleButtonPullChangesAction(ActionEvent event) {
-        System.out.println("pull changes button");
+        clientViewModel.handlePullChanges(projectViewModel);
         showFunctionNotImplementedError();
-        //TODO button pull changes action handling
     }
 
     @FXML protected void handleButtonPushChangesAction(ActionEvent event) {
-        System.out.println("push changes button");
+        clientViewModel.handlePushChanges(projectViewModel);
         showFunctionNotImplementedError();
-        //TODO button push changes action handling
     }
 
     @FXML protected void handleButtonExportProjectAction(ActionEvent event) {
-        System.out.println("export project button");
-        showFunctionNotImplementedError();
-        //TODO button export project action handling
+        ChoiceDialog<ReqExchangeFileType> dialog = new ChoiceDialog<>(ReqExchangeFileType.ReqIF, ReqExchangeFileType.values());
+        dialog.setTitle("Export " + projectViewModel.getName());
+        dialog.setHeaderText(null);
+        dialog.setContentText("File Type:");
+        dialog.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icons/icon_export_file.png"))));
+        Optional<ReqExchangeFileType> result = dialog.showAndWait();
+        result.ifPresent(fileType -> clientViewModel.handleExportProject(projectViewModel, fileType));
     }
 
     public void setProjectViewModel(ProjectViewModel projectViewModel) {

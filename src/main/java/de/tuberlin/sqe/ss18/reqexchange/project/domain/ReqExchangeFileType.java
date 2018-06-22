@@ -6,7 +6,7 @@ import java.util.List;
 
 public enum ReqExchangeFileType {
     ReqIF("ReqIF", "reqif", "reqifz"),
-    SysML("SysML"), //TODO was sind die Datentypen fuer SysML Dateien?
+    SysML("SysML", "uml", "di", "notation"),
     Docx("Word", "doc", "docx"),
     Xslx("Excel", "xls", "xlsx");
 

@@ -8,10 +8,15 @@ import io.reactivex.Observable;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import io.reactivex.schedulers.Schedulers;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
@@ -19,7 +24,7 @@ public class ClientViewModel {
 
     private ProjectService projectService;
 
-    private SimpleListProperty<ProjectViewModel> projects;
+    private ListProperty<ProjectViewModel> projects;
     private BooleanProperty busy;
 
     @Inject
@@ -46,7 +51,6 @@ public class ClientViewModel {
 
     public void handleCreateProject(String name, String password, String filepath) {
         busy.set(true);
-
         Observable.just(1)
             .subscribeOn(Schedulers.newThread())
             .map(i -> projectService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath)))
@@ -87,11 +91,38 @@ public class ClientViewModel {
                 });
     }
 
+    public void handlePullChanges(ProjectViewModel projectViewModel) {
+        System.out.println("handle push changes");
+        showInformationDialog("Pull Changes", "Changes have been successfully pulled!");
+        //TODO handle push changes
+    }
+
+    public void handlePushChanges(ProjectViewModel projectViewModel) {
+        System.out.println("handle pull changes");
+        showInformationDialog("Push Changes", "Changes have been successfully pushed!");
+        //TODO handle pull changes
+    }
+
+    public void handleExportProject(ProjectViewModel projectViewModel, ReqExchangeFileType fileType) {
+        System.out.println("handle export project");
+        showInformationDialog("Export Project", fileType.getName() + " file has been successfully exported!");
+        //TODO handle export project
+    }
+
+    public void showInformationDialog(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icons/icon_information.png"))));
+        alert.showAndWait();
+    }
+
     public ObservableList<ProjectViewModel> getProjects() {
         return projects.get();
     }
 
-    public SimpleListProperty<ProjectViewModel> projectsProperty() {
+    public ListProperty<ProjectViewModel> projectsProperty() {
         return projects;
     }
 

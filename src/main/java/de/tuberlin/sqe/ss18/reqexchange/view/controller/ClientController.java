@@ -74,6 +74,13 @@ public class ClientController {
     private void addProjectInfoController(ProjectViewModel projectViewModel) {
         ProjectInfoController newController = new ProjectInfoController(projectViewModel, clientViewModel);
         FlowPane.setMargin(newController, new Insets(5));
+        scrollPaneProjects.widthProperty().addListener(((observable, oldValue, newValue) -> {
+            double paneWidth = newController.getMinWidth() + FlowPane.getMargin(newController).getRight() + FlowPane.getMargin(newController).getLeft();
+            int panesInRow = (int) ((newValue.doubleValue()) / paneWidth);
+            double marginSize = FlowPane.getMargin(newController).getRight() * 2 * panesInRow;
+            double remaining = newValue.doubleValue() % paneWidth;
+            newController.setPrefWidth(newController.getMinWidth() + (remaining - 20) / panesInRow);
+        }));
         flowPaneProjects.getChildren().add(newController);
     }
 
@@ -81,6 +88,7 @@ public class ClientController {
         Dialog<Pair<String, Pair<String, String>>> dialog = new Dialog<>();
         dialog.setTitle("Create Project");
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icons/icon_create_project.png"))));
 
         GridPane grid = new GridPane();
         grid.setHgap(5);
@@ -157,6 +165,7 @@ public class ClientController {
         Dialog<Pair<Pair<String, String>, Pair<ReqExchangeFileType, String>>> dialog = new Dialog<>();
         dialog.setTitle("Join Project");
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icons/icon_join_project.png"))));
 
         GridPane grid = new GridPane();
         grid.setHgap(5);
@@ -235,36 +244,36 @@ public class ClientController {
             viewModel.setCanPush(true);
             addProjectInfoController(viewModel);
         }*/
-//        Project project1 = new Project();
-//        project1.setName("SQE Project");
-//        project1.setFilePath(Paths.get("testdatei.reqif"));
-//        ProjectViewModel viewModel1 = new ProjectViewModel(project1);
-//        viewModel1.setCanPull(true);
-//        viewModel1.setCanPush(false);
-//        addProjectInfoController(viewModel1);
-//
-//        Project project2 = new Project();
-//        project2.setName("Top Secret");
-//        project2.setFilePath(Paths.get("testdatei.xlsx"));
-//        ProjectViewModel viewModel2 = new ProjectViewModel(project2);
-//        viewModel2.setCanPull(false);
-//        viewModel2.setCanPush(false);
-//        addProjectInfoController(viewModel2);
-//
-//        Project project3 = new Project();
-//        project3.setName("Microsoft GitHub");
-//        project3.setFilePath(Paths.get("testdatei.docx"));
-//        ProjectViewModel viewModel3 = new ProjectViewModel(project3);
-//        viewModel3.setCanPull(true);
-//        viewModel3.setCanPush(true);
-//        addProjectInfoController(viewModel3);
-//
-//        Project project4 = new Project();
-//        project4.setName("Trade Plans");
-//        project4.setFilePath(Paths.get("testdatei.docx"));
-//        ProjectViewModel viewModel4 = new ProjectViewModel(project4);
-//        viewModel4.setCanPull(false);
-//        viewModel4.setCanPush(true);
-//        addProjectInfoController(viewModel4);
+        Project project1 = new Project();
+        project1.setName("SQE Project");
+        project1.setFilePath(Paths.get("testdatei.reqif"));
+        ProjectViewModel viewModel1 = new ProjectViewModel(project1);
+        viewModel1.setCanPull(true);
+        viewModel1.setCanPush(false);
+        addProjectInfoController(viewModel1);
+
+        Project project2 = new Project();
+        project2.setName("Top Secret");
+        project2.setFilePath(Paths.get("testdatei.uml"));
+        ProjectViewModel viewModel2 = new ProjectViewModel(project2);
+        viewModel2.setCanPull(false);
+        viewModel2.setCanPush(false);
+        addProjectInfoController(viewModel2);
+
+        Project project3 = new Project();
+        project3.setName("Microsoft GitHub");
+        project3.setFilePath(Paths.get("testdatei.xlsx"));
+        ProjectViewModel viewModel3 = new ProjectViewModel(project3);
+        viewModel3.setCanPull(true);
+        viewModel3.setCanPush(true);
+        addProjectInfoController(viewModel3);
+
+        Project project4 = new Project();
+        project4.setName("Trade Plans");
+        project4.setFilePath(Paths.get("testdatei.docx"));
+        ProjectViewModel viewModel4 = new ProjectViewModel(project4);
+        viewModel4.setCanPull(false);
+        viewModel4.setCanPush(true);
+        addProjectInfoController(viewModel4);
     }
 }
