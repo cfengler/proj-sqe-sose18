@@ -3,15 +3,13 @@ package de.tuberlin.sqe.ss18.reqexchange.git.service;
 import com.google.inject.Inject;
 import de.tuberlin.sqe.ss18.reqexchange.common.service.PathService;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
-import org.eclipse.jgit.api.CherryPickResult;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.ResetCommand;
-import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.*;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
@@ -122,7 +120,49 @@ public class DefaultGitService implements GitService {
             return false;
         }
     }
-    //TODO: sollte im Falle der Validate false ausgeführt werden
+
+    public boolean commitAll(Project project) {
+
+        try (Git git = getLocalGitRepository(project)) {
+            git.commit()
+                    .setAll(true)
+                    .setMessage(getCommitMessage())
+                    .call();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean pushAll(Project project) {
+        try (Git git = getLocalGitRepository(project)) {
+            git.push()
+                    .setPushAll()
+                    .setCredentialsProvider(credentialsProvider)
+                    .call();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean executePullMergeWithStrategyOur(Project project) {
+        try(Git git = getLocalGitRepository(project)) {
+            MergeResult mergeResult = git.merge().setStrategy(MergeStrategy.OURS).call();
+            //TODO: kann was schief gehen?
+            mergeResult.toString();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean resetHard(Project project) {
         try(Git git = getLocalGitRepository(project)) {
             git.reset().setMode(ResetCommand.ResetType.HARD).call();
@@ -146,39 +186,11 @@ public class DefaultGitService implements GitService {
 //        }
 //    }
 
-//    public boolean commitAll(Project project) {
-//
-//        try (Git git = getLocalGitRepository(project)) {
-//            git.commit()
-//                    .setAll(true)
-//                    .setMessage(getCommitMessage())
-//                    .call();
-//            return true;
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
     private String getCommitMessage() {
         return "Commit" +
                 " am " + new DateTime().toString("dd.MM.yyy") +
                 " um " + new DateTime().toString("HH:mm:ss");
     }
-
-//    public boolean pushAll(Project project) {
-//        try (Git git = getLocalGitRepository(project)) {
-//            git.push()
-//                    .setPushAll()
-//                    .setCredentialsProvider(credentialsProvider)
-//                    .call();
-//            return true;
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
 
     private Git getLocalGitRepository(Project project) {
         try {

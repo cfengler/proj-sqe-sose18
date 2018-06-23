@@ -2,6 +2,7 @@ package de.tuberlin.sqe.ss18.reqexchange.project.service;
 
 import com.google.inject.Inject;
 import de.tuberlin.sqe.ss18.reqexchange.model.service.ModelTransformationService;
+import de.tuberlin.sqe.ss18.reqexchange.model.service.ModelValidationService;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.serialization.service.JsonSerializerService;
 import de.tuberlin.sqe.ss18.reqexchange.common.service.PathService;
@@ -25,17 +26,20 @@ public class DefaultProjectService implements ProjectService {
     private JsonSerializerService jsonSerializerService;
     private GitService gitService;
     private ModelTransformationService modelTransformationService;
+    private ModelValidationService modelValidationService;
 
     @Inject
     public DefaultProjectService(
             PathService pathService,
             JsonSerializerService jsonSerializerService,
             GitService gitService,
-            ModelTransformationService modelTransformationService) {
+            ModelTransformationService modelTransformationService,
+            ModelValidationService modelValidationService) {
         this.jsonSerializerService = jsonSerializerService;
         this.pathService = pathService;
         this.gitService = gitService;
         this.modelTransformationService = modelTransformationService;
+        this.modelValidationService = modelValidationService;
     }
 
     @Override
@@ -163,29 +167,51 @@ public class DefaultProjectService implements ProjectService {
     @Override
     public boolean push(Project project) {
         //TODO: implement
-        //1. Validate userFile
-        //2. M2M Transformation
-        //3. Commit
-        //4. pull needed?
+        //0. push needed?
+        if (checkPushNeeded(project)) {
+            return false;
+        }
 
-        //no:
-        //5. push
+        //1. Validate userFile
+        if (modelValidationService.validate(project.getFilePath())) {
+            //2. M2M Transformation
+            modelTransformationService.transform(project.getFilePath(), project.getCommonModelFilePath());
+        }
+        else {
+            //2. M2M Transformation
+            modelTransformationService.transform(project.getCommonModelFilePath(), project.getFilePath());
+            return false;
+        }
+
+        //3. Commit
+        gitService.commitAll(project);
+        //4. pull needed?
+        if (!gitService.checkPullNeeded(project)) {
+            //no:
+            //5. push
+            gitService.pushAll(project);
+            return true;
+        }
 
         //yes:
         //5. pull
         //6. merge strategy our
+        gitService.executePullMergeWithStrategyOur(project);
         //7. validate Common Modell
+        if (modelValidationService.validate(project.getCommonModelFilePath())) {
+            //ok:
+            //8. commit + push
+            //9. M2M Transformation to user File
+            gitService.executeCommitPushAll(project);
+            modelTransformationService.transform(project.getCommonModelFilePath(), project.getFilePath());
+            return true;
+        }
+        else {
+            //not ok:
+            //8. undo all local changes to the point from remote reset Hard
+            gitService.resetHard(project);
+        }
 
-        //ok:
-        //8. push
-        //9. M2M Transformation to user File
-
-        //not ok:
-        //8. undo all local changes to the point from remote reset Hard
-
-
-        //4. Pull mit Merge take ours
-        //5.
         return false;
     }
 
