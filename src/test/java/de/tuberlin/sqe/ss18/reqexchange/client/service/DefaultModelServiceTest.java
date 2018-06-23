@@ -35,7 +35,7 @@ public class DefaultModelServiceTest extends TestCase {
 
     @Test
     public void testReqIFHasContent() {
-        /*ReqIF reqif = DefaultModelService.getReqIFModel(reqIFFile);
+        ReqIF reqif = DefaultModelService.getReqIFModel(reqIFFile);
         EList<Specification> specifications = reqif.getCoreContent().getSpecifications();
 
         assertTrue(specifications.size() > 0);
@@ -51,7 +51,7 @@ public class DefaultModelServiceTest extends TestCase {
             attributeValue = (AttributeValueString) specHi.getObject().getValues().get(0);
             //EList<EStructuralFeature> eStructuralFeatures = ReqIF10Package.eINSTANCE.eClass().getEStructuralFeatures();
             System.out.printf("\t[%s] %s with %d children\n", specHi.getIdentifier(), attributeValue.getTheValue(), specHi.getChildren().size());
-        }*/
+        }
 
     }
     @Test

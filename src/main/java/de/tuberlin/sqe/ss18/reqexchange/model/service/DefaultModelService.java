@@ -1,6 +1,5 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.domain.reqif10.ReqIF;
 import de.tuberlin.sqe.ss18.reqexchange.model.domain.sysml.SysMLModel;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -21,6 +20,9 @@ import org.eclipse.papyrus.sysml14.allocations.AllocationsPackage;
 import org.eclipse.papyrus.sysml14.blocks.BlocksPackage;
 import org.eclipse.papyrus.sysml14.modelelements.ModelelementsPackage;
 import org.eclipse.papyrus.sysml14.requirements.RequirementsPackage;
+import org.eclipse.rmf.reqif10.ReqIF;
+import org.eclipse.rmf.reqif10.ReqIF10Package;
+import org.eclipse.rmf.reqif10.serialization.ReqIF10ResourceFactoryImpl;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceFactoryImpl;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceImpl;
@@ -35,7 +37,7 @@ import java.util.Map;
 public class DefaultModelService { //implements ModelService{
 
     public static ReqIF getReqIFModel(File file) {
-        /*
+
         ReqIF10Package.eINSTANCE.eClass();
 
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
@@ -49,8 +51,7 @@ public class DefaultModelService { //implements ModelService{
         ReqIF reqif = (ReqIF) resource.getContents().get(0);
 
         return reqif;
-        */
-        return null;
+
     }
 
     private static String reqIFECoreFilePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\model\\reqif\\reqif10.ecore";
