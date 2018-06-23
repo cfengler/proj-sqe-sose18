@@ -20,8 +20,8 @@ import java.util.Optional;
 public class ProjectInfoController extends BorderPane {
 
     @FXML private Button buttonLeaveProject;
-    @FXML private Button buttonPullChanges;
-    @FXML private Button buttonPushChanges;
+    //@FXML private Button buttonPullChanges;
+    @FXML private Button buttonSync;
     @FXML private Button buttonExportProject;
     @FXML private Label labelProjectName;
     @FXML private Label labelFileType;
@@ -52,25 +52,25 @@ public class ProjectInfoController extends BorderPane {
         this.prefHeightProperty().bind(this.prefWidthProperty());
         buttonLeaveProject.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
         buttonLeaveProject.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
-        buttonPushChanges.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
-        buttonPushChanges.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
-        buttonPullChanges.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
-        buttonPullChanges.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
+        buttonSync.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
+        buttonSync.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
+        //buttonPullChanges.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
+        //buttonPullChanges.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
         buttonExportProject.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
         buttonExportProject.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
 
         buttonLeaveProject.prefWidthProperty().bind(this.widthProperty().multiply(0.25));
         buttonLeaveProject.prefHeightProperty().bind(buttonLeaveProject.prefWidthProperty());
-        buttonPushChanges.prefHeightProperty().bind(this.widthProperty().multiply(0.25));
-        buttonPushChanges.prefWidthProperty().bind(buttonPushChanges.prefHeightProperty());
-        buttonPullChanges.prefHeightProperty().bind(this.widthProperty().multiply(0.25));
-        buttonPullChanges.prefWidthProperty().bind(buttonPullChanges.prefHeightProperty());
+        buttonSync.prefHeightProperty().bind(this.widthProperty().multiply(0.25));
+        buttonSync.prefWidthProperty().bind(buttonSync.prefHeightProperty());
+        //buttonPullChanges.prefHeightProperty().bind(this.widthProperty().multiply(0.25));
+        //buttonPullChanges.prefWidthProperty().bind(buttonPullChanges.prefHeightProperty());
         buttonExportProject.prefWidthProperty().bind(this.widthProperty().multiply(0.25));
         buttonExportProject.prefHeightProperty().bind(buttonExportProject.prefWidthProperty());
 
         labelProjectName.textProperty().bind(projectViewModel.nameProperty());
-        buttonPushChanges.disableProperty().bind(projectViewModel.canPushProperty().not().or(clientViewModel.busyProperty()));
-        buttonPullChanges.disableProperty().bind(projectViewModel.canPullProperty().not().or(clientViewModel.busyProperty()));
+        buttonSync.disableProperty().bind(projectViewModel.canPushProperty().not().or(clientViewModel.busyProperty()).or(projectViewModel.canPullProperty().not()));
+        //buttonPullChanges.disableProperty().bind(projectViewModel.canPullProperty().not().or(clientViewModel.busyProperty()));
         buttonLeaveProject.disableProperty().bind(clientViewModel.busyProperty());
         buttonExportProject.disableProperty().bind(clientViewModel.busyProperty());
         ObjectExpression<Font> fontTracking = Bindings.createObjectBinding(() -> Font.font(getWidth() / 10), widthProperty());
@@ -86,8 +86,8 @@ public class ProjectInfoController extends BorderPane {
         clientViewModel.handlePullChanges(projectViewModel);
     }
 
-    @FXML protected void handleButtonPushChangesAction(ActionEvent event) {
-        clientViewModel.handlePushChanges(projectViewModel);
+    @FXML protected void handleButtonSyncAction(ActionEvent event) {
+        clientViewModel.handleSyncChanges(projectViewModel);
     }
 
     @FXML protected void handleButtonExportProjectAction(ActionEvent event) {
