@@ -191,7 +191,14 @@ public class DefaultGitService implements GitService {
 
     public boolean pushAll(Project project) {
         try (Git git = getLocalGitRepository(project)) {
-            Iterable<PushResult> iterable = git.push()
+            git.pull().setStrategy(MergeStrategy.OURS).call();
+            git.push()
+                    .setPushAll()
+                    .setCredentialsProvider(credentialsProvider)
+                    .call();
+            return true;
+
+            /*Iterable<PushResult> iterable = git.push()
                     .setPushAll()
                     .setCredentialsProvider(credentialsProvider)
                     .call();
@@ -199,10 +206,10 @@ public class DefaultGitService implements GitService {
             for (PushResult pushResult: iterable) {
                 for (RemoteRefUpdate remoteRefUpdate : pushResult.getRemoteUpdates()) {
                     if (remoteRefUpdate.getStatus() == RemoteRefUpdate.Status.REJECTED_NONFASTFORWARD) {
-                        /*git.pull().call();
+                        git.pull().call();
                         git.merge().setStrategy(MergeStrategy.OURS).call();
                         git.commit().setAll(true).call();
-                        return pushAll(project);*/
+                        return pushAll(project);
                         //return true;
                         git.pull().setStrategy(MergeStrategy.OURS).call();
                         //git.merge().setStrategy(MergeStrategy.OURS).call();
@@ -215,7 +222,7 @@ public class DefaultGitService implements GitService {
                 }
                 System.out.println(pushResult.getMessages());
             }
-            return true;
+            return true;*/
         }
         catch (Exception e) {
             e.printStackTrace();
