@@ -107,7 +107,7 @@ public class ClientViewModel {
                 });
     }
 
-    public void handlePushChanges(ProjectViewModel projectViewModel) {
+    public void handleSyncChanges(ProjectViewModel projectViewModel) {
         busy.set(true);
         Observable.just(1)
                 .subscribeOn(Schedulers.newThread())
