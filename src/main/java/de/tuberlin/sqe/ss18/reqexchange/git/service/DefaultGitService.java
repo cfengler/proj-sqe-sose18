@@ -69,6 +69,33 @@ public class DefaultGitService implements GitService {
         }
     }
 
+    public void listDiffEntries(Project project) {
+        try (Git git = getLocalGitRepository(project)) {
+            FetchResult fetchResult = git.fetch().setRemote("origin").call();
+
+            Repository repository = git.getRepository();
+            ObjectId fetchHead = repository.resolve("FETCH_HEAD^{tree}");
+            ObjectId head = repository.resolve("HEAD^{tree}");
+
+            ObjectReader reader = repository.newObjectReader();
+            CanonicalTreeParser currentTreeParser = new CanonicalTreeParser();
+            currentTreeParser.reset(reader, head);
+            CanonicalTreeParser fetchTreeParser = new CanonicalTreeParser();
+            fetchTreeParser.reset(reader, fetchHead);
+
+            List<DiffEntry> diffEntries = git.diff().setShowNameAndStatusOnly(true)
+                    .setNewTree(fetchTreeParser)
+                    .setOldTree(currentTreeParser)
+                    .call();
+
+            for (DiffEntry diffEntry : diffEntries) {
+                System.out.println(diffEntry.toString());
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public boolean checkPullNeeded(Project project) {
         try (Git git = getLocalGitRepository(project)) {
             FetchResult fetchResult = git.fetch().setRemote("origin").call();
@@ -98,7 +125,6 @@ public class DefaultGitService implements GitService {
                     formatter.format(diffEntry);
                 }
             }
-
 
             return diffEntries.stream().anyMatch(diffEntry -> {
                 return !diffEntry.getOldId().equals(diffEntry.getNewId());

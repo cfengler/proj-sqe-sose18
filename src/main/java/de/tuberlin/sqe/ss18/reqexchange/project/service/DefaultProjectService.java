@@ -168,10 +168,12 @@ public class DefaultProjectService implements ProjectService {
     public boolean push(Project project) {
         //TODO: implement
         //0. push needed?
-        if (!checkPushNeeded(project)) {
-            return false;
-        }
+        //gitService.listDiffEntries(project);
+        //if (!checkPushNeeded(project)) {
+        //    return false;
+        //}
 
+        //gitService.listDiffEntries(project);
         //1. Validate userFile
         if (modelValidationService.validate(project.getFilePath())) {
             //2. M2M Transformation
@@ -184,11 +186,18 @@ public class DefaultProjectService implements ProjectService {
         }
 
         //3. Commit
+
+
+        //gitService.listDiffEntries(project);
         gitService.commitAll(project);
+
+        //gitService.listDiffEntries(project);
+
         if (gitService.pushAll(project)) {
-            gitService.pull(project);
+            //gitService.pull(project);
             return true;
         }
+        return false;
         //TODO: nicht ok?
 
         //gitService.fetch(project);
@@ -197,33 +206,33 @@ public class DefaultProjectService implements ProjectService {
 
         //4. pull needed?
         //TODO: läuft nicht weil durch commit heads unterschiedlich
-        if (!gitService.checkPullNeeded(project)) {
-//            //no:
-//            //5. push
-//            gitService.pushAll(project);
-//            return true;
-        }
+//        if (!gitService.checkPullNeeded(project)) {
+////            //no:
+////            //5. push
+////            gitService.pushAll(project);
+////            return true;
+//        }
 
         //yes:
         //5. pull
         //6. merge strategy our
-        gitService.executePullMergeWithStrategyOur(project);
-        //7. validate Common Modell
-        if (modelValidationService.validate(project.getCommonModelFilePath())) {
-            //ok:
-            //8. commit + push
-            //9. M2M Transformation to user File
-            gitService.executeCommitPushAll(project);
-            modelTransformationService.transform(project.getCommonModelFilePath(), project.getFilePath());
-            return true;
-        }
-        else {
-            //not ok:
-            //8. undo all local changes to the point from remote reset Hard
-            gitService.resetHard(project);
-        }
-
-        return false;
+//        gitService.executePullMergeWithStrategyOur(project);
+//        //7. validate Common Modell
+//        if (modelValidationService.validate(project.getCommonModelFilePath())) {
+//            //ok:
+//            //8. commit + push
+//            //9. M2M Transformation to user File
+//            gitService.executeCommitPushAll(project);
+//            modelTransformationService.transform(project.getCommonModelFilePath(), project.getFilePath());
+//            return true;
+//        }
+//        else {
+//            //not ok:
+//            //8. undo all local changes to the point from remote reset Hard
+//            gitService.resetHard(project);
+//        }
+//
+//        return false;
     }
 
     private Project getProjectByNameAndFilePath(String name, Path filePath) {

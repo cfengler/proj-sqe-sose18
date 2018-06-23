@@ -22,4 +22,8 @@ public interface GitService {
 
     boolean fetch(Project project);
 
+
+    //TODO: debug
+    void listDiffEntries(Project project);
+
 }
