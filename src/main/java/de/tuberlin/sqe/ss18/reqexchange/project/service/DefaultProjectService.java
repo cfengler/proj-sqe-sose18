@@ -209,6 +209,8 @@ public class DefaultProjectService implements ProjectService {
         //gitService.listDiffEntries(project);
 
         if (gitService.pushAll(project)) {
+            project.setPullNeeded(false);
+            saveProjectInfo(project);
             //gitService.pull(project);
             return true;
         }
