@@ -74,14 +74,18 @@ public class ClientController {
     private void addProjectInfoController(ProjectViewModel projectViewModel) {
         ProjectInfoController newController = new ProjectInfoController(projectViewModel, clientViewModel);
         FlowPane.setMargin(newController, new Insets(5));
+        calculateControllerWidth(newController, scrollPaneProjects.getWidth());
         scrollPaneProjects.widthProperty().addListener(((observable, oldValue, newValue) -> {
-            double paneWidth = newController.getMinWidth() + FlowPane.getMargin(newController).getRight() + FlowPane.getMargin(newController).getLeft();
-            int panesInRow = (int) ((newValue.doubleValue()) / paneWidth);
-            double marginSize = FlowPane.getMargin(newController).getRight() * 2 * panesInRow;
-            double remaining = newValue.doubleValue() % paneWidth;
-            newController.setPrefWidth(newController.getMinWidth() + (remaining - 20) / panesInRow);
+            calculateControllerWidth(newController, newValue.doubleValue());
         }));
         flowPaneProjects.getChildren().add(newController);
+    }
+
+    private void calculateControllerWidth(ProjectInfoController controller, double width) {
+        double paneWidth = controller.getMinWidth() + FlowPane.getMargin(controller).getRight() + FlowPane.getMargin(controller).getLeft();
+        int panesInRow = (int) ((width) / paneWidth);
+        double remaining = width % paneWidth;
+        controller.setPrefWidth(controller.getMinWidth() + (remaining - 20) / panesInRow);
     }
 
     @FXML protected void handleButtonCreateProjectAction(ActionEvent event) {
