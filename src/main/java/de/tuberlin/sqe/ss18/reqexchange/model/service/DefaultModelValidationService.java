@@ -1,37 +1,42 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class DefaultModelValidationService implements ModelValidationService {
 
-    public boolean validateCommonModelFile(File file) {
-        if (!file.exists()) {
+    public boolean validate(Path path) {
+        if (path == null || !Files.isRegularFile(path)) {
             return false;
         }
 
-        //TODO: implement validation based on EMF-Validator?
-
-        return false;
-    }
-
-    public boolean validateReqIFFile(File file) {
-        if (!file.exists()) {
-            return false;
-        }
+//        if (!file.exists()) {
+//            return false;
+//        }
 
         //TODO: implement validation based on EMF-Validator?
 
-        return false;
+        return true;
     }
 
-    public boolean validateSysMLFile(File file) {
-        if (!file.exists()) {
-            return false;
-        }
-
-        //TODO: implement validation based on EMF-Validator?
-
-        return false;
-    }
+//    public boolean validateReqIFFile(File file) {
+//        if (!file.exists()) {
+//            return false;
+//        }
+//
+//        //TODO: implement validation based on EMF-Validator?
+//
+//        return false;
+//    }
+//
+//    public boolean validateSysMLFile(File file) {
+//        if (!file.exists()) {
+//            return false;
+//        }
+//
+//        //TODO: implement validation based on EMF-Validator?
+//
+//        return false;
+//    }
 
 }
