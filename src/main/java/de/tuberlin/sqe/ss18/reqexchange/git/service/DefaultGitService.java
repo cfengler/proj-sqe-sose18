@@ -197,32 +197,6 @@ public class DefaultGitService implements GitService {
                     .setCredentialsProvider(credentialsProvider)
                     .call();
             return true;
-
-            /*Iterable<PushResult> iterable = git.push()
-                    .setPushAll()
-                    .setCredentialsProvider(credentialsProvider)
-                    .call();
-
-            for (PushResult pushResult: iterable) {
-                for (RemoteRefUpdate remoteRefUpdate : pushResult.getRemoteUpdates()) {
-                    if (remoteRefUpdate.getStatus() == RemoteRefUpdate.Status.REJECTED_NONFASTFORWARD) {
-                        git.pull().call();
-                        git.merge().setStrategy(MergeStrategy.OURS).call();
-                        git.commit().setAll(true).call();
-                        return pushAll(project);
-                        //return true;
-                        git.pull().setStrategy(MergeStrategy.OURS).call();
-                        //git.merge().setStrategy(MergeStrategy.OURS).call();
-                        git.push()
-                                .setPushAll()
-                                .setCredentialsProvider(credentialsProvider)
-                                .call();
-                        return true;
-                    }
-                }
-                System.out.println(pushResult.getMessages());
-            }
-            return true;*/
         }
         catch (Exception e) {
             e.printStackTrace();
