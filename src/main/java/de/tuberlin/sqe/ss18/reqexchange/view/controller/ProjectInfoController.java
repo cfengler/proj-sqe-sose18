@@ -150,7 +150,7 @@ public class ProjectInfoController extends BorderPane {
 
         dialog.setResultConverter(dialogButton -> {
             if(dialogButton == ButtonType.OK) {
-                return file.getText();
+                return filename.getText();
             }
             return null;
         });
