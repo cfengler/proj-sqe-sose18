@@ -12,10 +12,18 @@ public interface GitService {
 
     boolean executeCommitPushAll(Project project);
     //boolean addAllFiles(Project project);
-    //boolean commitAll(Project project);
+    boolean commitAll(Project project);
     //boolean canPush(Project project);
     //boolean pushAll(Project project);
 
+    boolean pushAll(Project project);
+    boolean executePullMergeWithStrategyOur(Project project);
+    boolean resetHard(Project project);
 
+    boolean fetch(Project project);
+
+
+    //TODO: debug
+    void listDiffEntries(Project project);
 
 }

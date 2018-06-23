@@ -68,20 +68,24 @@ public class ClientController {
         clientViewModel.busyProperty().bindBidirectional(buttonJoinProject.disableProperty());
 
         //TODO Testdaten entfernen
-        addTestProjects();
+        //addTestProjects();
     }
 
     private void addProjectInfoController(ProjectViewModel projectViewModel) {
         ProjectInfoController newController = new ProjectInfoController(projectViewModel, clientViewModel);
         FlowPane.setMargin(newController, new Insets(5));
+        calculateControllerWidth(newController, scrollPaneProjects.getWidth());
         scrollPaneProjects.widthProperty().addListener(((observable, oldValue, newValue) -> {
-            double paneWidth = newController.getMinWidth() + FlowPane.getMargin(newController).getRight() + FlowPane.getMargin(newController).getLeft();
-            int panesInRow = (int) ((newValue.doubleValue()) / paneWidth);
-            double marginSize = FlowPane.getMargin(newController).getRight() * 2 * panesInRow;
-            double remaining = newValue.doubleValue() % paneWidth;
-            newController.setPrefWidth(newController.getMinWidth() + (remaining - 20) / panesInRow);
+            calculateControllerWidth(newController, newValue.doubleValue());
         }));
         flowPaneProjects.getChildren().add(newController);
+    }
+
+    private void calculateControllerWidth(ProjectInfoController controller, double width) {
+        double paneWidth = controller.getMinWidth() + FlowPane.getMargin(controller).getRight() + FlowPane.getMargin(controller).getLeft();
+        int panesInRow = (int) ((width) / paneWidth);
+        double remaining = width % paneWidth;
+        controller.setPrefWidth(controller.getMinWidth() + (remaining - 20) / panesInRow);
     }
 
     @FXML protected void handleButtonCreateProjectAction(ActionEvent event) {
@@ -95,7 +99,11 @@ public class ClientController {
         grid.setVgap(5);
         TextField name = new TextField();
         PasswordField password = new PasswordField();
+        password.setDisable(true);
+        password.setPromptText("disabled");
         PasswordField confirmPassword = new PasswordField();
+        confirmPassword.setDisable(true);
+        confirmPassword.setPromptText("disabled");
         //TODO Testdaten entfernen
         //name.setText("proj-sqe-sose18-test");
         //password.setText("a");
@@ -133,8 +141,8 @@ public class ClientController {
         Node ok = dialog.getDialogPane().lookupButton(ButtonType.OK);
         ok.setDisable(true);
         ChangeListener changeListener = (observable, oldValue, newValue) -> {
-            ok.setDisable(name.getText().equals("") || password.getText().equals("")
-                    || confirmPassword.getText().equals("") || filename.getText().equals(""));
+            ok.setDisable(name.getText().equals("") /*|| password.getText().equals("")
+                    || confirmPassword.getText().equals("")*/ || filename.getText().equals(""));
         };
         name.textProperty().addListener(changeListener);
         password.textProperty().addListener(changeListener);
@@ -172,6 +180,8 @@ public class ClientController {
         grid.setVgap(5);
         TextField name = new TextField();
         PasswordField password = new PasswordField();
+        password.setDisable(true);
+        password.setPromptText("disabled");
         ChoiceBox<ReqExchangeFileType> choice = new ChoiceBox<>();
         //TODO Testdaten entfernen
         //name.setText("proj-sqe-sose18-test");
@@ -212,7 +222,7 @@ public class ClientController {
         Node ok = dialog.getDialogPane().lookupButton(ButtonType.OK);
         ok.setDisable(true);
         ChangeListener changeListener = (observable, oldValue, newValue) -> {
-            ok.setDisable(name.getText().equals("") || password.getText().equals("") || filename.getText().equals("") || choice.getSelectionModel().getSelectedIndex() == -1);
+            ok.setDisable(name.getText().equals("") || /*password.getText().equals("") ||*/ filename.getText().equals("") || choice.getSelectionModel().getSelectedIndex() == -1);
         };
         name.textProperty().addListener(changeListener);
         password.textProperty().addListener(changeListener);
