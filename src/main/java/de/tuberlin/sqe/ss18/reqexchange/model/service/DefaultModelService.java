@@ -42,11 +42,11 @@ public class DefaultModelService { //implements ModelService{
 
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map<String, Object> m = reg.getExtensionToFactoryMap();
-        m.put("reqif", new ReqIF10ResourceFactoryImpl());
+        m.put("*", new ReqIF10ResourceFactoryImpl());
 
         ResourceSet resSet = new ResourceSetImpl();
 
-        Resource resource = resSet.getResource(URI.createURI(file.getAbsolutePath()), true);
+        Resource resource = resSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
 
         ReqIF reqif = (ReqIF) resource.getContents().get(0);
 
@@ -124,7 +124,7 @@ public class DefaultModelService { //implements ModelService{
         extesionToFactoryMap.put("uml", umlResourceFactory);
 
 
-        UMLResourceImpl resource = (UMLResourceImpl) resourceSet.getResource(URI.createURI(file.getAbsolutePath()), true);
+        UMLResourceImpl resource = (UMLResourceImpl) resourceSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
 
 
 
