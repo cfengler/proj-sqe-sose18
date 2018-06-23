@@ -16,6 +16,8 @@ public interface GitService {
     //boolean canPush(Project project);
     //boolean pushAll(Project project);
 
+    boolean pullMergeStrategyOur(Project project);
+
     boolean pushAll(Project project);
     boolean executePullMergeWithStrategyOur(Project project);
     boolean resetHard(Project project);

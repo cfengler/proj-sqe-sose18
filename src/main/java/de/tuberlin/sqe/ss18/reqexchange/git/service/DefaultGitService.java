@@ -189,9 +189,21 @@ public class DefaultGitService implements GitService {
         }
     }
 
-    public boolean pushAll(Project project) {
+    @Override
+    public boolean pullMergeStrategyOur(Project project) {
         try (Git git = getLocalGitRepository(project)) {
             git.pull().setStrategy(MergeStrategy.OURS).call();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean pushAll(Project project) {
+        try (Git git = getLocalGitRepository(project)) {
+            pullMergeStrategyOur(project);
             git.push()
                     .setPushAll()
                     .setCredentialsProvider(credentialsProvider)
