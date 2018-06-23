@@ -55,6 +55,7 @@ public class DefaultProjectService implements ProjectService {
                         Project project = getProjectByNameAndFilePath(
                                 projectInfo.getName(),
                                 Paths.get(projectInfo.getFileName()));
+                        project.setPullNeeded(projectInfo.isPullNeeded());
                         refresh(project);
                         //TODO: get information about push and pull?
                         result.add(project);
@@ -144,12 +145,19 @@ public class DefaultProjectService implements ProjectService {
     public void refresh(Project project) {
         //TODO: ob das schon funktioniert? also der gitService
         project.setPushNeeded(checkPushNeeded(project));
-        project.setPullNeeded(checkPullNeeded(project));
+
+        if (!project.isPullNeeded()) {
+            if (gitService.checkPullNeeded(project)) {
+                project.setPullNeeded(true);
+                saveProjectInfo(project);
+            }
+        }
     }
 
-    private boolean checkPullNeeded(Project project) {
-        return gitService.checkPullNeeded(project);
-    }
+    //private boolean checkPullNeeded(Project project) {
+
+    //    return project.isPullNeeded();
+    //}
 
     private boolean checkPushNeeded(Project project) {
         long userFileLastModified = project.getFilePath().toFile().lastModified();
@@ -161,7 +169,14 @@ public class DefaultProjectService implements ProjectService {
     @Override
     public boolean pull(Project project) {
         //TODO: similar complicated like push?
-        return gitService.pull(project);
+        if (gitService.pull(project)) {
+            project.setPullNeeded(false);
+            saveProjectInfo(project);
+
+            modelTransformationService.transform(project.getLocalGitRepositoryPath(), project.getFilePath());
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -250,6 +265,7 @@ public class DefaultProjectService implements ProjectService {
         ProjectInfo projectInfo = new ProjectInfo();
         projectInfo.setName(project.getName());
         projectInfo.setFileName(project.getFilePath().toString());
+        projectInfo.setPullNeeded(project.isPullNeeded());
 
         jsonSerializerService.serializeToFile(projectInfo, project.getProjectInfoFilePath().toFile());
     }

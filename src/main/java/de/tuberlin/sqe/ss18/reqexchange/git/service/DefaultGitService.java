@@ -99,36 +99,42 @@ public class DefaultGitService implements GitService {
     public boolean checkPullNeeded(Project project) {
         try (Git git = getLocalGitRepository(project)) {
             FetchResult fetchResult = git.fetch().setRemote("origin").call();
-            Repository repository = git.getRepository();
-            ObjectId fetchHead = repository.resolve("FETCH_HEAD^{tree}");
-            ObjectId head = repository.resolve("HEAD^{tree}");
-
-            ObjectReader reader = repository.newObjectReader();
-            CanonicalTreeParser currentTreeParser = new CanonicalTreeParser();
-            currentTreeParser.reset(reader, head);
-            CanonicalTreeParser fetchTreeParser = new CanonicalTreeParser();
-            fetchTreeParser.reset(reader, fetchHead);
-
-            List<DiffEntry> diffEntries = git.diff().setShowNameAndStatusOnly(true)
-                    .setNewTree(fetchTreeParser)
-                    .setOldTree(currentTreeParser)
-                    .call();
-
-            if (diffEntries.isEmpty()) {
-                return false;
+            if (!fetchResult.getTrackingRefUpdates().isEmpty()) {
+                return true;
             }
-
-            for (DiffEntry diffEntry : diffEntries) {
-                System.out.println("Entry: " + diffEntry + ", from: " + diffEntry.getOldId() + ", to: " + diffEntry.getNewId());
-                try (DiffFormatter formatter = new DiffFormatter(System.out)) {
-                    formatter.setRepository(repository);
-                    formatter.format(diffEntry);
-                }
-            }
-
-            return diffEntries.stream().anyMatch(diffEntry -> {
-                return !diffEntry.getOldId().equals(diffEntry.getNewId());
-            });
+            return false;
+//            return project.setPullNeeded();
+//            return  ||
+//            Repository repository = git.getRepository();
+//            ObjectId fetchHead = repository.resolve("FETCH_HEAD^{tree}");
+//            ObjectId head = repository.resolve("HEAD^{tree}");
+//
+//            ObjectReader reader = repository.newObjectReader();
+//            CanonicalTreeParser currentTreeParser = new CanonicalTreeParser();
+//            currentTreeParser.reset(reader, head);
+//            CanonicalTreeParser fetchTreeParser = new CanonicalTreeParser();
+//            fetchTreeParser.reset(reader, fetchHead);
+//
+//            List<DiffEntry> diffEntries = git.diff().setShowNameAndStatusOnly(true)
+//                    .setNewTree(fetchTreeParser)
+//                    .setOldTree(currentTreeParser)
+//                    .call();
+//
+//            if (diffEntries.isEmpty()) {
+//                return false;
+//            }
+//
+//            for (DiffEntry diffEntry : diffEntries) {
+//                System.out.println("Entry: " + diffEntry + ", from: " + diffEntry.getOldId() + ", to: " + diffEntry.getNewId());
+//                try (DiffFormatter formatter = new DiffFormatter(System.out)) {
+//                    formatter.setRepository(repository);
+//                    formatter.format(diffEntry);
+//                }
+//            }
+//
+//            return diffEntries.stream().anyMatch(diffEntry -> {
+//                return !diffEntry.getOldId().equals(diffEntry.getNewId());
+//            });
 
             //return !diffs.isEmpty();
         }
@@ -139,9 +145,12 @@ public class DefaultGitService implements GitService {
     }
 
     public boolean pull(Project project) {
-        if (!checkPullNeeded(project)) {
-            return true;
+        if (!project.isPullNeeded()) {
+            return false;
         }
+        //if (!checkPullNeeded(project)) {
+        //    return true;
+        //}
 
         try (Git git = getLocalGitRepository(project)) {
             git.pull().call();
@@ -182,10 +191,23 @@ public class DefaultGitService implements GitService {
 
     public boolean pushAll(Project project) {
         try (Git git = getLocalGitRepository(project)) {
-            git.push()
+            Iterable<PushResult> iterable = git.push()
                     .setPushAll()
                     .setCredentialsProvider(credentialsProvider)
                     .call();
+
+            for (PushResult pushResult: iterable) {
+                for (RemoteRefUpdate remoteRefUpdate : pushResult.getRemoteUpdates()) {
+                    if (remoteRefUpdate.getStatus() == RemoteRefUpdate.Status.REJECTED_NONFASTFORWARD) {
+                        git.pull().call();
+                        git.merge().setStrategy(MergeStrategy.OURS).call();
+                        git.commit().setAll(true).call();
+                        return pushAll(project);
+                        //return true;
+                    }
+                }
+                System.out.println(pushResult.getMessages());
+            }
             return true;
         }
         catch (Exception e) {
