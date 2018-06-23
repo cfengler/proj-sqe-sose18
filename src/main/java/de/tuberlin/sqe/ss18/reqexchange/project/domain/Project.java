@@ -22,12 +22,12 @@ public class Project {
         this.name = newValue;
     }
 
-    private Path filePath;
-    public Path getFilePath() {
-        return filePath;
+    private Path workingModelFilePath;
+    public Path getWorkingModelFilePath() {
+        return workingModelFilePath;
     }
-    public void setFilePath(Path newValue) {
-        this.filePath = newValue;
+    public void setWorkingModelFilePath(Path newValue) {
+        this.workingModelFilePath = newValue;
     }
 
     private Path commonModelFilePath;

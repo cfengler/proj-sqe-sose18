@@ -86,7 +86,7 @@ public class DefaultProjectService implements ProjectService {
             return null;
         }
 
-        if (!modelTransformationService.transform(newProject.getFilePath(), newProject.getCommonModelFilePath())) {
+        if (!modelTransformationService.transform(newProject.getWorkingModelFilePath(), newProject.getCommonModelFilePath())) {
             leave(newProject);
             return null;
         }
@@ -111,7 +111,7 @@ public class DefaultProjectService implements ProjectService {
             return null;
         }
 
-        if (!modelTransformationService.transform(joinProject.getCommonModelFilePath(), joinProject.getFilePath())) {
+        if (!modelTransformationService.transform(joinProject.getCommonModelFilePath(), joinProject.getWorkingModelFilePath())) {
             leave(joinProject);
             return null;
         }
@@ -160,7 +160,7 @@ public class DefaultProjectService implements ProjectService {
     //}
 
     private boolean checkPushNeeded(Project project) {
-        long userFileLastModified = project.getFilePath().toFile().lastModified();
+        long userFileLastModified = project.getWorkingModelFilePath().toFile().lastModified();
         long gitFileLastModified = project.getCommonModelFilePath().toFile().lastModified();
 
         return userFileLastModified > gitFileLastModified;
@@ -173,7 +173,7 @@ public class DefaultProjectService implements ProjectService {
             project.setPullNeeded(false);
             saveProjectInfo(project);
 
-            modelTransformationService.transform(project.getLocalGitRepositoryPath(), project.getFilePath());
+            modelTransformationService.transform(project.getLocalGitRepositoryPath(), project.getWorkingModelFilePath());
             return true;
         }
         return false;
@@ -181,40 +181,45 @@ public class DefaultProjectService implements ProjectService {
 
     @Override
     public boolean push(Project project) {
-        //TODO: implement
-        //0. push needed?
-        //gitService.listDiffEntries(project);
-        //if (!checkPushNeeded(project)) {
-        //    return false;
-        //}
-
-        //gitService.listDiffEntries(project);
         //1. Validate userFile
-        if (modelValidationService.validate(project.getFilePath())) {
+        if (modelValidationService.validate(project.getWorkingModelFilePath())) {
             //2. M2M Transformation
-            modelTransformationService.transform(project.getFilePath(), project.getCommonModelFilePath());
+            modelTransformationService.transform(project.getWorkingModelFilePath(), project.getCommonModelFilePath());
         }
         else {
             //2. M2M Transformation
-            modelTransformationService.transform(project.getCommonModelFilePath(), project.getFilePath());
+            modelTransformationService.transform(project.getCommonModelFilePath(), project.getWorkingModelFilePath());
             return false;
         }
 
         //3. Commit
-
-
-        //gitService.listDiffEntries(project);
         gitService.commitAll(project);
 
-        //gitService.listDiffEntries(project);
-
-        if (gitService.pushAll(project)) {
-            project.setPullNeeded(false);
-            saveProjectInfo(project);
-            //gitService.pull(project);
-            return true;
+        gitService.pullMergeStrategyOur(project);
+        if (modelValidationService.validate(project.getCommonModelFilePath())) {
+            gitService.pushAll(project);
         }
-        return false;
+        else {
+            gitService.resetHard(project);
+        }
+
+        project.setPullNeeded(false);
+        saveProjectInfo(project);
+        modelTransformationService.transform(project.getCommonModelFilePath(), project.getWorkingModelFilePath());
+        return true;
+        //4. push = pull mit MergeStrategy our und push
+//        if () {
+//
+//        }
+//        if (gitService.pushAll(project)) {
+//            project.setPullNeeded(false);
+//            saveProjectInfo(project);
+//
+//            //TODO: mapping
+//            modelTransformationService.transform(project.getCommonModelFilePath(), project.getWorkingModelFilePath());
+//            return true;
+//        }
+//        return false;
         //TODO: nicht ok?
 
         //gitService.fetch(project);
@@ -240,7 +245,7 @@ public class DefaultProjectService implements ProjectService {
 //            //8. commit + push
 //            //9. M2M Transformation to user File
 //            gitService.executeCommitPushAll(project);
-//            modelTransformationService.transform(project.getCommonModelFilePath(), project.getFilePath());
+//            modelTransformationService.transform(project.getCommonModelFilePath(), project.getWorkingModelFilePath());
 //            return true;
 //        }
 //        else {
@@ -255,7 +260,7 @@ public class DefaultProjectService implements ProjectService {
     private Project getProjectByNameAndFilePath(String name, Path filePath) {
         Project result = new Project();
         result.setName(name);
-        result.setFilePath(filePath);
+        result.setWorkingModelFilePath(filePath);
         result.setLocalGitRepositoryPath(pathService.getLocalGitRepositoryPathByProjectName(name));
         result.setCommonModelFilePath(pathService.getLocalGitRepositoryPathByProjectName(name).resolve("data.cm"));
         result.setProjectInfoFilePath(pathService.getProjectInfosPath().resolve(name + ".json"));
@@ -266,7 +271,7 @@ public class DefaultProjectService implements ProjectService {
     private void saveProjectInfo(Project project) {
         ProjectInfo projectInfo = new ProjectInfo();
         projectInfo.setName(project.getName());
-        projectInfo.setFileName(project.getFilePath().toString());
+        projectInfo.setFileName(project.getWorkingModelFilePath().toString());
         projectInfo.setPullNeeded(project.isPullNeeded());
 
         jsonSerializerService.serializeToFile(projectInfo, project.getProjectInfoFilePath().toFile());

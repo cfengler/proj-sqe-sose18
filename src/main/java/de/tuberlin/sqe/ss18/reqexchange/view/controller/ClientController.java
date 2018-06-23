@@ -248,7 +248,7 @@ public class ClientController {
         /*for(int i = 0;i < 10;i++) {
             Project project = new Project();
             project.setName("Dies-ist-ein-sehr-langer-test-name " + i);
-            project.setFilePath(Paths.get("reqif.reqif"));
+            project.setWorkingModelFilePath(Paths.get("reqif.reqif"));
             ProjectViewModel viewModel = new ProjectViewModel(project);
             viewModel.setCanPull(true);
             viewModel.setCanPush(true);
@@ -256,7 +256,7 @@ public class ClientController {
         }*/
         Project project1 = new Project();
         project1.setName("SQE Project");
-        project1.setFilePath(Paths.get("testdatei.reqif"));
+        project1.setWorkingModelFilePath(Paths.get("testdatei.reqif"));
         ProjectViewModel viewModel1 = new ProjectViewModel(project1);
         viewModel1.setCanPull(true);
         viewModel1.setCanPush(false);
@@ -264,7 +264,7 @@ public class ClientController {
 
         Project project2 = new Project();
         project2.setName("Top Secret");
-        project2.setFilePath(Paths.get("testdatei.uml"));
+        project2.setWorkingModelFilePath(Paths.get("testdatei.uml"));
         ProjectViewModel viewModel2 = new ProjectViewModel(project2);
         viewModel2.setCanPull(false);
         viewModel2.setCanPush(false);
@@ -272,7 +272,7 @@ public class ClientController {
 
         Project project3 = new Project();
         project3.setName("Microsoft GitHub");
-        project3.setFilePath(Paths.get("testdatei.xlsx"));
+        project3.setWorkingModelFilePath(Paths.get("testdatei.xlsx"));
         ProjectViewModel viewModel3 = new ProjectViewModel(project3);
         viewModel3.setCanPull(true);
         viewModel3.setCanPush(true);
@@ -280,7 +280,7 @@ public class ClientController {
 
         Project project4 = new Project();
         project4.setName("Trade Plans");
-        project4.setFilePath(Paths.get("testdatei.docx"));
+        project4.setWorkingModelFilePath(Paths.get("testdatei.docx"));
         ProjectViewModel viewModel4 = new ProjectViewModel(project4);
         viewModel4.setCanPull(false);
         viewModel4.setCanPush(true);

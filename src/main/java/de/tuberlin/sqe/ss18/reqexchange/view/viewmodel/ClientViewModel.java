@@ -44,7 +44,7 @@ public class ClientViewModel {
 
     private void addProjectFromProjectInfo(Project project) {
         ProjectViewModel viewModel = new ProjectViewModel(project);
-        ReqExchangeFileType determinedFileType  = ReqExchangeFileType.getFileTypeFromFileName(project.getFilePath().toString());
+        ReqExchangeFileType determinedFileType  = ReqExchangeFileType.getFileTypeFromFileName(project.getWorkingModelFilePath().toString());
         viewModel.setFileType(determinedFileType == null ? ReqExchangeFileType.ReqIF : determinedFileType);
         projects.add(viewModel);
     }
