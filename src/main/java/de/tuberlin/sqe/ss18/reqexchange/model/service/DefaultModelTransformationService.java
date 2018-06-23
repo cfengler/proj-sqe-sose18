@@ -44,6 +44,12 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         else if (sourcePathExtension.equals("cm") && destinationPathExtension.equals("uml")) {
             return transformCmToSysML(sourcePath.toFile(), destinationPath.toFile());
         }
+        else if (sourcePathExtension.equals("reqif") && destinationPathExtension.equals("reqif")) {
+            return copy(sourcePath.toFile(), destinationPath.toFile());
+        }
+        else if (sourcePathExtension.equals("reqif") && destinationPathExtension.equals("uml")) {
+            return transformReqifToSysML(sourcePath.toFile(), destinationPath.toFile());
+        }
         else {
             System.out.println("DefaultModelTransformationService.transform Extension not supported");
             return false;
@@ -69,6 +75,12 @@ public class DefaultModelTransformationService implements ModelTransformationSer
     }
 
     private boolean transformCmToSysML(File sourceFile, File destinationFile) {
+        //TODO: also first validate source Files with Model Validator
+        //TODO: remove with correct implementation
+        return copy(sourceFile, destinationFile);
+    }
+
+    private boolean transformReqifToSysML(File sourceFile, File destinationFile) {
         //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
         return copy(sourceFile, destinationFile);
