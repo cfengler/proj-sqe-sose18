@@ -84,12 +84,10 @@ public class ProjectInfoController extends BorderPane {
 
     @FXML protected void handleButtonPullChangesAction(ActionEvent event) {
         clientViewModel.handlePullChanges(projectViewModel);
-        showFunctionNotImplementedError();
     }
 
     @FXML protected void handleButtonPushChangesAction(ActionEvent event) {
         clientViewModel.handlePushChanges(projectViewModel);
-        showFunctionNotImplementedError();
     }
 
     @FXML protected void handleButtonExportProjectAction(ActionEvent event) {
