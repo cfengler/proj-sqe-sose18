@@ -199,11 +199,18 @@ public class DefaultGitService implements GitService {
             for (PushResult pushResult: iterable) {
                 for (RemoteRefUpdate remoteRefUpdate : pushResult.getRemoteUpdates()) {
                     if (remoteRefUpdate.getStatus() == RemoteRefUpdate.Status.REJECTED_NONFASTFORWARD) {
-                        git.pull().call();
+                        /*git.pull().call();
                         git.merge().setStrategy(MergeStrategy.OURS).call();
                         git.commit().setAll(true).call();
-                        return pushAll(project);
+                        return pushAll(project);*/
                         //return true;
+                        git.pull().setStrategy(MergeStrategy.OURS).call();
+                        //git.merge().setStrategy(MergeStrategy.OURS).call();
+                        git.push()
+                                .setPushAll()
+                                .setCredentialsProvider(credentialsProvider)
+                                .call();
+                        return true;
                     }
                 }
                 System.out.println(pushResult.getMessages());
