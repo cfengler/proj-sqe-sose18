@@ -18,4 +18,11 @@ public class ProjectInfo {
         this.fileName = newValue;
     }
 
+    private boolean pullNeeded;
+    public boolean isPullNeeded() {
+        return pullNeeded;
+    }
+    public void setPullNeeded(boolean pullNeeded) {
+        this.pullNeeded = pullNeeded;
+    }
 }
