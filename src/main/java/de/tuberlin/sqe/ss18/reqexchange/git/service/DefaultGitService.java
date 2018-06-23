@@ -69,74 +69,14 @@ public class DefaultGitService implements GitService {
         }
     }
 
-    public void listDiffEntries(Project project) {
-        try (Git git = getLocalGitRepository(project)) {
-            FetchResult fetchResult = git.fetch().setRemote("origin").call();
-
-            Repository repository = git.getRepository();
-            ObjectId fetchHead = repository.resolve("FETCH_HEAD^{tree}");
-            ObjectId head = repository.resolve("HEAD^{tree}");
-
-            ObjectReader reader = repository.newObjectReader();
-            CanonicalTreeParser currentTreeParser = new CanonicalTreeParser();
-            currentTreeParser.reset(reader, head);
-            CanonicalTreeParser fetchTreeParser = new CanonicalTreeParser();
-            fetchTreeParser.reset(reader, fetchHead);
-
-            List<DiffEntry> diffEntries = git.diff().setShowNameAndStatusOnly(true)
-                    .setNewTree(fetchTreeParser)
-                    .setOldTree(currentTreeParser)
-                    .call();
-
-            for (DiffEntry diffEntry : diffEntries) {
-                System.out.println(diffEntry.toString());
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     public boolean checkPullNeeded(Project project) {
+        //TODO: not so cool
         try (Git git = getLocalGitRepository(project)) {
             FetchResult fetchResult = git.fetch().setRemote("origin").call();
             if (!fetchResult.getTrackingRefUpdates().isEmpty()) {
                 return true;
             }
             return false;
-//            return project.setPullNeeded();
-//            return  ||
-//            Repository repository = git.getRepository();
-//            ObjectId fetchHead = repository.resolve("FETCH_HEAD^{tree}");
-//            ObjectId head = repository.resolve("HEAD^{tree}");
-//
-//            ObjectReader reader = repository.newObjectReader();
-//            CanonicalTreeParser currentTreeParser = new CanonicalTreeParser();
-//            currentTreeParser.reset(reader, head);
-//            CanonicalTreeParser fetchTreeParser = new CanonicalTreeParser();
-//            fetchTreeParser.reset(reader, fetchHead);
-//
-//            List<DiffEntry> diffEntries = git.diff().setShowNameAndStatusOnly(true)
-//                    .setNewTree(fetchTreeParser)
-//                    .setOldTree(currentTreeParser)
-//                    .call();
-//
-//            if (diffEntries.isEmpty()) {
-//                return false;
-//            }
-//
-//            for (DiffEntry diffEntry : diffEntries) {
-//                System.out.println("Entry: " + diffEntry + ", from: " + diffEntry.getOldId() + ", to: " + diffEntry.getNewId());
-//                try (DiffFormatter formatter = new DiffFormatter(System.out)) {
-//                    formatter.setRepository(repository);
-//                    formatter.format(diffEntry);
-//                }
-//            }
-//
-//            return diffEntries.stream().anyMatch(diffEntry -> {
-//                return !diffEntry.getOldId().equals(diffEntry.getNewId());
-//            });
-
-            //return !diffs.isEmpty();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -148,9 +88,6 @@ public class DefaultGitService implements GitService {
         if (!project.isPullNeeded()) {
             return false;
         }
-        //if (!checkPullNeeded(project)) {
-        //    return true;
-        //}
 
         try (Git git = getLocalGitRepository(project)) {
             git.pull().call();
@@ -158,18 +95,6 @@ public class DefaultGitService implements GitService {
         }
         catch (Exception e) {
             e.printStackTrace();;
-            return false;
-        }
-    }
-
-    public boolean executeCommitPushAll(Project project) {
-        try(Git git = getLocalGitRepository(project)) {
-            git.commit().setAll(true).setMessage(getCommitMessage()).call();
-            git.push().setPushAll().setCredentialsProvider(credentialsProvider).call();
-            return true;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }
@@ -216,20 +141,6 @@ public class DefaultGitService implements GitService {
         }
     }
 
-    public boolean executePullMergeWithStrategyOur(Project project) {
-        try(Git git = getLocalGitRepository(project)) {
-
-            MergeResult mergeResult = git.merge().setStrategy(MergeStrategy.OURS).call();
-            //TODO: kann was schief gehen?
-            mergeResult.toString();
-            return true;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public boolean resetHard(Project project) {
         try(Git git = getLocalGitRepository(project)) {
             git.reset().setMode(ResetCommand.ResetType.HARD).call();
@@ -241,28 +152,6 @@ public class DefaultGitService implements GitService {
             return false;
         }
     }
-
-    public boolean fetch(Project project) {
-        try (Git git = getLocalGitRepository(project)) {
-            FetchResult fetchResult = git.fetch().setRemote("origin").call();
-            return true;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-//    public boolean addAllFiles(Project project) {
-//        try (Git git = getLocalGitRepository(project)) {
-//            git.add().addFilepattern(".").call();
-//            return true;
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
 
     private String getCommitMessage() {
         return "Commit" +
@@ -283,5 +172,4 @@ public class DefaultGitService implements GitService {
     private URI getRemoteGitRepositoryURI(Project project) {
         return URI.create("https://github.com/cfengler/" + project.getName() + ".git");
     }
-//
 }
