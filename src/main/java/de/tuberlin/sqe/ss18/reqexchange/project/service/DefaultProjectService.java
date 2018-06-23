@@ -194,7 +194,7 @@ public class DefaultProjectService implements ProjectService {
 
         //3. Commit
         gitService.commitAll(project);
-
+        //4. pull mit MergeStrategy our
         gitService.pullMergeStrategyOur(project);
         if (modelValidationService.validate(project.getCommonModelFilePath())) {
             gitService.pushAll(project);
@@ -207,54 +207,6 @@ public class DefaultProjectService implements ProjectService {
         saveProjectInfo(project);
         modelTransformationService.transform(project.getCommonModelFilePath(), project.getWorkingModelFilePath());
         return true;
-        //4. push = pull mit MergeStrategy our und push
-//        if () {
-//
-//        }
-//        if (gitService.pushAll(project)) {
-//            project.setPullNeeded(false);
-//            saveProjectInfo(project);
-//
-//            //TODO: mapping
-//            modelTransformationService.transform(project.getCommonModelFilePath(), project.getWorkingModelFilePath());
-//            return true;
-//        }
-//        return false;
-        //TODO: nicht ok?
-
-        //gitService.fetch(project);
-        //gitService.pull(project);
-
-
-        //4. pull needed?
-        //TODO: läuft nicht weil durch commit heads unterschiedlich
-//        if (!gitService.checkPullNeeded(project)) {
-////            //no:
-////            //5. push
-////            gitService.pushAll(project);
-////            return true;
-//        }
-
-        //yes:
-        //5. pull
-        //6. merge strategy our
-//        gitService.executePullMergeWithStrategyOur(project);
-//        //7. validate Common Modell
-//        if (modelValidationService.validate(project.getCommonModelFilePath())) {
-//            //ok:
-//            //8. commit + push
-//            //9. M2M Transformation to user File
-//            gitService.executeCommitPushAll(project);
-//            modelTransformationService.transform(project.getCommonModelFilePath(), project.getWorkingModelFilePath());
-//            return true;
-//        }
-//        else {
-//            //not ok:
-//            //8. undo all local changes to the point from remote reset Hard
-//            gitService.resetHard(project);
-//        }
-//
-//        return false;
     }
 
     private Project getProjectByNameAndFilePath(String name, Path filePath) {
