@@ -173,7 +173,7 @@ public class DefaultProjectService implements ProjectService {
             project.setPullNeeded(false);
             saveProjectInfo(project);
 
-            modelTransformationService.transform(project.getLocalGitRepositoryPath(), project.getWorkingModelFilePath());
+            modelTransformationService.transform(project.getCommonModelFilePath(), project.getWorkingModelFilePath());
             return true;
         }
         return false;
@@ -203,6 +203,7 @@ public class DefaultProjectService implements ProjectService {
             gitService.resetHard(project);
         }
 
+        project.setPushNeeded(false);
         project.setPullNeeded(false);
         saveProjectInfo(project);
         modelTransformationService.transform(project.getCommonModelFilePath(), project.getWorkingModelFilePath());
