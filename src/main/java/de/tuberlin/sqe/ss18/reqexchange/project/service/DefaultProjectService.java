@@ -167,33 +167,19 @@ public class DefaultProjectService implements ProjectService {
     }
 
     @Override
-    public boolean pull(Project project) {
-        //TODO: similar complicated like push?
-        if (gitService.pull(project)) {
-            project.setPullNeeded(false);
-            saveProjectInfo(project);
+    public boolean synchronize(Project project) {
 
-            modelTransformationService.transform(project.getCommonModelFilePath(), project.getWorkingModelFilePath());
-            return true;
-        }
-        return false;
-    }
+        if (project.isPushNeeded()) {
+            if (!modelValidationService.validate(project.getWorkingModelFilePath())) {
+                modelTransformationService.transform(project.getCommonModelFilePath(), project.getWorkingModelFilePath());
 
-    @Override
-    public boolean push(Project project) {
-        //1. Validate userFile
-        if (modelValidationService.validate(project.getWorkingModelFilePath())) {
-            //2. M2M Transformation
+                return false;
+            }
+
             modelTransformationService.transform(project.getWorkingModelFilePath(), project.getCommonModelFilePath());
-        }
-        else {
-            //2. M2M Transformation
-            modelTransformationService.transform(project.getCommonModelFilePath(), project.getWorkingModelFilePath());
-            return false;
+            gitService.commitAll(project);
         }
 
-        //3. Commit
-        gitService.commitAll(project);
         //4. pull mit MergeStrategy our
         gitService.pullMergeStrategyOur(project);
         if (modelValidationService.validate(project.getCommonModelFilePath())) {
@@ -208,6 +194,12 @@ public class DefaultProjectService implements ProjectService {
         saveProjectInfo(project);
         modelTransformationService.transform(project.getCommonModelFilePath(), project.getWorkingModelFilePath());
         return true;
+    }
+
+    @Override
+    public boolean export(Project project, Path pathToExport) {
+        return modelTransformationService.transform(project.getWorkingModelFilePath(), pathToExport);
+        //return false;
     }
 
     private Project getProjectByNameAndFilePath(String name, Path filePath) {

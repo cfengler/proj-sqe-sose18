@@ -91,27 +91,11 @@ public class ClientViewModel {
                 });
     }
 
-    public void handlePullChanges(ProjectViewModel projectViewModel) {
-        busy.set(true);
-        Observable.just(1)
-                .subscribeOn(Schedulers.newThread())
-                .map(i -> projectService.pull(projectViewModel.getProject()))
-                .observeOn(JavaFxScheduler.platform())
-                .subscribe(pulled -> {
-                    busy.set(false);
-                    if(pulled) {
-                        showInformationDialog("Pull Changes", "Changes have been successfully pulled!");
-                    } else {
-                        showInformationDialog("Pull Changes", "No new changes have been pulled!");
-                    }
-                });
-    }
-
     public void handleSyncChanges(ProjectViewModel projectViewModel) {
         busy.set(true);
         Observable.just(1)
                 .subscribeOn(Schedulers.newThread())
-                .map(i -> projectService.push(projectViewModel.getProject()))
+                .map(i -> projectService.synchronize(projectViewModel.getProject()))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(pulled -> {
                     busy.set(false);
@@ -125,6 +109,15 @@ public class ClientViewModel {
 
     public void handleExportProject(ProjectViewModel projectViewModel, ReqExchangeFileType fileType) {
         System.out.println("handle export project");
+        busy.set(true);
+        Observable.just(1)
+                .subscribeOn(Schedulers.newThread())
+                .map(i -> projectService.export(projectViewModel.getProject(), pathToExport))
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(pulled -> {
+                    busy.set(false);
+                    showInformationDialog("Export Project", "Project has been successfully exported!");
+                });
         //TODO handle export project
     }
 

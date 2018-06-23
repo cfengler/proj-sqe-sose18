@@ -16,7 +16,9 @@ public interface ProjectService {
 
     void refresh(Project project);
 
-    boolean push(Project project);
-    boolean pull(Project project);
+    boolean synchronize(Project project);
+
+
+    boolean export(Project project, Path pathToExport);
 
 }
