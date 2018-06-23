@@ -91,7 +91,7 @@ public class ClientViewModel {
                 });
     }
 
-    public void handleSyncChanges(ProjectViewModel projectViewModel) {
+    public void handleSync(ProjectViewModel projectViewModel) {
         busy.set(true);
         Observable.just(1)
                 .subscribeOn(Schedulers.newThread())
@@ -100,25 +100,27 @@ public class ClientViewModel {
                 .subscribe(pulled -> {
                     busy.set(false);
                     if(pulled) {
-                        showInformationDialog("Push Changes", "Changes have been successfully pushed!");
+                        showInformationDialog("Synchronize", "Changes have been successfully synchronized!");
                     } else {
-                        showInformationDialog("Push Changes", "No new changes have been pushed!");
+                        showInformationDialog("Synchronize", "No new changes have been synchronized!");
                     }
                 });
     }
 
-    public void handleExportProject(ProjectViewModel projectViewModel, ReqExchangeFileType fileType) {
-        System.out.println("handle export project");
+    public void handleExportProject(ProjectViewModel projectViewModel, String pathToExport) {
         busy.set(true);
         Observable.just(1)
                 .subscribeOn(Schedulers.newThread())
-                .map(i -> projectService.export(projectViewModel.getProject(), pathToExport))
+                .map(i -> projectService.export(projectViewModel.getProject(), Paths.get(pathToExport)))
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(pulled -> {
+                .subscribe(exported -> {
                     busy.set(false);
-                    showInformationDialog("Export Project", "Project has been successfully exported!");
+                    if(exported) {
+                        showInformationDialog("Export Project", "Project has been successfully exported!");
+                    } else {
+                        showInformationDialog("Export Project", "An Error ecurred exporting the project!");
+                    }
                 });
-        //TODO handle export project
     }
 
     public void showInformationDialog(String title, String message) {

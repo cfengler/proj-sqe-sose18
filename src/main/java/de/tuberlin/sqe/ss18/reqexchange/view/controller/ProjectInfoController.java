@@ -3,18 +3,29 @@ package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ProjectViewModel;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectExpression;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
+import javafx.util.Pair;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class ProjectInfoController extends BorderPane {
@@ -82,21 +93,69 @@ public class ProjectInfoController extends BorderPane {
         clientViewModel.handleLeaveProject(projectViewModel);
     }
 
-    @FXML protected void handleButtonPullChangesAction(ActionEvent event) {
-        clientViewModel.handlePullChanges(projectViewModel);
-    }
-
     @FXML protected void handleButtonSyncAction(ActionEvent event) {
-        clientViewModel.handleSyncChanges(projectViewModel);
+        clientViewModel.handleSync(projectViewModel);
     }
 
     @FXML protected void handleButtonExportProjectAction(ActionEvent event) {
-        ChoiceDialog<ReqExchangeFileType> dialog = new ChoiceDialog<>(ReqExchangeFileType.ReqIF, ReqExchangeFileType.values());
-        dialog.setTitle("Export " + projectViewModel.getName());
-        dialog.setHeaderText(null);
-        dialog.setContentText("File Type:");
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Export Project");
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
         dialog.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icons/icon_export_file.png"))));
-        Optional<ReqExchangeFileType> result = dialog.showAndWait();
+
+        GridPane grid = new GridPane();
+        grid.setHgap(5);
+        grid.setVgap(5);
+        ChoiceBox<ReqExchangeFileType> choice = new ChoiceBox<>();
+        List<ReqExchangeFileType> choices = Arrays.asList(ReqExchangeFileType.values());
+        choice.setItems(FXCollections.observableArrayList(choices));
+        BorderPane border = new BorderPane();
+        Button file = new Button("...");
+        Label filename = new Label();
+        border.setCenter(filename);
+        border.setRight(file);
+        file.setOnAction(fileEvent -> {
+            filename.setMaxWidth(border.getBoundsInParent().getMinX());
+            FileChooser chooser = new FileChooser();
+            chooser.setTitle("Export File To");
+            ReqExchangeFileType filetype = choice.getSelectionModel().getSelectedItem();
+            List<String> filetypeFilters = new ArrayList<>();
+            for(String s: filetype.getFiletypes()) {
+                filetypeFilters.add("*." + s);
+            }
+            chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(filetype.getName(), filetypeFilters));
+            File chosen = chooser.showSaveDialog(grid.getScene().getWindow());
+            if(chosen != null) {
+                filename.setText(chosen.getAbsolutePath());
+            }
+        });
+
+        grid.add(new Label("File Type:"), 0, 0);
+        grid.add(new Label("Directory:"), 0, 1);
+        grid.add(choice, 1, 0);
+        grid.add(border, 1, 1);
+        for(Node n: grid.getChildren()) {
+            GridPane.setHalignment(n, HPos.RIGHT);
+        }
+        Node ok = dialog.getDialogPane().lookupButton(ButtonType.OK);
+        ok.setDisable(true);
+        ChangeListener changeListener = (observable, oldValue, newValue) -> {
+            ok.setDisable(filename.getText().equals("") || choice.getSelectionModel().getSelectedIndex() == -1);
+        };
+        choice.getSelectionModel().selectedItemProperty().addListener(changeListener);
+        filename.textProperty().addListener(changeListener);
+        file.disableProperty().bind(Bindings.equal(choice.getSelectionModel().selectedIndexProperty(), -1));
+        dialog.getDialogPane().setContent(grid);
+        Platform.runLater(choice::requestFocus);
+
+        dialog.setResultConverter(dialogButton -> {
+            if(dialogButton == ButtonType.OK) {
+                return filename.getText();
+            }
+            return null;
+        });
+
+        Optional<String> result = dialog.showAndWait();
         result.ifPresent(fileType -> clientViewModel.handleExportProject(projectViewModel, fileType));
     }
 
