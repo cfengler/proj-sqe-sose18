@@ -24,10 +24,10 @@ public class ProjectViewModel {
 
         project.addPropertyChangeListener(e -> {
             switch (e.getPropertyName()) {
-                case "localChanged":
+                case "pushNeeded":
                     setCanPush((Boolean)e.getNewValue());
                     break;
-                case "remoteChanged":
+                case "pullNeeded":
                     setCanPull((Boolean)e.getNewValue());
                     break;
                 default:

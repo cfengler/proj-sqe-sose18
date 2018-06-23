@@ -5,6 +5,7 @@ import de.tuberlin.sqe.ss18.reqexchange.common.service.PathService;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
 import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -81,12 +82,29 @@ public class DefaultGitService implements GitService {
             CanonicalTreeParser fetchTreeParser = new CanonicalTreeParser();
             fetchTreeParser.reset(reader, fetchHead);
 
-            List<DiffEntry> diffs = git.diff().setShowNameAndStatusOnly(true)
+            List<DiffEntry> diffEntries = git.diff().setShowNameAndStatusOnly(true)
                     .setNewTree(fetchTreeParser)
                     .setOldTree(currentTreeParser)
                     .call();
 
-            return !diffs.isEmpty();
+            if (diffEntries.isEmpty()) {
+                return false;
+            }
+
+            for (DiffEntry diffEntry : diffEntries) {
+                System.out.println("Entry: " + diffEntry + ", from: " + diffEntry.getOldId() + ", to: " + diffEntry.getNewId());
+                try (DiffFormatter formatter = new DiffFormatter(System.out)) {
+                    formatter.setRepository(repository);
+                    formatter.format(diffEntry);
+                }
+            }
+
+
+            return diffEntries.stream().anyMatch(diffEntry -> {
+                return !diffEntry.getOldId().equals(diffEntry.getNewId());
+            });
+
+            //return !diffs.isEmpty();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -152,6 +170,7 @@ public class DefaultGitService implements GitService {
 
     public boolean executePullMergeWithStrategyOur(Project project) {
         try(Git git = getLocalGitRepository(project)) {
+
             MergeResult mergeResult = git.merge().setStrategy(MergeStrategy.OURS).call();
             //TODO: kann was schief gehen?
             mergeResult.toString();
@@ -167,6 +186,17 @@ public class DefaultGitService implements GitService {
         try(Git git = getLocalGitRepository(project)) {
             git.reset().setMode(ResetCommand.ResetType.HARD).call();
 
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean fetch(Project project) {
+        try (Git git = getLocalGitRepository(project)) {
+            FetchResult fetchResult = git.fetch().setRemote("origin").call();
             return true;
         }
         catch (Exception e) {

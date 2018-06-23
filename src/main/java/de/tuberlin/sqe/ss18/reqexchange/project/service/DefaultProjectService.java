@@ -168,7 +168,7 @@ public class DefaultProjectService implements ProjectService {
     public boolean push(Project project) {
         //TODO: implement
         //0. push needed?
-        if (checkPushNeeded(project)) {
+        if (!checkPushNeeded(project)) {
             return false;
         }
 
@@ -185,12 +185,23 @@ public class DefaultProjectService implements ProjectService {
 
         //3. Commit
         gitService.commitAll(project);
-        //4. pull needed?
-        if (!gitService.checkPullNeeded(project)) {
-            //no:
-            //5. push
-            gitService.pushAll(project);
+        if (gitService.pushAll(project)) {
+            gitService.pull(project);
             return true;
+        }
+        //TODO: nicht ok?
+
+        //gitService.fetch(project);
+        //gitService.pull(project);
+
+
+        //4. pull needed?
+        //TODO: läuft nicht weil durch commit heads unterschiedlich
+        if (!gitService.checkPullNeeded(project)) {
+//            //no:
+//            //5. push
+//            gitService.pushAll(project);
+//            return true;
         }
 
         //yes:

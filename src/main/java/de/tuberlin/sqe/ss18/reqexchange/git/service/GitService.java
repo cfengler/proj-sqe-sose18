@@ -20,4 +20,6 @@ public interface GitService {
     boolean executePullMergeWithStrategyOur(Project project);
     boolean resetHard(Project project);
 
+    boolean fetch(Project project);
+
 }
