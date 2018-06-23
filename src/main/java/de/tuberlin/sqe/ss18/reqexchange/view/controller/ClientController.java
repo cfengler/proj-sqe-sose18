@@ -95,7 +95,11 @@ public class ClientController {
         grid.setVgap(5);
         TextField name = new TextField();
         PasswordField password = new PasswordField();
+        password.setDisable(true);
+        password.setPromptText("disabled");
         PasswordField confirmPassword = new PasswordField();
+        confirmPassword.setDisable(true);
+        confirmPassword.setPromptText("disabled");
         //TODO Testdaten entfernen
         //name.setText("proj-sqe-sose18-test");
         //password.setText("a");
@@ -133,8 +137,8 @@ public class ClientController {
         Node ok = dialog.getDialogPane().lookupButton(ButtonType.OK);
         ok.setDisable(true);
         ChangeListener changeListener = (observable, oldValue, newValue) -> {
-            ok.setDisable(name.getText().equals("") || password.getText().equals("")
-                    || confirmPassword.getText().equals("") || filename.getText().equals(""));
+            ok.setDisable(name.getText().equals("") /*|| password.getText().equals("")
+                    || confirmPassword.getText().equals("")*/ || filename.getText().equals(""));
         };
         name.textProperty().addListener(changeListener);
         password.textProperty().addListener(changeListener);
@@ -172,6 +176,8 @@ public class ClientController {
         grid.setVgap(5);
         TextField name = new TextField();
         PasswordField password = new PasswordField();
+        password.setDisable(true);
+        password.setPromptText("disabled");
         ChoiceBox<ReqExchangeFileType> choice = new ChoiceBox<>();
         //TODO Testdaten entfernen
         //name.setText("proj-sqe-sose18-test");
@@ -212,7 +218,7 @@ public class ClientController {
         Node ok = dialog.getDialogPane().lookupButton(ButtonType.OK);
         ok.setDisable(true);
         ChangeListener changeListener = (observable, oldValue, newValue) -> {
-            ok.setDisable(name.getText().equals("") || password.getText().equals("") || filename.getText().equals("") || choice.getSelectionModel().getSelectedIndex() == -1);
+            ok.setDisable(name.getText().equals("") || /*password.getText().equals("") ||*/ filename.getText().equals("") || choice.getSelectionModel().getSelectedIndex() == -1);
         };
         name.textProperty().addListener(changeListener);
         password.textProperty().addListener(changeListener);
