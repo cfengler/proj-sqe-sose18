@@ -92,20 +92,39 @@ public class ClientViewModel {
     }
 
     public void handlePullChanges(ProjectViewModel projectViewModel) {
-        System.out.println("handle push changes");
-        showInformationDialog("Pull Changes", "Changes have been successfully pulled!");
-        //TODO handle push changes
+        busy.set(true);
+        Observable.just(1)
+                .subscribeOn(Schedulers.newThread())
+                .map(i -> projectService.pull(projectViewModel.getProject()))
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(pulled -> {
+                    busy.set(false);
+                    if(pulled) {
+                        showInformationDialog("Pull Changes", "Changes have been successfully pulled!");
+                    } else {
+                        showInformationDialog("Pull Changes", "No new changes have been pulled!");
+                    }
+                });
     }
 
     public void handlePushChanges(ProjectViewModel projectViewModel) {
-        System.out.println("handle pull changes");
-        showInformationDialog("Push Changes", "Changes have been successfully pushed!");
-        //TODO handle pull changes
+        busy.set(true);
+        Observable.just(1)
+                .subscribeOn(Schedulers.newThread())
+                .map(i -> projectService.push(projectViewModel.getProject()))
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(pulled -> {
+                    busy.set(false);
+                    if(pulled) {
+                        showInformationDialog("Push Changes", "Changes have been successfully pushed!");
+                    } else {
+                        showInformationDialog("Push Changes", "No new changes have been pushed!");
+                    }
+                });
     }
 
     public void handleExportProject(ProjectViewModel projectViewModel, ReqExchangeFileType fileType) {
         System.out.println("handle export project");
-        showInformationDialog("Export Project", fileType.getName() + " file has been successfully exported!");
         //TODO handle export project
     }
 
