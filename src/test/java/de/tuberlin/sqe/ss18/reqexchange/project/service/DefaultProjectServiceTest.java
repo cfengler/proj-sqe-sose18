@@ -26,7 +26,6 @@ public class DefaultProjectServiceTest {
 
     private static final String TESTPROJECTNAME = "proj-sqe-sose18-unittest";
 
-
     private static Injector injector;
     private static PathService pathService;
     private static  GitPropertiesService gitPropertiesService;
@@ -35,15 +34,13 @@ public class DefaultProjectServiceTest {
 
     private static CredentialsProvider testCredentialsProvider;
 
+    private static Path resourcesPathToCopy;
     private static Path testPath;
-    private static Path testWorkingFilePathToCopy;
-    private static Path testWorkingFilePath;
-    private static File testWorkingFile;
+
+    private static Path testReqifWorkingFilePath;
+    private static File testReqifWorkingFile;
     private static Path testLocalGitRepositoryPath;
-
-
-
-
+    private static Path testLocalGitRepositoryPath2;
 
     private static URI testURI;
 
@@ -64,19 +61,21 @@ public class DefaultProjectServiceTest {
     }
 
     private static void initTestVariables() throws IOException {
+        resourcesPathToCopy = pathService.getPathOfRunningJar().resolve("unitTest");
         testPath = pathService.getPathOfRunningJar().resolve("test");
-        testPath.toFile().createNewFile();
+        //TODO: also cm and uml files needed (for changing, comparision, ...)
+        testReqifWorkingFilePath = testPath.resolve("testWorkingFile.reqif");
+        testReqifWorkingFile = testReqifWorkingFilePath.toFile();
 
-        testWorkingFilePathToCopy = pathService.getPathOfRunningJar().resolve("samplefiles").resolve("02_ReqIF_oneReq").resolve("My.reqif");
-        testWorkingFilePath = testPath.resolve("testWorkingFile.reqif");
-        testWorkingFile = testWorkingFilePath.toFile();
-        testLocalGitRepositoryPath = testPath.resolve("testRepositories").resolve(TESTPROJECTNAME);
-
+        testLocalGitRepositoryPath = testPath.resolve("repositories").resolve(TESTPROJECTNAME);
+        testLocalGitRepositoryPath2 = testPath.resolve("repositories").resolve(TESTPROJECTNAME + "_2");
+        //TODO: use common git settings instead of defined url
         testURI = URI.create("https://github.com/cfengler/" + TESTPROJECTNAME + ".git");
     }
 
-    private static void copyTestWorkingFile() throws IOException {
-        Files.copy(testWorkingFilePathToCopy, testWorkingFilePath);
+    private static void copyResourcesTestPathToTestPath() throws IOException {
+        Files.deleteIfExists(testPath);
+        Files.copy(resourcesPathToCopy, testPath);
     }
 
     @AfterClass
@@ -86,6 +85,16 @@ public class DefaultProjectServiceTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Before
+    public void prepareTest() throws IOException {
+        copyResourcesTestPathToTestPath();
+    }
+
+    @After
+    public void tearDownTest() throws IOException {
+        Files.deleteIfExists(testPath);
     }
 
     @Test
@@ -147,10 +156,9 @@ public class DefaultProjectServiceTest {
     @Test
     public void test_06_isPushNeeded() throws IOException, GitAPIException {
         //TODO: implement auf Project testen mit projecttService.refresh()
-        copyTestWorkingFile();
         clearRemoteRepository();
 
-        Project testProject = projectService.create(TESTPROJECTNAME, testWorkingFilePath, ReqExchangeFileType.ReqIF);
+        Project testProject = projectService.create(TESTPROJECTNAME, testReqifWorkingFilePath, ReqExchangeFileType.ReqIF);
         projectService.refresh(testProject);
         Assert.assertFalse(testProject.isPullNeeded());
         Assert.assertFalse(testProject.isPushNeeded());
@@ -167,15 +175,20 @@ public class DefaultProjectServiceTest {
     @Test
     public void test_07_isPullNeeded() throws GitAPIException, IOException {
         //TODO: implement auf Project testen mit projecttService.refresh()
-        copyTestWorkingFile();
         clearRemoteRepository();
 
-        //create project
-        //join project with a second path
-        //check join project that pull needed false
-        //make changes to created project and push
-        //check join project that pull needed true
-        //leave both projects
+        createProjectWithJGit();
+        Project testProject = projectService.join(TESTPROJECTNAME, testReqifWorkingFilePath, ReqExchangeFileType.ReqIF);
+        projectService.refresh(testProject);
+        Assert.assertFalse(testProject.isPullNeeded());
+
+        //TODO: implement
+        changeProjectWithJGit();
+
+        projectService.refresh(testProject);
+        Assert.assertTrue(testProject.isPullNeeded());
+
+        projectService.leave(testProject);
     }
 
     private void clearRemoteRepository() throws GitAPIException {
@@ -186,6 +199,27 @@ public class DefaultProjectServiceTest {
         {
             git.rm().addFilepattern(".").call();
             git.commit().setAll(true).setMessage("Clear Repository caused by unit test").call();
+            git.push().setPushAll().setCredentialsProvider(testCredentialsProvider).call();
+        }
+    }
+
+    private void createProjectWithJGit() throws GitAPIException {
+        try (Git git = Git.cloneRepository()
+                .setURI(testURI.toString())
+                .setDirectory(testLocalGitRepositoryPath2.toFile())
+                .call()) {
+            //TODO: copy data.cm file in repository (need cm file)
+            //git.add().addFilepattern(".").call();
+            //git.commit().setAll(true).setMessage("Initial Commit of data.cm for unit test").call();
+            //git.push().setPushAll().setCredentialsProvider(testCredentialsProvider).call();
+        }
+    }
+
+    private void changeProjectWithJGit() throws IOException, GitAPIException {
+        //TODO: change on data.cm
+        try (Git git = Git.open(testLocalGitRepositoryPath2.toFile()))
+        {
+            git.commit().setAll(true).setMessage("Change Commit on data.cm for unit test").call();
             git.push().setPushAll().setCredentialsProvider(testCredentialsProvider).call();
         }
     }
