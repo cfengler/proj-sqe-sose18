@@ -170,6 +170,7 @@ public class DefaultGitService implements GitService {
     }
 
     private URI getRemoteGitRepositoryURI(Project project) {
+        //TODO: change to common git provider
         return URI.create("https://github.com/cfengler/" + project.getName() + ".git");
     }
 }
