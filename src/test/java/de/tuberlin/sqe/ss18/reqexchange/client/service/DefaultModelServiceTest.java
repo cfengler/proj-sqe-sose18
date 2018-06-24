@@ -5,16 +5,20 @@ import junit.framework.TestCase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.papyrus.sysml14.requirements.Requirement;
 import org.eclipse.rmf.reqif10.AttributeValueString;
 import org.eclipse.rmf.reqif10.ReqIF;
 import org.eclipse.rmf.reqif10.SpecHierarchy;
 import org.eclipse.rmf.reqif10.Specification;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.internal.impl.ClassImpl;
 import org.eclipse.uml2.uml.internal.impl.ModelImpl;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DefaultModelServiceTest extends TestCase {
 
@@ -65,9 +69,20 @@ public class DefaultModelServiceTest extends TestCase {
 
     @Test
     public void testSysMLHasContent() {
-        EObject umlContent = DefaultModelService.getSysMLModel(sysMLFile);
-        ModelImpl umlModel = (ModelImpl) umlContent;
+        EList<EObject> umlContent = DefaultModelService.getSysMLModel(sysMLFile);
+        Package umlModel = (Package) umlContent.get(0);
+        List<Requirement> requirements = (List<Requirement>) new LinkedList<Requirement>();
+
+        for (EObject eObj: umlContent) {
+            if(eObj instanceof Requirement) {
+                //EcoreUtil.resolveAll(eObj);
+                requirements.add((Requirement)eObj);
+
+            }
+        }
+
         EcoreUtil.resolveAll(umlModel);
+
         //System.out.println(umlModel);
         int count = 0;
         for (PackageableElement packageableElement: umlModel.getPackagedElements()) {
@@ -75,8 +90,12 @@ public class DefaultModelServiceTest extends TestCase {
                 ClassImpl classImp = (ClassImpl) packageableElement;
                 System.out.println(classImp.getName());
                 count++;
-            }
 
+            }
+        }
+
+        for (Requirement req: requirements) {
+            System.out.println("\t " + req.getText());
         }
 
         assertTrue(count == 9);

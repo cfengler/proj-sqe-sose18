@@ -1,6 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.domain.sysml.SysMLModel;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.papyrus.sysml14.sysmlPackage;
 //import org.eclipse.rmf.reqif10.ReqIF;
 //import org.eclipse.rmf.reqif10.ReqIF10Package;
@@ -26,9 +25,6 @@ import org.eclipse.rmf.reqif10.serialization.ReqIF10ResourceFactoryImpl;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceFactoryImpl;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceImpl;
-import org.eclipse.uml2.uml.resource.UMLResource;
-import org.eclipse.uml2.uml.resource.XMI2UMLResource;
-import org.eclipse.uml2.uml.util.UMLUtil;
 
 
 import java.io.File;
@@ -47,6 +43,8 @@ public class DefaultModelService { //implements ModelService{
         ResourceSet resSet = new ResourceSetImpl();
 
         Resource resource = resSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
+
+        //EList<EObject> contents = resource.getContents();
 
         ReqIF reqif = (ReqIF) resource.getContents().get(0);
 
@@ -105,7 +103,7 @@ public class DefaultModelService { //implements ModelService{
         Example
         https://www.programcreek.com/java-api-examples/?code=ZhengshuaiPENG/org.lovian.eaxmireader/org.lovian.eaxmireader-master/src/org/lovian/eaxmireader/module/InitResourceSet.java#
      */
-    public static EObject getSysMLModel(File file) {
+    public static EList<EObject> getSysMLModel(File file) {
 
 
         UMLPackage.eINSTANCE.eClass();
@@ -127,10 +125,7 @@ public class DefaultModelService { //implements ModelService{
         UMLResourceImpl resource = (UMLResourceImpl) resourceSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
 
 
-
-        EObject umlContent = resource.getContents().get(0);
-
-        return umlContent;
+        return resource.getContents();
     }
 
     private static void registSysMLPackages(EPackage.Registry packageRegistry) {
