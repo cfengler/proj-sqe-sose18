@@ -4,6 +4,7 @@ import de.tuberlin.sqe.ss18.reqexchange.model.service.DefaultModelService;
 import junit.framework.TestCase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rmf.reqif10.AttributeValueString;
 import org.eclipse.rmf.reqif10.ReqIF;
 import org.eclipse.rmf.reqif10.SpecHierarchy;
@@ -38,6 +39,7 @@ public class DefaultModelServiceTest extends TestCase {
         ReqIF reqif = DefaultModelService.getReqIFModel(reqIFFile);
         EList<Specification> specifications = reqif.getCoreContent().getSpecifications();
 
+        EcoreUtil.resolveAll(reqif);
         assertTrue(specifications.size() > 0);
 
         AttributeValueString attributeValue;
@@ -50,9 +52,11 @@ public class DefaultModelServiceTest extends TestCase {
         for (SpecHierarchy specHi : spec.getChildren()) {
             attributeValue = (AttributeValueString) specHi.getObject().getValues().get(0);
             //EList<EStructuralFeature> eStructuralFeatures = ReqIF10Package.eINSTANCE.eClass().getEStructuralFeatures();
-            System.out.printf("\t[%s] %s with %d children\n", specHi.getIdentifier(), attributeValue.getTheValue(), specHi.getChildren().size());
-        }
 
+            System.out.printf("\t[%s] %s with %d children\n", specHi.getIdentifier(), attributeValue.getTheValue(), specHi.getChildren().size());
+
+        }
+        System.out.println("");
     }
     @Test
     public void testLoadSysMLModelFromFile() {
@@ -63,6 +67,7 @@ public class DefaultModelServiceTest extends TestCase {
     public void testSysMLHasContent() {
         EObject umlContent = DefaultModelService.getSysMLModel(sysMLFile);
         ModelImpl umlModel = (ModelImpl) umlContent;
+        EcoreUtil.resolveAll(umlModel);
         //System.out.println(umlModel);
         int count = 0;
         for (PackageableElement packageableElement: umlModel.getPackagedElements()) {
