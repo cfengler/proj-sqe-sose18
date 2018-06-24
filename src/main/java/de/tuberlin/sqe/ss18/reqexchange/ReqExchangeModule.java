@@ -26,14 +26,13 @@ public class ReqExchangeModule extends AbstractModule {
         bind(GitService.class).to(DefaultGitService.class).asEagerSingleton();
 
         //model
-        //bind(ModelService.class).to(DefaultModelService.class).asEagerSingleton();
         bind(ModelTransformationService.class).to(DefaultModelTransformationService.class).asEagerSingleton();
         bind(ModelValidationService.class).to(DefaultModelValidationService.class).asEagerSingleton();
 
         //project
         bind(ProjectService.class).to(DefaultProjectService.class).asEagerSingleton();
 
-        bind(ClientViewModel.class);
-        //configureViewModel();
+        //viewModel
+        bind(ClientViewModel.class).asEagerSingleton();
     }
 }
