@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="sysml" nsURI="http://www.eclipse.org/papyrus/sysml/1.5/SysML"
+    nsPrefix="SysML">
+  <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <details key="originalName" value="SysML"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EEnum" name="Dummy"/>
+  <eSubpackages name="portsandflows" nsURI="http://www.eclipse.org/papyrus/sysml/1.5/SysML/PortsAndFlows"
+      nsPrefix="PortsAndFlows">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="PortsAndFlows"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="ItemFlow">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_InformationFlow"
+          ordered="false" eType="ecore:EClass UML.ecore#//InformationFlow"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="itemProperty" ordered="false"
+          eType="ecore:EClass UML.ecore#//Property"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProxyPort">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Port" ordered="false"
+          eType="ecore:EClass UML.ecore#//Port"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FullPort">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Port" ordered="false"
+          eType="ecore:EClass UML.ecore#//Port"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InvocationOnNestedPortAction" eSuperTypes="#//blocks/ElementPropertyPath">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_InvocationAction"
+          ordered="false" eType="ecore:EClass UML.ecore#//InvocationAction"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="onNestedPort" unique="false"
+          lowerBound="1" upperBound="-1" eType="ecore:EClass UML.ecore#//Port"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InterfaceBlock" eSuperTypes="#//blocks/Block"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FlowProperty">
+      <eOperations name="getIcon" ordered="false" lowerBound="1" eType="ecore:EClass UML.ecore#//Image"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Property" ordered="false"
+          eType="ecore:EClass UML.ecore#//Property"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" ordered="false"
+          lowerBound="1" eType="#//portsandflows/FlowDirection" defaultValueLiteral="inout"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="FlowDirection">
+      <eLiterals name="in"/>
+      <eLiterals name="inout" value="1"/>
+      <eLiterals name="out" value="2"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ChangeStructuralFeatureEvent">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_ChangeEvent" ordered="false"
+          eType="ecore:EClass UML.ecore#//ChangeEvent"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="structuralFeature" ordered="false"
+          lowerBound="1" eType="ecore:EClass UML.ecore#//StructuralFeature"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TriggerOnNestedPort" eSuperTypes="#//blocks/ElementPropertyPath">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Trigger" ordered="false"
+          lowerBound="1" eType="ecore:EClass UML.ecore#//Trigger"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="onNestedPort" unique="false"
+          lowerBound="1" upperBound="-1" eType="ecore:EClass UML.ecore#//Port"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AcceptChangeStructuralFeatureEventAction">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_AcceptEventAction"
+          ordered="false" eType="ecore:EClass UML.ecore#//AcceptEventAction"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DirectedFeature">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Feature" ordered="false"
+          eType="ecore:EClass UML.ecore#//Feature"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureDirection" ordered="false"
+          lowerBound="1" eType="#//portsandflows/FeatureDirection"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="FeatureDirection">
+      <eLiterals name="provided"/>
+      <eLiterals name="providedRequired" value="1"/>
+      <eLiterals name="required" value="2"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="blocks" nsURI="http://www.eclipse.org/papyrus/sysml/1.5/SysML/Blocks"
+      nsPrefix="Blocks">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="Blocks"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="DistributedProperty">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Property" ordered="false"
+          eType="ecore:EClass UML.ecore#//Property"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AdjunctProperty">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Property" ordered="false"
+          eType="ecore:EClass UML.ecore#//Property"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="principal" ordered="false"
+          lowerBound="1" eType="ecore:EClass UML.ecore#//Element"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EndPathMultiplicity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Property" ordered="false"
+          eType="ecore:EClass UML.ecore#//Property"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="lower" ordered="false"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//Integer"
+          defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="upper" ordered="false"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//UnlimitedNatural"
+          defaultValueLiteral="-1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ParticipantProperty">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Property" ordered="false"
+          eType="ecore:EClass UML.ecore#//Property"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="end" ordered="false"
+          lowerBound="1" eType="ecore:EClass UML.ecore#//Property"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Block">
+      <eOperations name="getReferences" ordered="false" upperBound="-1" eType="ecore:EClass UML.ecore#//Property">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="@papyrus.req org.eclipse.papyrus.sysml#REQ-SYSML14-Block-References"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="getParts" ordered="false" upperBound="-1" eType="ecore:EClass UML.ecore#//Property"/>
+      <eOperations name="getFlowProperties" ordered="false" upperBound="-1" eType="ecore:EClass UML.ecore#//Property"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Class" ordered="false"
+          eType="ecore:EClass UML.ecore#//Class"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isEncapsulated" ordered="false"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//Boolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConnectorProperty">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Property" ordered="false"
+          eType="ecore:EClass UML.ecore#//Property"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connector" ordered="false"
+          lowerBound="1" eType="ecore:EClass UML.ecore#//Connector"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BindingConnector">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Connector" ordered="false"
+          eType="ecore:EClass UML.ecore#//Connector"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ClassifierBehaviorProperty">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Property" ordered="false"
+          eType="ecore:EClass UML.ecore#//Property"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BoundReference" eSuperTypes="#//blocks/EndPathMultiplicity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bindingPath" unique="false"
+          lowerBound="1" upperBound="-1" eType="ecore:EClass UML.ecore#//Property"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="boundEnd" ordered="false"
+          lowerBound="1" eType="ecore:EClass UML.ecore#//ConnectorEnd"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PropertySpecificType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Classifier" ordered="false"
+          eType="ecore:EClass UML.ecore#//Classifier"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NestedConnectorEnd" eSuperTypes="#//blocks/ElementPropertyPath">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_ConnectorEnd" ordered="false"
+          eType="ecore:EClass UML.ecore#//ConnectorEnd"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ValueType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_DataType" ordered="false"
+          eType="ecore:EClass UML.ecore#//DataType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="quantityKind" ordered="false"
+          eType="ecore:EClass UML.ecore#//InstanceSpecification"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="unit" ordered="false"
+          eType="ecore:EClass UML.ecore#//InstanceSpecification"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DirectedRelationshipPropertyPath"
+        abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_DirectedRelationship"
+          ordered="false" eType="ecore:EClass UML.ecore#//DirectedRelationship"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sourceContext" ordered="false"
+          eType="ecore:EClass UML.ecore#//Classifier"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sourcePropertyPath" unique="false"
+          upperBound="-1" eType="ecore:EClass UML.ecore#//Property"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="targetContext" ordered="false"
+          eType="ecore:EClass UML.ecore#//Classifier"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="targetPropertyPath" unique="false"
+          upperBound="-1" eType="ecore:EClass UML.ecore#//Property"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ElementPropertyPath" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Element" ordered="false"
+          eType="ecore:EClass UML.ecore#//Element"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="propertyPath" unique="false"
+          lowerBound="1" upperBound="-1" eType="ecore:EClass UML.ecore#//Property"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="activities" nsURI="http://www.eclipse.org/papyrus/sysml/1.5/SysML/Activities"
+      nsPrefix="Activities">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="Activities"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="Optional">
+      <eOperations name="Constraint1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="A parameter with the «optional» stereotypes applied shall have multiplicity.lower equal to zero, otherwise multiplicity.lower shall be greater than zero."/>
+        </eAnnotations>
+        <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+          </eAnnotations>
+        </eParameters>
+        <eParameters name="context">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The cache of context-specific information."/>
+          </eAnnotations>
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Parameter" ordered="false"
+          eType="ecore:EClass UML.ecore#//Parameter"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Continuous" eSuperTypes="#//activities/Rate"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Rate">
+      <eOperations name="Constraint2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The rate of a parameter shall be less than or equal to rates on edges that come into or go out from pins and parameters nodes corresponding to the parameter."/>
+        </eAnnotations>
+        <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+          </eAnnotations>
+        </eParameters>
+        <eParameters name="context">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The cache of context-specific information."/>
+          </eAnnotations>
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eOperations name="Constraint1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="When the «rate» stereotype is applied to a parameter, the parameter shall be streaming."/>
+        </eAnnotations>
+        <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+          </eAnnotations>
+        </eParameters>
+        <eParameters name="context">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The cache of context-specific information."/>
+          </eAnnotations>
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_ActivityEdge" ordered="false"
+          eType="ecore:EClass UML.ecore#//ActivityEdge"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_ObjectNode" ordered="false"
+          eType="ecore:EClass UML.ecore#//ObjectNode"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Parameter" ordered="false"
+          eType="ecore:EClass UML.ecore#//Parameter"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rate" ordered="false"
+          lowerBound="1" eType="ecore:EClass UML.ecore#//InstanceSpecification"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ControlOperator">
+      <eOperations name="Constraint1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="When the «controlOperator» stereotype is applied, the behavior or operation shall have at least one parameter typed by ControlValue. If the stereotype is not applied, the behavior or operation may not have any parameter typed by ControlValue."/>
+        </eAnnotations>
+        <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+          </eAnnotations>
+        </eParameters>
+        <eParameters name="context">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The cache of context-specific information."/>
+          </eAnnotations>
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eOperations name="Constraint2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="A behavior shall have the «controlOperator» stereotype applied if it is a method of an operation that has the «controlOperator» stereotype applied."/>
+        </eAnnotations>
+        <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+          </eAnnotations>
+        </eParameters>
+        <eParameters name="context">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The cache of context-specific information."/>
+          </eAnnotations>
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Behavior" ordered="false"
+          eType="ecore:EClass UML.ecore#//Behavior"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Operation" ordered="false"
+          eType="ecore:EClass UML.ecore#//Operation"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Discrete" eSuperTypes="#//activities/Rate"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Overwrite">
+      <eOperations name="Constraint1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The «overwrite» and «nobuffer» stereotypes cannot be applied to the same element at the same time."/>
+        </eAnnotations>
+        <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+          </eAnnotations>
+        </eParameters>
+        <eParameters name="context">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The cache of context-specific information."/>
+          </eAnnotations>
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_ObjectNode" ordered="false"
+          eType="ecore:EClass UML.ecore#//ObjectNode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NoBuffer">
+      <eOperations name="Constraint1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The «nobuffer» and «overwrite» stereotypes cannot be applied to the same element at the same time."/>
+        </eAnnotations>
+        <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+          </eAnnotations>
+        </eParameters>
+        <eParameters name="context">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The cache of context-specific information."/>
+          </eAnnotations>
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_ObjectNode" ordered="false"
+          eType="ecore:EClass UML.ecore#//ObjectNode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Probability">
+      <eOperations name="Constraint4" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="When the «probability» stereotype is applied to an output parameter set, all the output parameters shall be in some parameter set."/>
+        </eAnnotations>
+        <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+          </eAnnotations>
+        </eParameters>
+        <eParameters name="context">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The cache of context-specific information."/>
+          </eAnnotations>
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eOperations name="Constraint3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="When the «probability» stereotype is applied to an output parameter set, it shall be applied to all the parameter sets of the behavior or operation owning the original parameter set."/>
+        </eAnnotations>
+        <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+          </eAnnotations>
+        </eParameters>
+        <eParameters name="context">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The cache of context-specific information."/>
+          </eAnnotations>
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eOperations name="Constraint1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The «probability» stereotype shall only be applied to activity edges that have decision nodes or object nodes as sources, or to output parameter sets."/>
+        </eAnnotations>
+        <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+          </eAnnotations>
+        </eParameters>
+        <eParameters name="context">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The cache of context-specific information."/>
+          </eAnnotations>
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eOperations name="Constraint2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="When the «probability» stereotype is applied to an activity edge, then it shall be applied to all edges coming out of the same source."/>
+        </eAnnotations>
+        <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+          </eAnnotations>
+        </eParameters>
+        <eParameters name="context">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="The cache of context-specific information."/>
+          </eAnnotations>
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+            <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_ActivityEdge" ordered="false"
+          eType="ecore:EClass UML.ecore#//ActivityEdge"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_ParameterSet" ordered="false"
+          eType="ecore:EClass UML.ecore#//ParameterSet"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="probability" ordered="false"
+          lowerBound="1" eType="ecore:EClass UML.ecore#//ValueSpecification"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="allocations" nsURI="http://www.eclipse.org/papyrus/sysml/1.5/SysML/Allocations"
+      nsPrefix="Allocations">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="Allocations"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="Allocate" eSuperTypes="#//blocks/DirectedRelationshipPropertyPath">
+      <eOperations name="getAllocatedFrom" ordered="false" upperBound="-1" eType="ecore:EClass UML.ecore#//NamedElement">
+        <eParameters name="ref" ordered="false" lowerBound="1" eType="ecore:EClass UML.ecore#//NamedElement"/>
+      </eOperations>
+      <eOperations name="getAllocatedTo" ordered="false" upperBound="-1" eType="ecore:EClass UML.ecore#//NamedElement">
+        <eParameters name="ref" ordered="false" lowerBound="1" eType="ecore:EClass UML.ecore#//NamedElement"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Abstraction" ordered="false"
+          eType="ecore:EClass UML.ecore#//Abstraction"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AllocateActivityPartition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_ActivityPartition"
+          ordered="false" eType="ecore:EClass UML.ecore#//ActivityPartition"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="requirements" nsURI="http://www.eclipse.org/papyrus/sysml/1.5/SysML/Requirements"
+      nsPrefix="Requirements">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="Requirements"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="Copy" eSuperTypes="#//requirements/Trace"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Trace" eSuperTypes="#//blocks/DirectedRelationshipPropertyPath">
+      <eOperations name="getTracedFrom" ordered="false" upperBound="-1" eType="#//requirements/AbstractRequirement">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="AbstractRequirement.allInstances()-&amp;gt;select(tracedTo-&amp;gt;includes(ref))"/>
+        </eAnnotations>
+        <eParameters name="ref" ordered="false" lowerBound="1" eType="ecore:EClass UML.ecore#//NamedElement"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Abstraction" ordered="false"
+          eType="ecore:EClass UML.ecore#//Abstraction"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AbstractRequirement" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_NamedElement" ordered="false"
+          lowerBound="1" eType="ecore:EClass UML.ecore#//NamedElement"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="derived" ordered="false"
+          upperBound="-1" eType="#//requirements/AbstractRequirement" changeable="false"
+          volatile="true" transient="true" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="derivedFrom" ordered="false"
+          upperBound="-1" eType="#//requirements/AbstractRequirement" changeable="false"
+          volatile="true" transient="true" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//String"
+          defaultValueLiteral=""/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="master" ordered="false"
+          upperBound="-1" eType="#//requirements/AbstractRequirement" changeable="false"
+          volatile="true" transient="true" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="refinedBy" ordered="false"
+          upperBound="-1" eType="ecore:EClass UML.ecore#//NamedElement"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="satisfiedBy" ordered="false"
+          upperBound="-1" eType="ecore:EClass UML.ecore#//NamedElement"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" ordered="false"
+          lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//String"
+          defaultValueLiteral=""/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tracedTo" ordered="false"
+          upperBound="-1" eType="ecore:EClass UML.ecore#//NamedElement"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="verifiedBy" ordered="false"
+          upperBound="-1" eType="ecore:EClass UML.ecore#//NamedElement"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="VerdictKind">
+      <eLiterals name="error"/>
+      <eLiterals name="fail" value="1"/>
+      <eLiterals name="inconclusive" value="2"/>
+      <eLiterals name="pass" value="3"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DeriveReqt" eSuperTypes="#//requirements/Trace"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Verify" eSuperTypes="#//requirements/Trace">
+      <eOperations name="getVerifies" ordered="false" upperBound="-1" eType="#//requirements/AbstractRequirement">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Verify.allInstances()-&amp;gt;select(base_Abstraction.client=ref).base_Abstraction.supplier"/>
+        </eAnnotations>
+        <eParameters name="ref" ordered="false" lowerBound="1" eType="ecore:EClass UML.ecore#//NamedElement"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Refine" eSuperTypes="#//blocks/DirectedRelationshipPropertyPath">
+      <eOperations name="getRefines" ordered="false" upperBound="-1" eType="#//requirements/AbstractRequirement">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Refine.allInstances()-&amp;gt;select(base_Abstraction.client=ref).base_Abstraction.supplier"/>
+        </eAnnotations>
+        <eParameters name="ref" ordered="false" lowerBound="1" eType="ecore:EClass UML.ecore#//NamedElement"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Abstraction" ordered="false"
+          eType="ecore:EClass UML.ecore#//Abstraction"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Satisfy" eSuperTypes="#//requirements/Trace">
+      <eOperations name="getSatisfies" ordered="false" upperBound="-1" eType="#//requirements/AbstractRequirement">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Satisfy.allInstances()-&amp;gt;select(base_Abstraction.client=ref).base_Abstraction.supplier"/>
+        </eAnnotations>
+        <eParameters name="ref" ordered="false" lowerBound="1" eType="ecore:EClass UML.ecore#//NamedElement"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TestCase">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Behavior" ordered="false"
+          eType="ecore:EClass UML.ecore#//Behavior"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Operation" ordered="false"
+          eType="ecore:EClass UML.ecore#//Operation"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//requirements/AbstractRequirement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Class" ordered="false"
+          lowerBound="1" eType="ecore:EClass UML.ecore#//Class"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="modelelements" nsURI="http://www.eclipse.org/papyrus/sysml/1.5/SysML/ModelElements"
+      nsPrefix="ModelElements">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="ModelElements"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="Conform">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Generalization"
+          ordered="false" eType="ecore:EClass UML.ecore#//Generalization"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Problem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Comment" ordered="false"
+          eType="ecore:EClass UML.ecore#//Comment"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Viewpoint">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Class" ordered="false"
+          eType="ecore:EClass UML.ecore#//Class"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="concern" ordered="false"
+          upperBound="-1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//String"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="concernList" ordered="false"
+          upperBound="-1" eType="ecore:EClass UML.ecore#//Comment"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="language" ordered="false"
+          upperBound="-1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="method" ordered="false"
+          upperBound="-1" eType="ecore:EClass UML.ecore#//Behavior"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="presentation" ordered="false"
+          upperBound="-1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="purpose" ordered="false"
+          lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stakeholder" ordered="false"
+          upperBound="-1" eType="#//modelelements/Stakeholder"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Stakeholder">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Classifier" ordered="false"
+          eType="ecore:EClass UML.ecore#//Classifier"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="concern" ordered="false"
+          upperBound="-1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//String"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="concernList" ordered="false"
+          upperBound="-1" eType="ecore:EClass UML.ecore#//Comment"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Rationale">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Comment" ordered="false"
+          eType="ecore:EClass UML.ecore#//Comment"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Expose">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Dependency" ordered="false"
+          eType="ecore:EClass UML.ecore#//Dependency"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="View">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Class" ordered="false"
+          eType="ecore:EClass UML.ecore#//Class"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stakeholder" ordered="false"
+          upperBound="-1" eType="#//modelelements/Stakeholder" changeable="false"
+          volatile="true" transient="true" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="viewPoint" ordered="false"
+          lowerBound="1" eType="#//modelelements/Viewpoint" changeable="false" volatile="true"
+          transient="true" derived="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ElementGroup">
+      <eOperations name="allGroups" ordered="false" upperBound="-1" eType="#//modelelements/ElementGroup">
+        <eParameters name="e" ordered="false" lowerBound="1" eType="ecore:EClass UML.ecore#//Element"/>
+      </eOperations>
+      <eOperations name="criterion" ordered="false" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//String"/>
+      <eOperations name="member" ordered="false" upperBound="-1" eType="ecore:EClass UML.ecore#//Element"/>
+      <eOperations name="size" ordered="false" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//Integer"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Comment" ordered="false"
+          eType="ecore:EClass UML.ecore#//Comment"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="criterion" ordered="false"
+          lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//String"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="member" ordered="false"
+          upperBound="-1" eType="ecore:EClass UML.ecore#//Element"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="orderedMemeber" upperBound="-1"
+          eType="ecore:EClass UML.ecore#//Element"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" ordered="false"
+          lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//Integer"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="deprecatedelements" nsURI="http://www.eclipse.org/papyrus/sysml/1.5/SysML/DeprecatedElements"
+      nsPrefix="DeprecatedElements">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="DeprecatedElements"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="FlowPort">
+      <eOperations name="getIcon" ordered="false" lowerBound="1" eType="ecore:EClass UML.ecore#//Image"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Port" ordered="false"
+          lowerBound="1" eType="ecore:EClass UML.ecore#//Port"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" ordered="false"
+          lowerBound="1" eType="#//portsandflows/FlowDirection" defaultValueLiteral="inout"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isAtomic" ordered="false"
+          lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//Boolean"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FlowSpecification">
+      <eOperations name="getFlowProperties" ordered="false" upperBound="-1" eType="ecore:EClass UML.ecore#//Property"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base_Interface" ordered="false"
+          lowerBound="1" eType="ecore:EClass UML.ecore#//Interface"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="constraintblocks" nsURI="http://www.eclipse.org/papyrus/sysml/1.5/SysML/ConstraintBlocks"
+      nsPrefix="ConstraintBlocks">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="ConstraintBlocks"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="ConstraintBlock" eSuperTypes="#//blocks/Block">
+      <eOperations name="getParameters" ordered="false" upperBound="-1" eType="ecore:EClass UML.ecore#//Property"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>
