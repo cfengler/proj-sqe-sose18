@@ -54,6 +54,7 @@ public class ClientController {
         imageLogo.setImage(new Image(getClass().getResourceAsStream("/images/Logo_ReqExchange.png")));
         imageLogo.fitHeightProperty().bind(buttonCreateProject.heightProperty());
         BorderPane.setMargin(imageLogo, new Insets(5));
+        BorderPane.setMargin(progressIndicator, new Insets(20));
         flowPaneProjects.prefWrapLengthProperty().bind(scrollPaneProjects.widthProperty());
         clientViewModel.getProjects().forEach(this::addProjectInfoController);
         clientViewModel.getProjects().addListener((ListChangeListener<? super ProjectViewModel>) c -> {
@@ -73,7 +74,7 @@ public class ClientController {
 
     private void addProjectInfoController(ProjectViewModel projectViewModel) {
         ProjectInfoController newController = new ProjectInfoController(projectViewModel, clientViewModel);
-        FlowPane.setMargin(newController, new Insets(5));
+        FlowPane.setMargin(newController, new Insets(10));
         calculateControllerWidth(newController, scrollPaneProjects.getWidth());
         scrollPaneProjects.widthProperty().addListener(((observable, oldValue, newValue) -> {
             calculateControllerWidth(newController, newValue.doubleValue());
@@ -98,6 +99,7 @@ public class ClientController {
         grid.setHgap(5);
         grid.setVgap(5);
         TextField name = new TextField();
+        //TODO password deactivated
         PasswordField password = new PasswordField();
         password.setDisable(true);
         password.setPromptText("disabled");
@@ -141,6 +143,7 @@ public class ClientController {
         Node ok = dialog.getDialogPane().lookupButton(ButtonType.OK);
         ok.setDisable(true);
         ChangeListener changeListener = (observable, oldValue, newValue) -> {
+            //TODO password deactivated
             ok.setDisable(name.getText().equals("") /*|| password.getText().equals("")
                     || confirmPassword.getText().equals("")*/ || filename.getText().equals(""));
         };
@@ -180,6 +183,7 @@ public class ClientController {
         grid.setVgap(5);
         TextField name = new TextField();
         PasswordField password = new PasswordField();
+        //TODO password deactivated
         password.setDisable(true);
         password.setPromptText("disabled");
         ChoiceBox<ReqExchangeFileType> choice = new ChoiceBox<>();
@@ -222,6 +226,7 @@ public class ClientController {
         Node ok = dialog.getDialogPane().lookupButton(ButtonType.OK);
         ok.setDisable(true);
         ChangeListener changeListener = (observable, oldValue, newValue) -> {
+            //TODO password deactivated
             ok.setDisable(name.getText().equals("") || /*password.getText().equals("") ||*/ filename.getText().equals("") || choice.getSelectionModel().getSelectedIndex() == -1);
         };
         name.textProperty().addListener(changeListener);
@@ -245,15 +250,6 @@ public class ClientController {
     }
 
     private void addTestProjects() {
-        /*for(int i = 0;i < 10;i++) {
-            Project project = new Project();
-            project.setName("Dies-ist-ein-sehr-langer-test-name " + i);
-            project.setWorkingModelFilePath(Paths.get("reqif.reqif"));
-            ProjectViewModel viewModel = new ProjectViewModel(project);
-            viewModel.setCanPull(true);
-            viewModel.setCanPush(true);
-            addProjectInfoController(viewModel);
-        }*/
         Project project1 = new Project();
         project1.setName("SQE Project");
         project1.setWorkingModelFilePath(Paths.get("testdatei.reqif"));
