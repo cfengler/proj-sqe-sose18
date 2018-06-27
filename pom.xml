@@ -200,10 +200,190 @@
             <systemPath>${basedir}/libs/org.eclipse.papyrus.sysml14_1.2.0.jar</systemPath>
         </dependency>
 
+        <!-- M2M QVT -->
+
+        <dependency>
+            <groupId>org.eclipse.m2m.qvt.oml</groupId>
+            <artifactId>m2m-qvt-oml</artifactId>
+            <version>3.7.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.m2m.qvt.oml_3.7.0.v20170604-1316.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.m2m.qvt.oml.common</groupId>
+            <artifactId>m2m-qvt-oml-common</artifactId>
+            <version>3.7.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.m2m.qvt.oml.common_3.7.0.v20170604-1316.jar</systemPath>
+        </dependency>
+
+        <!--
+        <dependency>
+            <groupId>org.eclipse.m2m.qvt.oml.project</groupId>
+            <artifactId>org.eclipse.m2m.qvt.oml.project</artifactId>
+            <version>3.7.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.m2m.qvt.oml.project_3.7.0.v20170604-1316.jar</systemPath>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>org.eclipse.m2m.qvt.oml.project</groupId>
+            <artifactId>m2m-qvt-oml-project</artifactId>
+            <version>3.7.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.m2m.qvt.oml.project_3.7.0.v20170604-1316.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.m2m.qvt.oml.ocl</groupId>
+            <artifactId>m2m-qvt-oml-ocl</artifactId>
+            <version>3.7.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.m2m.qvt.oml.ocl_3.7.0.v20170604-1316.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.m2m.qvt.oml.cst.parser</groupId>
+            <artifactId>m2m-qvt-oml-cst-parser</artifactId>
+            <version>3.6.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.m2m.qvt.oml.cst.parser_3.6.0.v20170604-1316.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.m2m.qvt.oml.ecore.imperativeocl</groupId>
+            <artifactId>m2m-qvt-oml-ecore-imperativeocl</artifactId>
+            <version>3.4.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.m2m.qvt.oml.ecore.imperativeocl_3.4.0.v20170604-1316.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.m2m.qvt.oml.emf.util</groupId>
+            <artifactId>m2m-qvt-oml-emf-util</artifactId>
+            <version>3.7.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.m2m.qvt.oml.emf.util_3.7.0.v20170604-1316.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.m2m.qvt.oml.runtime</groupId>
+            <artifactId>org.eclipse.m2m.qvt.oml.runtime</artifactId>
+            <version>3.7.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.m2m.qvt.oml.runtime_3.7.0.v20170604-1316.jar</systemPath>
+        </dependency>
 
 
 
 
+        <!-- OCL -->
+        <dependency>
+            <groupId>org.eclipse.ocl</groupId>
+            <artifactId>ocl</artifactId>
+            <version>3.6.200</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.ocl_3.6.200.v20170522-1736.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.ocl.ecore</groupId>
+            <artifactId>ocl-ecore</artifactId>
+            <version>3.6.200</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.ocl.ecore_3.6.200.v20170522-1736.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.ocl.common</groupId>
+            <artifactId>ocl-common</artifactId>
+            <version>1.4.200</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.ocl.common_1.4.200.v20160613-1518.jar</systemPath>
+        </dependency>
+
+
+        <!-- For not running in eclipse -->
+        <!--<dependency>
+            <groupId>org.eclipse.equinox.common</groupId>
+            <artifactId>equinox-common</artifactId>
+            <version>3.9.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.equinox.common_3.9.0.v20170207-1454.jar</systemPath>
+        </dependency>-->
+
+        <!--
+        <dependency>
+            <groupId>org.eclipse.equinox.common</groupId>
+            <artifactId>equinox-common</artifactId>
+            <version>3.9.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.equinox.common_3.9.0.v20170207-1454.jar</systemPath>
+        </dependency>
+        -->
+
+        <dependency>
+            <groupId>org.eclipse.osgi.services</groupId>
+            <artifactId>osgi-service</artifactId>
+            <version>3.6.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.osgi.services_3.6.0.v20170228-1906.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.osgi</groupId>
+            <artifactId>osgi</artifactId>
+            <version>3.12.50</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.osgi_3.12.50.v20170928-1321.jar</systemPath>
+        </dependency>
+
+        <!--
+        <dependency>
+            <groupId>net.sourceforge.lpg.lpgjavaruntime</groupId>
+            <artifactId>lpg-lpgjavaruntime</artifactId>
+            <version>1.1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/net.sourceforge.lpg.lpgjavaruntime-1.1.0.v201004271650.jar</systemPath>
+        </dependency>
+        -->
+
+        <dependency>
+            <groupId>lpg.runtime.java</groupId>
+            <artifactId>lpg.runtime.java</artifactId>
+            <version>2.0.17</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/lpg.runtime.java_2.0.17.v201004271640.jar</systemPath>
+        </dependency>
+
+        <!--
+        <dependency>
+            <groupId>lpg.runtime</groupId>
+            <artifactId>java</artifactId>
+            <version>2.0.17-v201004271640</version>
+        </dependency>
+        -->
+
+        <dependency>
+            <groupId>org.eclipse.core</groupId>
+            <artifactId>org.eclipse.core.runtime</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.core</groupId>
+            <artifactId>org.eclipse.core.resources</artifactId>
+            <version>3.7.100</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.eclipse.ui</groupId>
+            <artifactId>eclipse-ui</artifactId>
+            <version>3.109.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/org.eclipse.ui_3.109.0.v20170411-1742.jar</systemPath>
+        </dependency>
 
 
         <!-- JUnit -->
