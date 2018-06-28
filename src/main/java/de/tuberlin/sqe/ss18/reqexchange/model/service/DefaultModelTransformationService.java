@@ -1,24 +1,18 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
+import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -36,19 +30,10 @@ public class DefaultModelTransformationService implements ModelTransformationSer
             Arrays.asList("reqif", "uml", "cm")
     );
 
-
-
-
-
     public static void main(String[] args) {
-
-
-
-
         String resourcePath = "src/main/resources";
 
-
-        /**
+        /*
          * Register needed EPackages for Parser etc.
          *
          * This example is for ReqIF
@@ -59,8 +44,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         Map<String, Object> m = reg.getExtensionToFactoryMap();
         m.put("reqif", new ReqIF10ResourceFactoryImpl());
 
-
-        /**
+        /*
          * Files to be transformed and qvto file
          */
 
@@ -68,41 +52,28 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         File outReqIF = new File(resourcePath + "/unitTest/MyTransformed.reqif");
         File transformationQVT = new File(resourcePath + "/qvt/ReqIF2ReqIF.qvto");
 
-
         boolean result = executeTransformation(inReqIF, outReqIF, transformationQVT);
 
         System.out.println("Transformation successfull: " + result);
 
     }
 
-
-
-
-
-
-
-
-
     private static boolean executeTransformation(File inFile, File outFile, File transformationQVTOFile) {
-        /**
+        /*
          * Debug to ensure if file path is correct
          */
-
 
         System.out.println(inFile.exists() + " : " +inFile.getAbsolutePath());
         System.out.println(outFile.exists() + " : " +outFile.getAbsolutePath());
         System.out.println(transformationQVTOFile.exists() + " : " +transformationQVTOFile.getAbsolutePath());
 
-
-        /**
+        /*
          * Next Part is based on
          * http://wiki.eclipse.org/QVTOML/Examples/InvokeInJava
          */
 
-
         // Refer to an existing transformation via URI
         URI transformationURI = URI.createFileURI(transformationQVTOFile.getAbsolutePath());
-
 
         // create executor for the given transformation
         TransformationExecutor executor = new TransformationExecutor(transformationURI);
@@ -157,10 +128,6 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         return false;
     }
 
-
-
-
-
     @Override
     public boolean transform(Path sourcePath, Path destinationPath) {
         if (sourcePath == null || destinationPath == null) {
@@ -171,60 +138,86 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         String sourcePathExtension = FilenameUtils.getExtension(sourcePath.toString());
         String destinationPathExtension = FilenameUtils.getExtension(destinationPath.toString());
 
-        if (!SUPPORTED_EXTENSIONS.contains(sourcePathExtension) || !SUPPORTED_EXTENSIONS.contains(destinationPathExtension)) {
-            System.out.println("DefaultModelTransformationService.transform files has unsupported extensions");
+        boolean foundSourceExtension = false;
+        boolean foundDestinationExtension = false;
+        for(ReqExchangeFileType reft: ReqExchangeFileType.values()) {
+            for(String s: reft.getFiletypes()) {
+                if(sourcePathExtension.equals(s)) {
+                    foundSourceExtension = true;
+                }
+                if(destinationPathExtension.equals(s)) {
+                    foundDestinationExtension = true;
+                }
+            }
+        }
+        if(!foundSourceExtension || !foundDestinationExtension) {
+            System.out.println("DefaultModelTransformationService.transform files have unsupported extensions");
             return false;
         }
 
-        if (sourcePathExtension.equals("reqif") && destinationPathExtension.equals("cm")) {
-            return transformReqifToCm(sourcePath.toFile(), destinationPath.toFile());
+        List<String> reqIfFileExtensions = ReqExchangeFileType.ReqIF.getFiletypes();
+        if(!reqIfFileExtensions.contains(sourcePathExtension) && !reqIfFileExtensions.contains(destinationPathExtension)) {
+            System.out.println("DefaultModelTransformationService.transform no transformation from or to reqif");
+            return false;
         }
-        else if (sourcePathExtension.equals("cm") && destinationPathExtension.equals("reqif")) {
-            return transformCmToReqif(sourcePath.toFile(), destinationPath.toFile());
-        }
-        else if (sourcePathExtension.equals("uml") && destinationPathExtension.equals("cm")) {
-            return transformSysMLToCm(sourcePath.toFile(), destinationPath.toFile());
-        }
-        else if (sourcePathExtension.equals("cm") && destinationPathExtension.equals("uml")) {
-            return transformCmToSysML(sourcePath.toFile(), destinationPath.toFile());
-        }
-        else if (sourcePathExtension.equals("reqif") && destinationPathExtension.equals("reqif")) {
+
+        if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension)) {
             return copy(sourcePath.toFile(), destinationPath.toFile());
-        }
-        else if (sourcePathExtension.equals("reqif") && destinationPathExtension.equals("uml")) {
-            return transformReqifToSysML(sourcePath.toFile(), destinationPath.toFile());
-        }
-        else {
+        } else if (ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension)) {
+            return copy(sourcePath.toFile(), destinationPath.toFile());
+        } else if (ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension)) {
+            return copy(sourcePath.toFile(), destinationPath.toFile());
+        } else if (ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension)) {
+            return copy(sourcePath.toFile(), destinationPath.toFile());
+        } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension)) {
+            return transformReqifToSysml(sourcePath.toFile(), destinationPath.toFile());
+        } else if (ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension)) {
+            return transformSysmlToReqif(sourcePath.toFile(), destinationPath.toFile());
+        } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension)) {
+            return transformReqifToExcel(sourcePath.toFile(), destinationPath.toFile());
+        } else if (ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension)) {
+            return transformExcelToReqif(sourcePath.toFile(), destinationPath.toFile());
+        } else if (ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension)) {
+            return transformWordToReqif(sourcePath.toFile(), destinationPath.toFile());
+        } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension)) {
+            return transformReqifToWord(sourcePath.toFile(), destinationPath.toFile());
+        } else {
             System.out.println("DefaultModelTransformationService.transform Extension not supported");
             return false;
         }
     }
 
-    private boolean transformReqifToCm(File sourceFile, File destinationFile) {
+    private boolean transformReqifToSysml(File sourceFile, File destinationFile) {
         //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
         return copy(sourceFile, destinationFile);
     }
 
-    private boolean transformCmToReqif(File sourceFile, File destinationFile) {
+    private boolean transformSysmlToReqif(File sourceFile, File destinationFile) {
         //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
         return copy(sourceFile, destinationFile);
     }
 
-    private boolean transformSysMLToCm(File sourceFile, File destinationFile) {
+    private boolean transformReqifToExcel(File sourceFile, File destinationFile) {
         //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
         return copy(sourceFile, destinationFile);
     }
 
-    private boolean transformCmToSysML(File sourceFile, File destinationFile) {
+    private boolean transformExcelToReqif(File sourceFile, File destinationFile) {
         //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
         return copy(sourceFile, destinationFile);
     }
 
-    private boolean transformReqifToSysML(File sourceFile, File destinationFile) {
+    private boolean transformReqifToWord(File sourceFile, File destinationFile) {
+        //TODO: also first validate source Files with Model Validator
+        //TODO: remove with correct implementation
+        return copy(sourceFile, destinationFile);
+    }
+
+    private boolean transformWordToReqif(File sourceFile, File destinationFile) {
         //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
         return copy(sourceFile, destinationFile);

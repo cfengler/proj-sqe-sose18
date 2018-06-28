@@ -7,8 +7,8 @@ import java.util.List;
 public enum ReqExchangeFileType {
     ReqIF("ReqIF", "reqif", "reqifz"),
     SysML("SysML", "uml", "di", "notation"),
-    Docx("Word", "doc", "docx"),
-    Xslx("Excel", "xls", "xlsx");
+    Word("Word", "doc", "docx"),
+    Excel("Excel", "xls", "xlsx");
 
     private String name;
     private List<String> filetypes;
