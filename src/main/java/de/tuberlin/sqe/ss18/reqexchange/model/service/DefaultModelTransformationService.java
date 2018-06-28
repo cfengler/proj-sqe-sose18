@@ -50,8 +50,11 @@ public class DefaultModelTransformationService implements ModelTransformationSer
 
         /**
          * Register needed EPackages for Parser etc.
+         *
+         * This example is for ReqIF
          */
         ReqIF10Package.eINSTANCE.eClass();
+
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map<String, Object> m = reg.getExtensionToFactoryMap();
         m.put("reqif", new ReqIF10ResourceFactoryImpl());
@@ -66,14 +69,29 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         File transformationQVT = new File(resourcePath + "/qvt/ReqIF2ReqIF.qvto");
 
 
+        boolean result = executeTransformation(inReqIF, outReqIF, transformationQVT);
+
+        System.out.println("Transformation successfull: " + result);
+
+    }
+
+
+
+
+
+
+
+
+
+    private static boolean executeTransformation(File inFile, File outFile, File transformationQVTOFile) {
         /**
          * Debug to ensure if file path is correct
          */
 
 
-        System.out.println(inReqIF.exists() + " : " +inReqIF.getAbsolutePath());
-        System.out.println(outReqIF.exists() + " : " +outReqIF.getAbsolutePath());
-        System.out.println(transformationQVT.exists() + " : " +transformationQVT.getAbsolutePath());
+        System.out.println(inFile.exists() + " : " +inFile.getAbsolutePath());
+        System.out.println(outFile.exists() + " : " +outFile.getAbsolutePath());
+        System.out.println(transformationQVTOFile.exists() + " : " +transformationQVTOFile.getAbsolutePath());
 
 
         /**
@@ -83,7 +101,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
 
 
         // Refer to an existing transformation via URI
-        URI transformationURI = URI.createFileURI(transformationQVT.getAbsolutePath());
+        URI transformationURI = URI.createFileURI(transformationQVTOFile.getAbsolutePath());
 
 
         // create executor for the given transformation
@@ -94,7 +112,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         // a list of arbitrary in-memory EObjects may be passed
         ExecutionContextImpl context = new ExecutionContextImpl();
         ResourceSet resourceSet = new ResourceSetImpl();
-        URI uri = URI.createFileURI(inReqIF.getAbsolutePath());
+        URI uri = URI.createFileURI(inFile.getAbsolutePath());
 
         Resource inResource = resourceSet.getResource(uri, true);
         EList<EObject> inObjects = inResource.getContents();
@@ -121,31 +139,23 @@ public class DefaultModelTransformationService implements ModelTransformationSer
             // let's persist them using a resource
             ResourceSet resourceSet2 = new ResourceSetImpl();
             Resource outResource = resourceSet2.createResource(
-                    URI.createFileURI(outReqIF.getAbsolutePath()));
+                    URI.createFileURI(outFile.getAbsolutePath()));
             outResource.getContents().addAll(outObjects);
             try {
                 outResource.save(Collections.emptyMap());
+                return true;
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+
         } else {
             // turn the result diagnostic into status and send it to error log
             System.out.println("Transformation failed:" + result);
+            return false;
         }
-
-
+        return false;
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
