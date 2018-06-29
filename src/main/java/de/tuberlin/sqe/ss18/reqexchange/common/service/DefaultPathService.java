@@ -39,7 +39,7 @@ public class DefaultPathService implements PathService {
     }
 
     private void createPaths() {
-        projectInfosPath.toFile().mkdir();
-        projectRepositoriesPath.toFile().mkdir();
+        projectInfosPath.toFile().mkdirs();
+        projectRepositoriesPath.toFile().mkdirs();
     }
 }
