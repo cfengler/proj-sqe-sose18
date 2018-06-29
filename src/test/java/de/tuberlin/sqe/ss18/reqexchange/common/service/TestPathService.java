@@ -23,6 +23,9 @@ public class TestPathService implements PathService {
         return projectRepositoriesPath;
     }
 
+    private Path settingsPath;
+    public Path getSettingsPath() { return settingsPath; }
+
     public TestPathService() {
         try {
             pathOfRunningJar = Paths.get(DefaultPathService.class.getProtectionDomain().getCodeSource().getLocation().toURI());
@@ -32,8 +35,10 @@ public class TestPathService implements PathService {
 
         projectInfosPath = getPathOfRunningJar().resolve("test").resolve("projectInfos");
         projectRepositoriesPath = getPathOfRunningJar().resolve("test").resolve("projectRepositories");
+        settingsPath = getPathOfRunningJar().resolve("test").resolve("settings");
 
         createPaths();
+        copyTestData();
     }
 
     public Path getLocalGitRepositoryPathByProjectName(String projectName) {
@@ -43,5 +48,15 @@ public class TestPathService implements PathService {
     private void createPaths() {
         projectInfosPath.toFile().mkdirs();
         projectRepositoriesPath.toFile().mkdirs();
+        settingsPath.toFile().mkdirs();
+    }
+
+    private void copyTestData() {
+        try {
+            FileUtils.copyDirectory(getPathOfRunningJar().resolve("settings").toFile(), settingsPath.toFile());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

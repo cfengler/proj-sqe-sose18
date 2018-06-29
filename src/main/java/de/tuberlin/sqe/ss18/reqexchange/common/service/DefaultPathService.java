@@ -21,6 +21,11 @@ public class DefaultPathService implements PathService {
         return projectRepositoriesPath;
     }
 
+    private Path settingsPath;
+    public Path getSettingsPath() {
+        return settingsPath;
+    }
+
     public DefaultPathService() {
         try {
             pathOfRunningJar = Paths.get(DefaultPathService.class.getProtectionDomain().getCodeSource().getLocation().toURI());
@@ -30,6 +35,7 @@ public class DefaultPathService implements PathService {
 
         projectInfosPath = getPathOfRunningJar().resolve("projectInfos");
         projectRepositoriesPath = getPathOfRunningJar().resolve("projectRepositories");
+        settingsPath = getPathOfRunningJar().resolve("settings");
 
         createPaths();
     }

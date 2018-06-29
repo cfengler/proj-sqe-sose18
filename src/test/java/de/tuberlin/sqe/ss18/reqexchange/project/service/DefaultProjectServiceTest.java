@@ -49,6 +49,8 @@ public class DefaultProjectServiceTest {
     private static Path jGitCommonModelFilePath;
 
     private static Path tempReqifWorkingFilePath;
+    private static Path tempSysmlWorkingFilePath;
+    private static Path tempXlsxWorkingFilePath;
 
     private static Path oneRequirementReqifWorkingFilePath;
     private static Path oneRequirementSysmlWorkingFilePath;
@@ -84,11 +86,15 @@ public class DefaultProjectServiceTest {
         //TODO: oneRequirementXlsxWorkingFilePath
         oneRequirementReqifWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.reqif");
         oneRequirementSysmlWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.uml");
+        oneRequirementXlsxWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.xslx");
 
         jGitPath = testPath.resolve("test_" + TESTPROJECTNAME);
         jGitCommonModelFilePath = jGitPath.resolve("data.cm");
 
         tempReqifWorkingFilePath = testPath.resolve("TempWorkingFile.reqif");
+        tempSysmlWorkingFilePath = testPath.resolve("TempWorkingFile.uml");
+        tempXlsxWorkingFilePath = testPath.resolve("TempWorkingFile.xslx");
+
         //TODO: use common git settings instead of defined url
 
         remoteRepositoryName = "https://github.com/cfengler/proj-sqe-sose18-unittest.git";
@@ -147,13 +153,34 @@ public class DefaultProjectServiceTest {
     }
 
     @Test
-    public void test_02c_exportProject() {
+    public void test_02c_exportProject() throws GitAPIException, IOException {
         //TODO: implement
-        Assert.assertTrue(false);
-        //cm datei
-        //export
-        //reqif test datei vergleich
-        //sysml test datei vergleich
+        clearRemoteRepository();
+        addProjectToRemoteRepository();
+
+        Project project = projectService.join(URI.create(remoteRepositoryName), TESTPROJECTNAME, tempReqifWorkingFilePath, ReqExchangeFileType.ReqIF);
+        projectService.export(project, tempSysmlWorkingFilePath);
+        projectService.export(project, tempXlsxWorkingFilePath);
+        Assert.assertTrue(projectService.leave(project));
+
+        Assert.assertTrue(FileUtils.contentEquals(
+                tempReqifWorkingFilePath.toFile(),
+                oneRequirementReqifWorkingFilePath.toFile()));
+
+        Assert.assertTrue(FileUtils.contentEquals(
+                tempSysmlWorkingFilePath.toFile(),
+                oneRequirementSysmlWorkingFilePath.toFile()
+        ));
+
+        Assert.assertTrue(FileUtils.contentEquals(
+                tempXlsxWorkingFilePath.toFile(),
+                oneRequirementXlsxWorkingFilePath.toFile()
+        ));
+
+        Files.deleteIfExists(tempReqifWorkingFilePath);
+        Files.deleteIfExists(tempSysmlWorkingFilePath);
+        Files.deleteIfExists(tempXlsxWorkingFilePath);
+        deleteLocalRepository();
     }
 
     @Test
