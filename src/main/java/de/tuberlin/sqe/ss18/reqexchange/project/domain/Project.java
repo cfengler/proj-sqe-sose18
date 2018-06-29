@@ -2,6 +2,7 @@ package de.tuberlin.sqe.ss18.reqexchange.project.domain;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.net.URI;
 import java.nio.file.Path;
 
 public class Project {
@@ -12,6 +13,14 @@ public class Project {
     }
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    private URI remoteGitRepositoryURI;
+    public URI getRemoteGitRepositoryURI() {
+        return remoteGitRepositoryURI;
+    }
+    public void setRemoteGitRepositoryURI(URI remoteGitRepositoryURI) {
+        this.remoteGitRepositoryURI = remoteGitRepositoryURI;
     }
 
     private String name;

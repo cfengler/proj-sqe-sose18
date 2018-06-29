@@ -2,6 +2,14 @@ package de.tuberlin.sqe.ss18.reqexchange.project.domain;
 
 public class ProjectInfo {
 
+    private String remoteGitRepositoryName;
+    public String getRemoteGitRepositoryName() {
+        return remoteGitRepositoryName;
+    }
+    public void setRemoteGitRepositoryName(String newValue) {
+        this.remoteGitRepositoryName = newValue;
+    }
+
     private String name;
     public String getName() {
         return name;

@@ -13,6 +13,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -52,7 +53,10 @@ public class DefaultProjectService implements ProjectService {
                     if (Files.isRegularFile(projectInfoFilePath)) {
                         ProjectInfo projectInfo = loadProjectInfo(projectInfoFilePath.toFile());
 
-                        Project project = getProjectByNameAndFilePath(
+                        Project project = getProject(
+                                projectInfo.getRemoteGitRepositoryName() != null
+                                        ? URI.create(projectInfo.getRemoteGitRepositoryName())
+                                        : null,
                                 projectInfo.getName(),
                                 Paths.get(projectInfo.getFileName()));
                         project.setPullNeeded(projectInfo.isPullNeeded());
@@ -71,13 +75,13 @@ public class DefaultProjectService implements ProjectService {
     }
 
     @Override
-    public Project create(String name, Path filePath, ReqExchangeFileType reqExchangeFileType) {
+    public Project create(URI remoteGitRepositoryURI, String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType) {
         ///TODO: support for all ReqExchangeFileType
         if (reqExchangeFileType != ReqExchangeFileType.ReqIF) {
             return null;
         }
 
-        Project newProject = getProjectByNameAndFilePath(name, filePath);
+        Project newProject = getProject(remoteGitRepositoryURI, name, workingFilePath);
         if (Files.exists(newProject.getProjectInfoFilePath())) {
             return null;
         }
@@ -100,9 +104,17 @@ public class DefaultProjectService implements ProjectService {
         return newProject;
     }
 
+    public Project create(String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType) {
+        return create(null, name, workingFilePath, reqExchangeFileType);
+    }
+
     @Override
-    public Project join(String name, Path filePath, ReqExchangeFileType reqExchangeFileType) {
-        Project joinProject = getProjectByNameAndFilePath(name, filePath);
+    public Project join(String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType) {
+        return join(null, name, workingFilePath, reqExchangeFileType);
+    }
+    public Project join(URI remoteGitRepositoryURI, String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType) {
+
+        Project joinProject = getProject(remoteGitRepositoryURI, name, workingFilePath);
         if (Files.exists(joinProject.getProjectInfoFilePath())) {
             return null;
         }
@@ -202,8 +214,9 @@ public class DefaultProjectService implements ProjectService {
         //return false;
     }
 
-    private Project getProjectByNameAndFilePath(String name, Path filePath) {
+    private Project getProject(URI remoteGitRepositoryURI, String name, Path filePath) {
         Project result = new Project();
+        result.setRemoteGitRepositoryURI(remoteGitRepositoryURI);
         result.setName(name);
         result.setWorkingModelFilePath(filePath);
         result.setLocalGitRepositoryPath(pathService.getLocalGitRepositoryPathByProjectName(name));
@@ -215,6 +228,9 @@ public class DefaultProjectService implements ProjectService {
 
     private void saveProjectInfo(Project project) {
         ProjectInfo projectInfo = new ProjectInfo();
+        if (project.getRemoteGitRepositoryURI() != null) {
+            projectInfo.setRemoteGitRepositoryName(project.getRemoteGitRepositoryURI().toString());
+        }
         projectInfo.setName(project.getName());
         projectInfo.setFileName(project.getWorkingModelFilePath().toString());
         projectInfo.setPullNeeded(project.isPullNeeded());

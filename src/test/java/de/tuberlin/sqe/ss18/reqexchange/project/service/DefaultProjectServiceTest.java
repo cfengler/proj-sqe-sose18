@@ -1,13 +1,20 @@
 package de.tuberlin.sqe.ss18.reqexchange.project.service;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import de.tuberlin.sqe.ss18.reqexchange.ReqExchangeModule;
 import de.tuberlin.sqe.ss18.reqexchange.common.service.PathService;
+import de.tuberlin.sqe.ss18.reqexchange.common.service.TestPathService;
+import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitPropertiesService;
+import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitService;
 import de.tuberlin.sqe.ss18.reqexchange.git.service.GitPropertiesService;
 import de.tuberlin.sqe.ss18.reqexchange.git.service.GitService;
+import de.tuberlin.sqe.ss18.reqexchange.model.service.DefaultModelTransformationService;
+import de.tuberlin.sqe.ss18.reqexchange.model.service.DefaultModelValidationService;
+import de.tuberlin.sqe.ss18.reqexchange.model.service.ModelTransformationService;
+import de.tuberlin.sqe.ss18.reqexchange.model.service.ModelValidationService;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
+import de.tuberlin.sqe.ss18.reqexchange.serialization.service.DefaultJsonSerializerService;
+import de.tuberlin.sqe.ss18.reqexchange.serialization.service.JsonSerializerService;
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -15,8 +22,7 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,34 +30,46 @@ import java.nio.file.Path;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DefaultProjectServiceTest {
 
-    private static final String TESTPROJECTNAME = "proj-sqe-sose18-unittest";
+    private static final String TESTPROJECTNAME = "myTestOfAName";
 
-    private static Injector injector;
     private static PathService pathService;
-    private static  GitPropertiesService gitPropertiesService;
+    private static GitPropertiesService gitPropertiesService;
     private static GitService gitService;
+    private static JsonSerializerService jsonSerializerService;
+    private static ModelTransformationService modelTransformationService;
+    private static ModelValidationService modelValidationService;
     private static ProjectService projectService;
 
     private static CredentialsProvider testCredentialsProvider;
 
-    private static Path resourcesPathToCopy;
     private static Path testPath;
+    private static Path unitTestPath;
 
-    private static Path testReqifWorkingFilePath;
-    private static File testReqifWorkingFile;
-    private static Path testLocalGitRepositoryPath;
-    private static Path testLocalGitRepositoryPath2;
+    private static Path jGitPath;
+    private static Path jGitCommonModelFilePath;
 
-    private static URI testURI;
+    private static Path tempReqifWorkingFilePath;
+
+    private static Path oneRequirementReqifWorkingFilePath;
+    private static Path oneRequirementSysmlWorkingFilePath;
+    private static Path oneRequirementXlsxWorkingFilePath;
+
+    private static String remoteRepositoryName;
 
     @BeforeClass
     public static void startUp() throws IOException {
-        injector = Guice.createInjector(new ReqExchangeModule());
-
-        pathService = injector.getInstance(PathService.class);
-        gitPropertiesService = injector.getInstance(GitPropertiesService.class);
-        gitService = injector.getInstance(GitService.class);
-        projectService = injector.getInstance(ProjectService.class);
+        pathService = new TestPathService();
+        gitPropertiesService = new DefaultGitPropertiesService(pathService);
+        gitService = new DefaultGitService(pathService, gitPropertiesService);
+        jsonSerializerService = new DefaultJsonSerializerService();
+        modelTransformationService = new DefaultModelTransformationService();
+        modelValidationService = new DefaultModelValidationService();
+        projectService = new DefaultProjectService(
+                pathService,
+                jsonSerializerService,
+                gitService,
+                modelTransformationService,
+                modelValidationService);
 
         testCredentialsProvider = new UsernamePasswordCredentialsProvider(
                 gitPropertiesService.getUsername(),
@@ -61,72 +79,77 @@ public class DefaultProjectServiceTest {
     }
 
     private static void initTestVariables() throws IOException {
-        resourcesPathToCopy = pathService.getPathOfRunningJar().resolve("unitTest");
         testPath = pathService.getPathOfRunningJar().resolve("test");
-        //TODO: also cm and uml files needed (for changing, comparision, ...)
-        testReqifWorkingFilePath = testPath.resolve("testWorkingFile.reqif");
-        testReqifWorkingFile = testReqifWorkingFilePath.toFile();
+        unitTestPath = pathService.getPathOfRunningJar().resolve("unitTest");
+        //TODO: oneRequirementXlsxWorkingFilePath
+        oneRequirementReqifWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.reqif");
+        oneRequirementSysmlWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.uml");
 
-        testLocalGitRepositoryPath = testPath.resolve("repositories").resolve(TESTPROJECTNAME);
-        testLocalGitRepositoryPath2 = testPath.resolve("repositories").resolve(TESTPROJECTNAME + "_2");
+        jGitPath = testPath.resolve("test_" + TESTPROJECTNAME);
+        jGitCommonModelFilePath = jGitPath.resolve("data.cm");
+
+        tempReqifWorkingFilePath = testPath.resolve("TempWorkingFile.reqif");
         //TODO: use common git settings instead of defined url
-        testURI = URI.create("https://github.com/cfengler/" + TESTPROJECTNAME + ".git");
-    }
 
-    private static void copyResourcesTestPathToTestPath() throws IOException {
-        Files.deleteIfExists(testPath);
-        Files.copy(resourcesPathToCopy, testPath);
+        remoteRepositoryName = "https://github.com/cfengler/proj-sqe-sose18-unittest.git";
     }
 
     @AfterClass
-    public static void tearDown() {
-        try {
-            Files.deleteIfExists(testPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void tearDown() throws IOException {
+        FileUtils.deleteDirectory(testPath.toFile());
     }
 
     @Before
-    public void prepareTest() throws IOException {
-        copyResourcesTestPathToTestPath();
+    public void prepareTest() {
+
     }
 
     @After
-    public void tearDownTest() throws IOException {
-        Files.deleteIfExists(testPath);
+    public void tearDownTest() {
     }
 
     @Test
-    public void test_02a_createProject() {
-        //TODO: implement
+    public void test_02a_createProject_reqIF() throws GitAPIException, IOException {
+        clearRemoteRepository();
 
-        //remote repository leeren
-        //create project!!! (Test-Datei)
-        //lokal löschen
-        //repository clonen
-        //cm datei vergleichen
-        //lokal löschen
+        Files.copy(oneRequirementReqifWorkingFilePath, tempReqifWorkingFilePath);
+        Project project = projectService.create(URI.create(remoteRepositoryName), TESTPROJECTNAME, tempReqifWorkingFilePath, ReqExchangeFileType.ReqIF);
+        Assert.assertNotNull(project);
+        Assert.assertTrue(projectService.leave(project));
 
-        //projectService.create("proj-sqe-sose18-unittest", ???, )
+        cloneLocalRepository();
+        Assert.assertTrue(jGitCommonModelFilePath.toFile().exists());
+        Assert.assertTrue(FileUtils.contentEquals(
+                jGitCommonModelFilePath.toFile(),
+                oneRequirementReqifWorkingFilePath.toFile()));
 
-        //projectService.create();
+        deleteLocalRepository();
+        Files.deleteIfExists(tempReqifWorkingFilePath);
     }
 
     @Test
-    public void test_02b_joinProject() {
-        //TODO: implement
-        //remote repository leeren
-        //cm datei mit gitService pushen
-        //lokal löschen
-        //join project!!!
-        //cm datei vergleichen
-        //lokal löschen
+    public void test_02b_joinProject() throws GitAPIException, IOException {
+        clearRemoteRepository();
+
+        Project project = projectService.join(URI.create(remoteRepositoryName), TESTPROJECTNAME, tempReqifWorkingFilePath, ReqExchangeFileType.ReqIF);
+        Assert.assertNull(project);
+        Assert.assertFalse(tempReqifWorkingFilePath.toFile().exists());
+
+        addProjectToRemoteRepository();
+
+        project = projectService.join(URI.create(remoteRepositoryName), TESTPROJECTNAME, tempReqifWorkingFilePath, ReqExchangeFileType.ReqIF);
+        Assert.assertNotNull(project);
+        Assert.assertTrue(tempReqifWorkingFilePath.toFile().exists());
+        Assert.assertTrue(projectService.leave(project));
+
+        deleteLocalRepository();
+        Files.deleteIfExists(tempReqifWorkingFilePath);
     }
 
     @Test
     public void test_02c_exportProject() {
         //TODO: implement
+        Assert.assertTrue(false);
         //cm datei
         //export
         //reqif test datei vergleich
@@ -136,21 +159,25 @@ public class DefaultProjectServiceTest {
     @Test
     public void test_04a_synchronizeProject_localChanges() {
         //TODO: implement
+        Assert.assertTrue(false);
     }
 
     @Test
     public void test_04b_synchronizeProject_remoteChanges() {
         //TODO: implement
+        Assert.assertTrue(false);
     }
 
     @Test
     public void test_04c_synchronizeProject_local_and_remoteChanges_with_conflicts() {
         //TODO: implement
+        Assert.assertTrue(false);
     }
 
     @Test
     public void test_04d_synchronizeProject_local_and_remoteChanges_without_conflicts() {
         //TODO: implement
+        Assert.assertTrue(false);
     }
 
     @Test
@@ -158,18 +185,20 @@ public class DefaultProjectServiceTest {
         //TODO: implement auf Project testen mit projecttService.refresh()
         clearRemoteRepository();
 
-        Project testProject = projectService.create(TESTPROJECTNAME, testReqifWorkingFilePath, ReqExchangeFileType.ReqIF);
+        Files.copy(oneRequirementReqifWorkingFilePath, tempReqifWorkingFilePath);
+
+        Project testProject = projectService.create(URI.create(remoteRepositoryName), TESTPROJECTNAME, tempReqifWorkingFilePath, ReqExchangeFileType.ReqIF);
+
         projectService.refresh(testProject);
-        Assert.assertFalse(testProject.isPullNeeded());
         Assert.assertFalse(testProject.isPushNeeded());
 
-        modifyTestWorkingFile();
+        modifyTempReqifWorkingFilePath();
 
         projectService.refresh(testProject);
-        Assert.assertFalse(testProject.isPullNeeded());
         Assert.assertTrue(testProject.isPushNeeded());
 
         projectService.leave(testProject);
+        Files.deleteIfExists(tempReqifWorkingFilePath);
     }
 
     @Test
@@ -177,55 +206,77 @@ public class DefaultProjectServiceTest {
         //TODO: implement auf Project testen mit projecttService.refresh()
         clearRemoteRepository();
 
-        createProjectWithJGit();
-        Project testProject = projectService.join(TESTPROJECTNAME, testReqifWorkingFilePath, ReqExchangeFileType.ReqIF);
+        addProjectToRemoteRepository();
+
+        Project testProject = projectService.join(URI.create(remoteRepositoryName), TESTPROJECTNAME, tempReqifWorkingFilePath, ReqExchangeFileType.ReqIF);
         projectService.refresh(testProject);
         Assert.assertFalse(testProject.isPullNeeded());
 
-        //TODO: implement
-        changeProjectWithJGit();
+        modifyRemoteRepository();
 
         projectService.refresh(testProject);
         Assert.assertTrue(testProject.isPullNeeded());
+        Assert.assertTrue(projectService.leave(testProject));
 
-        projectService.leave(testProject);
+        deleteLocalRepository();
+        Files.deleteIfExists(tempReqifWorkingFilePath);
     }
 
-    private void clearRemoteRepository() throws GitAPIException {
+    private void clearRemoteRepository() throws GitAPIException, IOException {
+        FileUtils.deleteDirectory(jGitPath.toFile());
+
         try (Git git = Git.cloneRepository()
-                .setURI(testURI.toString())
-                .setDirectory(testLocalGitRepositoryPath.toFile())
+                .setURI(remoteRepositoryName)
+                .setDirectory(jGitPath.toFile())
                 .call())
         {
-            git.rm().addFilepattern(".").call();
-            git.commit().setAll(true).setMessage("Clear Repository caused by unit test").call();
+            if (Files.deleteIfExists(jGitPath.resolve("data.cm"))) {
+                git.rm().addFilepattern(".").call();
+                git.commit().setAll(true).setMessage("DefaultProjectServiceTest.clearRemoteRepository()").call();
+                git.push().setPushAll().setCredentialsProvider(testCredentialsProvider).call();
+            }
+        }
+
+        FileUtils.deleteDirectory(jGitPath.toFile());
+    }
+
+    private void addProjectToRemoteRepository() throws GitAPIException, IOException {
+        FileUtils.deleteDirectory(jGitPath.toFile());
+
+        try (Git git = Git.cloneRepository().setURI(remoteRepositoryName).setDirectory(jGitPath.toFile()).call()) {
+            modelTransformationService.transform(oneRequirementReqifWorkingFilePath, jGitCommonModelFilePath);
+            git.add().addFilepattern(".").call();
+            git.commit().setAll(true).setMessage("DefaultProjectServiceTest.addProjectToRemoteRepository()").call();
             git.push().setPushAll().setCredentialsProvider(testCredentialsProvider).call();
         }
     }
 
-    private void createProjectWithJGit() throws GitAPIException {
+    private void modifyRemoteRepository() throws IOException, GitAPIException {
+        Assert.assertTrue(tempReqifWorkingFilePath.toFile().exists());
+
+        modifyTempReqifWorkingFilePath();
+
+        try (Git git = Git.open(jGitPath.toFile())) {
+            git.commit().setAll(true).setMessage("DefaultProjectServiceTest.modifyRemoteRepository()").call();
+            git.push().setPushAll().setCredentialsProvider(testCredentialsProvider).call();
+        }
+    }
+
+    private void cloneLocalRepository() throws GitAPIException {
         try (Git git = Git.cloneRepository()
-                .setURI(testURI.toString())
-                .setDirectory(testLocalGitRepositoryPath2.toFile())
+                .setURI(remoteRepositoryName)
+                .setDirectory(jGitPath.toFile())
                 .call()) {
-            //TODO: copy data.cm file in repository (need cm file)
-            //git.add().addFilepattern(".").call();
-            //git.commit().setAll(true).setMessage("Initial Commit of data.cm for unit test").call();
-            //git.push().setPushAll().setCredentialsProvider(testCredentialsProvider).call();
         }
     }
 
-    private void changeProjectWithJGit() throws IOException, GitAPIException {
-        //TODO: change on data.cm
-        try (Git git = Git.open(testLocalGitRepositoryPath2.toFile()))
-        {
-            git.commit().setAll(true).setMessage("Change Commit on data.cm for unit test").call();
-            git.push().setPushAll().setCredentialsProvider(testCredentialsProvider).call();
-        }
+    private void deleteLocalRepository() throws IOException {
+        FileUtils.deleteDirectory(jGitPath.toFile());
     }
 
-    private void modifyTestWorkingFile() {
+    private void modifyTempReqifWorkingFilePath() throws IOException {
         //TODO: read reqif in object model, make some changes and save back
+        Files.write(tempReqifWorkingFilePath, Files.readAllBytes(tempReqifWorkingFilePath));
     }
 
 }
