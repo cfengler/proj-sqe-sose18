@@ -1,0 +1,17 @@
+modeltype ReqIF uses "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd";
+
+
+transformation ReqIF2ReqIF(in reqifIn : ReqIF, out reqifOut : ReqIF);
+
+main() {
+	reqifIn.rootObjects()[reqif10::ReqIF]->map reqIFSpecObjectToSysMLRequirements();
+}
+
+
+
+mapping reqif10::ReqIF::reqIFSpecObjectToSysMLRequirements() : reqif10::ReqIF {
+		theHeader := self.theHeader;
+}
+
+
+
