@@ -138,26 +138,28 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         String sourcePathExtension = FilenameUtils.getExtension(sourcePath.toString());
         String destinationPathExtension = FilenameUtils.getExtension(destinationPath.toString());
 
-        boolean foundSourceExtension = false;
-        boolean foundDestinationExtension = false;
+        ReqExchangeFileType sourceFileType = null;
+        ReqExchangeFileType destinationFileType = null;
         for(ReqExchangeFileType reft: ReqExchangeFileType.values()) {
             for(String s: reft.getFiletypes()) {
                 if(sourcePathExtension.equals(s)) {
-                    foundSourceExtension = true;
+                    sourceFileType = reft;
                 }
                 if(destinationPathExtension.equals(s)) {
-                    foundDestinationExtension = true;
+                    destinationFileType = reft;
                 }
             }
         }
-        if(!foundSourceExtension || !foundDestinationExtension) {
+        if(sourceFileType == null || destinationFileType == null) {
             System.out.println("DefaultModelTransformationService.transform files have unsupported extensions");
             return false;
         }
 
         List<String> reqIfFileExtensions = ReqExchangeFileType.ReqIF.getFiletypes();
-        if(!reqIfFileExtensions.contains(sourcePathExtension) && !reqIfFileExtensions.contains(destinationPathExtension)) {
-            System.out.println("DefaultModelTransformationService.transform no transformation from or to reqif");
+        if(!reqIfFileExtensions.contains(sourcePathExtension) &&
+                !reqIfFileExtensions.contains(destinationPathExtension) &&
+                sourceFileType != destinationFileType) {
+            System.out.println("DefaultModelTransformationService.transform no copy or transformation from or to reqif");
             return false;
         }
 
