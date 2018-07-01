@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum ReqExchangeFileType {
-    ReqIF("ReqIF", "reqif", "reqifz"),
+    ReqIF("ReqIF", "reqif", "reqifz", "cm"),
     SysML("SysML", "uml", "di", "notation"),
     Word("Word", "doc", "docx"),
     Excel("Excel", "xls", "xlsx");

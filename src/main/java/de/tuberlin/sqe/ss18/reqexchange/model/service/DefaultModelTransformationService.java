@@ -1,14 +1,25 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
+import de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.impl.WorkbookImpl;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -176,9 +187,19 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         } else if (ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension)) {
             return transformSysmlToReqif(sourcePath.toFile(), destinationPath.toFile());
         } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension)) {
-            return transformReqifToExcel(sourcePath.toFile(), destinationPath.toFile());
+            if(sourcePathExtension.equals("xls")) {
+                return transformReqifToExcelXls(sourcePath.toFile(), destinationPath.toFile());
+            } else {
+                return transformReqifToExcelXlsx(sourcePath.toFile(), destinationPath.toFile());
+            }
+            //return transformReqifToExcel(sourcePath.toFile(), destinationPath.toFile());
         } else if (ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension)) {
-            return transformExcelToReqif(sourcePath.toFile(), destinationPath.toFile());
+            if(sourcePathExtension.equals("xls")) {
+                return transformExcelToReqifXls(sourcePath.toFile(), destinationPath.toFile());
+            } else {
+                return transformExcelToReqifXlsx(sourcePath.toFile(), destinationPath.toFile());
+            }
+            //return transformExcelToReqif(sourcePath.toFile(), destinationPath.toFile());
         } else if (ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension)) {
             return transformWordToReqif(sourcePath.toFile(), destinationPath.toFile());
         } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension)) {
@@ -201,15 +222,71 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         return copy(sourceFile, destinationFile);
     }
 
-    private boolean transformReqifToExcel(File sourceFile, File destinationFile) {
+    private boolean transformReqifToExcelXls(File sourceFile, File destinationFile) {
         //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
         return copy(sourceFile, destinationFile);
     }
 
-    private boolean transformExcelToReqif(File sourceFile, File destinationFile) {
+    private boolean transformReqifToExcelXlsx(File sourceFile, File destinationFile) {
         //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
+
+        //WorkbookImpl excelmodel = WorkbookImpl();
+
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("test");
+        XSSFRow row = sheet.createRow(1);
+        XSSFCell cell = row.createCell(1, CellType.BOOLEAN);
+        cell.setCellValue(false);
+
+        try {
+            FileOutputStream fos = new FileOutputStream(destinationFile);
+            workbook.write(fos);
+            fos.close();
+        } catch (IOException e) {
+            System.out.println("DefaultModelTransformationService.transform error writing excel xlsx file");
+            return false;
+        }
+
+        return copy(sourceFile, destinationFile);
+    }
+
+    private boolean transformExcelToReqifXls(File sourceFile, File destinationFile) {
+        //TODO: also first validate source Files with Model Validator
+        //TODO: remove with correct implementation
+        return copy(sourceFile, destinationFile);
+    }
+
+    private boolean transformExcelToReqifXlsx(File sourceFile, File destinationFile) {
+        //TODO: also first validate source Files with Model Validator
+        //TODO: remove with correct implementation
+
+        XSSFWorkbook workbook;
+        try {
+            workbook = new XSSFWorkbook(sourceFile);
+        } catch (IOException e) {
+            System.out.println("DefaultModelTransformationService.transform error reading excel file");
+            return false;
+        } catch (InvalidFormatException e) {
+            System.out.println("DefaultModelTransformationService.transform invalid excel file");
+            return false;
+        }
+
+        //WorkbookImpl excelmodel = new WorkbookImpl();
+        for (Sheet aWorkbook : workbook) {
+            XSSFSheet sheet = (XSSFSheet) aWorkbook;
+            //TODO do stuff on sheet basis
+            for (Row aSheet : sheet) {
+                XSSFRow row = (XSSFRow) aSheet;
+                //TODO do stuff on row basis
+                for (Cell aRow : row) {
+                    XSSFCell cell = (XSSFCell) aRow;
+                    //TODO do stuff on cell basis
+                }
+            }
+        }
+
         return copy(sourceFile, destinationFile);
     }
 
