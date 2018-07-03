@@ -20,13 +20,20 @@
     -fx-font-weight: bold;
     -fx-text-fill: whitesmoke;
     -fx-padding: 5;
-    -fx-font-family: Helvetica, sans-serif;
+    -fx-font-family: Helvetica, Arial, sans-serif;
 }
 
 #labelFileType {
     -fx-text-fill: lightgray;
     -fx-padding: 5;
-    -fx-font-family: Helvetica, sans-serif;
+    -fx-font-family: Helvetica, Arial, sans-serif;
+    -fx-font-style: italic;
+}
+
+#labelGitName {
+    -fx-text-fill: lightgray;
+    -fx-padding: 5;
+    -fx-font-family: Helvetica, Arial, sans-serif;
     -fx-font-style: italic;
 }
 

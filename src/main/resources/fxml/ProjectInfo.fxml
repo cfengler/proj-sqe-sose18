@@ -41,7 +41,7 @@
                 </Button>
             </left>
             <right>
-                <Label fx:id="labelFileType"
+                <Label fx:id="labelGitName"
                        BorderPane.alignment="TOP_RIGHT"/>
             </right>
         </BorderPane>
@@ -75,6 +75,11 @@
                     </graphic>
                 </Button>
             </left>
+
+            <center>
+                <Label fx:id="labelFileType"
+                       BorderPane.alignment="BOTTOM_RIGHT"/>
+            </center>
 
             <right>
                 <Button fx:id="buttonSync"

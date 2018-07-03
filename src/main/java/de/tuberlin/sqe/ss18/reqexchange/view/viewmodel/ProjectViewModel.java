@@ -10,6 +10,7 @@ import javafx.beans.property.StringProperty;
 public class ProjectViewModel {
 
     private StringProperty name;
+    private StringProperty remoteGitRepositoryName;
     private ReqExchangeFileType fileType;
     private Project project;
     private BooleanProperty canPull;
@@ -17,6 +18,7 @@ public class ProjectViewModel {
 
     public ProjectViewModel(Project project) {
         this.name = new SimpleStringProperty(project.getName());
+        this.remoteGitRepositoryName = new SimpleStringProperty();//TODO set remotegitname
         this.fileType = ReqExchangeFileType.getFileTypeFromFileName(project.getWorkingModelFilePath().toString());
         this.canPull = new SimpleBooleanProperty(project.isPullNeeded());
         this.canPush = new SimpleBooleanProperty(project.isPushNeeded());
@@ -82,6 +84,18 @@ public class ProjectViewModel {
 
     public Project getProject() {
         return project;
+    }
+
+    public String getRemoteGitRepositoryName() {
+        return remoteGitRepositoryName.get();
+    }
+
+    public StringProperty remoteGitRepositoryNameProperty() {
+        return remoteGitRepositoryName;
+    }
+
+    public void setRemoteGitRepositoryName(String remoteGitRepositoryName) {
+        this.remoteGitRepositoryName.set(remoteGitRepositoryName);
     }
 
     @Override
