@@ -28,22 +28,22 @@ public class DefaultModelTransformationServiceTest {
     }
 
     @Test
-    public void testt_03a_transformReqIF() {
+    public void test_03a_transformReqIF() {
         //TODO:implement
     }
 
     @Test
-    public void testt_03b1_transformXlsx() {
+    public void test_03b1_transformXlsx() {
         //TODO:implement
     }
 
     @Test
-    public void testt_03b2_transformDocx() {
+    public void test_03b2_transformDocx() {
         //TODO:implement
     }
 
     @Test
-    public void testt_03c_transformSysML() {
+    public void test_03c_transformSysML() {
         //TODO:implement
     }
 
