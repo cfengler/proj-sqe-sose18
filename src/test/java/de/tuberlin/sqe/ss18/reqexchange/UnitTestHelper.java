@@ -316,4 +316,15 @@ public class UnitTestHelper {
         }
     }
 
+    public static boolean copyFiles(Path source, Path destination) {
+        try {
+            Files.copy(source, destination);
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

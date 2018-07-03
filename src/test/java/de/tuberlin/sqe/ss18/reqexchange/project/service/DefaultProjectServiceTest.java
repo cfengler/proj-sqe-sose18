@@ -52,10 +52,12 @@ public class DefaultProjectServiceTest {
 
     @Test
     public void test_02a_createProject_reqIF() throws GitAPIException, IOException {
-        UnitTestHelper.clearRemoteRepository();
+        Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
 
-        Files.copy(UnitTestHelper.getOneRequirementReqifWorkingFilePath(),
-                UnitTestHelper.getTestReqifWorkingFilePath());
+        Assert.assertTrue(UnitTestHelper.copyFiles(
+                UnitTestHelper.getOneRequirementReqifWorkingFilePath(),
+                UnitTestHelper.getTestReqifWorkingFilePath()
+        ));
 
         Project testProject = UnitTestHelper.getProjectService().create(
                 UnitTestHelper.getRemoteRepositoryURI(),
@@ -66,7 +68,7 @@ public class DefaultProjectServiceTest {
         Assert.assertNotNull(testProject);
         Assert.assertTrue(UnitTestHelper.getProjectService().leave(testProject));
 
-        UnitTestHelper.cloneLocalRepository();
+        Assert.assertTrue(UnitTestHelper.cloneLocalRepository());
 
         Assert.assertTrue(UnitTestHelper.getJGitCommonModelFilePath().toFile().exists());
         Assert.assertTrue(FileUtils.contentEquals(
@@ -79,7 +81,7 @@ public class DefaultProjectServiceTest {
 
     @Test
     public void test_02b_joinProject() throws GitAPIException, IOException {
-        UnitTestHelper.clearRemoteRepository();
+        Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
 
         Project project = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
@@ -90,7 +92,7 @@ public class DefaultProjectServiceTest {
         Assert.assertNull(project);
         Assert.assertFalse(UnitTestHelper.getTestReqifWorkingFilePath().toFile().exists());
 
-        UnitTestHelper.addProjectToRemoteRepository();
+        Assert.assertTrue(UnitTestHelper.addProjectToRemoteRepository());
 
         project = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
@@ -109,8 +111,8 @@ public class DefaultProjectServiceTest {
     @Test
     public void test_02c_exportProject() throws GitAPIException, IOException {
         //TODO: implement
-        UnitTestHelper.clearRemoteRepository();
-        UnitTestHelper.addProjectToRemoteRepository();
+        Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
+        Assert.assertTrue(UnitTestHelper.addProjectToRemoteRepository());
 
         Project project = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
@@ -144,7 +146,13 @@ public class DefaultProjectServiceTest {
     @Test
     public void test_04a_synchronizeProject_localChanges() throws GitAPIException, IOException {
         //TODO: debug
-        UnitTestHelper.clearRemoteRepository();
+        Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
+
+        Assert.assertTrue(UnitTestHelper.copyFiles(
+                UnitTestHelper.getOneRequirementReqifWorkingFilePath(),
+                UnitTestHelper.getTestReqifWorkingFilePath()
+        ));
+
         Project testProject = UnitTestHelper.getProjectService().create(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.TEST_PROJECT_NAME,
@@ -173,8 +181,8 @@ public class DefaultProjectServiceTest {
     @Test
     public void test_04b_synchronizeProject_remoteChanges() throws GitAPIException, IOException {
         //TODO: debug
-        UnitTestHelper.clearRemoteRepository();
-        UnitTestHelper.addProjectToRemoteRepository();
+        Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
+        Assert.assertTrue(UnitTestHelper.addProjectToRemoteRepository());
 
         Project testProject = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
@@ -191,7 +199,7 @@ public class DefaultProjectServiceTest {
                 UnitTestHelper.getTestReqifWorkingFilePath().toFile(),
                 UnitTestHelper.getJGitCommonModelFilePath().toFile()));
 
-        UnitTestHelper.getProjectService().leave(testProject);
+        Assert.assertTrue(UnitTestHelper.getProjectService().leave(testProject));
 
         Files.deleteIfExists(UnitTestHelper.getTestReqifWorkingFilePath());
         //TODO: wichtig?
@@ -202,8 +210,8 @@ public class DefaultProjectServiceTest {
     @Test
     public void test_04c_synchronizeProject_local_and_remoteChanges_with_conflicts() throws GitAPIException, IOException {
         //TODO: debug
-        UnitTestHelper.clearRemoteRepository();
-        UnitTestHelper.addProjectToRemoteRepository();
+        Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
+        Assert.assertTrue(UnitTestHelper.addProjectToRemoteRepository());
 
         Project testProject = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
@@ -239,10 +247,12 @@ public class DefaultProjectServiceTest {
     @Test
     public void test_04d_synchronizeProject_local_and_remoteChanges_without_conflicts() throws IOException, GitAPIException {
         //TODO: debug
-        UnitTestHelper.clearRemoteRepository();
+        Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
 
-        Files.copy(UnitTestHelper.getOneRequirementReqifWorkingFilePath(),
-                UnitTestHelper.getTestReqifWorkingFilePath());
+        Assert.assertTrue(UnitTestHelper.copyFiles(
+                UnitTestHelper.getOneRequirementReqifWorkingFilePath(),
+                UnitTestHelper.getTestReqifWorkingFilePath()
+        ));
 
         Project testProject = UnitTestHelper.getProjectService().create(
                 UnitTestHelper.getRemoteRepositoryURI(),
@@ -284,9 +294,12 @@ public class DefaultProjectServiceTest {
     @Test
     public void test_06_isPushNeeded() throws IOException, GitAPIException {
         //TODO: implement auf Project testen mit projecttService.refresh()
-        UnitTestHelper.clearRemoteRepository();
+        Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
 
-        Files.copy(UnitTestHelper.getOneRequirementReqifWorkingFilePath(), UnitTestHelper.getTestReqifWorkingFilePath());
+        Assert.assertTrue(UnitTestHelper.copyFiles(
+                UnitTestHelper.getOneRequirementReqifWorkingFilePath(),
+                UnitTestHelper.getTestReqifWorkingFilePath()
+        ));
 
         Project testProject = UnitTestHelper.getProjectService().create(
                 UnitTestHelper.getRemoteRepositoryURI(),
@@ -310,9 +323,9 @@ public class DefaultProjectServiceTest {
     @Test
     public void test_07_isPullNeeded() throws GitAPIException, IOException {
         //TODO: implement auf Project testen mit projecttService.refresh()
-        UnitTestHelper.clearRemoteRepository();
+        Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
 
-        UnitTestHelper.addProjectToRemoteRepository();
+        Assert.assertTrue(UnitTestHelper.addProjectToRemoteRepository());
 
         Project testProject = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
