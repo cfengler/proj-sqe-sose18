@@ -29,8 +29,7 @@ public class ProjectViewModelTest extends TestCase {
         Project testProject = UnitTestHelper.getProjectService().create(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.TEST_PROJECT_NAME,
-                UnitTestHelper.getTestReqifWorkingFilePath(),
-                ReqExchangeFileType.ReqIF);
+                UnitTestHelper.getTestReqifWorkingFilePath());
 
 
         //ProjectViewModel projectViewModel = new ProjectViewModel()

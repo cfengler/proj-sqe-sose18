@@ -176,6 +176,14 @@ public class ClientController {
         });
     }
 
+    @FXML protected void handleButtonSettingsAction(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("");
+        alert.setHeaderText("TODO");
+        alert.setContentText("Einstellungsfenster fehlt noch.");
+        alert.showAndWait();
+    }
+
     @FXML protected void handleButtonJoinProjectAction(ActionEvent event) {
         Dialog<Pair<Pair<Pair<String, String>, String>, Pair<ReqExchangeFileType, String>>> dialog = new Dialog<>();
         dialog.setTitle("Join Project");

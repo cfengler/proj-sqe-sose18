@@ -62,8 +62,7 @@ public class DefaultProjectServiceTest {
         Project testProject = UnitTestHelper.getProjectService().create(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.TEST_PROJECT_NAME,
-                UnitTestHelper.getTestReqifWorkingFilePath(),
-                ReqExchangeFileType.ReqIF);
+                UnitTestHelper.getTestReqifWorkingFilePath());
 
         Assert.assertNotNull(testProject);
         Assert.assertTrue(UnitTestHelper.getProjectService().leave(testProject));
@@ -86,8 +85,7 @@ public class DefaultProjectServiceTest {
         Project project = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.TEST_PROJECT_NAME,
-                UnitTestHelper.getTestReqifWorkingFilePath(),
-                ReqExchangeFileType.ReqIF);
+                UnitTestHelper.getTestReqifWorkingFilePath());
 
         Assert.assertNull(project);
         Assert.assertFalse(UnitTestHelper.getTestReqifWorkingFilePath().toFile().exists());
@@ -97,8 +95,7 @@ public class DefaultProjectServiceTest {
         project = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.TEST_PROJECT_NAME,
-                UnitTestHelper.getTestReqifWorkingFilePath(),
-                ReqExchangeFileType.ReqIF);
+                UnitTestHelper.getTestReqifWorkingFilePath());
 
         Assert.assertNotNull(project);
         Assert.assertTrue(UnitTestHelper.getTestReqifWorkingFilePath().toFile().exists());
@@ -117,8 +114,8 @@ public class DefaultProjectServiceTest {
         Project project = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.TEST_PROJECT_NAME,
-                UnitTestHelper.getTestReqifWorkingFilePath(),
-                ReqExchangeFileType.ReqIF);
+                UnitTestHelper.getTestReqifWorkingFilePath());
+
         UnitTestHelper.getProjectService().export(project, UnitTestHelper.getTestSysmlWorkingFilePath());
         UnitTestHelper.getProjectService().export(project, UnitTestHelper.getTestXlsxWorkingFilePath());
         Assert.assertTrue(UnitTestHelper.getProjectService().leave(project));
@@ -156,8 +153,7 @@ public class DefaultProjectServiceTest {
         Project testProject = UnitTestHelper.getProjectService().create(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.TEST_PROJECT_NAME,
-                UnitTestHelper.getTestReqifWorkingFilePath(),
-                ReqExchangeFileType.ReqIF);
+                UnitTestHelper.getTestReqifWorkingFilePath());
 
         Assert.assertTrue(UnitTestHelper.modifyReqifAddRequirement(UnitTestHelper.getTestReqifWorkingFilePath()));
 
@@ -187,8 +183,7 @@ public class DefaultProjectServiceTest {
         Project testProject = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.TEST_PROJECT_NAME,
-                UnitTestHelper.getTestReqifWorkingFilePath(),
-                ReqExchangeFileType.ReqIF);
+                UnitTestHelper.getTestReqifWorkingFilePath());
 
         Assert.assertTrue(UnitTestHelper.modifyRemoteRepository());
 
@@ -216,14 +211,12 @@ public class DefaultProjectServiceTest {
         Project testProject = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.TEST_PROJECT_NAME,
-                UnitTestHelper.getTestReqifWorkingFilePath(),
-                ReqExchangeFileType.ReqIF);
+                UnitTestHelper.getTestReqifWorkingFilePath());
 
         Project validateProject = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.VALIDATE_PROJECT_NAME,
-                UnitTestHelper.getValidateReqifWorkingFilePath(),
-                ReqExchangeFileType.ReqIF);
+                UnitTestHelper.getValidateReqifWorkingFilePath());
 
         Assert.assertTrue(UnitTestHelper.modifyReqifFilesWithConflicts(
                 UnitTestHelper.getTestReqifWorkingFilePath(),
@@ -257,14 +250,12 @@ public class DefaultProjectServiceTest {
         Project testProject = UnitTestHelper.getProjectService().create(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.TEST_PROJECT_NAME,
-                UnitTestHelper.getTestReqifWorkingFilePath(),
-                ReqExchangeFileType.ReqIF);
+                UnitTestHelper.getTestReqifWorkingFilePath());
 
         Project validateProject = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.VALIDATE_PROJECT_NAME,
-                UnitTestHelper.getValidateReqifWorkingFilePath(),
-                ReqExchangeFileType.ReqIF);
+                UnitTestHelper.getValidateReqifWorkingFilePath());
 
         Assert.assertTrue(UnitTestHelper.modifyReqifFilesWithoutConflicts(
                 UnitTestHelper.getTestReqifWorkingFilePath(),
@@ -304,8 +295,7 @@ public class DefaultProjectServiceTest {
         Project testProject = UnitTestHelper.getProjectService().create(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.TEST_PROJECT_NAME,
-                UnitTestHelper.getTestReqifWorkingFilePath(),
-                ReqExchangeFileType.ReqIF);
+                UnitTestHelper.getTestReqifWorkingFilePath());
 
         UnitTestHelper.getProjectService().refresh(testProject);
         Assert.assertFalse(testProject.isPushNeeded());
@@ -330,8 +320,7 @@ public class DefaultProjectServiceTest {
         Project testProject = UnitTestHelper.getProjectService().join(
                 UnitTestHelper.getRemoteRepositoryURI(),
                 UnitTestHelper.TEST_PROJECT_NAME,
-                UnitTestHelper.getTestReqifWorkingFilePath(),
-                ReqExchangeFileType.ReqIF);
+                UnitTestHelper.getTestReqifWorkingFilePath());
 
         UnitTestHelper.getProjectService().refresh(testProject);
         Assert.assertFalse(testProject.isPullNeeded());

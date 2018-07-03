@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.image.ImageView?>
+<?import com.sun.javafx.scene.control.skin.ToolBarSkin.ToolBarOverflowMenu?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="de.tuberlin.sqe.ss18.reqexchange.view.controller.ClientController"
@@ -28,6 +29,13 @@
                             onAction="#handleButtonJoinProjectAction">
                         <tooltip>
                             <Tooltip text="join project"/>
+                        </tooltip>
+                    </Button>
+
+                    <Button fx:id="buttonSettings"
+                            onAction="#handleButtonSettingsAction">
+                        <tooltip>
+                            <Tooltip text="configure settings"/>
                         </tooltip>
                     </Button>
                 </HBox>

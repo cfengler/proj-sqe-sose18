@@ -6,6 +6,10 @@
     -fx-graphic: url("/icons/icon_join_project.png");
 }
 
+#buttonSettings {
+    -fx-graphic: url("/icons/icon_settings.png");
+}
+
 #hBoxActions {
     -fx-spacing: 5;
     -fx-padding: 5;
