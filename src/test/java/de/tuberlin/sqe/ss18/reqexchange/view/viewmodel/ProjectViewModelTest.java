@@ -2,41 +2,50 @@ package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
 import de.tuberlin.sqe.ss18.reqexchange.UnitTestHelper;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
-import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.BeforeClass;
-
-import java.io.IOException;
-import java.nio.file.Files;
+import org.junit.Test;
 
 public class ProjectViewModelTest extends TestCase {
 
     @BeforeClass
-    public static void startUp() throws IOException {
+    public static void startUp() {
 
     }
 
-    public void test_06_HasLocalChanges() {
-        //TODO: implement
-        Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
+    @Test
+    public void test_06_isCanPush() {
+        Project mockProject = new Project();
+        mockProject.setName("Mock Project");
+        mockProject.setRemoteGitRepositoryURI(UnitTestHelper.getRemoteRepositoryURI());
+        mockProject.setCommonModelFilePath(UnitTestHelper.getJGitCommonModelFilePath());
+        mockProject.setWorkingModelFilePath(UnitTestHelper.getOneRequirementReqifWorkingFilePath());
+        mockProject.setLocalGitRepositoryPath(UnitTestHelper.getjGitRepositoryPath());
+        mockProject.setPullNeeded(false);
+        mockProject.setPushNeeded(false);
 
-        Assert.assertTrue(UnitTestHelper.copyFiles(
-                UnitTestHelper.getOneRequirementReqifWorkingFilePath(),
-                UnitTestHelper.getTestReqifWorkingFilePath()
-        ));
-
-        Project testProject = UnitTestHelper.getProjectService().create(
-                UnitTestHelper.getRemoteRepositoryURI(),
-                UnitTestHelper.TEST_PROJECT_NAME,
-                UnitTestHelper.getTestReqifWorkingFilePath());
-
-
-        //ProjectViewModel projectViewModel = new ProjectViewModel()
+        ProjectViewModel projectViewModel = new ProjectViewModel(mockProject);
+        Assert.assertFalse(projectViewModel.isCanPush());
+        mockProject.setPushNeeded(true);
+        Assert.assertTrue(projectViewModel.isCanPush());
     }
 
-    public void test_07_HasRemoteChanges() {
-        //TODO: implement
+    @Test
+    public void test_07_isCanPull() {
+        Project mockProject = new Project();
+        mockProject.setName("Mock Project");
+        mockProject.setRemoteGitRepositoryURI(UnitTestHelper.getRemoteRepositoryURI());
+        mockProject.setCommonModelFilePath(UnitTestHelper.getJGitCommonModelFilePath());
+        mockProject.setWorkingModelFilePath(UnitTestHelper.getOneRequirementReqifWorkingFilePath());
+        mockProject.setLocalGitRepositoryPath(UnitTestHelper.getjGitRepositoryPath());
+        mockProject.setPullNeeded(false);
+        mockProject.setPushNeeded(false);
+
+        ProjectViewModel projectViewModel = new ProjectViewModel(mockProject);
+        Assert.assertFalse(projectViewModel.isCanPull());
+        mockProject.setPullNeeded(true);
+        Assert.assertTrue(projectViewModel.isCanPull());
     }
 
 }

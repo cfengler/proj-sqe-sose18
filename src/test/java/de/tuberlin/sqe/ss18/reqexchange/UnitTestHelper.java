@@ -16,12 +16,9 @@ import de.tuberlin.sqe.ss18.reqexchange.serialization.service.DefaultJsonSeriali
 import de.tuberlin.sqe.ss18.reqexchange.serialization.service.JsonSerializerService;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -107,10 +104,9 @@ public class UnitTestHelper {
     public static Path getTestPath() { return testPath; }
 
     private static Path unitTestPath;
-    //public static Path getUnitTestPath() { return unitTestPath; }
 
-    private static Path jGitPath;
-    //public static Path getjGitPath() { return jGitPath; }
+    private static Path jGitRepositoryPath;
+    public static Path getjGitRepositoryPath() { return jGitRepositoryPath; }
 
     private static Path jGitCommonModelFilePath;
 
@@ -152,7 +148,6 @@ public class UnitTestHelper {
     public static Path getOneRequirementXlsxWorkingFilePath() {
         return oneRequirementXlsxWorkingFilePath;
     }
-    //private static String remoteRepositoryName;
 
     private static String remoteRepositoryName;
     public static String getRemoteRepositoryName() { return remoteRepositoryName; }
@@ -170,8 +165,8 @@ public class UnitTestHelper {
         oneRequirementSysmlWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.uml");
         oneRequirementXlsxWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.xslx");
 
-        jGitPath = testPath.resolve("jGit_" + TEST_PROJECT_NAME);
-        jGitCommonModelFilePath = jGitPath.resolve("data.cm");
+        jGitRepositoryPath = testPath.resolve("jGit_" + TEST_PROJECT_NAME);
+        jGitCommonModelFilePath = jGitRepositoryPath.resolve("data.cm");
 
         testReqifWorkingFilePath = testPath.resolve("TestWorkingFile.reqif");
         testSysmlWorkingFilePath = testPath.resolve("TestWorkingFile.uml");
@@ -184,21 +179,21 @@ public class UnitTestHelper {
 
     public static boolean clearRemoteRepository() {
         try {
-            FileUtils.deleteDirectory(jGitPath.toFile());
+            FileUtils.deleteDirectory(jGitRepositoryPath.toFile());
 
             try (Git git = Git.cloneRepository()
                     .setURI(remoteRepositoryName)
-                    .setDirectory(jGitPath.toFile())
+                    .setDirectory(jGitRepositoryPath.toFile())
                     .call())
             {
-                if (Files.deleteIfExists(jGitPath.resolve("data.cm"))) {
+                if (Files.deleteIfExists(jGitCommonModelFilePath)) {
                     git.rm().addFilepattern(".").call();
                     git.commit().setAll(true).setMessage("UnitTestHelper.clearRemoteRepository()").call();
                     git.push().setPushAll().setCredentialsProvider(getTestCredentialsProvider()).call();
                 }
             }
 
-            FileUtils.deleteDirectory(jGitPath.toFile());
+            FileUtils.deleteDirectory(jGitRepositoryPath.toFile());
 
             return true;
         }
@@ -211,7 +206,7 @@ public class UnitTestHelper {
     public static boolean cloneLocalRepository() {
         try (Git git = Git.cloneRepository()
                 .setURI(remoteRepositoryName)
-                .setDirectory(jGitPath.toFile())
+                .setDirectory(jGitRepositoryPath.toFile())
                 .call()) {
 
             return true;
@@ -224,11 +219,11 @@ public class UnitTestHelper {
 
     public static boolean addProjectToRemoteRepository() {
         try {
-            FileUtils.deleteDirectory(jGitPath.toFile());
+            FileUtils.deleteDirectory(jGitRepositoryPath.toFile());
 
             try (Git git = Git.cloneRepository()
                     .setURI(remoteRepositoryName)
-                    .setDirectory(jGitPath.toFile())
+                    .setDirectory(jGitRepositoryPath.toFile())
                     .call()) {
                 modelTransformationService.transform(oneRequirementReqifWorkingFilePath, jGitCommonModelFilePath);
                 git.add().addFilepattern(".").call();
@@ -250,12 +245,12 @@ public class UnitTestHelper {
             return false;
         }
 
-        if (modifyReqifAddRequirement(jGitPath)) {
+        if (modifyReqifAddRequirement(jGitCommonModelFilePath)) {
             return false;
         }
 
         try {
-            try (Git git = Git.open(jGitPath.toFile())) {
+            try (Git git = Git.open(jGitRepositoryPath.toFile())) {
                 git.commit().setAll(true).setMessage("DefaultProjectServiceTest.modifyRemoteRepository()").call();
                 git.push().setPushAll().setCredentialsProvider(getTestCredentialsProvider()).call();
             }
@@ -270,7 +265,7 @@ public class UnitTestHelper {
 
     public static boolean deleteLocalRepository() {
         try {
-            FileUtils.deleteDirectory(jGitPath.toFile());
+            FileUtils.deleteDirectory(jGitRepositoryPath.toFile());
             return true;
         }
         catch (Exception e) {
