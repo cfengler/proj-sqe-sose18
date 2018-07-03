@@ -90,7 +90,7 @@ public class ClientController {
     }
 
     @FXML protected void handleButtonCreateProjectAction(ActionEvent event) {
-        Dialog<Pair<String, Pair<String, String>>> dialog = new Dialog<>();
+        Dialog<Pair<Pair<String, String>, Pair<String, String>>> dialog = new Dialog<>();
         dialog.setTitle("Create Project");
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
         dialog.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icons/icon_create_project.png"))));
@@ -99,6 +99,7 @@ public class ClientController {
         grid.setHgap(5);
         grid.setVgap(5);
         TextField name = new TextField();
+        TextField gitpath = new TextField();
         //TODO password deactivated
         PasswordField password = new PasswordField();
         password.setDisable(true);
@@ -129,14 +130,16 @@ public class ClientController {
         error.setTextFill(Color.RED);
         error.setVisible(false);
         grid.add(new Label("Project Name:"), 0, 0);
-        grid.add(new Label("Password:"), 0, 1);
-        grid.add(new Label("Confirm Password:"), 0, 2);
-        grid.add(new Label("ReqIF File:"), 0, 3);
+        grid.add(new Label("Git URL:"), 0, 1);
+        grid.add(new Label("Password:"), 0, 2);
+        grid.add(new Label("Confirm Password:"), 0, 3);
+        grid.add(new Label("ReqIF File:"), 0, 4);
         grid.add(name, 1, 0);
-        grid.add(password, 1, 1);
-        grid.add(confirmPassword, 1, 2);
-        grid.add(border, 1, 3);
-        grid.add(error, 0, 4, 2, 1);
+        grid.add(gitpath, 1, 1);
+        grid.add(password, 1, 2);
+        grid.add(confirmPassword, 1, 3);
+        grid.add(border, 1, 4);
+        grid.add(error, 0, 5, 2, 1);
         for(Node n: grid.getChildren()) {
             GridPane.setHalignment(n, HPos.RIGHT);
         }
@@ -145,9 +148,10 @@ public class ClientController {
         ChangeListener changeListener = (observable, oldValue, newValue) -> {
             //TODO password deactivated
             ok.setDisable(name.getText().equals("") /*|| password.getText().equals("")
-                    || confirmPassword.getText().equals("")*/ || filename.getText().equals(""));
+                    || confirmPassword.getText().equals("")*/ || filename.getText().equals("") || gitpath.getText().equals(""));
         };
         name.textProperty().addListener(changeListener);
+        gitpath.textProperty().addListener(changeListener);
         password.textProperty().addListener(changeListener);
         confirmPassword.textProperty().addListener(changeListener);
         filename.textProperty().addListener(changeListener);
@@ -161,19 +165,19 @@ public class ClientController {
         });
         dialog.setResultConverter(dialogButton -> {
             if(dialogButton == ButtonType.OK && password.getText().equals(confirmPassword.getText())) {
-                return new Pair<>(name.getText(), new Pair<>(password.getText(), filename.getText()));
+                return new Pair<>(new Pair<>(name.getText(), gitpath.getText()), new Pair<>(password.getText(), filename.getText()));
             }
             return null;
         });
 
-        Optional<Pair<String, Pair<String, String>>> result = dialog.showAndWait();
+        Optional<Pair<Pair<String, String>, Pair<String, String>>> result = dialog.showAndWait();
         result.ifPresent(triplet -> {
-            clientViewModel.handleCreateProject(triplet.getKey(), triplet.getValue().getKey(), triplet.getValue().getValue());
+            clientViewModel.handleCreateProject(triplet.getKey().getValue(), triplet.getKey().getKey(), triplet.getValue().getKey(), triplet.getValue().getValue());
         });
     }
 
     @FXML protected void handleButtonJoinProjectAction(ActionEvent event) {
-        Dialog<Pair<Pair<String, String>, Pair<ReqExchangeFileType, String>>> dialog = new Dialog<>();
+        Dialog<Pair<Pair<Pair<String, String>, String>, Pair<ReqExchangeFileType, String>>> dialog = new Dialog<>();
         dialog.setTitle("Join Project");
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
         dialog.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icons/icon_join_project.png"))));
@@ -182,6 +186,7 @@ public class ClientController {
         grid.setHgap(5);
         grid.setVgap(5);
         TextField name = new TextField();
+        TextField gitpath = new TextField();
         PasswordField password = new PasswordField();
         //TODO password deactivated
         password.setDisable(true);
@@ -213,13 +218,15 @@ public class ClientController {
         border.setCenter(filename);
         border.setRight(file);
         grid.add(new Label("Project Name:"), 0, 0);
-        grid.add(new Label("Password:"), 0, 1);
-        grid.add(new Label("File Type:"), 0, 2);
-        grid.add(new Label("Save File As:"), 0, 3);
+        grid.add(new Label("Git URL:"), 0, 1);
+        grid.add(new Label("Password:"), 0, 2);
+        grid.add(new Label("File Type:"), 0, 3);
+        grid.add(new Label("Save File As:"), 0, 4);
         grid.add(name, 1, 0);
-        grid.add(password, 1, 1);
-        grid.add(choice, 1, 2);
-        grid.add(border, 1, 3);
+        grid.add(gitpath, 1, 1);
+        grid.add(password, 1, 2);
+        grid.add(choice, 1, 3);
+        grid.add(border, 1, 4);
         for(Node n: grid.getChildren()) {
             GridPane.setHalignment(n, HPos.RIGHT);
         }
@@ -227,9 +234,11 @@ public class ClientController {
         ok.setDisable(true);
         ChangeListener changeListener = (observable, oldValue, newValue) -> {
             //TODO password deactivated
-            ok.setDisable(name.getText().equals("") || /*password.getText().equals("") ||*/ filename.getText().equals("") || choice.getSelectionModel().getSelectedIndex() == -1);
+            ok.setDisable(name.getText().equals("") || /*password.getText().equals("") ||*/
+                    filename.getText().equals("") || choice.getSelectionModel().getSelectedIndex() == -1 || gitpath.getText().equals(""));
         };
         name.textProperty().addListener(changeListener);
+        gitpath.textProperty().addListener(changeListener);
         password.textProperty().addListener(changeListener);
         choice.getSelectionModel().selectedItemProperty().addListener(changeListener);
         filename.textProperty().addListener(changeListener);
@@ -238,14 +247,14 @@ public class ClientController {
         Platform.runLater(name::requestFocus);
         dialog.setResultConverter(dialogButton -> {
             if(dialogButton == ButtonType.OK) {
-                return new Pair<>(new Pair<>(name.getText(), password.getText()), new Pair<>(choice.getSelectionModel().getSelectedItem(), filename.getText()));
+                return new Pair<>(new Pair<>(new Pair<>(name.getText(), gitpath.getText()), password.getText()), new Pair<>(choice.getSelectionModel().getSelectedItem(), filename.getText()));
             }
             return null;
         });
 
-        Optional<Pair<Pair<String, String>, Pair<ReqExchangeFileType, String>>> result = dialog.showAndWait();
+        Optional<Pair<Pair<Pair<String, String>, String>, Pair<ReqExchangeFileType, String>>> result = dialog.showAndWait();
         result.ifPresent(pair -> {
-            clientViewModel.handleJoinProject(pair.getKey().getKey(), pair.getKey().getValue(), pair.getValue().getKey(), pair.getValue().getValue());
+            clientViewModel.handleJoinProject(pair.getKey().getKey().getKey(), pair.getKey().getKey().getValue(), pair.getKey().getValue(), pair.getValue().getKey(), pair.getValue().getValue());
         });
     }
 
