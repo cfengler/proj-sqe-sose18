@@ -11,10 +11,10 @@ public interface ProjectService {
 
     List<Project> getAll();
 
-    Project create(URI remoteGitRepositoryURI, String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType);
-    Project create(String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType);
-    Project join(URI remoteGitRepositoryURI, String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType);
-    Project join(String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType);
+    Project create(URI remoteGitRepositoryURI, String name, Path workingFilePath);
+    //Project create(String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType);
+    Project join(URI remoteGitRepositoryURI, String name, Path workingFilePath);
+    //Project join(String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType);
     boolean leave(Project project);
 
     void refresh(Project project);

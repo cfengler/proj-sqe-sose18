@@ -33,7 +33,7 @@ public class DefaultGitPropertiesService extends Properties implements GitProper
         this.pathService = pathService;
 
         gitPropertiesFilePath = pathService.getSettingsPath()
-                .resolve("settings/git.properties");
+                .resolve("git.properties");
 
         try (InputStream inputStream = Files.newInputStream(gitPropertiesFilePath)) {
             load(inputStream);

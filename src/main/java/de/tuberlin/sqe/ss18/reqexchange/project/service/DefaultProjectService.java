@@ -75,9 +75,9 @@ public class DefaultProjectService implements ProjectService {
     }
 
     @Override
-    public Project create(URI remoteGitRepositoryURI, String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType) {
+    public Project create(URI remoteGitRepositoryURI, String name, Path workingFilePath) {
         ///TODO: support for all ReqExchangeFileType
-        if (reqExchangeFileType != ReqExchangeFileType.ReqIF) {
+        if (ReqExchangeFileType.getFileTypeFromFileName(workingFilePath.toString()) != ReqExchangeFileType.ReqIF) {
             return null;
         }
 
@@ -104,15 +104,7 @@ public class DefaultProjectService implements ProjectService {
         return newProject;
     }
 
-    public Project create(String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType) {
-        return create(null, name, workingFilePath, reqExchangeFileType);
-    }
-
-    @Override
-    public Project join(String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType) {
-        return join(null, name, workingFilePath, reqExchangeFileType);
-    }
-    public Project join(URI remoteGitRepositoryURI, String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType) {
+    public Project join(URI remoteGitRepositoryURI, String name, Path workingFilePath) {
 
         Project joinProject = getProject(remoteGitRepositoryURI, name, workingFilePath);
         if (Files.exists(joinProject.getProjectInfoFilePath())) {
