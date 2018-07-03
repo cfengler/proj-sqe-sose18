@@ -1,6 +1,7 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
 import com.google.inject.Inject;
+import de.tuberlin.sqe.ss18.reqexchange.git.service.GitPropertiesService;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
@@ -35,18 +36,21 @@ public class ClientController {
     @FXML private HBox hBoxActions;
     @FXML private Button buttonCreateProject;
     @FXML private Button buttonJoinProject;
+    @FXML private Button buttonSettings;
     @FXML private FlowPane flowPaneProjects;
     @FXML private ScrollPane scrollPaneProjects;
     @FXML private ProgressIndicator progressIndicator;
     @FXML private ImageView imageLogo;
 
     private ClientViewModel clientViewModel;
+    private GitPropertiesService gitPropertiesService;
 
     @Inject
-    public ClientController(ClientViewModel clientViewModel) {
+    public ClientController(ClientViewModel clientViewModel, GitPropertiesService gitPropertiesService) {
         System.out.println(getClass().getSimpleName() + " ctor");
 
         this.clientViewModel = clientViewModel;
+        this.gitPropertiesService = gitPropertiesService;
     }
 
     @FXML
@@ -177,11 +181,48 @@ public class ClientController {
     }
 
     @FXML protected void handleButtonSettingsAction(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("");
-        alert.setHeaderText("TODO");
-        alert.setContentText("Einstellungsfenster fehlt noch.");
-        alert.showAndWait();
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("Settings");
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icons/icon_settings.png"))));
+
+        GridPane grid = new GridPane();
+        grid.setHgap(5);
+        grid.setVgap(5);
+        TextField username = new TextField(gitPropertiesService.getUsername());
+        PasswordField password = new PasswordField();
+        password.setText(gitPropertiesService.getPassword());
+
+        grid.add(new Label("Git Username:"), 0, 0);
+        grid.add(new Label("Git Password:"), 0, 1);
+        grid.add(username, 1, 0);
+        grid.add(password, 1, 1);
+        for(Node n: grid.getChildren()) {
+            GridPane.setHalignment(n, HPos.RIGHT);
+        }
+        Node ok = dialog.getDialogPane().lookupButton(ButtonType.OK);
+        ok.setDisable(username.getText().equals("") || password.getText().equals(""));
+        ChangeListener changeListener = (observable, oldValue, newValue) -> {
+            ok.setDisable(username.getText().equals("") || password.getText().equals(""));
+        };
+        username.textProperty().addListener(changeListener);
+        password.textProperty().addListener(changeListener);
+        dialog.getDialogPane().setContent(grid);
+        Platform.runLater(username::requestFocus);
+
+        dialog.setResultConverter(dialogButton -> {
+            if(dialogButton == ButtonType.OK) {
+                return new Pair<>(username.getText(), password.getText());
+            }
+            return null;
+        });
+
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+        result.ifPresent(settings -> {
+            gitPropertiesService.setUsername(settings.getKey());
+            gitPropertiesService.setPassword(settings.getValue());
+            gitPropertiesService.save();
+        });
     }
 
     @FXML protected void handleButtonJoinProjectAction(ActionEvent event) {
