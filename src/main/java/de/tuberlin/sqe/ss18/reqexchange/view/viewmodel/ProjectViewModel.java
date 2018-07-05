@@ -31,7 +31,7 @@ public class ProjectViewModel {
                     setCanPull((Boolean)e.getNewValue());
                     break;
                 case "name":
-                    setName((String)e.getNewValue());
+                    setName(String.valueOf(e.getNewValue()));
                     break;
                 default:
                     break;

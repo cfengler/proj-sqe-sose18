@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.net.URI;
 import java.nio.file.Path;
+import java.util.Objects;
 
 public class Project {
 
@@ -28,7 +29,7 @@ public class Project {
         return name;
     }
     public void setName(String newValue) {
-        if (name != newValue) {
+        if (!Objects.equals(name, newValue)) {
             String oldValue = name;
             this.name = newValue;
             propertyChangeSupport.firePropertyChange("name", oldValue, newValue);

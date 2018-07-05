@@ -76,7 +76,6 @@ public class ProjectInfoController extends BorderPane {
         ObjectExpression<Font> fontTracking = Bindings.createObjectBinding(() -> Font.font(getWidth() / 10), widthProperty());
         labelProjectName.fontProperty().bind(fontTracking);
         labelFileType.setText(projectViewModel.getFileType().getName());
-        //TODO setgitname
     }
 
     @FXML protected void handleButtonLeaveProjectAction(ActionEvent event) {
