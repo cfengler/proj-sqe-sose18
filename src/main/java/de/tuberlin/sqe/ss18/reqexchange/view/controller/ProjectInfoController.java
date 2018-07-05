@@ -98,7 +98,7 @@ public class ProjectInfoController extends BorderPane {
         error.setVisible(false);
         grid.add(new Label("Project Name:"), 0, 0);
         grid.add(name, 1, 0);
-        grid.add(error, 1, 1, 2, 1);
+        grid.add(error, 0, 1, 2, 1);
         for(Node n: grid.getChildren()) {
             GridPane.setHalignment(n, HPos.RIGHT);
         }
