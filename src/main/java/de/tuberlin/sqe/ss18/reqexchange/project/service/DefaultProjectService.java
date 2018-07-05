@@ -128,7 +128,43 @@ public class DefaultProjectService implements ProjectService {
     @Override
     public boolean renameProject(Project project, String newName) {
         //TODO: implement
-        return false;
+        Path newLocalGitRepositoryPath = pathService.getLocalGitRepositoryPathByProjectName(newName);
+        Path newCommonModelFilePath = pathService.getLocalGitRepositoryPathByProjectName(newName).resolve("data.cm");
+        Path newProjectInfoFilePath = pathService.getProjectInfosPath().resolve(newName + ".json");
+
+        if (Files.exists(newLocalGitRepositoryPath) || Files.exists(newProjectInfoFilePath)) {
+            return false;
+        }
+
+        try {
+            FileUtils.moveDirectory(project.getLocalGitRepositoryPath().toFile(), newLocalGitRepositoryPath.toFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        try {
+            FileUtils.moveFile(project.getProjectInfoFilePath().toFile(), newProjectInfoFilePath.toFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+            try {
+                FileUtils.moveDirectory(newLocalGitRepositoryPath.toFile(), project.getLocalGitRepositoryPath().toFile());
+            }
+            catch (Exception e2) {
+                e2.printStackTrace();
+                return false;
+            }
+            return false;
+        }
+
+        project.setName(newName);
+        project.setLocalGitRepositoryPath(newLocalGitRepositoryPath);
+        project.setCommonModelFilePath(newCommonModelFilePath);
+        project.setProjectInfoFilePath(newProjectInfoFilePath);
+
+        saveProjectInfo(project);
+
+        return true;
     }
 
     @Override
