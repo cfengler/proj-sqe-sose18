@@ -71,6 +71,7 @@ public class ClientController {
         clientViewModel.busyProperty().bindBidirectional(progressIndicator.visibleProperty());
         clientViewModel.busyProperty().bindBidirectional(buttonCreateProject.disableProperty());
         clientViewModel.busyProperty().bindBidirectional(buttonJoinProject.disableProperty());
+        clientViewModel.busyProperty().bindBidirectional(buttonSettings.disableProperty());
 
         //TODO Testdaten entfernen
         //addTestProjects();
@@ -303,7 +304,7 @@ public class ClientController {
 
         Optional<Pair<Pair<Pair<String, String>, String>, Pair<ReqExchangeFileType, String>>> result = dialog.showAndWait();
         result.ifPresent(pair -> {
-            clientViewModel.handleJoinProject(pair.getKey().getKey().getKey(), pair.getKey().getKey().getValue(), pair.getKey().getValue(), pair.getValue().getKey(), pair.getValue().getValue());
+            clientViewModel.handleJoinProject(pair.getKey().getKey().getValue(), pair.getKey().getKey().getKey(), pair.getKey().getValue(), pair.getValue().getKey(), pair.getValue().getValue());
         });
     }
 

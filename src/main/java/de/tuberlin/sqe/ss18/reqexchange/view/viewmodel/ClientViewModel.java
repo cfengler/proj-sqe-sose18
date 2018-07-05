@@ -65,6 +65,7 @@ public class ClientViewModel {
     }
 
     public void handleJoinProject(String gitpath, String name, String password, ReqExchangeFileType filetype, String filepath) {
+        System.out.println(gitpath + ", " + name + ", " + password + ", " + filetype.toString() + ", " + filepath);
         busy.set(true);
         Observable.just(1)
                 .subscribeOn(Schedulers.newThread())
