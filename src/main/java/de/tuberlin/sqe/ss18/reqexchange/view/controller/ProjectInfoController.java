@@ -17,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
@@ -92,9 +93,12 @@ public class ProjectInfoController extends BorderPane {
         grid.setHgap(5);
         grid.setVgap(5);
         TextField name = new TextField(projectViewModel.getName());
-
+        Label error = new Label("Project name already exists!");
+        error.setTextFill(Color.RED);
+        error.setVisible(false);
         grid.add(new Label("Project Name:"), 0, 0);
         grid.add(name, 1, 0);
+        grid.add(error, 1, 1, 2, 1);
         for(Node n: grid.getChildren()) {
             GridPane.setHalignment(n, HPos.RIGHT);
         }
@@ -107,6 +111,14 @@ public class ProjectInfoController extends BorderPane {
         dialog.getDialogPane().setContent(grid);
         Platform.runLater(name::requestFocus);
 
+        ok.addEventFilter(ActionEvent.ACTION, okEvent -> {
+            clientViewModel.getProjects().forEach(project -> {
+                if(project.getName().equals(name.getText())) {
+                    error.setVisible(true);
+                    okEvent.consume();
+                }
+            });
+        });
         dialog.setResultConverter(dialogButton -> {
             if(dialogButton == ButtonType.OK) {
                 return name.getText();
@@ -116,9 +128,7 @@ public class ProjectInfoController extends BorderPane {
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(newName -> {
-            //TODO handle edit project button click
             clientViewModel.handleEditProject(projectViewModel, newName);
-            //showFunctionNotImplementedError();
         });
     }
 
