@@ -12,15 +12,12 @@ public interface ProjectService {
     List<Project> getAll();
 
     Project create(URI remoteGitRepositoryURI, String name, Path workingFilePath);
-    //Project create(String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType);
     Project join(URI remoteGitRepositoryURI, String name, Path workingFilePath);
-    //Project join(String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType);
+    boolean renameProject(Project project, String newName);
     boolean leave(Project project);
 
     void refresh(Project project);
-
     boolean synchronize(Project project);
-
 
     boolean export(Project project, Path pathToExport);
 

@@ -126,6 +126,12 @@ public class DefaultProjectService implements ProjectService {
     }
 
     @Override
+    public boolean renameProject(Project project, String newName) {
+        //TODO: implement
+        return false;
+    }
+
+    @Override
     public boolean leave(Project project) {
         if (project.getLocalGitRepositoryPath().toFile().exists()) {
             try {
