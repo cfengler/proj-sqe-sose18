@@ -133,9 +133,7 @@ public class ClientViewModel {
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(changed -> {
                     busy.set(false);
-                    if(changed) {
-                        showInformationDialog("Change Project", "Changes have been successfully applied!");
-                    } else {
+                    if(!changed) {
                         showInformationDialog("Change Project", "An Error occurred changing the project settings!");
                     }
                 });
