@@ -26,6 +26,7 @@ import java.nio.file.Path;
 public class UnitTestHelper {
 
     public static final String TEST_PROJECT_NAME = "Test Project";
+    public static final String RENAMED_PROJECT_NAME = "Renamed Project";
     public static final String VALIDATE_PROJECT_NAME = "Validate Project";
 
     private static PathService pathService;
@@ -134,6 +135,21 @@ public class UnitTestHelper {
         return validateReqifWorkingFilePath;
     }
 
+    private static Path exportReqifFilePath;
+    public static Path getExportReqifFilePath() {
+        return exportReqifFilePath;
+    }
+
+    private static Path exportXlsxFilePath;
+    public static Path getExportXlsxFilePath() {
+        return exportXlsxFilePath;
+    }
+
+    private static Path exportSysmlFilePath;
+    public static Path getExportSysmlFilePath() {
+        return exportSysmlFilePath;
+    }
+
     private static Path oneRequirementReqifWorkingFilePath;
     public static Path getOneRequirementReqifWorkingFilePath() {
         return oneRequirementReqifWorkingFilePath;
@@ -163,14 +179,18 @@ public class UnitTestHelper {
         //TODO: missing file oneRequirementXlsxWorkingFilePath
         oneRequirementReqifWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.reqif");
         oneRequirementSysmlWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.uml");
-        oneRequirementXlsxWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.xslx");
+        oneRequirementXlsxWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.xlsx");
 
         jGitRepositoryPath = testPath.resolve("jGit_" + TEST_PROJECT_NAME);
         jGitCommonModelFilePath = jGitRepositoryPath.resolve("data.cm");
 
         testReqifWorkingFilePath = testPath.resolve("TestWorkingFile.reqif");
         testSysmlWorkingFilePath = testPath.resolve("TestWorkingFile.uml");
-        testXlsxWorkingFilePath = testPath.resolve("TestWorkingFile.xslx");
+        testXlsxWorkingFilePath = testPath.resolve("TestWorkingFile.xlsx");
+
+        exportReqifFilePath = testPath.resolve("Export.reqif");
+        exportSysmlFilePath = testPath.resolve("Export.uml");
+        exportXlsxFilePath = testPath.resolve("Export.xlsx");
 
         validateReqifWorkingFilePath = testPath.resolve("ValidateWorkingFile.reqif");
 
@@ -217,7 +237,7 @@ public class UnitTestHelper {
         }
     }
 
-    public static boolean addProjectToRemoteRepository() {
+    public static boolean addProjectToRemoteRepository(Path reqifFilePath) {
         try {
             FileUtils.deleteDirectory(jGitRepositoryPath.toFile());
 
@@ -225,7 +245,7 @@ public class UnitTestHelper {
                     .setURI(remoteRepositoryName)
                     .setDirectory(jGitRepositoryPath.toFile())
                     .call()) {
-                modelTransformationService.transform(oneRequirementReqifWorkingFilePath, jGitCommonModelFilePath);
+                getModelTransformationService().transform(reqifFilePath, jGitCommonModelFilePath);
                 git.add().addFilepattern(".").call();
                 git.commit().setAll(true).setMessage("UnitTestHelper.addProjectToRemoteRepository()").call();
                 git.push().setPushAll().setCredentialsProvider(getTestCredentialsProvider()).call();
@@ -245,7 +265,7 @@ public class UnitTestHelper {
             return false;
         }
 
-        if (modifyReqifAddRequirement(jGitCommonModelFilePath)) {
+        if (!modifyReqifAddRequirement(jGitCommonModelFilePath)) {
             return false;
         }
 

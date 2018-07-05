@@ -31,7 +31,7 @@ public class DefaultGitPropertiesServiceTest {
     }
 
     @Test
-    public void test_01_loadSettings() {
+    public void test_09_loadSettings() {
         Assert.assertNotNull(gitPropertiesService.getUsername());
         Assert.assertNotSame(gitPropertiesService.getUsername().length(), 0);
 
@@ -40,7 +40,7 @@ public class DefaultGitPropertiesServiceTest {
     }
 
     @Test
-    public void test_02_saveSettings() {
+    public void test_09_saveSettings() {
         String newUsername = "newUser";
         String newPassword = "newPassword";
 
