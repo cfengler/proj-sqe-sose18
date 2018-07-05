@@ -128,9 +128,8 @@ public class ClientViewModel {
     public void handleEditProject(ProjectViewModel project, String name) {
         busy.set(true);
         Observable.just(1)
-                .subscribeOn(Schedulers.newThread())
-                .map(i -> projectService.renameProject(project.getProject(), name))
                 .observeOn(JavaFxScheduler.platform())
+                .map(i -> projectService.renameProject(project.getProject(), name))
                 .subscribe(changed -> {
                     busy.set(false);
                     if(!changed) {
