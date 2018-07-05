@@ -120,7 +120,21 @@ public class ClientViewModel {
                     if(exported) {
                         showInformationDialog("Export Project", "Project has been successfully exported!");
                     } else {
-                        showInformationDialog("Export Project", "An Error ecurred exporting the project!");
+                        showInformationDialog("Export Project", "An Error occurred exporting the project!");
+                    }
+                });
+    }
+
+    public void handleEditProject(ProjectViewModel project, String name) {
+        busy.set(true);
+        Observable.just(1)
+                .subscribeOn(Schedulers.newThread())
+                .map(i -> projectService.renameProject(project.getProject(), name))
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(changed -> {
+                    busy.set(false);
+                    if(!changed) {
+                        showInformationDialog("Change Project", "An Error occurred changing the project settings!");
                     }
                 });
     }
