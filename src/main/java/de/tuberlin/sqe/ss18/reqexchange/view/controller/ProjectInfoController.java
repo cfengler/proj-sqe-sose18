@@ -117,7 +117,8 @@ public class ProjectInfoController extends BorderPane {
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(newName -> {
             //TODO handle edit project button click
-            showFunctionNotImplementedError();
+            clientViewModel.handleEditProject(projectViewModel, newName);
+            //showFunctionNotImplementedError();
         });
     }
 
