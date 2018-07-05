@@ -28,7 +28,11 @@ public class Project {
         return name;
     }
     public void setName(String newValue) {
-        this.name = newValue;
+        if (name != newValue) {
+            String oldValue = name;
+            this.name = newValue;
+            propertyChangeSupport.firePropertyChange("name", oldValue, newValue);
+        }
     }
 
     private Path workingModelFilePath;
