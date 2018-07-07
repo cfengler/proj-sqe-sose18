@@ -24,6 +24,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -34,6 +35,8 @@ import org.eclipse.m2m.qvt.oml.ModelExtent;
 import org.eclipse.m2m.qvt.oml.TransformationExecutor;
 import org.eclipse.rmf.reqif10.ReqIF10Package;
 import org.eclipse.rmf.reqif10.serialization.ReqIF10ResourceFactoryImpl;
+import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.internal.resource.UMLResourceFactoryImpl;
 
 public class DefaultModelTransformationService implements ModelTransformationService {
 
@@ -55,13 +58,30 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         Map<String, Object> m = reg.getExtensionToFactoryMap();
         m.put("reqif", new ReqIF10ResourceFactoryImpl());
 
+
+        /**
+         * Register needed Epackes for UML Parser
+         *
+         */
+
+        UMLPackage.eINSTANCE.eClass();
+
+        ResourceSet resourceSet = new ResourceSetImpl();
+        EPackage.Registry packageRegistry = resourceSet.getPackageRegistry();
+
+        packageRegistry.put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
+
+        DefaultModelService.registSysMLPackages(packageRegistry);
+
+        m.put("uml", new UMLResourceFactoryImpl());
+
         /*
          * Files to be transformed and qvto file
          */
 
-        File inReqIF = new File(resourcePath + "/samplefiles/04_ReqIF_ReqExchange/My.reqif");
-        File outReqIF = new File(resourcePath + "/unitTest/MyTransformed.reqif");
-        File transformationQVT = new File(resourcePath + "/qvt/ReqIF2ReqIF.qvto");
+        File inReqIF = new File(resourcePath + "/samplefiles/04_Papyrus_ReqExchange/04_Papyrus_ReqExchange.uml");
+        File outReqIF = new File(resourcePath + "/unitTest/MyTransformed.uml");
+        File transformationQVT = new File(resourcePath + "/qvt/SysML2SysML.qvto");
 
         boolean result = executeTransformation(inReqIF, outReqIF, transformationQVT);
 

@@ -128,7 +128,7 @@ public class DefaultModelService { //implements ModelService{
         return resource.getContents();
     }
 
-    private static void registSysMLPackages(EPackage.Registry packageRegistry) {
+    public static void registSysMLPackages(EPackage.Registry packageRegistry) {
         // Register all default SYSML packages
         packageRegistry.put(sysmlPackage.eNS_URI, sysmlPackage.eINSTANCE);
         packageRegistry.put(ActivitiesPackage.eNS_URI, ActivitiesPackage.eINSTANCE);

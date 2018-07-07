@@ -1,0 +1,29 @@
+modeltype SysML "strict" uses "http://www.eclipse.org/papyrus/sysml/1.4/SysML";
+modeltype UML "strict" uses "http://www.eclipse.org/uml2/5.0.0/UML";
+
+
+//transformation SysML2SysML(in sysmlin : SysML, out sysmlout : SysML);
+transformation SysML2SysML(in UMLIn : UML, out UMLOut : UML);
+
+main() {
+
+
+	UMLIn.rootObjects()[uml::Model]->umlModel2umlModel();
+
+	//UMLOut.rootObjects()->forEach(ro) {
+		//log("umlout roob objects", ro)
+	//};
+
+}
+
+
+mapping uml::Model::umlModel2umlModel() : uml::Model {
+	name:=self.name;
+	packagedElement := self.packagedElement;
+	//log("Test", self.name);
+}
+
+mapping SysML::requirements::Requirement::SysMLReqToSysMLRequirements() : SysML::requirements::Requirement {
+	id:= self.id;
+	text := self.text;
+}
