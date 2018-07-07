@@ -1,16 +1,21 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.impl.WorkbookImpl;
+import de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.*;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -243,48 +248,79 @@ public class DefaultModelTransformationService implements ModelTransformationSer
     }
 
     private boolean transformReqifToExcelXls(File sourceFile, File destinationFile) {
-        //TODO: also first validate source Files with Model Validator
-        //TODO: remove with correct implementation
-        return copy(sourceFile, destinationFile);
-    }
+        //TODO read reqif from file to reqifModel
+        //TODO transform reqifModel to excelModel
 
-    private boolean transformReqifToExcelXlsx(File sourceFile, File destinationFile) {
-        //TODO: also first validate source Files with Model Validator
-        //TODO: remove with correct implementation
+        //TODO replace placeholder excelModel
+        ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
+        Workbook excelWorkbook = factory.createWorkbook();
 
-        //WorkbookImpl excelmodel = WorkbookImpl();
+        //transform excelModel to xlsModel
+        HSSFWorkbook xlsWorkbook = transformExcelModelToXlsModel(excelWorkbook);
 
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet("test");
-        XSSFRow row = sheet.createRow(1);
-        XSSFCell cell = row.createCell(1, CellType.BOOLEAN);
-        cell.setCellValue(false);
-
+        //write xlsxModel to file
         try {
             FileOutputStream fos = new FileOutputStream(destinationFile);
-            workbook.write(fos);
+            xlsWorkbook.write(fos);
             fos.close();
         } catch (IOException e) {
             System.out.println("DefaultModelTransformationService.transform error writing excel xlsx file");
             return false;
         }
 
+        //return true;
+        return copy(sourceFile, destinationFile);
+    }
+
+    private boolean transformReqifToExcelXlsx(File sourceFile, File destinationFile) {
+        //TODO read reqif from file to reqifModel
+        //TODO transform reqifModel to excelModel
+
+        //TODO replace placeholder excelModel
+        ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
+        Workbook excelWorkbook = factory.createWorkbook();
+
+        //transform excelModel to xlsxModel
+        XSSFWorkbook xlsxWorkbook = transformExcelModelToXlsxModel(excelWorkbook);
+
+        //write xlsxModel to file
+        try {
+            FileOutputStream fos = new FileOutputStream(destinationFile);
+            xlsxWorkbook.write(fos);
+            fos.close();
+        } catch (IOException e) {
+            System.out.println("DefaultModelTransformationService.transform error writing excel xlsx file");
+            return false;
+        }
+
+        //return true;
         return copy(sourceFile, destinationFile);
     }
 
     private boolean transformExcelToReqifXls(File sourceFile, File destinationFile) {
-        //TODO: also first validate source Files with Model Validator
-        //TODO: remove with correct implementation
+        //create xlsxModel out of the file
+        HSSFWorkbook xlsWorkbook;
+        try {
+            xlsWorkbook = new HSSFWorkbook(new FileInputStream(sourceFile));
+        } catch (IOException e) {
+            System.out.println("DefaultModelTransformationService.transform error reading excel file");
+            return false;
+        }
+
+        //transform xlsModel to excelModel
+        Workbook excelWorkbook = transformXlsModelToExcelModel(xlsWorkbook);
+
+        //TODO transform excelModel to reqifModel
+        //TODO write reqifModel to file
+
         return copy(sourceFile, destinationFile);
     }
 
     private boolean transformExcelToReqifXlsx(File sourceFile, File destinationFile) {
-        //TODO: also first validate source Files with Model Validator
-        //TODO: remove with correct implementation
-
-        XSSFWorkbook workbook;
+        //create xlsxModel out of the file
+        XSSFWorkbook xlsxWorkbook;
         try {
-            workbook = new XSSFWorkbook(sourceFile);
+            xlsxWorkbook = new XSSFWorkbook(sourceFile);
         } catch (IOException e) {
             System.out.println("DefaultModelTransformationService.transform error reading excel file");
             return false;
@@ -293,19 +329,11 @@ public class DefaultModelTransformationService implements ModelTransformationSer
             return false;
         }
 
-        //WorkbookImpl excelmodel = new WorkbookImpl();
-        for (Sheet aWorkbook : workbook) {
-            XSSFSheet sheet = (XSSFSheet) aWorkbook;
-            //TODO do stuff on sheet basis
-            for (Row aSheet : sheet) {
-                XSSFRow row = (XSSFRow) aSheet;
-                //TODO do stuff on row basis
-                for (Cell aRow : row) {
-                    XSSFCell cell = (XSSFCell) aRow;
-                    //TODO do stuff on cell basis
-                }
-            }
-        }
+        //transform xlsxModel to excelModel
+        Workbook excelWorkbook = transformXlsxModelToExcelModel(xlsxWorkbook);
+
+        //TODO transform excelModel to reqifModel
+        //TODO write reqifModel to file
 
         return copy(sourceFile, destinationFile);
     }
@@ -336,5 +364,169 @@ public class DefaultModelTransformationService implements ModelTransformationSer
             return false;
         }
     }
+
+    //TODO Anfang des Codes, der besser in einer extra Excel-Hilfs-Klasse sein sollte
+    private Workbook transformXlsxModelToExcelModel(XSSFWorkbook xlsxWorkbook) {
+        ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
+        Workbook excelWorkbook = factory.createWorkbook();
+
+        for (Sheet sheet : xlsxWorkbook) {
+            XSSFSheet xlsxSheet = (XSSFSheet) sheet;
+
+            Worksheet excelWorksheet = factory.createWorksheet();
+            excelWorksheet.setName(xlsxSheet.getSheetName());
+            excelWorkbook.getSheets().add(excelWorksheet);
+            for (Row row : xlsxSheet) {
+                XSSFRow xlsxRow = (XSSFRow) row;
+
+                de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.Row excelRow = factory.createRow();
+                excelRow.setRowNum(xlsxRow.getRowNum());
+                excelWorksheet.getRows().add(excelRow);
+                for (Cell cell : xlsxRow) {
+                    XSSFCell xlsxCell = (XSSFCell) cell;
+
+                    switch(xlsxCell.getCellTypeEnum()) {
+                        case FORMULA:
+                        case ERROR:
+                        case BLANK:
+                        case _NONE:
+                        case STRING:
+                            de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.StringCell excelStringCell = factory.createStringCell();
+                            excelStringCell.setColumnIndex(xlsxCell.getColumnIndex());
+                            excelStringCell.setRowIndex(xlsxCell.getRowIndex());
+                            excelStringCell.setStringValue(xlsxCell.getStringCellValue());
+                            excelRow.getCells().add(excelStringCell);
+                            break;
+                        case BOOLEAN:
+                            de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.BooleanCell excelBooleanCell = factory.createBooleanCell();
+                            excelBooleanCell.setColumnIndex(xlsxCell.getColumnIndex());
+                            excelBooleanCell.setRowIndex(xlsxCell.getRowIndex());
+                            excelBooleanCell.setBoolValue(xlsxCell.getBooleanCellValue());
+                            excelRow.getCells().add(excelBooleanCell);
+                            break;
+                        case NUMERIC:
+                            de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.NumericCell excelNumericCell = factory.createNumericCell();
+                            excelNumericCell.setColumnIndex(xlsxCell.getColumnIndex());
+                            excelNumericCell.setRowIndex(xlsxCell.getRowIndex());
+                            excelNumericCell.setNumericValue(xlsxCell.getNumericCellValue());
+                            excelRow.getCells().add(excelNumericCell);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        return excelWorkbook;
+    }
+
+    private Workbook transformXlsModelToExcelModel(HSSFWorkbook xlsWorkbook) {
+        ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
+        Workbook excelWorkbook = factory.createWorkbook();
+
+        for (Sheet sheet : xlsWorkbook) {
+            HSSFSheet xlsSheet = (HSSFSheet) sheet;
+
+            Worksheet modelWorksheet = factory.createWorksheet();
+            modelWorksheet.setName(xlsSheet.getSheetName());
+            excelWorkbook.getSheets().add(modelWorksheet);
+            for (Row row : xlsSheet) {
+                HSSFRow xlsRow = (HSSFRow) row;
+
+                de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.Row modelRow = factory.createRow();
+                modelRow.setRowNum(xlsRow.getRowNum());
+                modelWorksheet.getRows().add(modelRow);
+                for (Cell cell : xlsRow) {
+                    HSSFCell xlsCell = (HSSFCell) cell;
+
+                    switch(xlsCell.getCellTypeEnum()) {
+                        case FORMULA:
+                        case ERROR:
+                        case BLANK:
+                        case _NONE:
+                        case STRING:
+                            de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.StringCell excelStringCell = factory.createStringCell();
+                            excelStringCell.setColumnIndex(xlsCell.getColumnIndex());
+                            excelStringCell.setRowIndex(xlsCell.getRowIndex());
+                            excelStringCell.setStringValue(xlsCell.getStringCellValue());
+                            modelRow.getCells().add(excelStringCell);
+                            break;
+                        case BOOLEAN:
+                            de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.BooleanCell excelBooleanCell = factory.createBooleanCell();
+                            excelBooleanCell.setColumnIndex(xlsCell.getColumnIndex());
+                            excelBooleanCell.setRowIndex(xlsCell.getRowIndex());
+                            excelBooleanCell.setBoolValue(xlsCell.getBooleanCellValue());
+                            modelRow.getCells().add(excelBooleanCell);
+                            break;
+                        case NUMERIC:
+                            de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.NumericCell excelNumericCell = factory.createNumericCell();
+                            excelNumericCell.setColumnIndex(xlsCell.getColumnIndex());
+                            excelNumericCell.setRowIndex(xlsCell.getRowIndex());
+                            excelNumericCell.setNumericValue(xlsCell.getNumericCellValue());
+                            modelRow.getCells().add(excelNumericCell);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        return excelWorkbook;
+    }
+
+    private XSSFWorkbook transformExcelModelToXlsxModel(Workbook excelWorkbook) {
+        XSSFWorkbook xlsxWorkbook = new XSSFWorkbook();
+
+        for (Worksheet excelSheet : excelWorkbook.getSheets()) {
+
+            XSSFSheet xlsxSheet = xlsxWorkbook.createSheet(excelSheet.getName());
+            for (de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.Row excelRow : excelSheet.getRows()) {
+
+                XSSFRow xlsxRow = xlsxSheet.createRow(excelRow.getRowNum());
+                for (de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.Cell excelCell : excelRow.getCells()) {
+
+                    if(excelCell instanceof StringCell) {
+                        xlsxRow.createCell(excelCell.getColumnIndex(), CellType.STRING);
+                        xlsxRow.setRowNum(excelCell.getRowIndex());
+                    } else if(excelCell instanceof NumericCell) {
+                        xlsxRow.createCell(excelCell.getColumnIndex(), CellType.NUMERIC);
+                        xlsxRow.setRowNum(excelCell.getRowIndex());
+                    } else {
+                        xlsxRow.createCell(excelCell.getColumnIndex(), CellType.BOOLEAN);
+                        xlsxRow.setRowNum(excelCell.getRowIndex());
+                    }
+                }
+            }
+        }
+        return xlsxWorkbook;
+    }
+
+    private HSSFWorkbook transformExcelModelToXlsModel(Workbook excelWorkbook) {
+        HSSFWorkbook xlsWorkbook = new HSSFWorkbook();
+
+        for (Worksheet excelSheet : excelWorkbook.getSheets()) {
+
+            HSSFSheet xlsSheet = xlsWorkbook.createSheet(excelSheet.getName());
+            for (de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.Row excelRow : excelSheet.getRows()) {
+
+                HSSFRow xlsRow = xlsSheet.createRow(excelRow.getRowNum());
+                for (de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.Cell excelCell : excelRow.getCells()) {
+
+                    if(excelCell instanceof StringCell) {
+                        xlsRow.createCell(excelCell.getColumnIndex(), CellType.STRING);
+                        xlsRow.setRowNum(excelCell.getRowIndex());
+                    } else if(excelCell instanceof NumericCell) {
+                        xlsRow.createCell(excelCell.getColumnIndex(), CellType.NUMERIC);
+                        xlsRow.setRowNum(excelCell.getRowIndex());
+                    } else {
+                        xlsRow.createCell(excelCell.getColumnIndex(), CellType.BOOLEAN);
+                        xlsRow.setRowNum(excelCell.getRowIndex());
+                    }
+                }
+            }
+        }
+        return xlsWorkbook;
+    }
+    //TODO Ende des Codes, der besser in einer extra Excel-Hilfs-Klasse sein sollte
 
 }

@@ -17,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.net.URI;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
@@ -49,11 +50,11 @@ public class ClientViewModel {
         projects.add(viewModel);
     }
 
-    public void handleCreateProject(String name, String password, String filepath) {
+    public void handleCreateProject(String gitpath, String name, String password, String filepath) {
         busy.set(true);
         Observable.just(1)
             .subscribeOn(Schedulers.newThread())
-            .map(i -> projectService.create(name, Paths.get(filepath), ReqExchangeFileType.getFileTypeFromFileName(filepath)))
+            .map(i -> projectService.create(new URI(gitpath), name, Paths.get(filepath)))
             .observeOn(JavaFxScheduler.platform())
             .subscribe(projectInfo -> {
                 if(projectInfo != null) {
@@ -63,11 +64,12 @@ public class ClientViewModel {
             });
     }
 
-    public void handleJoinProject(String name, String password, ReqExchangeFileType filetype, String filepath) {
+    public void handleJoinProject(String gitpath, String name, String password, ReqExchangeFileType filetype, String filepath) {
+        System.out.println(gitpath + ", " + name + ", " + password + ", " + filetype.toString() + ", " + filepath);
         busy.set(true);
         Observable.just(1)
                 .subscribeOn(Schedulers.newThread())
-                .map(i -> projectService.join(name, Paths.get(filepath), filetype))
+                .map(i -> projectService.join(new URI(gitpath), name, Paths.get(filepath)))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(projectInfo -> {
                     if(projectInfo != null) {
@@ -118,7 +120,20 @@ public class ClientViewModel {
                     if(exported) {
                         showInformationDialog("Export Project", "Project has been successfully exported!");
                     } else {
-                        showInformationDialog("Export Project", "An Error ecurred exporting the project!");
+                        showInformationDialog("Export Project", "An Error occurred exporting the project!");
+                    }
+                });
+    }
+
+    public void handleEditProject(ProjectViewModel project, String name) {
+        busy.set(true);
+        Observable.just(1)
+                .observeOn(JavaFxScheduler.platform())
+                .map(i -> projectService.renameProject(project.getProject(), name))
+                .subscribe(changed -> {
+                    busy.set(false);
+                    if(!changed) {
+                        showInformationDialog("Change Project", "An Error occurred changing the project settings!");
                     }
                 });
     }

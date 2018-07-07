@@ -17,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
@@ -30,9 +31,9 @@ import java.util.Optional;
 public class ProjectInfoController extends BorderPane {
 
     @FXML private Button buttonLeaveProject;
-    //@FXML private Button buttonPullChanges;
     @FXML private Button buttonSync;
     @FXML private Button buttonExportProject;
+    @FXML private Button buttonEditProject;
     @FXML private Label labelProjectName;
     @FXML private Label labelFileType;
 
@@ -60,29 +61,18 @@ public class ProjectInfoController extends BorderPane {
 
     @FXML public void initialize() {
         this.prefHeightProperty().bind(this.prefWidthProperty());
-        buttonLeaveProject.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
-        buttonLeaveProject.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
-        buttonSync.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
-        buttonSync.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
-        //buttonPullChanges.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
-        //buttonPullChanges.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
-        buttonExportProject.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
-        buttonExportProject.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
 
-        buttonLeaveProject.prefWidthProperty().bind(this.widthProperty().multiply(0.25));
-        buttonLeaveProject.prefHeightProperty().bind(buttonLeaveProject.prefWidthProperty());
-        buttonSync.prefHeightProperty().bind(this.widthProperty().multiply(0.25));
-        buttonSync.prefWidthProperty().bind(buttonSync.prefHeightProperty());
-        //buttonPullChanges.prefHeightProperty().bind(this.widthProperty().multiply(0.25));
-        //buttonPullChanges.prefWidthProperty().bind(buttonPullChanges.prefHeightProperty());
-        buttonExportProject.prefWidthProperty().bind(this.widthProperty().multiply(0.25));
-        buttonExportProject.prefHeightProperty().bind(buttonExportProject.prefWidthProperty());
+        Button[] buttons = new Button[]{buttonLeaveProject, buttonExportProject, buttonEditProject, buttonSync};
+        for(Button b : buttons) {
+            b.getGraphic().scaleXProperty().bind(this.prefWidthProperty().divide(this.maxWidthProperty().getValue()));
+            b.getGraphic().scaleYProperty().bind(this.prefHeightProperty().divide(this.maxHeightProperty().get()));
+            b.prefWidthProperty().bind(this.widthProperty().multiply(0.25));
+            b.prefHeightProperty().bind(this.widthProperty().multiply(0.25));
+            b.disableProperty().bind(clientViewModel.busyProperty());
+        }
+        buttonSync.disableProperty().bind(projectViewModel.canPushProperty().not().or(clientViewModel.busyProperty()).or(projectViewModel.canPullProperty().not()));
 
         labelProjectName.textProperty().bind(projectViewModel.nameProperty());
-        buttonSync.disableProperty().bind(projectViewModel.canPushProperty().not().or(clientViewModel.busyProperty()).or(projectViewModel.canPullProperty().not()));
-        //buttonPullChanges.disableProperty().bind(projectViewModel.canPullProperty().not().or(clientViewModel.busyProperty()));
-        buttonLeaveProject.disableProperty().bind(clientViewModel.busyProperty());
-        buttonExportProject.disableProperty().bind(clientViewModel.busyProperty());
         ObjectExpression<Font> fontTracking = Bindings.createObjectBinding(() -> Font.font(getWidth() / 10), widthProperty());
         labelProjectName.fontProperty().bind(fontTracking);
         labelFileType.setText(projectViewModel.getFileType().getName());
@@ -90,6 +80,55 @@ public class ProjectInfoController extends BorderPane {
 
     @FXML protected void handleButtonLeaveProjectAction(ActionEvent event) {
         clientViewModel.handleLeaveProject(projectViewModel);
+    }
+
+    @FXML protected void handleButtonEditProjectAction(ActionEvent event) {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Export Project");
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icons/icon_edit.png"))));
+
+        GridPane grid = new GridPane();
+        grid.setHgap(5);
+        grid.setVgap(5);
+        TextField name = new TextField(projectViewModel.getName());
+        Label error = new Label("Project name already exists!");
+        error.setTextFill(Color.RED);
+        error.setVisible(false);
+        grid.add(new Label("Project Name:"), 0, 0);
+        grid.add(name, 1, 0);
+        grid.add(error, 0, 1, 2, 1);
+        for(Node n: grid.getChildren()) {
+            GridPane.setHalignment(n, HPos.RIGHT);
+        }
+        Node ok = dialog.getDialogPane().lookupButton(ButtonType.OK);
+        ok.setDisable(true);
+        ChangeListener changeListener = (observable, oldValue, newValue) -> {
+            ok.setDisable(name.getText().equals(""));
+        };
+        name.textProperty().addListener(changeListener);
+        dialog.getDialogPane().setContent(grid);
+        Platform.runLater(name::requestFocus);
+
+        ok.addEventFilter(ActionEvent.ACTION, okEvent -> {
+            clientViewModel.getProjects().forEach(project -> {
+                if(project.getName().equals(name.getText())) {
+                    error.setVisible(true);
+                    okEvent.consume();
+                }
+            });
+        });
+        dialog.setResultConverter(dialogButton -> {
+            if(dialogButton == ButtonType.OK) {
+                return name.getText();
+            }
+            return null;
+        });
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(newName -> {
+            clientViewModel.handleEditProject(projectViewModel, newName);
+        });
     }
 
     @FXML protected void handleButtonSyncAction(ActionEvent event) {

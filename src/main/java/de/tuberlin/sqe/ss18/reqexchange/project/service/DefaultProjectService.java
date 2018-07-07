@@ -75,9 +75,9 @@ public class DefaultProjectService implements ProjectService {
     }
 
     @Override
-    public Project create(URI remoteGitRepositoryURI, String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType) {
+    public Project create(URI remoteGitRepositoryURI, String name, Path workingFilePath) {
         ///TODO: support for all ReqExchangeFileType
-        if (reqExchangeFileType != ReqExchangeFileType.ReqIF) {
+        if (ReqExchangeFileType.getFileTypeFromFileName(workingFilePath.toString()) != ReqExchangeFileType.ReqIF) {
             return null;
         }
 
@@ -104,15 +104,7 @@ public class DefaultProjectService implements ProjectService {
         return newProject;
     }
 
-    public Project create(String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType) {
-        return create(null, name, workingFilePath, reqExchangeFileType);
-    }
-
-    @Override
-    public Project join(String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType) {
-        return join(null, name, workingFilePath, reqExchangeFileType);
-    }
-    public Project join(URI remoteGitRepositoryURI, String name, Path workingFilePath, ReqExchangeFileType reqExchangeFileType) {
+    public Project join(URI remoteGitRepositoryURI, String name, Path workingFilePath) {
 
         Project joinProject = getProject(remoteGitRepositoryURI, name, workingFilePath);
         if (Files.exists(joinProject.getProjectInfoFilePath())) {
@@ -131,6 +123,48 @@ public class DefaultProjectService implements ProjectService {
         saveProjectInfo(joinProject);
 
         return joinProject;
+    }
+
+    @Override
+    public boolean renameProject(Project project, String newName) {
+        //TODO: implement
+        Path newLocalGitRepositoryPath = pathService.getLocalGitRepositoryPathByProjectName(newName);
+        Path newCommonModelFilePath = pathService.getLocalGitRepositoryPathByProjectName(newName).resolve("data.cm");
+        Path newProjectInfoFilePath = pathService.getProjectInfosPath().resolve(newName + ".json");
+
+        if (Files.exists(newLocalGitRepositoryPath) || Files.exists(newProjectInfoFilePath)) {
+            return false;
+        }
+
+        try {
+            FileUtils.moveDirectory(project.getLocalGitRepositoryPath().toFile(), newLocalGitRepositoryPath.toFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        try {
+            FileUtils.moveFile(project.getProjectInfoFilePath().toFile(), newProjectInfoFilePath.toFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+            try {
+                FileUtils.moveDirectory(newLocalGitRepositoryPath.toFile(), project.getLocalGitRepositoryPath().toFile());
+            }
+            catch (Exception e2) {
+                e2.printStackTrace();
+                return false;
+            }
+            return false;
+        }
+
+        project.setName(newName);
+        project.setLocalGitRepositoryPath(newLocalGitRepositoryPath);
+        project.setCommonModelFilePath(newCommonModelFilePath);
+        project.setProjectInfoFilePath(newProjectInfoFilePath);
+
+        saveProjectInfo(project);
+
+        return true;
     }
 
     @Override

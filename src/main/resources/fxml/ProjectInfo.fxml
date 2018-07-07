@@ -41,8 +41,23 @@
                 </Button>
             </left>
             <right>
-                <Label fx:id="labelFileType"
-                       BorderPane.alignment="TOP_RIGHT"/>
+                <Button fx:id="buttonEditProject"
+                        minWidth="50"
+                        minHeight="50"
+                        maxWidth="100"
+                        maxHeight="100"
+                        onAction="#handleButtonEditProjectAction">
+                    <tooltip>
+                        <Tooltip text="edit project"/>
+                    </tooltip>
+                    <graphic>
+                        <ImageView fitWidth="100" fitHeight="100" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="/icons/icon_edit.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
             </right>
         </BorderPane>
 
@@ -75,6 +90,11 @@
                     </graphic>
                 </Button>
             </left>
+
+            <center>
+                <Label fx:id="labelFileType"
+                       BorderPane.alignment="BOTTOM_RIGHT"/>
+            </center>
 
             <right>
                 <Button fx:id="buttonSync"

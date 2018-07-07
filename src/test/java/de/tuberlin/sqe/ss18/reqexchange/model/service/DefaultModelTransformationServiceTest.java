@@ -28,23 +28,30 @@ public class DefaultModelTransformationServiceTest {
     }
 
     @Test
-    public void testt_03a_transformReqIF() {
+    public void test_03b1_transformXlsx() {
         //TODO:implement
+        //transformation reqif to xlsx
+        //füge Requirement hinzu
+        //transformattion xlsx to reqif
+        //check result of reqif against expected file
     }
 
     @Test
-    public void testt_03b1_transformXlsx() {
-        //TODO:implement
+    public void test_03b2_transformDocx() {
+        //TODO: implement
+        //transformation reqif to docx
+        //füge Requirement hinzu
+        //transformattion docx to reqif
+        //check result of reqif against expected file
     }
 
     @Test
-    public void testt_03b2_transformDocx() {
+    public void test_03c_transformSysML() {
         //TODO:implement
-    }
-
-    @Test
-    public void testt_03c_transformSysML() {
-        //TODO:implement
+        //transformation reqif to sysml
+        //füge Requirement hinzu
+        //transformattion sysml to reqif
+        //check result of reqif against expected file
     }
 
 }
