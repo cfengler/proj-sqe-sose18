@@ -1,5 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
+import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -10,6 +11,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.ocl.ecore.OCL;
+import org.eclipse.ocl.ecore.delegate.OCLDelegateDomain;
 import org.eclipse.papyrus.sysml14.sysmlPackage;
 //import org.eclipse.rmf.reqif10.ReqIF;
 //import org.eclipse.rmf.reqif10.ReqIF10Package;
@@ -22,9 +25,11 @@ import org.eclipse.papyrus.sysml14.requirements.RequirementsPackage;
 import org.eclipse.rmf.reqif10.ReqIF;
 import org.eclipse.rmf.reqif10.ReqIF10Package;
 import org.eclipse.rmf.reqif10.serialization.ReqIF10ResourceFactoryImpl;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceFactoryImpl;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceImpl;
+import org.eclipse.uml2.uml.resources.util.UMLResourcesUtil;
 
 
 import java.io.File;
@@ -34,11 +39,7 @@ public class DefaultModelService { //implements ModelService{
 
     public static ReqIF getReqIFModel(File file) {
 
-        ReqIF10Package.eINSTANCE.eClass();
-
-        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-        Map<String, Object> m = reg.getExtensionToFactoryMap();
-        m.put("*", new ReqIF10ResourceFactoryImpl());
+        registerReqIFPackages();
 
         ResourceSet resSet = new ResourceSetImpl();
 
@@ -113,7 +114,7 @@ public class DefaultModelService { //implements ModelService{
 
         packageRegistry.put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
 
-        registSysMLPackages(packageRegistry);
+        registSysMLPackages();
 
         resourceSet.getLoadOptions().put(XMIResource.OPTION_RECORD_UNKNOWN_FEATURE, true);
 
@@ -128,7 +129,17 @@ public class DefaultModelService { //implements ModelService{
         return resource.getContents();
     }
 
-    public static void registSysMLPackages(EPackage.Registry packageRegistry) {
+    public static void registSysMLPackages() {
+
+
+
+        UMLPackage.eINSTANCE.eClass();
+
+        ResourceSet resourceSet = new ResourceSetImpl();
+        EPackage.Registry packageRegistry = resourceSet.getPackageRegistry();
+        packageRegistry.put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
+
+
         // Register all default SYSML packages
         packageRegistry.put(sysmlPackage.eNS_URI, sysmlPackage.eINSTANCE);
         packageRegistry.put(ActivitiesPackage.eNS_URI, ActivitiesPackage.eINSTANCE);
@@ -136,6 +147,10 @@ public class DefaultModelService { //implements ModelService{
         packageRegistry.put(BlocksPackage.eNS_URI, BlocksPackage.eINSTANCE);
         packageRegistry.put(ModelelementsPackage.eNS_URI, ModelelementsPackage.eINSTANCE);
         packageRegistry.put(RequirementsPackage.eNS_URI, RequirementsPackage.eINSTANCE);
+
+        UMLResourcesUtil.init(resourceSet);
+        OCL.initialize(resourceSet);
+        OCLDelegateDomain.initialize(resourceSet);
 
         /*
         packageRegistry.put(ConstraintsPackage.eNS_URI, ConstraintsPackage.eINSTANCE);
@@ -145,6 +160,14 @@ public class DefaultModelService { //implements ModelService{
         packageRegistry.put(UsecasesPackage.eNS_URI, UsecasesPackage.eINSTANCE);
         packageRegistry.put(UsecasesPackage.eNS_URI, UsecasesPackage.eINSTANCE);
         */
+    }
+
+    public static void registerReqIFPackages() {
+        ReqIF10Package.eINSTANCE.eClass();
+
+        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+        Map<String, Object> m = reg.getExtensionToFactoryMap();
+        m.put("*", new ReqIF10ResourceFactoryImpl());
     }
 
 }

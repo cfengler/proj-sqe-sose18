@@ -3,23 +3,25 @@ package de.tuberlin.sqe.ss18.reqexchange.model.service;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.tuberlin.sqe.ss18.reqexchange.ReqExchangeModule;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
+
+import java.io.File;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DefaultModelTransformationServiceTest {
 
     private static Injector injector;
     private static ModelTransformationService modelTransformationService;
+    private static final String resourcePath = "src/main/resources/";
 
     @BeforeClass
     public static void startUp() {
-        injector = Guice.createInjector(new ReqExchangeModule());
+        //injector = Guice.createInjector(new ReqExchangeModule());
 
-        modelTransformationService = injector.getInstance(ModelTransformationService.class);
+        //modelTransformationService = injector.getInstance(ModelTransformationService.class);
+
+        modelTransformationService = new DefaultModelTransformationService();
     }
 
     @AfterClass
@@ -52,6 +54,13 @@ public class DefaultModelTransformationServiceTest {
         //füge Requirement hinzu
         //transformattion sysml to reqif
         //check result of reqif against expected file
+    }
+
+    @Test
+    public void test_03d_transformSysMLToReqIF() {
+        File inSysML = new File(resourcePath + "/samplefiles/04_Papyrus_ReqExchange/04_Papyrus_ReqExchange.uml");
+        File outReqIF = new File(resourcePath + "/unitTest/Test_03d.reqif");
+        Assert.assertTrue(modelTransformationService.transform(inSysML.toPath(), outReqIF.toPath()));
     }
 
 }

@@ -5,10 +5,7 @@ import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -38,6 +35,8 @@ import org.eclipse.m2m.qvt.oml.ExecutionContextImpl;
 import org.eclipse.m2m.qvt.oml.ExecutionDiagnostic;
 import org.eclipse.m2m.qvt.oml.ModelExtent;
 import org.eclipse.m2m.qvt.oml.TransformationExecutor;
+import org.eclipse.m2m.qvt.oml.util.Log;
+import org.eclipse.m2m.qvt.oml.util.WriterLog;
 import org.eclipse.rmf.reqif10.ReqIF10Package;
 import org.eclipse.rmf.reqif10.serialization.ReqIF10ResourceFactoryImpl;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -48,6 +47,9 @@ public class DefaultModelTransformationService implements ModelTransformationSer
     private static final Set<String> SUPPORTED_EXTENSIONS = new HashSet<>(
             Arrays.asList("reqif", "uml", "cm")
     );
+
+
+    private String resourcePathForQVTO = "src/main/resources/qvt";
 
     public static void main(String[] args) {
         String resourcePath = "src/main/resources";
@@ -69,14 +71,12 @@ public class DefaultModelTransformationService implements ModelTransformationSer
          *
          */
 
-        UMLPackage.eINSTANCE.eClass();
 
-        ResourceSet resourceSet = new ResourceSetImpl();
-        EPackage.Registry packageRegistry = resourceSet.getPackageRegistry();
 
-        packageRegistry.put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
+        DefaultModelService.registSysMLPackages();
+        DefaultModelService.registerReqIFPackages();
 
-        DefaultModelService.registSysMLPackages(packageRegistry);
+        DefaultModelTransformationService dmts = new DefaultModelTransformationService();
 
         m.put("uml", new UMLResourceFactoryImpl());
 
@@ -84,85 +84,17 @@ public class DefaultModelTransformationService implements ModelTransformationSer
          * Files to be transformed and qvto file
          */
 
-        File inReqIF = new File(resourcePath + "/samplefiles/04_Papyrus_ReqExchange/04_Papyrus_ReqExchange.uml");
-        File outReqIF = new File(resourcePath + "/unitTest/MyTransformed.uml");
-        File transformationQVT = new File(resourcePath + "/qvt/SysML2SysML.qvto");
+        File inSysML = new File(resourcePath + "/samplefiles/04_Papyrus_ReqExchange/04_Papyrus_ReqExchange.uml");
+        File outReqIF = new File(resourcePath + "/unitTest/test.reqif");
+        File transformationQVT = new File(resourcePath + "/qvt/SysML2ReqIF.qvto");
 
-        boolean result = executeTransformation(inReqIF, outReqIF, transformationQVT);
+        boolean result = dmts.transform(inSysML.toPath(), outReqIF.toPath());
 
         System.out.println("Transformation successfull: " + result);
 
     }
 
-    private static boolean executeTransformation(File inFile, File outFile, File transformationQVTOFile) {
-        /*
-         * Debug to ensure if file path is correct
-         */
 
-        System.out.println(inFile.exists() + " : " +inFile.getAbsolutePath());
-        System.out.println(outFile.exists() + " : " +outFile.getAbsolutePath());
-        System.out.println(transformationQVTOFile.exists() + " : " +transformationQVTOFile.getAbsolutePath());
-
-        /*
-         * Next Part is based on
-         * http://wiki.eclipse.org/QVTOML/Examples/InvokeInJava
-         */
-
-        // Refer to an existing transformation via URI
-        URI transformationURI = URI.createFileURI(transformationQVTOFile.getAbsolutePath());
-
-        // create executor for the given transformation
-        TransformationExecutor executor = new TransformationExecutor(transformationURI);
-
-        // define the transformation input
-        // Remark: we take the objects from a resource, however
-        // a list of arbitrary in-memory EObjects may be passed
-        ExecutionContextImpl context = new ExecutionContextImpl();
-        ResourceSet resourceSet = new ResourceSetImpl();
-        URI uri = URI.createFileURI(inFile.getAbsolutePath());
-
-        Resource inResource = resourceSet.getResource(uri, true);
-        EList<EObject> inObjects = inResource.getContents();
-
-        // create the input extent with its initial contents
-        ModelExtent input = new BasicModelExtent(inObjects);
-        // create an empty extent to catch the output
-        ModelExtent output = new BasicModelExtent();
-
-        // setup the execution environment details ->
-        // configuration properties, logger, monitor object etc.
-        //ExecutionContextImpl context = new ExecutionContextImpl();
-        //context.setConfigProperty("keepModeling", true);
-
-        // run the transformation assigned to the executor with the given
-        // input and output and execution context -> ChangeTheWorld(in, out)
-        // Remark: variable arguments count is supported
-        ExecutionDiagnostic result = executor.execute(context, input, output);
-
-        // check the result for success
-        if(result.getSeverity() == Diagnostic.OK) {
-            // the output objects got captured in the output extent
-            List<EObject> outObjects = output.getContents();
-            // let's persist them using a resource
-            ResourceSet resourceSet2 = new ResourceSetImpl();
-            Resource outResource = resourceSet2.createResource(
-                    URI.createFileURI(outFile.getAbsolutePath()));
-            outResource.getContents().addAll(outObjects);
-            try {
-                outResource.save(Collections.emptyMap());
-                return true;
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-        } else {
-            // turn the result diagnostic into status and send it to error log
-            System.out.println("Transformation failed:" + result);
-            return false;
-        }
-        return false;
-    }
 
     @Override
     public boolean transform(Path sourcePath, Path destinationPath) {
@@ -199,19 +131,21 @@ public class DefaultModelTransformationService implements ModelTransformationSer
             return false;
         }
 
-        if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension)) {
+
+
+        if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
             return copy(sourcePath.toFile(), destinationPath.toFile());
-        } else if (ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension)) {
+        } else if (ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.SysML.getFiletypes().contains(destinationPathExtension)) {
             return copy(sourcePath.toFile(), destinationPath.toFile());
-        } else if (ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension)) {
+        } else if (ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Excel.getFiletypes().contains(destinationPathExtension)) {
             return copy(sourcePath.toFile(), destinationPath.toFile());
-        } else if (ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension)) {
+        } else if (ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Word.getFiletypes().contains(destinationPathExtension)) {
             return copy(sourcePath.toFile(), destinationPath.toFile());
-        } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension)) {
+        } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.SysML.getFiletypes().contains(destinationPathExtension)) {
             return transformReqifToSysml(sourcePath.toFile(), destinationPath.toFile());
-        } else if (ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension)) {
+        } else if (ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
             return transformSysmlToReqif(sourcePath.toFile(), destinationPath.toFile());
-        } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension)) {
+        } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Excel.getFiletypes().contains(destinationPathExtension)) {
             if(sourcePathExtension.equals("xls")) {
                 return transformReqifToExcelXls(sourcePath.toFile(), destinationPath.toFile());
             } else {
@@ -225,9 +159,9 @@ public class DefaultModelTransformationService implements ModelTransformationSer
                 return transformExcelToReqifXlsx(sourcePath.toFile(), destinationPath.toFile());
             }
             //return transformExcelToReqif(sourcePath.toFile(), destinationPath.toFile());
-        } else if (ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension)) {
+        } else if (ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
             return transformWordToReqif(sourcePath.toFile(), destinationPath.toFile());
-        } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension)) {
+        } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Word.getFiletypes().contains(destinationPathExtension)) {
             return transformReqifToWord(sourcePath.toFile(), destinationPath.toFile());
         } else {
             System.out.println("DefaultModelTransformationService.transform Extension not supported");
@@ -242,9 +176,15 @@ public class DefaultModelTransformationService implements ModelTransformationSer
     }
 
     private boolean transformSysmlToReqif(File sourceFile, File destinationFile) {
-        //TODO: also first validate source Files with Model Validator
-        //TODO: remove with correct implementation
-        return copy(sourceFile, destinationFile);
+        /*
+        if(!DefaultModelValidationService.validate(sourceFile.toPath())) {
+            return false;
+        }
+        */
+        DefaultModelService.registerReqIFPackages();
+        DefaultModelService.registSysMLPackages();
+        File qvtoFile = new File(resourcePathForQVTO + "/SysML2ReqIF.qvto");
+        return executeTransformation(sourceFile, destinationFile, qvtoFile);
     }
 
     private boolean transformReqifToExcelXls(File sourceFile, File destinationFile) {
@@ -528,5 +468,84 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         return xlsWorkbook;
     }
     //TODO Ende des Codes, der besser in einer extra Excel-Hilfs-Klasse sein sollte
+
+
+    private static boolean executeTransformation(File inFile, File outFile, File transformationQVTOFile) {
+        /*
+         * Debug to ensure if file path is correct
+         */
+
+        System.out.println(inFile.exists() + " : " +inFile.getAbsolutePath());
+        System.out.println(outFile.exists() + " : " +outFile.getAbsolutePath());
+        System.out.println(transformationQVTOFile.exists() + " : " +transformationQVTOFile.getAbsolutePath());
+
+        /*
+         * Next Part is based on
+         * http://wiki.eclipse.org/QVTOML/Examples/InvokeInJava
+         */
+
+        // Refer to an existing transformation via URI
+        URI transformationURI = URI.createFileURI(transformationQVTOFile.getAbsolutePath());
+
+        // create executor for the given transformation
+        TransformationExecutor executor = new TransformationExecutor(transformationURI);
+
+        // define the transformation input
+        // Remark: we take the objects from a resource, however
+        // a list of arbitrary in-memory EObjects may be passed
+        ExecutionContextImpl context = new ExecutionContextImpl();
+        ResourceSet resourceSet = new ResourceSetImpl();
+        URI uri = URI.createFileURI(inFile.getAbsolutePath());
+
+        Resource inResource = resourceSet.getResource(uri, true);
+        EList<EObject> inObjects = inResource.getContents();
+
+        // create the input extent with its initial contents
+        ModelExtent input = new BasicModelExtent(inObjects);
+        // create an empty extent to catch the output
+        ModelExtent output = new BasicModelExtent();
+
+        // setup the execution environment details ->
+        // configuration properties, logger, monitor object etc.
+        //ExecutionContextImpl context = new ExecutionContextImpl();
+        //context.setConfigProperty("logger", true);
+        OutputStreamWriter outStream = new OutputStreamWriter(System.out);
+        Log log = new WriterLog(outStream);
+
+
+
+        // Uncomment for logging output in console
+        //context.setLog(log);
+
+        // run the transformation assigned to the executor with the given
+        // input and output and execution context -> ChangeTheWorld(in, out)
+        // Remark: variable arguments count is supported
+        ExecutionDiagnostic result = executor.execute(context, input, output);
+
+
+        // check the result for success
+        if(result.getSeverity() == Diagnostic.OK) {
+            // the output objects got captured in the output extent
+            List<EObject> outObjects = output.getContents();
+            // let's persist them using a resource
+            ResourceSet resourceSet2 = new ResourceSetImpl();
+            Resource outResource = resourceSet2.createResource(
+                    URI.createFileURI(outFile.getAbsolutePath()));
+            outResource.getContents().addAll(outObjects);
+            try {
+                outResource.save(Collections.emptyMap());
+                return true;
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        } else {
+            // turn the result diagnostic into status and send it to error log
+            System.out.println("Transformation failed:" + result);
+            return false;
+        }
+        return false;
+    }
 
 }

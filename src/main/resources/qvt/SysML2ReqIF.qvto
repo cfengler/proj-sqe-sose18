@@ -1,0 +1,188 @@
+modeltype ReqIF "strict" uses "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd";
+modeltype SysML "strict" uses "http://www.eclipse.org/papyrus/sysml/1.4/SysML";
+modeltype UML "strict" uses "http://www.eclipse.org/uml2/4.0.0/UML";
+
+
+transformation SysML2ReqIF(in umlIn : UML, out reqifOut : ReqIF);
+
+property specSpecAttrDefinitions : Set(SpecType) = Set{};
+property datatypeDefitions : Set(DatatypeDefinition) = Set{};
+property specObjectAttributeDefinition : Set(AttributeDefinition) = Set{};
+property specificationAttributeDefinition : Set(AttributeDefinition) = Set{};
+
+
+property specificationObjects : Set(SpecObject) = Set{};
+
+property timeNow : DateTime ;
+	
+
+
+
+main() {
+	
+	log("[main] reqifOut", reqifOut);
+	
+	var reqif := object reqif10::ReqIF {};
+	log("[main] in");
+	log("[main] rootObjects", umlIn.rootObjects());
+	
+	timeNow := "2018-06-10T16:35:19.525+02:00".oclAsType(DateTime);
+	
+	datatypeDefitions := createDatatypes();
+	
+	reqif.theHeader := fillHeader();
+	reqif.coreContent := object ReqIFContent {
+		datatypes := datatypeDefitions;
+		specTypes := fillSpecTypes();
+	};
+	
+	log("[main] reqif header", reqif.theHeader);
+	
+	reqif.coreContent.specifications := umlIn.rootObjects()[uml::Model]->map model2Specification();
+	
+	log("[main] reqif.coreContent.specifications", reqif.coreContent.specifications);
+	
+	log("[main] model nestedPackage", umlIn.rootObjects()[uml::Model].packagedElement);
+	
+	//log("[main] umlIn.rootObjects()[uml::Model].packagedElement", umlIn.rootObjects()[uml::Model].packagedElement->selectByType(Class));
+	//var packageElements := umlIn.rootObjects()[uml::Model].packagedElement;
+	var specHierachy := umlIn.rootObjects()[uml::Model].packagedElement->selectByType(Class)->createSpecHierachy();
+	umlIn.rootObjects()[sysml14::requirements::Requirement]->map Requirement2SpecObject();
+	
+	reqif.coreContent.specObjects := specificationObjects;
+	reqif.coreContent.specifications![Specification].children := specHierachy;
+	
+	
+	//log("[main] SpecObject order", reqif.coreContent.specObjects->asOrderedSet()->sortedBy(so | so.values->selectOne(v | v.oclAsType(AttributeValueString).definition.longName = "ID").oclAsType(AttributeValueString).theValue)->collect(so | so.values->selectOne(v | v.oclAsType(AttributeValueString).definition.longName = "ID").oclAsType(AttributeValueString).theValue));
+	//reqif.coreContent.specObjects := reqif.coreContent.specObjects->asOrderedSet()->sortedBy(so | so.values->selectOne(v | v.oclAsType(AttributeValueString).definition.longName = "ID").oclAsType(AttributeValueString).theValue);
+	
+	reqifOut->collect(req | req.oclIsTypeOf(reqif10::ReqIF));
+	
+	
+	log("[main] reqif", reqif);
+}
+
+helper Class::createSpecHierachy() : SpecHierarchy {
+	var specHi := object SpecHierarchy {
+		_object := self.map Class2SpecObject();
+		lastChange := timeNow;
+		specificationObjects += _object;
+		children := self.nestedClassifier->oclAsType(Class)->createSpecHierachy();
+	};
+	return specHi;
+}
+
+mapping Class::Class2SpecObject() : SpecObject {
+	log("[Class2SpecObject] self.name", self.name);
+	lastChange := timeNow;
+	type := specSpecAttrDefinitions![SpecObjectType];
+	values := type.oclAsType(SpecObjectType).specAttributes.oclAsType(AttributeDefinitionString)->createValuesForTypes().oclAsType(AttributeValue);
+	
+
+	
+	// Only Title possible since the other attributes (Description and ID) are in Requirement Packages and not in the Model
+	values->selectOne(v | v.oclAsType(AttributeValueString).definition.longName = "Title").oclAsType(AttributeValueString).theValue := self.name;
+	
+}
+
+mapping sysml14::requirements::Requirement::Requirement2SpecObject() : SpecObject {
+	init {
+		result := self.base_Class.map Class2SpecObject();
+	}
+	
+	var baseClass : SpecObject := self.base_Class.resolveone().oclAsType(SpecObject);
+	// If base_Class exists, then we have it already mappend and should use its reference because we want to fill it with Description and ID
+	if(baseClass != null) {
+		baseClass.oclAsType(SpecObject).values->selectOne(v | v.oclAsType(AttributeValueString).definition.longName = "Description").oclAsType(AttributeValueString).theValue := self.text;
+		baseClass.oclAsType(SpecObject).values->selectOne(v | v.oclAsType(AttributeValueString).definition.longName = "ID").oclAsType(AttributeValueString).theValue := self.id;
+		
+	} else {
+		// result.values := null;
+	};
+	log("[Requirement2SpecObject] out specObj", result.values->collect(v | v.oclAsType(AttributeValueString).theValue));
+}
+
+// create attribute values with "to be filled"
+helper AttributeDefinitionString::createValuesForTypes() : AttributeValueString {
+	var res := object AttributeValueString {
+		definition := self;
+		theValue := "to be filled.";
+	};
+	return res;	
+}
+
+// create hard coded header text for reqif 
+helper fillHeader() : ReqIFHeader {
+	return object ReqIFHeader {
+		comment := "Transformed by ReqExchange from SysML";
+		reqIFToolId := "ReqExchange (wir.haben.keine.webseite.tu-berlin.de)";
+		reqIFVersion := "1.0";
+		sourceToolId := "ReqExchange (wir.haben.keine.webseite.tu-berlin.de)";
+		creationTime := timeNow;
+		title := "";
+	};
+}
+
+// Available SpecTypes, currently only SpecificationType and 3 SpecObjectTypes (Description, Title, ID)
+helper fillSpecTypes() : Set(reqif10::SpecType){
+	var specTypes : Set(reqif10::SpecType);
+	
+	specTypes += object SpecificationType {
+		longName := "Specification Type";
+		var attrdef := createSpecAttributeDefinitions();
+		specAttributes := attrdef;
+		specificationAttributeDefinition += attrdef;
+	};
+	
+	specTypes += object SpecObjectType {
+		longName := "Requirement Type";
+		specAttributes += object AttributeDefinitionString {
+			longName := "Description";
+			lastChange := timeNow;
+			type := datatypeDefitions![DatatypeDefinitionString];
+		};
+		specAttributes += object AttributeDefinitionString {
+			longName := "Title";
+			lastChange := timeNow;
+			type := datatypeDefitions![DatatypeDefinitionString];
+		};
+		specAttributes += object AttributeDefinitionString {
+			longName := "ID";
+			lastChange := timeNow;
+			type := datatypeDefitions![DatatypeDefinitionString];
+		};
+	};
+	
+	specSpecAttrDefinitions += specTypes;
+	return specTypes;
+}
+
+helper createDatatypes() : Set(DatatypeDefinition) {
+	var string := object DatatypeDefinitionString {
+		maxLength := 32000;
+		longName := "T_String32k";
+		lastChange := timeNow;
+	};
+	return string->asSet();
+}
+
+helper createSpecAttributeDefinitions() : Set(AttributeDefinitionString) {
+	var attrDef := object AttributeDefinitionString {
+		type := datatypeDefitions![DatatypeDefinitionString];
+		lastChange := timeNow;
+		longName := "Description";
+	};
+	return attrDef->asSet();
+}
+
+mapping uml::Model::model2Specification() : reqif10::Specification { 
+	log("[model2Specification] in");
+	longName := self.name;
+	type := specSpecAttrDefinitions![SpecificationType];
+	lastChange := timeNow;
+	values := object AttributeValueString {
+		theValue := "Requirement Document";
+		definition := specificationAttributeDefinition![AttributeDefinitionString];
+	};
+	log("[model2Specification] out");
+}

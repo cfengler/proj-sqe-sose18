@@ -75,7 +75,6 @@ public class DefaultModelServiceTest extends TestCase {
 
         for (EObject eObj: umlContent) {
             if(eObj instanceof Requirement) {
-                //EcoreUtil.resolveAll(eObj);
                 requirements.add((Requirement)eObj);
 
             }
@@ -90,6 +89,7 @@ public class DefaultModelServiceTest extends TestCase {
                 ClassImpl classImp = (ClassImpl) packageableElement;
                 System.out.println(classImp.getName());
                 count++;
+                EcoreUtil.resolveAll(classImp);
 
             }
         }

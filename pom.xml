@@ -275,6 +275,14 @@
             <systemPath>${basedir}/libs/org.eclipse.m2m.qvt.oml.runtime_3.7.0.v20170604-1316.jar</systemPath>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.eclipse.emf/org.eclipse.emf.mapping.ecore2xml -->
+        <dependency>
+            <groupId>org.eclipse.emf</groupId>
+            <artifactId>org.eclipse.emf.mapping.ecore2xml</artifactId>
+            <version>2.9.0</version>
+            <systemPath>${basedir}/libs/org.eclipse.emf.mapping.ecore2xml-2.9.0.jar</systemPath>
+        </dependency>
+
 
 
 
