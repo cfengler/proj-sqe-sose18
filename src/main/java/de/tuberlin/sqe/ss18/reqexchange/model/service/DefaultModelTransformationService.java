@@ -154,7 +154,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
                 return transformReqifToExcelXlsx(sourcePath.toFile(), destinationPath.toFile());
             }
             //return transformReqifToExcel(sourcePath.toFile(), destinationPath.toFile());
-        } else if (ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension)) {
+        } else if (ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
             if(sourcePathExtension.equals("xls")) {
                 return transformExcelToReqifXls(sourcePath.toFile(), destinationPath.toFile());
             } else {
