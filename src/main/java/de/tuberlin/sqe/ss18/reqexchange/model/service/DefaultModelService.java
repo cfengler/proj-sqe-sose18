@@ -8,11 +8,11 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.POIDocument;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.ExcelmodelPackage;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -48,23 +48,20 @@ import java.util.Map;
 
 public class DefaultModelService implements ModelService{
 
-    public ReqIF getReqIFModel(Path filePath) {
+    static {
+        registerReqIFPackages();
+        //TODO: check register Function for SysML and Xlsx
+        registerSysMLPackages();
+        registerExcelPackages();
+    }
+
+    public ReqIF loadReqIFModel(Path filePath) {
         if (!Files.exists(filePath)) {
             return null;
         }
-
-        registerReqIFPackages();
-
         ResourceSet resSet = new ResourceSetImpl();
-
         Resource resource = resSet.getResource(URI.createFileURI(filePath.toFile().getAbsolutePath()), true);
-
-        //EList<EObject> contents = resource.getContents();
-
-        ReqIF reqif = (ReqIF) resource.getContents().get(0);
-
-        return reqif;
-
+        return (ReqIF) resource.getContents().get(0);
     }
 
     public boolean saveReqIFModel(ReqIF reqIFModel, Path filePath) {
@@ -81,65 +78,83 @@ public class DefaultModelService implements ModelService{
         }
     }
 
-    public boolean saveSysMLModel(SysMLModel sysMLModel, Path filePath) {
-        //TODO: implement
-        return false;
-    }
+//    public UMLPackage loadUmlModel(Path filePath) {
+//        //TODO: implement like getReqIFModel
+//        return null;
+//    }
+//
+//    public boolean saveSysMLModel(UMLPackage umlModel, Path filePath) {
+//        //TODO: implement
+//        return false;
+//    }
+//
+//    public Workbook loadXlsxModel(Path filePath) {
+//        //TODO: implement
+//
+//        //org.eclipse.rmf.reqif10.ReqIF
+//        //org.eclipse.uml2.uml.
+//
+//        return null;
+//    }
+//
+//    public boolean saveXlsxModel(Workbook workbook, Path filePath) {
+//        //TODO: implement
+//        return false;
+//    }
 
-    private static String reqIFECoreFilePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\model\\reqif\\reqif10.ecore";
-    private static String reqIFFilePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\samplefiles\\02_ReqIF_oneReq\\My.reqif";
+    //private static String reqIFECoreFilePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\model\\reqif\\reqif10.ecore";
+    //private static String reqIFFilePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\samplefiles\\02_ReqIF_oneReq\\My.reqif";
 
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
+//
+//        initECore();
+//
+//        //String filePath = "/home/julian/IdeaProjects/proj-sqe-sose18/src/main/resources/samplefiles/04_Papyrus_ReqExchange_TreeTable/04_Papyrus_ReqExchange_TreeTable.uml";
+//        //String filePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\samplefiles\\02_ReqIF_oneReq\\My.reqif";
+//        //File file = new File(filePath);
+//
+//        //Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("library", new XMIResourceFactoryImpl());
+//
+//        //EObject eobj = getReqIFModel(file);
+//
+//        //System.out.println(eobj);
+//
+//    }
 
-        initECore();
+    //private static EPackage reqIFPackage;
 
-        //String filePath = "/home/julian/IdeaProjects/proj-sqe-sose18/src/main/resources/samplefiles/04_Papyrus_ReqExchange_TreeTable/04_Papyrus_ReqExchange_TreeTable.uml";
-        //String filePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\samplefiles\\02_ReqIF_oneReq\\My.reqif";
-        //File file = new File(filePath);
-
-        //Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("library", new XMIResourceFactoryImpl());
-
-        //EObject eobj = getReqIFModel(file);
-
-        //System.out.println(eobj);
-
-    }
-
-    private static EPackage reqIFPackage;
-
-    private static void initECore() {
-        /*
-         * load existing EPackage
-         */
-        EcorePackage.eINSTANCE.eClass();
-        /*Initialize your EPackage*/
-        final Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-        final Map<String, Object> m = reg.getExtensionToFactoryMap();
-        m.put(EcorePackage.eNAME, new XMIResourceFactoryImpl());
-
-        final ResourceSet resSet = new ResourceSetImpl();
-        Resource resource = null;
-        try {
-            resource = resSet.getResource(URI.createFileURI(reqIFECoreFilePath), true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        /*load root and cast to EPackage*/
-        reqIFPackage = (EPackage) resource.getContents().get(0);
-
-        //reqIFPackage.eClass();
-
-        //ResourceSet reqIFResourceSet = reqIFPackage.get
-    }
+//    private static void initECore() {
+//        /*
+//         * load existing EPackage
+//         */
+//        EcorePackage.eINSTANCE.eClass();
+//        /*Initialize your EPackage*/
+//        final Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+//        final Map<String, Object> m = reg.getExtensionToFactoryMap();
+//        m.put(EcorePackage.eNAME, new XMIResourceFactoryImpl());
+//
+//        final ResourceSet resSet = new ResourceSetImpl();
+//        Resource resource = null;
+//        try {
+//            resource = resSet.getResource(URI.createFileURI(reqIFECoreFilePath), true);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        /*load root and cast to EPackage*/
+//        reqIFPackage = (EPackage) resource.getContents().get(0);
+//
+//        //reqIFPackage.eClass();
+//
+//        //ResourceSet reqIFResourceSet = reqIFPackage.get
+//    }
 
 
     /*
         Example
         https://www.programcreek.com/java-api-examples/?code=ZhengshuaiPENG/org.lovian.eaxmireader/org.lovian.eaxmireader-master/src/org/lovian/eaxmireader/module/InitResourceSet.java#
      */
-    public static EList<EObject> getSysMLModel(File file) {
-
-
+    public EList<EObject> loadSysMLModel(Path filePath) {
+        //TODO initialisierung in stttatic register methode
         UMLPackage.eINSTANCE.eClass();
 
         ResourceSet resourceSet = new ResourceSetImpl();
@@ -147,7 +162,7 @@ public class DefaultModelService implements ModelService{
 
         packageRegistry.put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
 
-        registSysMLPackages();
+        registerSysMLPackages();
 
         resourceSet.getLoadOptions().put(XMIResource.OPTION_RECORD_UNKNOWN_FEATURE, true);
 
@@ -155,17 +170,16 @@ public class DefaultModelService implements ModelService{
         UMLResourceFactoryImpl umlResourceFactory = new UMLResourceFactoryImpl();
         extesionToFactoryMap.put("uml", umlResourceFactory);
 
-
-        UMLResourceImpl resource = (UMLResourceImpl) resourceSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
-
-
+        UMLResourceImpl resource = (UMLResourceImpl) resourceSet.getResource(URI.createFileURI(filePath.toFile().getAbsolutePath()), true);
         return resource.getContents();
     }
 
-    public static void registSysMLPackages() {
+    public boolean saveSysMLModel(EList<EObject> umlModel, Path filePath) {
+        //TODO implement save von SysML
+        return false;
+    }
 
-
-
+    public static void registerSysMLPackages() {
         UMLPackage.eINSTANCE.eClass();
 
         ResourceSet resourceSet = new ResourceSetImpl();

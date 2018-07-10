@@ -1,17 +1,21 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.domain.sysml.SysMLModel;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rmf.reqif10.ReqIF;
+import org.eclipse.uml2.uml.Package;
 
-import java.io.File;
 import java.nio.file.Path;
 
 public interface ModelService {
 
-    ReqIF getReqIFModel(Path filePath);
+    ReqIF loadReqIFModel(Path filePath);
     boolean saveReqIFModel(ReqIF reqIFModel, Path filePath);
 
-    SysMLModel getSysMLModel(Path filePath);
-    boolean saveSysMLModel(SysMLModel sysMLModel, Path filePath);
+    EList<EObject> loadSysMLModel(Path filePath);
+    boolean saveSysMLModel(EList<EObject> umlModel, Path filePath);
+
+//    Workbook loadXlsxModel(Path filePath);
+//    boolean saveXlsxModel(Workbook xlsxModel, Path filePath);
 
 }

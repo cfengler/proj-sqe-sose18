@@ -61,7 +61,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
 
 
         DefaultModelService.registerExcelPackages();
-        DefaultModelService.registSysMLPackages();
+        DefaultModelService.registerSysMLPackages();
         DefaultModelService.registerReqIFPackages();
 
         DefaultModelTransformationService dmts = new DefaultModelTransformationService();
@@ -173,7 +173,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         }
         */
         DefaultModelService.registerReqIFPackages();
-        DefaultModelService.registSysMLPackages();
+        DefaultModelService.registerSysMLPackages();
         File qvtoFile = new File(resourcePathForQVTO + "/SysML2ReqIF.qvto");
         return executeTransformation(sourceFile, destinationFile, qvtoFile);
     }

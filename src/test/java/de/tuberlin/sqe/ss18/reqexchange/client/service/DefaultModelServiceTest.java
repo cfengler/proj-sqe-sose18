@@ -1,5 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.client.service;
 
+import de.tuberlin.sqe.ss18.reqexchange.UnitTestHelper;
 import de.tuberlin.sqe.ss18.reqexchange.model.service.DefaultModelService;
 import junit.framework.TestCase;
 import org.eclipse.emf.common.util.EList;
@@ -17,30 +18,37 @@ import org.eclipse.uml2.uml.internal.impl.ModelImpl;
 import org.junit.Test;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 
 public class DefaultModelServiceTest extends TestCase {
 
-    File reqIFFile;
-    File sysMLFile;
+    private Path reqIFFilePath;
+    private Path sysMLFilePath;
+    //File reqIFFile;
+    //File sysMLFile;
 
     public DefaultModelServiceTest() {
 
         String resourcePath = "src/main/resources/samplefiles";
-        reqIFFile = new File(resourcePath + "/04_ReqIF_ReqExchange/My.reqif");
-        sysMLFile = new File(resourcePath + "/04_Papyrus_ReqExchange/04_Papyrus_ReqExchange.uml");
+
+        reqIFFilePath = UnitTestHelper.getTestPath().resolve("04_ReqIF_ReqExchange").resolve("My.reqif");
+        sysMLFilePath = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange").resolve("04_Papyrus_ReqExchange.uml");
+
+        //reqIFFile = new File(resourcePath + "/04_ReqIF_ReqExchange/My.reqif");
+        //sysMLFile = new File(resourcePath + "/04_Papyrus_ReqExchange/04_Papyrus_ReqExchange.uml");
 
     }
 
     @Test
     public void testLoadReqIFEcoreModellFromFile() {
-        assertNotNull(DefaultModelService.getReqIFModel(reqIFFile));
+        assertNotNull(UnitTestHelper.getModelService().loadReqIFModel(reqIFFilePath));
     }
 
     @Test
     public void testReqIFHasContent() {
-        ReqIF reqif = DefaultModelService.getReqIFModel(reqIFFile);
+        ReqIF reqif = UnitTestHelper.getModelService().loadReqIFModel(reqIFFilePath);
         EList<Specification> specifications = reqif.getCoreContent().getSpecifications();
 
         EcoreUtil.resolveAll(reqif);
@@ -64,12 +72,12 @@ public class DefaultModelServiceTest extends TestCase {
     }
     @Test
     public void testLoadSysMLModelFromFile() {
-        assertNotNull(DefaultModelService.getSysMLModel(sysMLFile));
+        assertNotNull(UnitTestHelper.getModelService().loadSysMLModel(sysMLFilePath));
     }
 
     @Test
     public void testSysMLHasContent() {
-        EList<EObject> umlContent = DefaultModelService.getSysMLModel(sysMLFile);
+        EList<EObject> umlContent = UnitTestHelper.getModelService().loadSysMLModel(sysMLFilePath);
         Package umlModel = (Package) umlContent.get(0);
         List<Requirement> requirements = (List<Requirement>) new LinkedList<Requirement>();
 

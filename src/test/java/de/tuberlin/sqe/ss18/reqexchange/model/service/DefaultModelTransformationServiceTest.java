@@ -67,8 +67,8 @@ public class DefaultModelTransformationServiceTest {
         Path validationFile = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("validate").resolve("04_Papyrus_ReqExchange_Test.reqif");
         Assert.assertTrue(modelTransformationService.transform(inSysML, outReqIF));
 
-        ReqIF reqifValidation = DefaultModelService.getReqIFModel(validationFile.toFile());
-        ReqIF reqifTest = DefaultModelService.getReqIFModel(outReqIF.toFile());
+        ReqIF reqifValidation = UnitTestHelper.getModelService().loadReqIFModel(validationFile);
+        ReqIF reqifTest = UnitTestHelper.getModelService().loadReqIFModel(outReqIF);
 
         Assert.assertEquals(reqifTest.getCoreContent().getSpecObjects().size(), reqifValidation.getCoreContent().getSpecObjects().size());
         Assert.assertEquals(reqifTest.getCoreContent().getSpecifications().size(), reqifValidation.getCoreContent().getSpecifications().size());

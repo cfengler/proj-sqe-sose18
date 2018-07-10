@@ -69,6 +69,14 @@ public class UnitTestHelper {
         return jsonSerializerService;
     }
 
+    private static ModelService modelService;
+    public static ModelService getModelService() {
+        if (modelService != null) {
+            modelService = new DefaultModelService();
+        }
+        return modelService;
+    }
+
     private static ModelTransformationService modelTransformationService;
     public static ModelTransformationService getModelTransformationService() {
         if (modelTransformationService == null) {
@@ -320,7 +328,7 @@ public class UnitTestHelper {
 
         try {
             ReqIF10FactoryImpl reqIF10FactoryImpl = new ReqIF10FactoryImpl();
-            ReqIF reqIFModel = DefaultModelService.getReqIFModel(reqifFilePath.toFile());
+            ReqIF reqIFModel = getModelService().loadReqIFModel(reqifFilePath);
 
             SpecObjectType specObjectType = null;
             for (SpecType specType: reqIFModel.getCoreContent().getSpecTypes()) {
@@ -344,7 +352,7 @@ public class UnitTestHelper {
 
             reqIFModel.getCoreContent().getSpecObjects().add(specObject);
 
-            DefaultModelService.saveReqifModel(reqIFModel, reqifFilePath);
+            getModelService().saveReqIFModel(reqIFModel, reqifFilePath);
 
             return true;
         }
@@ -359,11 +367,11 @@ public class UnitTestHelper {
             return false;
         }
 
-        ReqIF reqIFModel = DefaultModelService.getReqIFModel(reqifFilePath.toFile());
+        ReqIF reqIFModel = getModelService().loadReqIFModel(reqifFilePath);
 
         ((AttributeValueString) reqIFModel.getCoreContent().getSpecObjects().get(0).getValues().get(0)).setTheValue(newDescription);
 
-        DefaultModelService.saveReqifModel(reqIFModel, reqifFilePath);
+        getModelService().saveReqIFModel(reqIFModel, reqifFilePath);
 
         return true;
     }
