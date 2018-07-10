@@ -78,4 +78,15 @@ public class DefaultModelTransformationServiceTest {
 
     }
 
+    @Test
+    public void test_04_transformSysML2ReqIF2Excel() {
+        Path sysML = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("04_Papyrus_ReqExchange_TreeTable.uml");
+        Path reqIF = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_Test.reqif");
+        Path excel = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("out.xlsx");
+
+        modelTransformationService.transform(sysML, reqIF);
+        modelTransformationService.transform(reqIF, excel);
+
+    }
+
 }

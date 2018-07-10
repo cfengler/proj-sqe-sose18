@@ -1,0 +1,69 @@
+modeltype ReqIF "strict" uses "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd";
+modeltype Excel "strict" uses "http://www.example.org/excelmodel";
+
+transformation ExcelTransformation(in Source: ReqIF, out Target: Excel);
+
+property rowcounter = 2;
+property reqnames : Dict(String, Integer) = Dict{};
+
+
+main() {
+Source.objects()[reqif10::ReqIF]->map workbookmapping();
+}
+
+mapping reqif10::ReqIF::workbookmapping():Workbook {
+	Name := self.theHeader.title;
+	sheets := self.coreContent.specifications-> map sheetmapping();
+}
+
+mapping reqif10::Specification::sheetmapping():Worksheet {
+	Name := self.longName;
+	rows += self.map namerow();
+	rows += self.map attributerow();
+	rows += self.children.map requirementrows(); 
+}
+
+mapping reqif10::Specification::namerow():Row {
+	rowNum := 0;
+	cells += object StringCell{
+		columnIndex := 0;
+		rowIndex := 0;
+		stringValue := self.longName;
+	}
+}
+	
+mapping reqif10::Specification::attributerow():Row {
+	rowNum := 1;
+	
+	var counter := 0;
+		
+	self.children -> at(1)._object.type.specAttributes -> collect(value | value.oclAsType(AttributeDefinition)) -> forEach(value) {
+		result.cells += object StringCell{
+			rowIndex := 1;
+			columnIndex := counter;
+			stringValue := value.longName;
+		};
+		reqnames -> put(value.identifier, counter);
+		counter := counter +1;
+	}
+}
+
+mapping reqif10::SpecHierarchy::requirementrows():Sequence(Row) {
+	init{
+		result += self._object.map requirement()->asSequence()->union(self.children -> map requirementrows() -> flatten());
+	}
+}
+
+mapping reqif10::SpecObject::requirement():Row {
+	rowNum := rowcounter;
+	self.values -> collect(value | value.oclAsType(AttributeValueString)) -> forEach(value){
+		cells += object StringCell{
+					columnIndex := reqnames -> get(value.definition.identifier);
+					rowIndex := rowcounter;
+					stringValue := value.theValue;
+					};
+	};
+	rowcounter := rowcounter +1;
+}
+
+

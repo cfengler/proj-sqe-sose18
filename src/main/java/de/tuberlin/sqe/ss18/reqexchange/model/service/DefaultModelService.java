@@ -192,4 +192,8 @@ public class DefaultModelService implements ModelService{
         m.put("reqif", new ReqIF10ResourceFactoryImpl());
     }
 
+    public static void registerExcelPackages() {
+        ExcelmodelPackage.eINSTANCE.eClass();
+    }
+
 }
