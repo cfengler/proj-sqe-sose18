@@ -1,5 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
+import de.tuberlin.sqe.ss18.reqexchange.model.domain.sysml.SysMLModel;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -29,19 +30,23 @@ import org.eclipse.uml2.uml.resources.util.UMLResourcesUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Map;
 
-public class DefaultModelService { //implements ModelService{
+public class DefaultModelService implements ModelService{
 
-    public static ReqIF getReqIFModel(File file) {
+    public ReqIF getReqIFModel(Path filePath) {
+        if (!Files.exists(filePath)) {
+            return null;
+        }
 
         registerReqIFPackages();
 
         ResourceSet resSet = new ResourceSetImpl();
 
-        Resource resource = resSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
+        Resource resource = resSet.getResource(URI.createFileURI(filePath.toFile().getAbsolutePath()), true);
 
         //EList<EObject> contents = resource.getContents();
 
@@ -51,7 +56,7 @@ public class DefaultModelService { //implements ModelService{
 
     }
 
-    public static boolean saveReqifModel(ReqIF reqIFModel, Path filePath) {
+    public boolean saveReqIFModel(ReqIF reqIFModel, Path filePath) {
         ResourceSet resSet = new ResourceSetImpl();
 
         Resource resource = resSet.createResource(URI.createFileURI(filePath.toString()));
@@ -63,6 +68,11 @@ public class DefaultModelService { //implements ModelService{
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean saveSysMLModel(SysMLModel sysMLModel, Path filePath) {
+        //TODO: implement
+        return false;
     }
 
     private static String reqIFECoreFilePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\model\\reqif\\reqif10.ecore";
