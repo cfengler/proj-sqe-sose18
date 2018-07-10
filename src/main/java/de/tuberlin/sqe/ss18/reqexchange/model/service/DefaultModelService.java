@@ -1,8 +1,5 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.domain.reqif10.Reqif10Factory;
-import de.tuberlin.sqe.ss18.reqexchange.model.domain.reqif10.impl.Reqif10FactoryImpl;
-import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -16,9 +13,6 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.ocl.ecore.OCL;
 import org.eclipse.ocl.ecore.delegate.OCLDelegateDomain;
 import org.eclipse.papyrus.sysml14.sysmlPackage;
-//import org.eclipse.rmf.reqif10.ReqIF;
-//import org.eclipse.rmf.reqif10.ReqIF10Package;
-//import org.eclipse.rmf.reqif10.serialization.ReqIF10ResourceFactoryImpl;
 import org.eclipse.papyrus.sysml14.activities.ActivitiesPackage;
 import org.eclipse.papyrus.sysml14.allocations.AllocationsPackage;
 import org.eclipse.papyrus.sysml14.blocks.BlocksPackage;
@@ -26,9 +20,7 @@ import org.eclipse.papyrus.sysml14.modelelements.ModelelementsPackage;
 import org.eclipse.papyrus.sysml14.requirements.RequirementsPackage;
 import org.eclipse.rmf.reqif10.ReqIF;
 import org.eclipse.rmf.reqif10.ReqIF10Package;
-import org.eclipse.rmf.reqif10.impl.SpecObjectImpl;
 import org.eclipse.rmf.reqif10.serialization.ReqIF10ResourceFactoryImpl;
-import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceFactoryImpl;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceImpl;
