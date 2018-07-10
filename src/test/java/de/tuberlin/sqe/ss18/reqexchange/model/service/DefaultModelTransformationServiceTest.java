@@ -3,19 +3,21 @@ package de.tuberlin.sqe.ss18.reqexchange.model.service;
 import com.google.inject.Injector;
 import de.tuberlin.sqe.ss18.reqexchange.UnitTestHelper;
 import org.apache.commons.io.FileUtils;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.rmf.reqif10.ReqIF;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
-import java.io.File;
+
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DefaultModelTransformationServiceTest {
 
     private static Injector injector;
     private static ModelTransformationService modelTransformationService;
-    private static final String resourcePath = "src/main/resources/";
+    private static final Path resourcePath = Paths.get("src/main/resources/");
 
     @BeforeClass
     public static void startUp() {
@@ -60,12 +62,19 @@ public class DefaultModelTransformationServiceTest {
 
     @Test
     public void test_03d_transformSysMLToReqIF() {
-        File inSysML = new File(resourcePath + "/unitTest/transformation/04_Papyrus_ReqExchange.uml");
-        File outReqIF = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_Test.reqif").toFile();
-        File validationFile = new File(resourcePath + "/unitTest/transformation/validate/04_Papyrus_ReqExchange_Test.reqif");
-        Assert.assertTrue(modelTransformationService.transform(inSysML.toPath(), outReqIF.toPath()));
+        Path inSysML = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("04_Papyrus_ReqExchange.uml");
+        Path outReqIF = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_Test.reqif");
+        Path validationFile = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("validate").resolve("04_Papyrus_ReqExchange_Test.reqif");
+        Assert.assertTrue(modelTransformationService.transform(inSysML, outReqIF));
 
-        //EcoreUtil.EqualityHelper();
+        ReqIF reqifValidation = DefaultModelService.getReqIFModel(validationFile.toFile());
+        ReqIF reqifTest = DefaultModelService.getReqIFModel(outReqIF.toFile());
+
+        Assert.assertEquals(reqifTest.getCoreContent().getSpecObjects().size(), reqifValidation.getCoreContent().getSpecObjects().size());
+        Assert.assertEquals(reqifTest.getCoreContent().getSpecifications().size(), reqifValidation.getCoreContent().getSpecifications().size());
+        Assert.assertEquals(reqifTest.getCoreContent().getDatatypes().size(), reqifValidation.getCoreContent().getDatatypes().size());
+        Assert.assertEquals(reqifTest.getCoreContent().getSpecRelationGroups().size(), reqifValidation.getCoreContent().getSpecRelationGroups().size());
+        Assert.assertEquals(reqifTest.getCoreContent().getSpecTypes().size(), reqifValidation.getCoreContent().getSpecTypes().size());
 
     }
 
