@@ -72,9 +72,6 @@ public class ClientController {
         clientViewModel.busyProperty().bindBidirectional(buttonCreateProject.disableProperty());
         clientViewModel.busyProperty().bindBidirectional(buttonJoinProject.disableProperty());
         clientViewModel.busyProperty().bindBidirectional(buttonSettings.disableProperty());
-
-        //TODO Testdaten entfernen
-        //addTestProjects();
     }
 
     private void addProjectInfoController(ProjectViewModel projectViewModel) {
@@ -112,10 +109,9 @@ public class ClientController {
         PasswordField confirmPassword = new PasswordField();
         confirmPassword.setDisable(true);
         confirmPassword.setPromptText("disabled");
-        //TODO Testdaten entfernen
-        //name.setText("proj-sqe-sose18-test");
-        //password.setText("a");
-        //confirmPassword.setText("a");
+        ChoiceBox<ReqExchangeFileType> choice = new ChoiceBox<>();
+        List<ReqExchangeFileType> choices = Arrays.asList(ReqExchangeFileType.values());
+        choice.setItems(FXCollections.observableArrayList(choices));
         BorderPane border = new BorderPane();
         Button file = new Button("...");
         Label filename = new Label();
@@ -123,7 +119,13 @@ public class ClientController {
             filename.setMaxWidth(border.getBoundsInParent().getMinX());
             FileChooser chooser = new FileChooser();
             chooser.setTitle("Choose ReqIF File");
-            chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("ReqIF File", "*.reqif", "*.reqifz"));
+            ReqExchangeFileType filetype = choice.getSelectionModel().getSelectedItem();
+            List<String> filetypeFilters = new ArrayList<>();
+            for(String s: filetype.getFiletypes()) {
+                filetypeFilters.add("*." + s);
+            }
+            chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(filetype.getName(), filetypeFilters));
+            //chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("ReqIF File", "*.reqif", "*.reqifz"));
             File chosen = chooser.showOpenDialog(grid.getScene().getWindow());
             if(chosen != null) {
                 filename.setText(chosen.getAbsolutePath());
@@ -138,13 +140,15 @@ public class ClientController {
         grid.add(new Label("Git URL:"), 0, 1);
         grid.add(new Label("Password:"), 0, 2);
         grid.add(new Label("Confirm Password:"), 0, 3);
-        grid.add(new Label("ReqIF File:"), 0, 4);
+        grid.add(new Label("File Type:"), 0, 4);
+        grid.add(new Label("ReqIF File:"), 0, 5);
         grid.add(name, 1, 0);
         grid.add(gitpath, 1, 1);
         grid.add(password, 1, 2);
         grid.add(confirmPassword, 1, 3);
-        grid.add(border, 1, 4);
-        grid.add(error, 0, 5, 2, 1);
+        grid.add(choice, 1, 4);
+        grid.add(border, 1, 5);
+        grid.add(error, 0, 6, 2, 1);
         for(Node n: grid.getChildren()) {
             GridPane.setHalignment(n, HPos.RIGHT);
         }
@@ -152,14 +156,16 @@ public class ClientController {
         ok.setDisable(true);
         ChangeListener changeListener = (observable, oldValue, newValue) -> {
             //TODO password deactivated
-            ok.setDisable(name.getText().equals("") /*|| password.getText().equals("")
+            ok.setDisable(name.getText().equals("") || choice.getSelectionModel().getSelectedIndex() == -1 /*|| password.getText().equals("")
                     || confirmPassword.getText().equals("")*/ || filename.getText().equals("") || gitpath.getText().equals(""));
         };
         name.textProperty().addListener(changeListener);
         gitpath.textProperty().addListener(changeListener);
         password.textProperty().addListener(changeListener);
         confirmPassword.textProperty().addListener(changeListener);
+        choice.getSelectionModel().selectedItemProperty().addListener(changeListener);
         filename.textProperty().addListener(changeListener);
+        file.disableProperty().bind(Bindings.equal(choice.getSelectionModel().selectedIndexProperty(), -1));
         dialog.getDialogPane().setContent(grid);
         Platform.runLater(name::requestFocus);
         ok.addEventFilter(ActionEvent.ACTION, okEvent -> {
@@ -242,9 +248,6 @@ public class ClientController {
         password.setDisable(true);
         password.setPromptText("disabled");
         ChoiceBox<ReqExchangeFileType> choice = new ChoiceBox<>();
-        //TODO Testdaten entfernen
-        //name.setText("proj-sqe-sose18-test");
-        //password.setText("a");
         List<ReqExchangeFileType> choices = Arrays.asList(ReqExchangeFileType.values());
         choice.setItems(FXCollections.observableArrayList(choices));
         BorderPane border = new BorderPane();

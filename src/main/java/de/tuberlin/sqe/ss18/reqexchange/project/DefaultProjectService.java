@@ -73,8 +73,7 @@ public class DefaultProjectService implements ProjectService {
 
     @Override
     public Project create(URI remoteGitRepositoryURI, String name, Path workingFilePath) {
-        ///TODO: support for all ReqExchangeFileType
-        if (ReqExchangeFileType.getFileTypeFromFileName(workingFilePath.toString()) != ReqExchangeFileType.ReqIF) {
+        if (ReqExchangeFileType.getFileTypeFromFileName(workingFilePath.toString()) == null) {
             return null;
         }
 
