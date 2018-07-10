@@ -1,6 +1,13 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.domain.sysml.SysMLModel;
+import de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.ExcelModel2File;
+import de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.ExcelmodelFactory;
+import de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.ExcelmodelPackage;
+import de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.Workbook;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.POIDocument;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -11,6 +18,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.m2m.qvt.oml.ModelExtent;
 import org.eclipse.ocl.ecore.OCL;
 import org.eclipse.ocl.ecore.delegate.OCLDelegateDomain;
 import org.eclipse.papyrus.sysml14.sysmlPackage;
@@ -29,10 +37,13 @@ import org.eclipse.uml2.uml.resources.util.UMLResourcesUtil;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class DefaultModelService implements ModelService{
@@ -194,6 +205,82 @@ public class DefaultModelService implements ModelService{
 
     public static void registerExcelPackages() {
         ExcelmodelPackage.eINSTANCE.eClass();
+    }
+
+    public static boolean saveModelToFile(ModelExtent transformedModel, File outFile) {
+
+        // the output objects got captured in the transformedModel extent
+        List<EObject> outObjects = transformedModel.getContents();
+
+
+        if(outObjects.get(0) instanceof Workbook) {
+            return saveModelToFile((Workbook) outObjects.get(0), outFile);
+        }
+        else {
+            return saveModelToFileWithEcoreResourceFactory(transformedModel, outFile);
+        }
+
+
+    }
+
+    private static boolean saveModelToFile(Workbook transformedModel, File outFile){
+        ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
+        Workbook excelWorkbook = transformedModel;
+
+        //ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
+        //Workbook excelWorkbook = factory.createWorkbook();
+
+
+
+        if (FilenameUtils.getExtension(outFile.getName()).equals("xlsx")) {
+            //transform excelModel to xlsxModel
+            XSSFWorkbook xlsxWorkbook = ExcelModel2File.transformExcelModelToXlsxModel(excelWorkbook);
+            //write xlsxModel to file
+            try {
+                FileOutputStream fos = new FileOutputStream(outFile);
+                xlsxWorkbook.write(fos);
+                fos.close();
+            } catch (IOException e) {
+                System.out.println("DefaultModelTransformationService.transform error writing excel xlsx file");
+                return false;
+            }
+        }
+        else if(FilenameUtils.getExtension(outFile.getName()).equals("xls")) {
+            HSSFWorkbook xlsWorkbook = ExcelModel2File.transformExcelModelToXlsModel(excelWorkbook);
+            //write xlsxModel to file
+            try {
+                FileOutputStream fos = new FileOutputStream(outFile);
+                xlsWorkbook.write(fos);
+                fos.close();
+            } catch (IOException e) {
+                System.out.println("DefaultModelTransformationService.transform error writing excel xls file");
+                return false;
+            }
+        }
+        else {
+            System.out.println("Unsupported excel file extension!");
+            return true;
+        }
+        return true;
+
+    }
+
+    private static boolean saveModelToFileWithEcoreResourceFactory(ModelExtent transformedModel, File outFile) {
+        // the output objects got captured in the transformedModel extent
+        List<EObject> outObjects = transformedModel.getContents();
+        // let's persist them using a resource
+        ResourceSet resourceSet2 = new ResourceSetImpl();
+        Resource outResource = resourceSet2.createResource(
+                URI.createFileURI(outFile.getAbsolutePath()));
+        outResource.getContents().addAll(outObjects);
+        try {
+            outResource.save(Collections.emptyMap());
+            return true;
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

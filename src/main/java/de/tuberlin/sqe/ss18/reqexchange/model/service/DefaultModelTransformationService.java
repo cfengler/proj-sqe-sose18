@@ -9,18 +9,8 @@ import java.io.*;
 import java.nio.file.Path;
 import java.util.*;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
@@ -147,7 +137,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         } else if (ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
             return transformSysmlToReqif(sourcePath.toFile(), destinationPath.toFile());
         } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Excel.getFiletypes().contains(destinationPathExtension)) {
-            if(sourcePathExtension.equals("xls")) {
+            if(destinationPathExtension.equals("xls")) {
                 return transformReqifToExcelXls(sourcePath.toFile(), destinationPath.toFile());
             } else {
                 return transformReqifToExcelXlsx(sourcePath.toFile(), destinationPath.toFile());
@@ -197,27 +187,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
 
 
         File qvtoFile = new File(resourcePathForQVTO + "/ExcelTransformation.qvto");
-        return executeReqifToExcelTransformationXls(sourceFile, destinationFile, qvtoFile);
-
-        //TODO replace placeholder excelModel
-        /*ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
-        Workbook excelWorkbook = factory.createWorkbook();
-
-        //transform excelModel to xlsModel
-        HSSFWorkbook xlsWorkbook = transformExcelModelToXlsModel(excelWorkbook);
-
-        //write xlsxModel to file
-        try {
-            FileOutputStream fos = new FileOutputStream(destinationFile);
-            xlsWorkbook.write(fos);
-            fos.close();
-        } catch (IOException e) {
-            System.out.println("DefaultModelTransformationService.transform error writing excel xlsx file");
-            return false;
-        }
-
-        //return true;
-        return copy(sourceFile, destinationFile);*/
+        return executeTransformation(sourceFile, destinationFile, qvtoFile);
     }
 
     private boolean transformReqifToExcelXlsx(File sourceFile, File destinationFile) {
@@ -229,13 +199,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
 
 
         File qvtoFile = new File(resourcePathForQVTO + "/ExcelTransformation.qvto");
-        return executeReqifToExcelTransformationXlsx(sourceFile, destinationFile, qvtoFile);
-
-        //TODO replace placeholder excelModel
-
-
-        //return true;
-        //return copy(sourceFile, destinationFile);
+        return executeTransformation(sourceFile, destinationFile, qvtoFile);
     }
 
     private boolean transformExcelToReqifXls(File sourceFile, File destinationFile) {
@@ -249,7 +213,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         }
 
         //transform xlsModel to excelModel
-        Workbook excelWorkbook = transformXlsModelToExcelModel(xlsWorkbook);
+        Workbook excelWorkbook = ExcelModel2File.transformXlsModelToExcelModel(xlsWorkbook);
 
         //TODO transform excelModel to reqifModel
         //TODO write reqifModel to file
@@ -271,7 +235,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         }
 
         //transform xlsxModel to excelModel
-        Workbook excelWorkbook = transformXlsxModelToExcelModel(xlsxWorkbook);
+        Workbook excelWorkbook = ExcelModel2File.transformXlsxModelToExcelModel(xlsxWorkbook);
 
         //TODO transform excelModel to reqifModel
         //TODO write reqifModel to file
@@ -306,186 +270,18 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         }
     }
 
-    //TODO Anfang des Codes, der besser in einer extra Excel-Hilfs-Klasse sein sollte
-    private Workbook transformXlsxModelToExcelModel(XSSFWorkbook xlsxWorkbook) {
-        ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
-        Workbook excelWorkbook = factory.createWorkbook();
-
-        for (Sheet sheet : xlsxWorkbook) {
-            XSSFSheet xlsxSheet = (XSSFSheet) sheet;
-
-            Worksheet excelWorksheet = factory.createWorksheet();
-            excelWorksheet.setName(xlsxSheet.getSheetName());
-            excelWorkbook.getSheets().add(excelWorksheet);
-            for (Row row : xlsxSheet) {
-                XSSFRow xlsxRow = (XSSFRow) row;
-
-                de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.Row excelRow = factory.createRow();
-                excelRow.setRowNum(xlsxRow.getRowNum());
-                excelWorksheet.getRows().add(excelRow);
-                for (Cell cell : xlsxRow) {
-                    XSSFCell xlsxCell = (XSSFCell) cell;
-
-                    switch(xlsxCell.getCellTypeEnum()) {
-                        case FORMULA:
-                        case ERROR:
-                        case BLANK:
-                        case _NONE:
-                        case STRING:
-                            de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.StringCell excelStringCell = factory.createStringCell();
-                            excelStringCell.setColumnIndex(xlsxCell.getColumnIndex());
-                            excelStringCell.setRowIndex(xlsxCell.getRowIndex());
-                            excelStringCell.setStringValue(xlsxCell.getStringCellValue());
-                            excelRow.getCells().add(excelStringCell);
-                            break;
-                        case BOOLEAN:
-                            de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.BooleanCell excelBooleanCell = factory.createBooleanCell();
-                            excelBooleanCell.setColumnIndex(xlsxCell.getColumnIndex());
-                            excelBooleanCell.setRowIndex(xlsxCell.getRowIndex());
-                            excelBooleanCell.setBoolValue(xlsxCell.getBooleanCellValue());
-                            excelRow.getCells().add(excelBooleanCell);
-                            break;
-                        case NUMERIC:
-                            de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.NumericCell excelNumericCell = factory.createNumericCell();
-                            excelNumericCell.setColumnIndex(xlsxCell.getColumnIndex());
-                            excelNumericCell.setRowIndex(xlsxCell.getRowIndex());
-                            excelNumericCell.setNumericValue(xlsxCell.getNumericCellValue());
-                            excelRow.getCells().add(excelNumericCell);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        }
-        return excelWorkbook;
-    }
-
-    private Workbook transformXlsModelToExcelModel(HSSFWorkbook xlsWorkbook) {
-        ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
-        Workbook excelWorkbook = factory.createWorkbook();
-
-        for (Sheet sheet : xlsWorkbook) {
-            HSSFSheet xlsSheet = (HSSFSheet) sheet;
-
-            Worksheet modelWorksheet = factory.createWorksheet();
-            modelWorksheet.setName(xlsSheet.getSheetName());
-            excelWorkbook.getSheets().add(modelWorksheet);
-            for (Row row : xlsSheet) {
-                HSSFRow xlsRow = (HSSFRow) row;
-
-                de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.Row modelRow = factory.createRow();
-                modelRow.setRowNum(xlsRow.getRowNum());
-                modelWorksheet.getRows().add(modelRow);
-                for (Cell cell : xlsRow) {
-                    HSSFCell xlsCell = (HSSFCell) cell;
-
-                    switch(xlsCell.getCellTypeEnum()) {
-                        case FORMULA:
-                        case ERROR:
-                        case BLANK:
-                        case _NONE:
-                        case STRING:
-                            de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.StringCell excelStringCell = factory.createStringCell();
-                            excelStringCell.setColumnIndex(xlsCell.getColumnIndex());
-                            excelStringCell.setRowIndex(xlsCell.getRowIndex());
-                            excelStringCell.setStringValue(xlsCell.getStringCellValue());
-                            modelRow.getCells().add(excelStringCell);
-                            break;
-                        case BOOLEAN:
-                            de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.BooleanCell excelBooleanCell = factory.createBooleanCell();
-                            excelBooleanCell.setColumnIndex(xlsCell.getColumnIndex());
-                            excelBooleanCell.setRowIndex(xlsCell.getRowIndex());
-                            excelBooleanCell.setBoolValue(xlsCell.getBooleanCellValue());
-                            modelRow.getCells().add(excelBooleanCell);
-                            break;
-                        case NUMERIC:
-                            de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.NumericCell excelNumericCell = factory.createNumericCell();
-                            excelNumericCell.setColumnIndex(xlsCell.getColumnIndex());
-                            excelNumericCell.setRowIndex(xlsCell.getRowIndex());
-                            excelNumericCell.setNumericValue(xlsCell.getNumericCellValue());
-                            modelRow.getCells().add(excelNumericCell);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        }
-        return excelWorkbook;
-    }
-
-    private XSSFWorkbook transformExcelModelToXlsxModel(Workbook excelWorkbook) {
-        XSSFWorkbook xlsxWorkbook = new XSSFWorkbook();
-
-        for (Worksheet excelSheet : excelWorkbook.getSheets()) {
-
-            XSSFSheet xlsxSheet = xlsxWorkbook.createSheet(excelSheet.getName());
-            for (de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.Row excelRow : excelSheet.getRows()) {
-
-                XSSFRow xlsxRow = xlsxSheet.createRow(excelRow.getRowNum());
-                for (de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.Cell excelCell : excelRow.getCells()) {
-
-                    if(excelCell instanceof StringCell) {
-                        XSSFCell xlsxCell = xlsxRow.createCell(excelCell.getColumnIndex(), CellType.STRING);
-                        xlsxCell.setCellValue(((StringCell) excelCell).getStringValue());
-                        xlsxRow.setRowNum(excelCell.getRowIndex());
-                    } else if(excelCell instanceof NumericCell) {
-                        XSSFCell xlsxCell = xlsxRow.createCell(excelCell.getColumnIndex(), CellType.NUMERIC);
-                        xlsxCell.setCellValue(((NumericCell) excelCell).getNumericValue());
-                        xlsxRow.setRowNum(excelCell.getRowIndex());
-                    } else {
-                        XSSFCell xlsxCell = xlsxRow.createCell(excelCell.getColumnIndex(), CellType.BOOLEAN);
-                        xlsxCell.setCellValue(((BooleanCell)excelCell).isBoolValue());
-                        xlsxRow.setRowNum(excelCell.getRowIndex());
-                    }
-                }
-            }
-        }
-        return xlsxWorkbook;
-    }
-
-    private HSSFWorkbook transformExcelModelToXlsModel(Workbook excelWorkbook) {
-        HSSFWorkbook xlsWorkbook = new HSSFWorkbook();
-
-        for (Worksheet excelSheet : excelWorkbook.getSheets()) {
-
-            HSSFSheet xlsSheet = xlsWorkbook.createSheet(excelSheet.getName());
-            for (de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.Row excelRow : excelSheet.getRows()) {
-
-                HSSFRow xlsRow = xlsSheet.createRow(excelRow.getRowNum());
-                for (de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.Cell excelCell : excelRow.getCells()) {
-
-                    if(excelCell instanceof StringCell) {
-                        HSSFCell xlsCell = xlsRow.createCell(excelCell.getColumnIndex(), CellType.STRING);
-                        xlsCell.setCellValue(((StringCell) excelCell).getStringValue());
-                        xlsRow.setRowNum(excelCell.getRowIndex());
-                    } else if(excelCell instanceof NumericCell) {
-                        HSSFCell xlsCell = xlsRow.createCell(excelCell.getColumnIndex(), CellType.NUMERIC);
-                        xlsCell.setCellValue(((NumericCell) excelCell).getNumericValue());
-                        xlsRow.setRowNum(excelCell.getRowIndex());
-                    } else {
-                        HSSFCell xlsCell = xlsRow.createCell(excelCell.getColumnIndex(), CellType.BOOLEAN);
-                        xlsCell.setCellValue(((BooleanCell) excelCell).isBoolValue());
-                        xlsRow.setRowNum(excelCell.getRowIndex());
-                    }
-                }
-            }
-        }
-        return xlsWorkbook;
-    }
-    //TODO Ende des Codes, der besser in einer extra Excel-Hilfs-Klasse sein sollte
 
 
-    private static boolean executeTransformation(File inFile, File outFile, File transformationQVTOFile) {
+
+    private boolean executeTransformation(File inFile, File outFile, File transformationQVTOFile) {
         /*
          * Debug to ensure if file path is correct
          */
-
+        /*
         System.out.println(inFile.exists() + " : " +inFile.getAbsolutePath());
         System.out.println(outFile.exists() + " : " +outFile.getAbsolutePath());
         System.out.println(transformationQVTOFile.exists() + " : " +transformationQVTOFile.getAbsolutePath());
-
+        */
         /*
          * Next Part is based on
          * http://wiki.eclipse.org/QVTOML/Examples/InvokeInJava
@@ -532,197 +328,13 @@ public class DefaultModelTransformationService implements ModelTransformationSer
 
         // check the result for success
         if(result.getSeverity() == Diagnostic.OK) {
-            // the output objects got captured in the output extent
-            List<EObject> outObjects = output.getContents();
-            // let's persist them using a resource
-            ResourceSet resourceSet2 = new ResourceSetImpl();
-            Resource outResource = resourceSet2.createResource(
-                    URI.createFileURI(outFile.getAbsolutePath()));
-            outResource.getContents().addAll(outObjects);
-            try {
-                outResource.save(Collections.emptyMap());
-                return true;
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
+            // Save to File
+            return DefaultModelService.saveModelToFile(output, outFile);
         } else {
             // turn the result diagnostic into status and send it to error log
             System.out.println("Transformation failed:" + result);
             return false;
         }
-        return false;
-    }
-
-    private boolean executeReqifToExcelTransformationXlsx(File inFile, File outFile, File transformationQVTOFile) {
-        /*
-         * Debug to ensure if file path is correct
-         */
-
-        System.out.println(inFile.exists() + " : " +inFile.getAbsolutePath());
-        System.out.println(outFile.exists() + " : " +outFile.getAbsolutePath());
-        System.out.println(transformationQVTOFile.exists() + " : " +transformationQVTOFile.getAbsolutePath());
-
-        /*
-         * Next Part is based on
-         * http://wiki.eclipse.org/QVTOML/Examples/InvokeInJava
-         */
-
-        // Refer to an existing transformation via URI
-        URI transformationURI = URI.createFileURI(transformationQVTOFile.getAbsolutePath());
-
-        // create executor for the given transformation
-        TransformationExecutor executor = new TransformationExecutor(transformationURI);
-
-        // define the transformation input
-        // Remark: we take the objects from a resource, however
-        // a list of arbitrary in-memory EObjects may be passed
-        ExecutionContextImpl context = new ExecutionContextImpl();
-        ResourceSet resourceSet = new ResourceSetImpl();
-        URI uri = URI.createFileURI(inFile.getAbsolutePath());
-
-        Resource inResource = resourceSet.getResource(uri, true);
-        EList<EObject> inObjects = inResource.getContents();
-
-        // create the input extent with its initial contents
-        ModelExtent input = new BasicModelExtent(inObjects);
-        // create an empty extent to catch the output
-        ModelExtent output = new BasicModelExtent();
-
-        // setup the execution environment details ->
-        // configuration properties, logger, monitor object etc.
-        //ExecutionContextImpl context = new ExecutionContextImpl();
-        //context.setConfigProperty("logger", true);
-        OutputStreamWriter outStream = new OutputStreamWriter(System.out);
-        Log log = new WriterLog(outStream);
-
-
-
-        // Uncomment for logging output in console
-        //context.setLog(log);
-
-        // run the transformation assigned to the executor with the given
-        // input and output and execution context -> ChangeTheWorld(in, out)
-        // Remark: variable arguments count is supported
-        ExecutionDiagnostic result = executor.execute(context, input, output);
-
-
-        // check the result for success
-        if(result.getSeverity() == Diagnostic.OK) {
-            // the output objects got captured in the output extent
-            List<EObject> outObjects = output.getContents();
-            // let's persist them using a resource
-            ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
-            Workbook excelWorkbook = (Workbook) outObjects.get(0);
-
-            //ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
-            //Workbook excelWorkbook = factory.createWorkbook();
-
-            //transform excelModel to xlsxModel
-            XSSFWorkbook xlsxWorkbook = transformExcelModelToXlsxModel(excelWorkbook);
-
-            //write xlsxModel to file
-            try {
-                FileOutputStream fos = new FileOutputStream(outFile);
-                xlsxWorkbook.write(fos);
-                fos.close();
-            } catch (IOException e) {
-                System.out.println("DefaultModelTransformationService.transform error writing excel xlsx file");
-                return false;
-            }
-
-        } else {
-            // turn the result diagnostic into status and send it to error log
-            System.out.println("Transformation failed:" + result);
-            return false;
-        }
-        return false;
-    }
-
-    private boolean executeReqifToExcelTransformationXls(File inFile, File outFile, File transformationQVTOFile) {
-        /*
-         * Debug to ensure if file path is correct
-         */
-
-        System.out.println(inFile.exists() + " : " +inFile.getAbsolutePath());
-        System.out.println(outFile.exists() + " : " +outFile.getAbsolutePath());
-        System.out.println(transformationQVTOFile.exists() + " : " +transformationQVTOFile.getAbsolutePath());
-
-        /*
-         * Next Part is based on
-         * http://wiki.eclipse.org/QVTOML/Examples/InvokeInJava
-         */
-
-        // Refer to an existing transformation via URI
-        URI transformationURI = URI.createFileURI(transformationQVTOFile.getAbsolutePath());
-
-        // create executor for the given transformation
-        TransformationExecutor executor = new TransformationExecutor(transformationURI);
-
-        // define the transformation input
-        // Remark: we take the objects from a resource, however
-        // a list of arbitrary in-memory EObjects may be passed
-        ExecutionContextImpl context = new ExecutionContextImpl();
-        ResourceSet resourceSet = new ResourceSetImpl();
-        URI uri = URI.createFileURI(inFile.getAbsolutePath());
-
-        Resource inResource = resourceSet.getResource(uri, true);
-        EList<EObject> inObjects = inResource.getContents();
-
-        // create the input extent with its initial contents
-        ModelExtent input = new BasicModelExtent(inObjects);
-        // create an empty extent to catch the output
-        ModelExtent output = new BasicModelExtent();
-
-        // setup the execution environment details ->
-        // configuration properties, logger, monitor object etc.
-        //ExecutionContextImpl context = new ExecutionContextImpl();
-        //context.setConfigProperty("logger", true);
-        OutputStreamWriter outStream = new OutputStreamWriter(System.out);
-        Log log = new WriterLog(outStream);
-
-
-
-        // Uncomment for logging output in console
-        //context.setLog(log);
-
-        // run the transformation assigned to the executor with the given
-        // input and output and execution context -> ChangeTheWorld(in, out)
-        // Remark: variable arguments count is supported
-        ExecutionDiagnostic result = executor.execute(context, input, output);
-
-
-        // check the result for success
-        if(result.getSeverity() == Diagnostic.OK) {
-            // the output objects got captured in the output extent
-            List<EObject> outObjects = output.getContents();
-            // let's persist them using a resource
-            ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
-            Workbook excelWorkbook = (Workbook) outObjects.get(0);
-
-            //ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
-            //Workbook excelWorkbook = factory.createWorkbook();
-
-            //transform excelModel to xlsxModel
-            HSSFWorkbook xlsWorkbook = transformExcelModelToXlsModel(excelWorkbook);
-
-            //write xlsxModel to file
-            try {
-                FileOutputStream fos = new FileOutputStream(outFile);
-                xlsWorkbook.write(fos);
-                fos.close();
-            } catch (IOException e) {
-                System.out.println("DefaultModelTransformationService.transform error writing excel xlsx file");
-                return false;
-            }
-
-        } else {
-            // turn the result diagnostic into status and send it to error log
-            System.out.println("Transformation failed:" + result);
-            return false;
-        }
-        return false;
     }
 
 }
