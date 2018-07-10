@@ -1,8 +1,8 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.xlsx.util;
+package de.tuberlin.sqe.ss18.reqexchange.model.excel.util;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.*;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 

@@ -1,9 +1,9 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl;
+package de.tuberlin.sqe.ss18.reqexchange.model.excel.impl;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.EnumCell;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.ExcelmodelPackage;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.EnumCell;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelPackage;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -21,8 +21,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.EnumCellImpl#getEnums <em>Enums</em>}</li>
- *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.EnumCellImpl#getEnumValue <em>Enum Value</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.EnumCellImpl#getEnums <em>Enums</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.EnumCellImpl#getEnumValue <em>Enum Value</em>}</li>
  * </ul>
  *
  * @generated

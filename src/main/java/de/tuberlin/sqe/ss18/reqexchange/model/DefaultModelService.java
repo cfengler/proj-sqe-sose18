@@ -1,9 +1,9 @@
 package de.tuberlin.sqe.ss18.reqexchange.model;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.ExcelModel2File;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.ExcelmodelFactory;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.ExcelmodelPackage;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.Workbook;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelModel2File;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelFactory;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelPackage;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.Workbook;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -242,7 +242,7 @@ public class DefaultModelService implements ModelService{
 
 
 
-        if (FilenameUtils.getExtension(outFile.getName()).equals("xlsx")) {
+        if (FilenameUtils.getExtension(outFile.getName()).equals("excel")) {
             //transform excelModel to xlsxModel
             XSSFWorkbook xlsxWorkbook = ExcelModel2File.transformExcelModelToXlsxModel(excelWorkbook);
             //write xlsxModel to file
@@ -251,7 +251,7 @@ public class DefaultModelService implements ModelService{
                 xlsxWorkbook.write(fos);
                 fos.close();
             } catch (IOException e) {
-                System.out.println("DefaultModelTransformationService.transform error writing excel xlsx file");
+                System.out.println("DefaultModelTransformationService.transform error writing excel excel file");
                 return false;
             }
         }

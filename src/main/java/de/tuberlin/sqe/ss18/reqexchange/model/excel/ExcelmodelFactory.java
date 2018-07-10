@@ -1,6 +1,6 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.xlsx;
+package de.tuberlin.sqe.ss18.reqexchange.model.excel;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -19,7 +19,7 @@ public interface ExcelmodelFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	ExcelmodelFactory eINSTANCE = de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelFactoryImpl
+	ExcelmodelFactory eINSTANCE = de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelFactoryImpl
 			.init();
 
 	/**

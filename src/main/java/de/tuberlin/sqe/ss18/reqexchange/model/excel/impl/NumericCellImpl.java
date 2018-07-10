@@ -1,9 +1,9 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl;
+package de.tuberlin.sqe.ss18.reqexchange.model.excel.impl;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.BooleanCell;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.ExcelmodelPackage;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelPackage;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.NumericCell;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -13,44 +13,44 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Boolean Cell</b></em>'.
+ * An implementation of the model object '<em><b>Numeric Cell</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.BooleanCellImpl#isBoolValue <em>Bool Value</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.NumericCellImpl#getNumericValue <em>Numeric Value</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class BooleanCellImpl extends CellImpl implements BooleanCell {
+public class NumericCellImpl extends CellImpl implements NumericCell {
 	/**
-	 * The default value of the '{@link #isBoolValue() <em>Bool Value</em>}' attribute.
+	 * The default value of the '{@link #getNumericValue() <em>Numeric Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isBoolValue()
+	 * @see #getNumericValue()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean BOOL_VALUE_EDEFAULT = false;
+	protected static final double NUMERIC_VALUE_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #isBoolValue() <em>Bool Value</em>}' attribute.
+	 * The cached value of the '{@link #getNumericValue() <em>Numeric Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isBoolValue()
+	 * @see #getNumericValue()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean boolValue = BOOL_VALUE_EDEFAULT;
+	protected double numericValue = NUMERIC_VALUE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected BooleanCellImpl() {
+	protected NumericCellImpl() {
 		super();
 	}
 
@@ -61,7 +61,7 @@ public class BooleanCellImpl extends CellImpl implements BooleanCell {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return ExcelmodelPackage.Literals.BOOLEAN_CELL;
+		return ExcelmodelPackage.Literals.NUMERIC_CELL;
 	}
 
 	/**
@@ -69,8 +69,8 @@ public class BooleanCellImpl extends CellImpl implements BooleanCell {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isBoolValue() {
-		return boolValue;
+	public double getNumericValue() {
+		return numericValue;
 	}
 
 	/**
@@ -78,12 +78,12 @@ public class BooleanCellImpl extends CellImpl implements BooleanCell {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBoolValue(boolean newBoolValue) {
-		boolean oldBoolValue = boolValue;
-		boolValue = newBoolValue;
+	public void setNumericValue(double newNumericValue) {
+		double oldNumericValue = numericValue;
+		numericValue = newNumericValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExcelmodelPackage.BOOLEAN_CELL__BOOL_VALUE,
-					oldBoolValue, boolValue));
+			eNotify(new ENotificationImpl(this, Notification.SET, ExcelmodelPackage.NUMERIC_CELL__NUMERIC_VALUE,
+					oldNumericValue, numericValue));
 	}
 
 	/**
@@ -94,8 +94,8 @@ public class BooleanCellImpl extends CellImpl implements BooleanCell {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case ExcelmodelPackage.BOOLEAN_CELL__BOOL_VALUE:
-			return isBoolValue();
+		case ExcelmodelPackage.NUMERIC_CELL__NUMERIC_VALUE:
+			return getNumericValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -108,8 +108,8 @@ public class BooleanCellImpl extends CellImpl implements BooleanCell {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case ExcelmodelPackage.BOOLEAN_CELL__BOOL_VALUE:
-			setBoolValue((Boolean) newValue);
+		case ExcelmodelPackage.NUMERIC_CELL__NUMERIC_VALUE:
+			setNumericValue((Double) newValue);
 			return;
 		}
 		super.eSet(featureID, newValue);
@@ -123,8 +123,8 @@ public class BooleanCellImpl extends CellImpl implements BooleanCell {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case ExcelmodelPackage.BOOLEAN_CELL__BOOL_VALUE:
-			setBoolValue(BOOL_VALUE_EDEFAULT);
+		case ExcelmodelPackage.NUMERIC_CELL__NUMERIC_VALUE:
+			setNumericValue(NUMERIC_VALUE_EDEFAULT);
 			return;
 		}
 		super.eUnset(featureID);
@@ -138,8 +138,8 @@ public class BooleanCellImpl extends CellImpl implements BooleanCell {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case ExcelmodelPackage.BOOLEAN_CELL__BOOL_VALUE:
-			return boolValue != BOOL_VALUE_EDEFAULT;
+		case ExcelmodelPackage.NUMERIC_CELL__NUMERIC_VALUE:
+			return numericValue != NUMERIC_VALUE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -155,10 +155,10 @@ public class BooleanCellImpl extends CellImpl implements BooleanCell {
 			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (boolValue: ");
-		result.append(boolValue);
+		result.append(" (NumericValue: ");
+		result.append(numericValue);
 		result.append(')');
 		return result.toString();
 	}
 
-} //BooleanCellImpl
+} //NumericCellImpl

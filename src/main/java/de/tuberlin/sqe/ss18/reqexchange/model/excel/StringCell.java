@@ -1,6 +1,6 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.xlsx;
+package de.tuberlin.sqe.ss18.reqexchange.model.excel;
 
 /**
  * <!-- begin-user-doc -->

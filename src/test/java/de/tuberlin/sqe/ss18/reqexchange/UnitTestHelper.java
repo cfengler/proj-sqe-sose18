@@ -189,7 +189,6 @@ public class UnitTestHelper {
         testPath = getPathService().getPathOfRunningJar().resolve("test");
         unitTestPath = getPathService().getPathOfRunningJar().resolve("unitTest");
 
-        //TODO: missing file oneRequirementXlsxWorkingFilePath
         oneRequirementReqifWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.reqif");
         oneRequirementSysmlWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.uml");
         oneRequirementXlsxWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.xlsx");

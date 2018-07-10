@@ -1,4 +1,4 @@
-package de.tuberlin.sqe.ss18.reqexchange.model.xlsx;
+package de.tuberlin.sqe.ss18.reqexchange.model.excel;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
