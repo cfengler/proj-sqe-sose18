@@ -1,6 +1,6 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.xlsx;
+package de.tuberlin.sqe.ss18.reqexchange.model.excel;
 
 import org.eclipse.emf.common.util.EList;
 

@@ -1,7 +1,7 @@
 package de.tuberlin.sqe.ss18.reqexchange.model;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.ExcelModel2File;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.Workbook;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelModel2File;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.Workbook;
 import de.tuberlin.sqe.ss18.reqexchange.project.ReqExchangeFileType;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -78,7 +78,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         File transformationQVT = new File(resourcePath + "/qvt/SysML2ReqIF.qvto");
 
         File inReqif = new File(resourcePath + "/samplefiles/04_ReqIF_ReqExchange/My.reqif");
-        File outExcel = new File(resourcePath + "/unitTest/output.xlsx");
+        File outExcel = new File(resourcePath + "/unitTest/output.excel");
 
         boolean result = dmts.transform(inReqif.toPath(), outExcel.toPath());
 

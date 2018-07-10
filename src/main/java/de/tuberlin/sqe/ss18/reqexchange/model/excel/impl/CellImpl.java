@@ -1,9 +1,9 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl;
+package de.tuberlin.sqe.ss18.reqexchange.model.excel.impl;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.Cell;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.ExcelmodelPackage;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.Cell;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelPackage;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -20,8 +20,8 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.CellImpl#getColumnIndex <em>Column Index</em>}</li>
- *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.CellImpl#getRowIndex <em>Row Index</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.CellImpl#getColumnIndex <em>Column Index</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.CellImpl#getRowIndex <em>Row Index</em>}</li>
  * </ul>
  *
  * @generated

@@ -1,10 +1,10 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl;
+package de.tuberlin.sqe.ss18.reqexchange.model.excel.impl;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.ExcelmodelPackage;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.Row;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.Worksheet;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.Cell;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelPackage;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.Row;
 
 import java.util.Collection;
 
@@ -24,55 +24,55 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Worksheet</b></em>'.
+ * An implementation of the model object '<em><b>Row</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.WorksheetImpl#getName <em>Name</em>}</li>
- *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.WorksheetImpl#getRows <em>Rows</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.RowImpl#getCells <em>Cells</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.RowImpl#getRowNum <em>Row Num</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class WorksheetImpl extends MinimalEObjectImpl.Container implements Worksheet {
+public class RowImpl extends MinimalEObjectImpl.Container implements Row {
 	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * The cached value of the '{@link #getCells() <em>Cells</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getName()
+	 * @see #getCells()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NAME_EDEFAULT = null;
+	protected EList<Cell> cells;
 
 	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * The default value of the '{@link #getRowNum() <em>Row Num</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getName()
+	 * @see #getRowNum()
 	 * @generated
 	 * @ordered
 	 */
-	protected String name = NAME_EDEFAULT;
+	protected static final int ROW_NUM_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getRows() <em>Rows</em>}' containment reference list.
+	 * The cached value of the '{@link #getRowNum() <em>Row Num</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRows()
+	 * @see #getRowNum()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Row> rows;
+	protected int rowNum = ROW_NUM_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected WorksheetImpl() {
+	protected RowImpl() {
 		super();
 	}
 
@@ -83,7 +83,7 @@ public class WorksheetImpl extends MinimalEObjectImpl.Container implements Works
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return ExcelmodelPackage.Literals.WORKSHEET;
+		return ExcelmodelPackage.Literals.ROW;
 	}
 
 	/**
@@ -91,32 +91,32 @@ public class WorksheetImpl extends MinimalEObjectImpl.Container implements Works
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExcelmodelPackage.WORKSHEET__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Row> getRows() {
-		if (rows == null) {
-			rows = new EObjectContainmentEList<Row>(Row.class, this, ExcelmodelPackage.WORKSHEET__ROWS);
+	public EList<Cell> getCells() {
+		if (cells == null) {
+			cells = new EObjectContainmentEList<Cell>(Cell.class, this, ExcelmodelPackage.ROW__CELLS);
 		}
-		return rows;
+		return cells;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getRowNum() {
+		return rowNum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRowNum(int newRowNum) {
+		int oldRowNum = rowNum;
+		rowNum = newRowNum;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ExcelmodelPackage.ROW__ROW_NUM, oldRowNum, rowNum));
 	}
 
 	/**
@@ -127,8 +127,8 @@ public class WorksheetImpl extends MinimalEObjectImpl.Container implements Works
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case ExcelmodelPackage.WORKSHEET__ROWS:
-			return ((InternalEList<?>) getRows()).basicRemove(otherEnd, msgs);
+		case ExcelmodelPackage.ROW__CELLS:
+			return ((InternalEList<?>) getCells()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -141,10 +141,10 @@ public class WorksheetImpl extends MinimalEObjectImpl.Container implements Works
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case ExcelmodelPackage.WORKSHEET__NAME:
-			return getName();
-		case ExcelmodelPackage.WORKSHEET__ROWS:
-			return getRows();
+		case ExcelmodelPackage.ROW__CELLS:
+			return getCells();
+		case ExcelmodelPackage.ROW__ROW_NUM:
+			return getRowNum();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -158,12 +158,12 @@ public class WorksheetImpl extends MinimalEObjectImpl.Container implements Works
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case ExcelmodelPackage.WORKSHEET__NAME:
-			setName((String) newValue);
+		case ExcelmodelPackage.ROW__CELLS:
+			getCells().clear();
+			getCells().addAll((Collection<? extends Cell>) newValue);
 			return;
-		case ExcelmodelPackage.WORKSHEET__ROWS:
-			getRows().clear();
-			getRows().addAll((Collection<? extends Row>) newValue);
+		case ExcelmodelPackage.ROW__ROW_NUM:
+			setRowNum((Integer) newValue);
 			return;
 		}
 		super.eSet(featureID, newValue);
@@ -177,11 +177,11 @@ public class WorksheetImpl extends MinimalEObjectImpl.Container implements Works
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case ExcelmodelPackage.WORKSHEET__NAME:
-			setName(NAME_EDEFAULT);
+		case ExcelmodelPackage.ROW__CELLS:
+			getCells().clear();
 			return;
-		case ExcelmodelPackage.WORKSHEET__ROWS:
-			getRows().clear();
+		case ExcelmodelPackage.ROW__ROW_NUM:
+			setRowNum(ROW_NUM_EDEFAULT);
 			return;
 		}
 		super.eUnset(featureID);
@@ -195,10 +195,10 @@ public class WorksheetImpl extends MinimalEObjectImpl.Container implements Works
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case ExcelmodelPackage.WORKSHEET__NAME:
-			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		case ExcelmodelPackage.WORKSHEET__ROWS:
-			return rows != null && !rows.isEmpty();
+		case ExcelmodelPackage.ROW__CELLS:
+			return cells != null && !cells.isEmpty();
+		case ExcelmodelPackage.ROW__ROW_NUM:
+			return rowNum != ROW_NUM_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -214,10 +214,10 @@ public class WorksheetImpl extends MinimalEObjectImpl.Container implements Works
 			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (Name: ");
-		result.append(name);
+		result.append(" (rowNum: ");
+		result.append(rowNum);
 		result.append(')');
 		return result.toString();
 	}
 
-} //WorksheetImpl
+} //RowImpl

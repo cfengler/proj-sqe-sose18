@@ -1,18 +1,18 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl;
+package de.tuberlin.sqe.ss18.reqexchange.model.excel.impl;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.BooleanCell;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.Cell;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.EnumCell;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.ExcelmodelFactory;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.ExcelmodelPackage;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.NamedElement;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.NumericCell;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.Row;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.StringCell;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.Workbook;
-import de.tuberlin.sqe.ss18.reqexchange.model.xlsx.Worksheet;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.BooleanCell;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.Cell;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.EnumCell;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelFactory;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelPackage;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.NamedElement;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.NumericCell;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.Row;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.StringCell;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.Workbook;
+import de.tuberlin.sqe.ss18.reqexchange.model.excel.Worksheet;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
