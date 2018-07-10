@@ -1,16 +1,16 @@
 package de.tuberlin.sqe.ss18.reqexchange;
 
-import de.tuberlin.sqe.ss18.reqexchange.common.service.PathService;
-import de.tuberlin.sqe.ss18.reqexchange.common.service.TestPathService;
-import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitPropertiesService;
-import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitService;
-import de.tuberlin.sqe.ss18.reqexchange.git.service.GitPropertiesService;
-import de.tuberlin.sqe.ss18.reqexchange.git.service.GitService;
-import de.tuberlin.sqe.ss18.reqexchange.model.service.*;
-import de.tuberlin.sqe.ss18.reqexchange.project.service.DefaultProjectService;
-import de.tuberlin.sqe.ss18.reqexchange.project.service.ProjectService;
-import de.tuberlin.sqe.ss18.reqexchange.serialization.service.DefaultJsonSerializerService;
-import de.tuberlin.sqe.ss18.reqexchange.serialization.service.JsonSerializerService;
+import de.tuberlin.sqe.ss18.reqexchange.common.PathService;
+import de.tuberlin.sqe.ss18.reqexchange.common.TestPathService;
+import de.tuberlin.sqe.ss18.reqexchange.git.DefaultGitPropertiesService;
+import de.tuberlin.sqe.ss18.reqexchange.git.DefaultGitService;
+import de.tuberlin.sqe.ss18.reqexchange.git.GitPropertiesService;
+import de.tuberlin.sqe.ss18.reqexchange.git.GitService;
+import de.tuberlin.sqe.ss18.reqexchange.model.*;
+import de.tuberlin.sqe.ss18.reqexchange.project.DefaultProjectService;
+import de.tuberlin.sqe.ss18.reqexchange.project.ProjectService;
+import de.tuberlin.sqe.ss18.reqexchange.serialization.DefaultJsonSerializerService;
+import de.tuberlin.sqe.ss18.reqexchange.serialization.JsonSerializerService;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.transport.CredentialsProvider;

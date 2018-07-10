@@ -1,9 +1,9 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
 import com.google.inject.Inject;
-import de.tuberlin.sqe.ss18.reqexchange.git.service.GitPropertiesService;
-import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
-import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
+import de.tuberlin.sqe.ss18.reqexchange.git.GitPropertiesService;
+import de.tuberlin.sqe.ss18.reqexchange.project.Project;
+import de.tuberlin.sqe.ss18.reqexchange.project.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ProjectViewModel;
 import javafx.application.Platform;

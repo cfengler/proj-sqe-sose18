@@ -1,17 +1,20 @@
 package de.tuberlin.sqe.ss18.reqexchange;
 
 import com.google.inject.AbstractModule;
-import de.tuberlin.sqe.ss18.reqexchange.common.service.DefaultPathService;
-import de.tuberlin.sqe.ss18.reqexchange.serialization.service.DefaultJsonSerializerService;
-import de.tuberlin.sqe.ss18.reqexchange.serialization.service.JsonSerializerService;
-import de.tuberlin.sqe.ss18.reqexchange.common.service.PathService;
-import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitPropertiesService;
-import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitService;
-import de.tuberlin.sqe.ss18.reqexchange.git.service.GitPropertiesService;
-import de.tuberlin.sqe.ss18.reqexchange.git.service.GitService;
-import de.tuberlin.sqe.ss18.reqexchange.model.service.*;
-import de.tuberlin.sqe.ss18.reqexchange.project.service.DefaultProjectService;
-import de.tuberlin.sqe.ss18.reqexchange.project.service.ProjectService;
+import de.tuberlin.sqe.ss18.reqexchange.common.DefaultPathService;
+import de.tuberlin.sqe.ss18.reqexchange.model.DefaultModelTransformationService;
+import de.tuberlin.sqe.ss18.reqexchange.model.DefaultModelValidationService;
+import de.tuberlin.sqe.ss18.reqexchange.model.ModelTransformationService;
+import de.tuberlin.sqe.ss18.reqexchange.model.ModelValidationService;
+import de.tuberlin.sqe.ss18.reqexchange.serialization.DefaultJsonSerializerService;
+import de.tuberlin.sqe.ss18.reqexchange.serialization.JsonSerializerService;
+import de.tuberlin.sqe.ss18.reqexchange.common.PathService;
+import de.tuberlin.sqe.ss18.reqexchange.git.DefaultGitPropertiesService;
+import de.tuberlin.sqe.ss18.reqexchange.git.DefaultGitService;
+import de.tuberlin.sqe.ss18.reqexchange.git.GitPropertiesService;
+import de.tuberlin.sqe.ss18.reqexchange.git.GitService;
+import de.tuberlin.sqe.ss18.reqexchange.project.DefaultProjectService;
+import de.tuberlin.sqe.ss18.reqexchange.project.ProjectService;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
 
 public class ReqExchangeModule extends AbstractModule {

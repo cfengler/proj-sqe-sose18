@@ -1,7 +1,7 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
 import de.tuberlin.sqe.ss18.reqexchange.UnitTestHelper;
-import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
+import de.tuberlin.sqe.ss18.reqexchange.project.Project;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.BeforeClass;

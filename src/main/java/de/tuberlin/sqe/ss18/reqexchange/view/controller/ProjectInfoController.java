@@ -1,6 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.controller;
 
-import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
+import de.tuberlin.sqe.ss18.reqexchange.project.ReqExchangeFileType;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ClientViewModel;
 import de.tuberlin.sqe.ss18.reqexchange.view.viewmodel.ProjectViewModel;
 import javafx.application.Platform;

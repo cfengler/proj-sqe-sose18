@@ -1,7 +1,7 @@
 package de.tuberlin.sqe.ss18.reqexchange.view.viewmodel;
 
-import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
-import de.tuberlin.sqe.ss18.reqexchange.project.domain.Project;
+import de.tuberlin.sqe.ss18.reqexchange.project.ReqExchangeFileType;
+import de.tuberlin.sqe.ss18.reqexchange.project.Project;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
