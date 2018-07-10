@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<REQ-IF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd">
+  <THE-HEADER>
+    <REQ-IF-HEADER IDENTIFIER="_jZ700YQTEeirg8ORAaCWrA">
+      <COMMENT>Transformed by ReqExchange from SysML</COMMENT>
+      <CREATION-TIME xsi:nil="true"/>
+      <REQ-IF-TOOL-ID>ReqExchange (wir.haben.keine.webseite.tu-berlin.de)</REQ-IF-TOOL-ID>
+      <REQ-IF-VERSION>1.0</REQ-IF-VERSION>
+      <SOURCE-TOOL-ID>ReqExchange (wir.haben.keine.webseite.tu-berlin.de)</SOURCE-TOOL-ID>
+      <TITLE></TITLE>
+    </REQ-IF-HEADER>
+  </THE-HEADER>
+  <CORE-CONTENT>
+    <REQ-IF-CONTENT>
+      <DATATYPES>
+        <DATATYPE-DEFINITION-STRING IDENTIFIER="_jZ7004QTEeirg8ORAaCWrA" LONG-NAME="T_String32k" MAX-LENGTH="32000"/>
+      </DATATYPES>
+      <SPEC-TYPES>
+        <SPECIFICATION-TYPE IDENTIFIER="_jZ701IQTEeirg8ORAaCWrA" LONG-NAME="Specification Type">
+          <SPEC-ATTRIBUTES>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="_jZ701YQTEeirg8ORAaCWrA" LONG-NAME="Description">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>_jZ7004QTEeirg8ORAaCWrA</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+          </SPEC-ATTRIBUTES>
+        </SPECIFICATION-TYPE>
+        <SPEC-OBJECT-TYPE IDENTIFIER="_jZ701oQTEeirg8ORAaCWrA" LONG-NAME="Requirement Type">
+          <SPEC-ATTRIBUTES>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="_jZ7014QTEeirg8ORAaCWrA" LONG-NAME="Description">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>_jZ7004QTEeirg8ORAaCWrA</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="_jZ702IQTEeirg8ORAaCWrA" LONG-NAME="Title">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>_jZ7004QTEeirg8ORAaCWrA</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="_jZ702YQTEeirg8ORAaCWrA" LONG-NAME="ID">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>_jZ7004QTEeirg8ORAaCWrA</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+          </SPEC-ATTRIBUTES>
+        </SPEC-OBJECT-TYPE>
+      </SPEC-TYPES>
+      <SPEC-OBJECTS>
+        <SPEC-OBJECT IDENTIFIER="_jZ702oQTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Microsoft Office Excel">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der Nutzer kann mithilfe des Passworts einem bestehenden Projekt beitreten.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="03b">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ703oQTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Erweiterbarkeit">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Es soll möglich sein, weitere Formate in die Architektur einzubinden.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="03e">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ704oQTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="01">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Das Ziel-Betriebssystem für ReqExchange Client und ReqExchange Server ist Windows 10.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Systemvorraussetzung">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ705oQTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Effiziente Kommunikation">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="09">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der ReqExchange Client markiert ein Projekt, wenn auf dem Client Änderungen an einem Projekt zum versenden verfügbar sind.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ706oQTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Synchronisationshinweis empfangen">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="08">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der ReqExchange Client markiert ein Projekt, wenn auf dem Client Änderungen an einem Projekt zum versenden verfügbar sind.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ707oQTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Projektverwaltung">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der ReqExchange Client erlaubt dem Nutzer, Requirements Projekte zu verwalten.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="02">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ708oQTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Empfangen">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="04b">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der Nutzer kann Änderungen an Requirement Dateien von anderen Nutzern mit Hilfe des ReqExchange Clients vom ReqExchange Server empfangen.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ709oQTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="02a">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der Nutzer kann mit Hilfe des ReqExchange-Client ein Projekt erstellen. Dafür muss der Nutzer eine Bezeichnung und ein Passwort angeben. Des Weiteren muss eine Datei im ReqIF-Format angegeben werden, dessen Requirements initial importiert werden.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Erstellung">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8b44QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der Nutzer kann mithilfe des Passworts einem bestehenden Projekt beitreten.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Requirement Export">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="03">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8b54QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="03d">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Microsoft Office Word Dateien im Format .docx werden vom ReqExchange Client unterstützt.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Microsoft Office Word">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8b64QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="&quot;Requirement Dateien im (.di, .uml, .notation) Format werden durch den ReqExchange Client unterstützt.&#xA;&quot;">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Papyrus SysML">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="03c">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8b74QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Es wird ein einheintliches Metamodell für die Requirementrepräsentation auf dem ReqExchange Server verwendet. Änderungen an Requirement Dateien werden von dem ReqExchange Client in dieses Modell überführt.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="05">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Metamodell">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8b84QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Synchronisationshinweis senden">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der ReqExchange Client markiert ein Projekt, wenn auf dem Client Änderungen an einem Projekt zum versenden verfügbar sind.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="07">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8b94QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Synchronisation">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Es soll möglich sein, weitere Formate in die Architektur einzubinden.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="04">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8b-4QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="02d">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Änderung">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der Nutzer kann mithilfe des Passworts einem bestehenden Projekt beitreten.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8b_4QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="04c1">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Konflikte">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der Nutzer kann Änderungen an Requirement Dateien von anderen Nutzern mit Hilfe des ReqExchange Clients vom ReqExchange Server empfangen.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8cA4QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der Nutzer kann mithilfe des Passworts einem bestehenden Projekt beitreten.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="ReqIF">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="03a">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8cB4QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der Nutzer kann Änderungen an Requirement Dateien von anderen Nutzern mit Hilfe des ReqExchange Clients vom ReqExchange Server empfangen.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Konflikte Erweitert">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="04c2">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8cC4QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="04a">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Senden">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der Nutzer kann Änderungen an Requirement Dateien mit Hilfe des ReqExchange Clients an den ReqExchange Server senden. Zuvor werden die Änderungen in das definierte Metamodell überführt.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8cD4QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="02c">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Generierung">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der Nutzer kann mithilfe des Passworts einem bestehenden Projekt beitreten.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8cE4QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="02b">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der Nutzer kann mithilfe des Passworts einem bestehenden Projekt beitreten.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Beitritt">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_jZ8cF4QTEeirg8ORAaCWrA">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Der Nutzer kann Änderungen an Requirement Dateien von anderen Nutzern mit Hilfe des ReqExchange Clients vom ReqExchange Server empfangen.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ7014QTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="04d">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Zusammenfügen von unabhängigen Änderungen">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ702IQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_jZ701oQTEeirg8ORAaCWrA</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+      </SPEC-OBJECTS>
+      <SPECIFICATIONS>
+        <SPECIFICATION IDENTIFIER="_jZ8cG4QTEeirg8ORAaCWrA" LONG-NAME="04_Papyrus_ReqExchange">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Requirement Document">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>_jZ701YQTEeirg8ORAaCWrA</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPECIFICATION-TYPE-REF>_jZ701IQTEeirg8ORAaCWrA</SPECIFICATION-TYPE-REF>
+          </TYPE>
+          <CHILDREN>
+            <SPEC-HIERARCHY IDENTIFIER="_jZ8cHYQTEeirg8ORAaCWrA">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_jZ704oQTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_jZ8cHoQTEeirg8ORAaCWrA">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_jZ8b94QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY IDENTIFIER="_jZ8cH4QTEeirg8ORAaCWrA">
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>_jZ8cC4QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY IDENTIFIER="_jZ8cIIQTEeirg8ORAaCWrA">
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>_jZ708oQTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY IDENTIFIER="_jZ8cIYQTEeirg8ORAaCWrA">
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>_jZ8b_4QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY IDENTIFIER="_jZ8cIoQTEeirg8ORAaCWrA">
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>_jZ8cF4QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_jZ8cI4QTEeirg8ORAaCWrA">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_jZ705oQTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_jZ8cJIQTEeirg8ORAaCWrA">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_jZ706oQTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_jZ8cJYQTEeirg8ORAaCWrA">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_jZ8b74QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_jZ8cJoQTEeirg8ORAaCWrA">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_jZ8b84QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_jZ8cJ4QTEeirg8ORAaCWrA">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_jZ707oQTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY IDENTIFIER="_jZ8cKIQTEeirg8ORAaCWrA">
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>_jZ709oQTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY IDENTIFIER="_jZ8cKYQTEeirg8ORAaCWrA">
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>_jZ8cE4QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY IDENTIFIER="_jZ8cKoQTEeirg8ORAaCWrA">
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>_jZ8cD4QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY IDENTIFIER="_jZ8cK4QTEeirg8ORAaCWrA">
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>_jZ8b-4QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_jZ8cLIQTEeirg8ORAaCWrA">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_jZ8b44QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY IDENTIFIER="_jZ8cLYQTEeirg8ORAaCWrA">
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>_jZ8cA4QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY IDENTIFIER="_jZ8cLoQTEeirg8ORAaCWrA">
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>_jZ702oQTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY IDENTIFIER="_jZ8cL4QTEeirg8ORAaCWrA">
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>_jZ8b64QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY IDENTIFIER="_jZ8cMIQTEeirg8ORAaCWrA">
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>_jZ8b54QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY IDENTIFIER="_jZ8cMYQTEeirg8ORAaCWrA">
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>_jZ703oQTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_jZ8cMoQTEeirg8ORAaCWrA">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_jZ8cB4QTEeirg8ORAaCWrA</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+          </CHILDREN>
+        </SPECIFICATION>
+      </SPECIFICATIONS>
+    </REQ-IF-CONTENT>
+  </CORE-CONTENT>
+</REQ-IF>

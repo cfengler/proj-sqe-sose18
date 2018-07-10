@@ -1,5 +1,7 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
+import de.tuberlin.sqe.ss18.reqexchange.model.domain.reqif10.Reqif10Factory;
+import de.tuberlin.sqe.ss18.reqexchange.model.domain.reqif10.impl.Reqif10FactoryImpl;
 import de.tuberlin.sqe.ss18.reqexchange.project.domain.ReqExchangeFileType;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -24,6 +26,7 @@ import org.eclipse.papyrus.sysml14.modelelements.ModelelementsPackage;
 import org.eclipse.papyrus.sysml14.requirements.RequirementsPackage;
 import org.eclipse.rmf.reqif10.ReqIF;
 import org.eclipse.rmf.reqif10.ReqIF10Package;
+import org.eclipse.rmf.reqif10.impl.SpecObjectImpl;
 import org.eclipse.rmf.reqif10.serialization.ReqIF10ResourceFactoryImpl;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -184,7 +187,7 @@ public class DefaultModelService { //implements ModelService{
 
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map<String, Object> m = reg.getExtensionToFactoryMap();
-        m.put("*", new ReqIF10ResourceFactoryImpl());
+        m.put("reqif", new ReqIF10ResourceFactoryImpl());
     }
 
 }
