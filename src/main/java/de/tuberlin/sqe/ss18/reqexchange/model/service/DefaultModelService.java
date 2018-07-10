@@ -1,5 +1,6 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
+import de.tuberlin.sqe.ss18.reqexchange.model.domain.excelmodel.ExcelmodelPackage;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -180,6 +181,10 @@ public class DefaultModelService { //implements ModelService{
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map<String, Object> m = reg.getExtensionToFactoryMap();
         m.put("reqif", new ReqIF10ResourceFactoryImpl());
+    }
+
+    public static void registerExcelPackages() {
+        ExcelmodelPackage.eINSTANCE.eClass();
     }
 
 }
