@@ -78,7 +78,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         File transformationQVT = new File(resourcePath + "/qvt/SysML2ReqIF.qvto");
 
         File inReqif = new File(resourcePath + "/samplefiles/04_ReqIF_ReqExchange/My.reqif");
-        File outExcel = new File(resourcePath + "/unitTest/output.excel");
+        File outExcel = new File(resourcePath + "/unitTest/output.xlsx");
 
         boolean result = dmts.transform(inReqif.toPath(), outExcel.toPath());
 

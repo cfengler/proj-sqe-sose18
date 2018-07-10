@@ -242,7 +242,7 @@ public class DefaultModelService implements ModelService{
 
 
 
-        if (FilenameUtils.getExtension(outFile.getName()).equals("excel")) {
+        if (FilenameUtils.getExtension(outFile.getName()).equals("xlsx")) {
             //transform excelModel to xlsxModel
             XSSFWorkbook xlsxWorkbook = ExcelModel2File.transformExcelModelToXlsxModel(excelWorkbook);
             //write xlsxModel to file
