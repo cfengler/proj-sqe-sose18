@@ -201,7 +201,7 @@ public class DefaultProjectServiceTest {
     }
 
     @Test
-    public void test_04a_synchronizeProject_localChanges() throws GitAPIException, IOException {
+    public void test_04a_synchronizeProject_localChanges() throws IOException {
         //TODO: debug
         Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
 
@@ -215,24 +215,22 @@ public class DefaultProjectServiceTest {
                 UnitTestHelper.TEST_PROJECT_NAME,
                 UnitTestHelper.getTestReqifWorkingFilePath());
 
-        Assert.assertTrue(UnitTestHelper.modifyReqifAddRequirement(UnitTestHelper.getTestReqifWorkingFilePath()));
+        Assert.assertTrue(UnitTestHelper.modifyReqifAddRequirement(UnitTestHelper.getTestReqifWorkingFilePath(), UnitTestHelper.NEW_REQUIREMENT_DESCRIPTION_1));
 
         UnitTestHelper.getProjectService().refresh(testProject);
         UnitTestHelper.getProjectService().synchronize(testProject);
 
         UnitTestHelper.cloneLocalRepository();
-
+        //TODO: Model Vergleich fehlerhaft da gleiche Modelle unterschiedliche IDs bekommen
         Assert.assertTrue(FileUtils.contentEquals(
                 UnitTestHelper.getTestReqifWorkingFilePath().toFile(),
                 UnitTestHelper.getJGitCommonModelFilePath().toFile()));
 
         UnitTestHelper.getProjectService().leave(testProject);
-        //TODO: wichtig?
-        //Files.deleteIfExists(validateReqifWorkingFilePath);
     }
 
     @Test
-    public void test_04b_synchronizeProject_remoteChanges() throws GitAPIException, IOException {
+    public void test_04b_synchronizeProject_remoteChanges() throws IOException {
         //TODO: debug
         Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
         Assert.assertTrue(UnitTestHelper.addProjectToRemoteRepository(UnitTestHelper.getOneRequirementReqifWorkingFilePath()));
@@ -252,12 +250,10 @@ public class DefaultProjectServiceTest {
                 UnitTestHelper.getJGitCommonModelFilePath().toFile()));
 
         Assert.assertTrue(UnitTestHelper.getProjectService().leave(testProject));
-        //TODO: wichtig?
-        //Files.deleteIfExists(validateReqifWorkingFilePath);
     }
 
     @Test
-    public void test_04c_synchronizeProject_local_and_remoteChanges_with_conflicts() throws GitAPIException, IOException {
+    public void test_04c_synchronizeProject_local_and_remoteChanges_with_conflicts() {
         //TODO: debug
         Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
         Assert.assertTrue(UnitTestHelper.addProjectToRemoteRepository(UnitTestHelper.getOneRequirementReqifWorkingFilePath()));
@@ -282,7 +278,7 @@ public class DefaultProjectServiceTest {
         Assert.assertTrue(UnitTestHelper.getProjectService().synchronize(testProject));
         Assert.assertTrue(UnitTestHelper.getProjectService().synchronize(validateProject));
 
-        //TODO: compare result file witth expected file
+        //TODO: compare result file with expected file
         Assert.assertTrue(false);
 
         UnitTestHelper.getProjectService().leave(testProject);
@@ -290,7 +286,7 @@ public class DefaultProjectServiceTest {
     }
 
     @Test
-    public void test_04d_synchronizeProject_local_and_remoteChanges_without_conflicts() throws IOException, GitAPIException {
+    public void test_04d_synchronizeProject_local_and_remoteChanges_without_conflicts() {
         //TODO: debug
         Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
 
@@ -319,7 +315,7 @@ public class DefaultProjectServiceTest {
         Assert.assertTrue(UnitTestHelper.getProjectService().synchronize(testProject));
         Assert.assertTrue(UnitTestHelper.getProjectService().synchronize(validateProject));
 
-        //TODO: compare result file witth expected file
+        //TODO: compare result file with expected file
         Assert.assertTrue(false);
 
         Assert.assertTrue(UnitTestHelper.getModelValidationService().validate(
@@ -333,8 +329,7 @@ public class DefaultProjectServiceTest {
     }
 
     @Test
-    public void test_06_isPushNeeded() throws IOException, GitAPIException {
-        //TODO: implement auf Project testen mit projecttService.refresh()
+    public void test_06_isPushNeeded() {
         Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
 
         Assert.assertTrue(UnitTestHelper.copyFiles(
@@ -350,8 +345,7 @@ public class DefaultProjectServiceTest {
         UnitTestHelper.getProjectService().refresh(testProject);
         Assert.assertFalse(testProject.isPushNeeded());
 
-        Assert.assertTrue(UnitTestHelper.modifyReqifAddRequirement(
-                UnitTestHelper.getTestReqifWorkingFilePath()));
+        Assert.assertTrue(UnitTestHelper.modifyReqifAddRequirement(UnitTestHelper.getTestReqifWorkingFilePath(), UnitTestHelper.NEW_REQUIREMENT_DESCRIPTION_1));
 
         UnitTestHelper.getProjectService().refresh(testProject);
         Assert.assertTrue(testProject.isPushNeeded());
@@ -360,8 +354,7 @@ public class DefaultProjectServiceTest {
     }
 
     @Test
-    public void test_07_isPullNeeded() throws GitAPIException, IOException {
-        //TODO: implement auf Project testen mit projecttService.refresh()
+    public void test_07_isPullNeeded() {
         Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
         Assert.assertTrue(UnitTestHelper.addProjectToRemoteRepository(UnitTestHelper.getOneRequirementReqifWorkingFilePath()));
 
@@ -379,37 +372,4 @@ public class DefaultProjectServiceTest {
         Assert.assertTrue(testProject.isPullNeeded());
         Assert.assertTrue(UnitTestHelper.getProjectService().leave(testProject));
     }
-
-    //private void modifyRemoteRepository() throws IOException, GitAPIException {
-
-    //}
-
-
-
-    //private void deleteLocalRepository() throws IOException {
-    //
-    //}
-
-//    private boolean modifyReqifAddRequirement(Path reqifFilePath) throws IOException {
-//        //TODO: read reqif in object model, make some changes and save back
-//        //TODO: have to change something :-)
-//
-//        return false;
-//    }
-
-//    private boolean modifyReqifWithConflicts(File firstReqifFile, File secondReqifFile) {
-//
-//        return false;
-//    }
-
-//    private boolean validateMergeWithConflicts(Path reqifFilePath) {
-//        return modelValidationService.validate(reqifFilePath);
-//    }
-
-//    private boolean modifyReqifWithoutConflicts(File firstReqifFile, File secondReqifFile) {
-//        //TODO: how to create conflicts?
-//        return false;
-//    }
-
-    //TODO: need more functions for conflicts and other changes
 }

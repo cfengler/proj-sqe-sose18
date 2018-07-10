@@ -6,19 +6,21 @@ import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitPropertiesService;
 import de.tuberlin.sqe.ss18.reqexchange.git.service.DefaultGitService;
 import de.tuberlin.sqe.ss18.reqexchange.git.service.GitPropertiesService;
 import de.tuberlin.sqe.ss18.reqexchange.git.service.GitService;
-import de.tuberlin.sqe.ss18.reqexchange.model.service.DefaultModelTransformationService;
-import de.tuberlin.sqe.ss18.reqexchange.model.service.DefaultModelValidationService;
-import de.tuberlin.sqe.ss18.reqexchange.model.service.ModelTransformationService;
-import de.tuberlin.sqe.ss18.reqexchange.model.service.ModelValidationService;
+import de.tuberlin.sqe.ss18.reqexchange.model.service.*;
 import de.tuberlin.sqe.ss18.reqexchange.project.service.DefaultProjectService;
 import de.tuberlin.sqe.ss18.reqexchange.project.service.ProjectService;
 import de.tuberlin.sqe.ss18.reqexchange.serialization.service.DefaultJsonSerializerService;
 import de.tuberlin.sqe.ss18.reqexchange.serialization.service.JsonSerializerService;
 import org.apache.commons.io.FileUtils;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.eclipse.rmf.reqif10.*;
+import org.eclipse.rmf.reqif10.impl.*;
+import org.eclipse.rmf.reqif10.serialization.ReqIF10ResourceFactoryImpl;
 
+import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,6 +30,12 @@ public class UnitTestHelper {
     public static final String TEST_PROJECT_NAME = "Test Project";
     public static final String RENAMED_PROJECT_NAME = "Renamed Project";
     public static final String VALIDATE_PROJECT_NAME = "Validate Project";
+
+    public static final String NEW_REQUIREMENT_DESCRIPTION_1 = "New Requirement Description 1";
+    public static final String NEW_REQUIREMENT_DESCRIPTION_2 = "New Requirement Description 2";
+
+    public static final String CHANGED_REQUIREMENT_DESCRIPTION_1 = "Changed Requirement Description 1";
+    public static final String CHANGED_REQUIREMENT_DESCRIPTION_2 = "Changed Requirement Description 2";
 
     private static PathService pathService;
     public static PathService getPathService() {
@@ -265,7 +273,7 @@ public class UnitTestHelper {
             return false;
         }
 
-        if (!modifyReqifAddRequirement(jGitCommonModelFilePath)) {
+        if (!modifyReqifAddRequirement(jGitCommonModelFilePath, NEW_REQUIREMENT_DESCRIPTION_1)) {
             return false;
         }
 
@@ -294,14 +302,50 @@ public class UnitTestHelper {
         }
     }
 
-    public static boolean modifyReqifAddRequirement(Path reqifFilePath) {
-        //TODO: implement
+//    public static void main(String[] args) {
+//
+//        Path testReqifFilePath = getTestPath().resolve("test.reqif");
+//
+//        try {
+//            FileUtils.copyFile(getOneRequirementReqifWorkingFilePath().toFile(), testReqifFilePath.toFile());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    public static boolean modifyReqifAddRequirement(Path reqifFilePath, String newDescription) {
         if (!reqifFilePath.toFile().exists()) {
             return false;
         }
 
         try {
-            Files.write(reqifFilePath, Files.readAllBytes(reqifFilePath));
+            ReqIF10FactoryImpl reqIF10FactoryImpl = new ReqIF10FactoryImpl();
+            ReqIF reqIFModel = DefaultModelService.getReqIFModel(reqifFilePath.toFile());
+
+            SpecObjectType specObjectType = null;
+            for (SpecType specType: reqIFModel.getCoreContent().getSpecTypes()) {
+                if (specType instanceof SpecObjectType) {
+                    specObjectType = (SpecObjectType) specType;
+                    break;
+                }
+            }
+
+            AttributeValueString newAttributeValue = reqIF10FactoryImpl.createAttributeValueString();
+            newAttributeValue.setDefinition((AttributeDefinitionString) specObjectType.getSpecAttributes().get(0));
+            newAttributeValue.setTheValue(newDescription);
+
+            SpecObject specObject = reqIF10FactoryImpl.createSpecObject();
+            specObject.setType(specObjectType);
+            specObject.getValues().add(newAttributeValue);
+
+            SpecHierarchy specHierarchy = reqIF10FactoryImpl.createSpecHierarchy();
+            specHierarchy.setObject(specObject);
+            reqIFModel.getCoreContent().getSpecifications().get(0).getChildren().add(specHierarchy);
+
+            reqIFModel.getCoreContent().getSpecObjects().add(specObject);
+
+            DefaultModelService.saveReqifModel(reqIFModel, reqifFilePath);
+
             return true;
         }
         catch (Exception e) {
@@ -310,25 +354,49 @@ public class UnitTestHelper {
         }
     }
 
-    public static boolean modifyReqifFilesWithoutConflicts(Path firstReqifFilePath, Path secondReqifFilePath) {
-        //TODO: implement
-        return false;
+    public static boolean modifyReqifChangeRequirement(Path reqifFilePath, String newDescription) {
+        if (!reqifFilePath.toFile().exists()) {
+            return false;
+        }
+
+        ReqIF reqIFModel = DefaultModelService.getReqIFModel(reqifFilePath.toFile());
+
+        ((AttributeValueString) reqIFModel.getCoreContent().getSpecObjects().get(0).getValues().get(0)).setTheValue(newDescription);
+
+        DefaultModelService.saveReqifModel(reqIFModel, reqifFilePath);
+
+        return true;
     }
 
-    public static boolean modifyReqifFilesWithConflicts(Path firstReqifFilePath, Path secondReqifFilePath) {
-        //TODO: implement
-        //TODO: how to create conflicts?
+    public static boolean modifyReqifFilesWithoutConflicts(Path firstReqifFilePath, Path secondReqifFilePath) {
         if (!firstReqifFilePath.toFile().exists() || !secondReqifFilePath.toFile().exists()) {
             return false;
         }
-        //TODO: maybe use modifyReqifAddRequirement
-        try {
+
+        if (!modifyReqifAddRequirement(firstReqifFilePath, NEW_REQUIREMENT_DESCRIPTION_1)) {
             return false;
         }
-        catch (Exception e) {
-            e.printStackTrace();
+
+        if (!modifyReqifAddRequirement(secondReqifFilePath, NEW_REQUIREMENT_DESCRIPTION_2)) {
             return false;
         }
+
+        return true;
+    }
+
+    public static boolean modifyReqifFilesWithConflicts(Path firstReqifFilePath, Path secondReqifFilePath) {
+        if (!firstReqifFilePath.toFile().exists() || !secondReqifFilePath.toFile().exists()) {
+            return false;
+        }
+
+        if (!modifyReqifChangeRequirement(firstReqifFilePath, CHANGED_REQUIREMENT_DESCRIPTION_1)) {
+            return false;
+        }
+        if (!modifyReqifChangeRequirement(secondReqifFilePath, CHANGED_REQUIREMENT_DESCRIPTION_2)) {
+            return false;
+        }
+
+        return true;
     }
 
     public static boolean copyFiles(Path source, Path destination) {
