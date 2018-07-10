@@ -171,8 +171,7 @@ public class DefaultModelService implements ModelService{
     }
 
     public boolean saveSysMLModel(EList<EObject> umlModel, Path filePath) {
-        //TODO implement save von SysML
-        return false;
+        return saveModelToFile(umlModel, filePath.toFile());
     }
 
     public static void registerSysMLPackages() {
@@ -217,23 +216,22 @@ public class DefaultModelService implements ModelService{
         ExcelmodelPackage.eINSTANCE.eClass();
     }
 
-    public static boolean saveModelToFile(ModelExtent transformedModel, File outFile) {
+    public boolean saveModelToFile(List<EObject> outObjects, File outFile) {
 
         // the output objects got captured in the transformedModel extent
-        List<EObject> outObjects = transformedModel.getContents();
 
 
         if(outObjects.get(0) instanceof Workbook) {
             return saveModelToFile((Workbook) outObjects.get(0), outFile);
         }
         else {
-            return saveModelToFileWithEcoreResourceFactory(transformedModel, outFile);
+            return saveModelToFileWithEcoreResourceFactory(outObjects, outFile);
         }
 
 
     }
 
-    private static boolean saveModelToFile(Workbook transformedModel, File outFile){
+    private boolean saveModelToFile(Workbook transformedModel, File outFile){
         ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
         Workbook excelWorkbook = transformedModel;
 
@@ -242,7 +240,7 @@ public class DefaultModelService implements ModelService{
 
 
 
-        if (FilenameUtils.getExtension(outFile.getName()).equals("excel")) {
+        if (FilenameUtils.getExtension(outFile.getName()).equals("xlsx")) {
             //transform excelModel to xlsxModel
             XSSFWorkbook xlsxWorkbook = ExcelModel2File.transformExcelModelToXlsxModel(excelWorkbook);
             //write xlsxModel to file
@@ -275,9 +273,8 @@ public class DefaultModelService implements ModelService{
 
     }
 
-    private static boolean saveModelToFileWithEcoreResourceFactory(ModelExtent transformedModel, File outFile) {
+    private static boolean saveModelToFileWithEcoreResourceFactory(List<EObject> outObjects, File outFile) {
         // the output objects got captured in the transformedModel extent
-        List<EObject> outObjects = transformedModel.getContents();
         // let's persist them using a resource
         ResourceSet resourceSet2 = new ResourceSetImpl();
         Resource outResource = resourceSet2.createResource(

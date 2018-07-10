@@ -70,7 +70,7 @@ public class DefaultModelTransformationServiceTest {
     }
 
     @Test
-    public void test_03d_transformSysMLToReqIFStructure() {
+    public void test_03d_TransformSysMLToReqIF_Structure() {
         Path inSysML = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("04_Papyrus_ReqExchange.uml");
         Path outReqIF = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_Test.reqif");
         Path validationFile = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("validate").resolve("04_Papyrus_ReqExchange_Test.reqif");
@@ -87,7 +87,7 @@ public class DefaultModelTransformationServiceTest {
     }
 
     @Test
-    public void test_03c_transformSysMLToReqIFContent() {
+    public void test_03e_TransformSysMLToReqIF_Content() {
         Path inSysML = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("04_Papyrus_ReqExchange.uml");
         Path outReqIF = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_Test.reqif");
         Assert.assertTrue(modelTransformationService.transform(inSysML, outReqIF));
@@ -155,10 +155,10 @@ public class DefaultModelTransformationServiceTest {
 
 
     @Test
-    public void test_04_transformSysML2ReqIF2Excel() {
+    public void test_04_TransformSysML2ReqIF2Excel() {
         Path sysML = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("04_Papyrus_ReqExchange_TreeTable.uml");
         Path reqIF = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_TreeTable_Test.reqif");
-        Path excel = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_TreeTable_Test.excel");
+        Path excel = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_TreeTable_Test.xlsx");
 
         Assert.assertTrue(modelTransformationService.transform(sysML, reqIF));
         Assert.assertTrue(modelTransformationService.transform(reqIF, excel));

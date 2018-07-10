@@ -39,12 +39,22 @@ public class DefaultModelServiceTest extends TestCase {
     }
 
     @Test
-    public void testLoadReqIFEcoreModellFromFile() {
+    public void test_01a_LoadReqIFFromFile() {
         assertNotNull(UnitTestHelper.getModelService().loadReqIFModel(reqIFFilePath));
     }
 
     @Test
-    public void testReqIFHasContent() {
+    public void test_01b_SaveReqIFToFile() {
+        Path savedReqIFPath = UnitTestHelper.getTestPath().resolve("ReqIFTestSave.reqif");
+        ReqIF reqIF = UnitTestHelper.getModelService().loadReqIFModel(reqIFFilePath);
+        assertTrue(UnitTestHelper.getModelService().saveReqIFModel(reqIF, savedReqIFPath));
+        assertTrue(savedReqIFPath.toFile().exists());
+        assertNotNull(UnitTestHelper.getModelService().loadReqIFModel(savedReqIFPath));
+
+    }
+
+    @Test
+    public void test_01c_ReqIFHasContent() {
         ReqIF reqif = UnitTestHelper.getModelService().loadReqIFModel(reqIFFilePath);
         EList<Specification> specifications = reqif.getCoreContent().getSpecifications();
 
@@ -68,12 +78,23 @@ public class DefaultModelServiceTest extends TestCase {
         System.out.println("");
     }
     @Test
-    public void testLoadSysMLModelFromFile() {
+    public void test_02a_LoadSysMLFromFile() {
         assertNotNull(UnitTestHelper.getModelService().loadSysMLModel(sysMLFilePath));
     }
 
     @Test
-    public void testSysMLHasContent() {
+    public void test_02b_SaveSysMLFromFile() {
+        Path savedSysMLPath = UnitTestHelper.getTestPath().resolve("SysMLTestSave.uml");
+        EList<EObject> sysML = UnitTestHelper.getModelService().loadSysMLModel(sysMLFilePath);
+        assertTrue(UnitTestHelper.getModelService().saveSysMLModel(sysML, savedSysMLPath));
+        assertTrue(savedSysMLPath.toFile().exists());
+        assertNotNull(UnitTestHelper.getModelService().loadSysMLModel(savedSysMLPath));
+    }
+
+
+
+    @Test
+    public void test_02c_SysMLHasContent() {
         EList<EObject> umlContent = UnitTestHelper.getModelService().loadSysMLModel(sysMLFilePath);
         Package umlModel = (Package) umlContent.get(0);
         List<Requirement> requirements = (List<Requirement>) new LinkedList<Requirement>();
@@ -104,7 +125,6 @@ public class DefaultModelServiceTest extends TestCase {
         }
 
         assertTrue(count == 9);
-
 
 
     }

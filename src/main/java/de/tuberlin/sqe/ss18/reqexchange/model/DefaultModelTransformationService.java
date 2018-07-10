@@ -33,9 +33,15 @@ import org.eclipse.uml2.uml.internal.resource.UMLResourceFactoryImpl;
 
 public class DefaultModelTransformationService implements ModelTransformationService {
 
+    DefaultModelService modelService;
+
     private static final Set<String> SUPPORTED_EXTENSIONS = new HashSet<>(
             Arrays.asList("reqif", "uml", "cm")
     );
+
+    public DefaultModelTransformationService() {
+        modelService = new DefaultModelService();
+    }
 
 
     private String resourcePathForQVTO = "src/main/resources/qvt";
@@ -330,7 +336,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         // check the result for success
         if(result.getSeverity() == Diagnostic.OK) {
             // Save to File
-            return DefaultModelService.saveModelToFile(output, outFile);
+            return modelService.saveModelToFile(output.getContents(), outFile);
         } else {
             // turn the result diagnostic into status and send it to error log
             System.out.println("Transformation failed:" + result);
