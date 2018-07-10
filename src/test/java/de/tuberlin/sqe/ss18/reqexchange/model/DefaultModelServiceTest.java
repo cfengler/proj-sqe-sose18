@@ -23,18 +23,10 @@ public class DefaultModelServiceTest extends TestCase {
 
     private Path reqIFFilePath;
     private Path sysMLFilePath;
-    //File reqIFFile;
-    //File sysMLFile;
 
     public DefaultModelServiceTest() {
-
-        String resourcePath = "src/main/resources/samplefiles";
-
         reqIFFilePath = UnitTestHelper.getPathService().getPathOfRunningJar().resolve("samplefiles").resolve("04_ReqIF_ReqExchange").resolve("My.reqif");
         sysMLFilePath = UnitTestHelper.getPathService().getPathOfRunningJar().resolve("samplefiles").resolve("04_Papyrus_ReqExchange").resolve("04_Papyrus_ReqExchange.uml");
-
-        //reqIFFile = new File(resourcePath + "/04_ReqIF_ReqExchange/My.reqif");
-        //sysMLFile = new File(resourcePath + "/04_Papyrus_ReqExchange/04_Papyrus_ReqExchange.uml");
 
     }
 
@@ -70,8 +62,6 @@ public class DefaultModelServiceTest extends TestCase {
         System.out.printf("[%s] %s with %d children \n", spec.getIdentifier(), attributeValue.getTheValue(), spec.getChildren().size());
         for (SpecHierarchy specHi : spec.getChildren()) {
             attributeValue = (AttributeValueString) specHi.getObject().getValues().get(0);
-            //EList<EStructuralFeature> eStructuralFeatures = ReqIF10Package.eINSTANCE.eClass().getEStructuralFeatures();
-
             System.out.printf("\t[%s] %s with %d children\n", specHi.getIdentifier(), attributeValue.getTheValue(), specHi.getChildren().size());
 
         }
@@ -97,7 +87,7 @@ public class DefaultModelServiceTest extends TestCase {
     public void test_02c_SysMLHasContent() {
         EList<EObject> umlContent = UnitTestHelper.getModelService().loadSysMLModel(sysMLFilePath);
         Package umlModel = (Package) umlContent.get(0);
-        List<Requirement> requirements = (List<Requirement>) new LinkedList<Requirement>();
+        List<Requirement> requirements = new LinkedList<>();
 
         for (EObject eObj: umlContent) {
             if(eObj instanceof Requirement) {
@@ -108,7 +98,6 @@ public class DefaultModelServiceTest extends TestCase {
 
         EcoreUtil.resolveAll(umlModel);
 
-        //System.out.println(umlModel);
         int count = 0;
         for (PackageableElement packageableElement: umlModel.getPackagedElements()) {
             if(packageableElement.getClass() == ClassImpl.class) {
@@ -125,8 +114,6 @@ public class DefaultModelServiceTest extends TestCase {
         }
 
         assertTrue(count == 9);
-
-
     }
 
 }

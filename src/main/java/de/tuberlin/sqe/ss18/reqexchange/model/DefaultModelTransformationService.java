@@ -84,15 +84,12 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         File transformationQVT = new File(resourcePath + "/qvt/SysML2ReqIF.qvto");
 
         File inReqif = new File(resourcePath + "/samplefiles/04_ReqIF_ReqExchange/My.reqif");
-        File outExcel = new File(resourcePath + "/unitTest/output.excel");
+        File outExcel = new File(resourcePath + "/unitTest/output.xlsx");
 
         boolean result = dmts.transform(inReqif.toPath(), outExcel.toPath());
 
         System.out.println("Transformation successfull: " + result);
-
     }
-
-
 
     @Override
     public boolean transform(Path sourcePath, Path destinationPath) {
@@ -129,8 +126,6 @@ public class DefaultModelTransformationService implements ModelTransformationSer
             return false;
         }
 
-
-
         if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
             return copy(sourcePath.toFile(), destinationPath.toFile());
         } else if (ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.SysML.getFiletypes().contains(destinationPathExtension)) {
@@ -149,14 +144,12 @@ public class DefaultModelTransformationService implements ModelTransformationSer
             } else {
                 return transformReqifToExcelXlsx(sourcePath.toFile(), destinationPath.toFile());
             }
-            //return transformReqifToExcel(sourcePath.toFile(), destinationPath.toFile());
         } else if (ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
             if(sourcePathExtension.equals("xls")) {
                 return transformExcelToReqifXls(sourcePath.toFile(), destinationPath.toFile());
             } else {
                 return transformExcelToReqifXlsx(sourcePath.toFile(), destinationPath.toFile());
             }
-            //return transformExcelToReqif(sourcePath.toFile(), destinationPath.toFile());
         } else if (ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
             return transformWordToReqif(sourcePath.toFile(), destinationPath.toFile());
         } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Word.getFiletypes().contains(destinationPathExtension)) {
@@ -186,25 +179,15 @@ public class DefaultModelTransformationService implements ModelTransformationSer
     }
 
     private boolean transformReqifToExcelXls(File sourceFile, File destinationFile) {
-        //TODO read reqif from file to reqifModel
-        //TODO transform reqifModel to excelModel
-
         DefaultModelService.registerReqIFPackages();
         DefaultModelService.registerExcelPackages();
-
-
         File qvtoFile = new File(resourcePathForQVTO + "/ExcelTransformation.qvto");
         return executeTransformation(sourceFile, destinationFile, qvtoFile);
     }
 
     private boolean transformReqifToExcelXlsx(File sourceFile, File destinationFile) {
-        //TODO read reqif from file to reqifModel
-        //TODO transform reqifModel to excelModel
-
         DefaultModelService.registerReqIFPackages();
         DefaultModelService.registerExcelPackages();
-
-
         File qvtoFile = new File(resourcePathForQVTO + "/ExcelTransformation.qvto");
         return executeTransformation(sourceFile, destinationFile, qvtoFile);
     }
@@ -222,9 +205,9 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         //transform xlsModel to excelModel
         Workbook excelWorkbook = ExcelModel2File.transformXlsModelToExcelModel(xlsWorkbook);
 
-        //TODO transform excelModel to reqifModel
-        //TODO write reqifModel to file
+        //TODO transform excelModel to reqifModel to file
 
+        //return true;
         return copy(sourceFile, destinationFile);
     }
 
@@ -244,9 +227,9 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         //transform xlsxModel to excelModel
         Workbook excelWorkbook = ExcelModel2File.transformXlsxModelToExcelModel(xlsxWorkbook);
 
-        //TODO transform excelModel to reqifModel
-        //TODO write reqifModel to file
+        //TODO transform excelModel to reqifModel to file
 
+        //return true;
         return copy(sourceFile, destinationFile);
     }
 
@@ -276,9 +259,6 @@ public class DefaultModelTransformationService implements ModelTransformationSer
             return false;
         }
     }
-
-
-
 
     private boolean executeTransformation(File inFile, File outFile, File transformationQVTOFile) {
         /*
@@ -322,8 +302,6 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         OutputStreamWriter outStream = new OutputStreamWriter(System.out);
         Log log = new WriterLog(outStream);
 
-
-
         // Uncomment for logging output in console
         //context.setLog(log);
 
@@ -331,7 +309,6 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         // input and output and execution context -> ChangeTheWorld(in, out)
         // Remark: variable arguments count is supported
         ExecutionDiagnostic result = executor.execute(context, input, output);
-
 
         // check the result for success
         if(result.getSeverity() == Diagnostic.OK) {
