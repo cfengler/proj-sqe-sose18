@@ -129,7 +129,7 @@ public class DefaultProjectService implements ProjectService {
     public boolean renameProject(Project project, String newName) {
         //TODO: implement
         Path newLocalGitRepositoryPath = pathService.getLocalGitRepositoryPathByProjectName(newName);
-        Path newCommonModelFilePath = pathService.getLocalGitRepositoryPathByProjectName(newName).resolve("data.cm");
+        Path newCommonModelFilePath = pathService.getLocalGitRepositoryPathByProjectName(newName).resolve("data.reqif");
         Path newProjectInfoFilePath = pathService.getProjectInfosPath().resolve(newName + ".json");
 
         if (Files.exists(newLocalGitRepositoryPath) || Files.exists(newProjectInfoFilePath)) {
@@ -254,7 +254,7 @@ public class DefaultProjectService implements ProjectService {
         result.setName(name);
         result.setWorkingModelFilePath(filePath);
         result.setLocalGitRepositoryPath(pathService.getLocalGitRepositoryPathByProjectName(name));
-        result.setCommonModelFilePath(pathService.getLocalGitRepositoryPathByProjectName(name).resolve("data.cm"));
+        result.setCommonModelFilePath(pathService.getLocalGitRepositoryPathByProjectName(name).resolve("data.reqif"));
         result.setProjectInfoFilePath(pathService.getProjectInfosPath().resolve(name + ".json"));
 
         return result;

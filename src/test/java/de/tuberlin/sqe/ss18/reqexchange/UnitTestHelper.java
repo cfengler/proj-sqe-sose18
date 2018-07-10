@@ -12,15 +12,12 @@ import de.tuberlin.sqe.ss18.reqexchange.project.service.ProjectService;
 import de.tuberlin.sqe.ss18.reqexchange.serialization.service.DefaultJsonSerializerService;
 import de.tuberlin.sqe.ss18.reqexchange.serialization.service.JsonSerializerService;
 import org.apache.commons.io.FileUtils;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.rmf.reqif10.*;
 import org.eclipse.rmf.reqif10.impl.*;
-import org.eclipse.rmf.reqif10.serialization.ReqIF10ResourceFactoryImpl;
 
-import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -198,7 +195,7 @@ public class UnitTestHelper {
         oneRequirementXlsxWorkingFilePath = unitTestPath.resolve("OneRequirementWorkingFile.xlsx");
 
         jGitRepositoryPath = testPath.resolve("jGit_" + TEST_PROJECT_NAME);
-        jGitCommonModelFilePath = jGitRepositoryPath.resolve("data.cm");
+        jGitCommonModelFilePath = jGitRepositoryPath.resolve("data.reqif");
 
         testReqifWorkingFilePath = testPath.resolve("TestWorkingFile.reqif");
         testSysmlWorkingFilePath = testPath.resolve("TestWorkingFile.uml");

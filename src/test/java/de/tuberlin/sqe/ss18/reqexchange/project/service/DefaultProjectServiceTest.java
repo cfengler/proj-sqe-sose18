@@ -48,6 +48,10 @@ public class DefaultProjectServiceTest {
 
     @After
     public void tearDownTest() throws IOException {
+        for (Project project : UnitTestHelper.getProjectService().getAll()) {
+            UnitTestHelper.getProjectService().leave(project);
+        }
+
         Files.deleteIfExists(UnitTestHelper.getValidateReqifWorkingFilePath());
 
         Files.deleteIfExists(UnitTestHelper.getTestReqifWorkingFilePath());
@@ -107,7 +111,6 @@ public class DefaultProjectServiceTest {
 
         Assert.assertNotNull(project);
         Assert.assertTrue(UnitTestHelper.getTestReqifWorkingFilePath().toFile().exists());
-        Assert.assertTrue(UnitTestHelper.getProjectService().leave(project));
     }
 
     @Test
@@ -122,8 +125,6 @@ public class DefaultProjectServiceTest {
                 UnitTestHelper.getTestReqifWorkingFilePath());
 
         UnitTestHelper.getProjectService().export(project, UnitTestHelper.getExportReqifFilePath());
-
-        Assert.assertTrue(UnitTestHelper.getProjectService().leave(project));
 
         Assert.assertTrue(FileUtils.contentEquals(
                 UnitTestHelper.getOneRequirementReqifWorkingFilePath().toFile(),
@@ -143,8 +144,6 @@ public class DefaultProjectServiceTest {
 
         UnitTestHelper.getProjectService().export(project, UnitTestHelper.getExportXlsxFilePath());
 
-        Assert.assertTrue(UnitTestHelper.getProjectService().leave(project));
-
         Assert.assertTrue(FileUtils.contentEquals(
                 UnitTestHelper.getOneRequirementXlsxWorkingFilePath().toFile(),
                 UnitTestHelper.getExportXlsxFilePath().toFile()));
@@ -161,8 +160,6 @@ public class DefaultProjectServiceTest {
                 UnitTestHelper.getTestReqifWorkingFilePath());
 
         UnitTestHelper.getProjectService().export(project, UnitTestHelper.getExportSysmlFilePath());
-
-        Assert.assertTrue(UnitTestHelper.getProjectService().leave(project));
 
         Assert.assertTrue(FileUtils.contentEquals(
                 UnitTestHelper.getOneRequirementSysmlWorkingFilePath().toFile(),
@@ -196,8 +193,6 @@ public class DefaultProjectServiceTest {
         Assert.assertFalse(oldProjectInfoFilePath.toFile().exists());
         Assert.assertTrue(newLocalGitRepositoryPath.toFile().exists());
         Assert.assertTrue(newProjectInfoFilePath.toFile().exists());
-
-        Assert.assertTrue(UnitTestHelper.getProjectService().leave(testProject));
     }
 
     @Test
@@ -225,8 +220,6 @@ public class DefaultProjectServiceTest {
         Assert.assertTrue(FileUtils.contentEquals(
                 UnitTestHelper.getTestReqifWorkingFilePath().toFile(),
                 UnitTestHelper.getJGitCommonModelFilePath().toFile()));
-
-        UnitTestHelper.getProjectService().leave(testProject);
     }
 
     @Test
@@ -248,8 +241,6 @@ public class DefaultProjectServiceTest {
         Assert.assertTrue(FileUtils.contentEquals(
                 UnitTestHelper.getTestReqifWorkingFilePath().toFile(),
                 UnitTestHelper.getJGitCommonModelFilePath().toFile()));
-
-        Assert.assertTrue(UnitTestHelper.getProjectService().leave(testProject));
     }
 
     @Test
@@ -280,9 +271,6 @@ public class DefaultProjectServiceTest {
 
         //TODO: compare result file with expected file
         Assert.assertTrue(false);
-
-        UnitTestHelper.getProjectService().leave(testProject);
-        UnitTestHelper.getProjectService().leave(validateProject);
     }
 
     @Test
@@ -323,9 +311,6 @@ public class DefaultProjectServiceTest {
 
         //TODO: need File to compare with
         Assert.assertTrue(false);
-
-        UnitTestHelper.getProjectService().leave(testProject);
-        UnitTestHelper.getProjectService().leave(validateProject);
     }
 
     @Test
@@ -349,8 +334,6 @@ public class DefaultProjectServiceTest {
 
         UnitTestHelper.getProjectService().refresh(testProject);
         Assert.assertTrue(testProject.isPushNeeded());
-
-        UnitTestHelper.getProjectService().leave(testProject);
     }
 
     @Test
@@ -370,6 +353,5 @@ public class DefaultProjectServiceTest {
 
         UnitTestHelper.getProjectService().refresh(testProject);
         Assert.assertTrue(testProject.isPullNeeded());
-        Assert.assertTrue(UnitTestHelper.getProjectService().leave(testProject));
     }
 }
