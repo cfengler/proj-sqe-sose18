@@ -33,8 +33,8 @@ public class DefaultModelServiceTest extends TestCase {
 
         String resourcePath = "src/main/resources/samplefiles";
 
-        reqIFFilePath = UnitTestHelper.getTestPath().resolve("04_ReqIF_ReqExchange").resolve("My.reqif");
-        sysMLFilePath = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange").resolve("04_Papyrus_ReqExchange.uml");
+        reqIFFilePath = UnitTestHelper.getPathService().getPathOfRunningJar().resolve("sampleFiles").resolve("04_ReqIF_ReqExchange").resolve("My.reqif");
+        sysMLFilePath = UnitTestHelper.getPathService().getPathOfRunningJar().resolve("sampleFiles").resolve("04_Papyrus_ReqExchange").resolve("04_Papyrus_ReqExchange.uml");
 
         //reqIFFile = new File(resourcePath + "/04_ReqIF_ReqExchange/My.reqif");
         //sysMLFile = new File(resourcePath + "/04_Papyrus_ReqExchange/04_Papyrus_ReqExchange.uml");

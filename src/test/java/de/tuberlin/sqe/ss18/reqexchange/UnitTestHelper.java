@@ -71,7 +71,7 @@ public class UnitTestHelper {
 
     private static ModelService modelService;
     public static ModelService getModelService() {
-        if (modelService != null) {
+        if (modelService == null) {
             modelService = new DefaultModelService();
         }
         return modelService;
