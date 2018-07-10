@@ -1,12 +1,14 @@
 package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
-import com.google.inject.Guice;
 import com.google.inject.Injector;
-import de.tuberlin.sqe.ss18.reqexchange.ReqExchangeModule;
+import de.tuberlin.sqe.ss18.reqexchange.UnitTestHelper;
+import org.apache.commons.io.FileUtils;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import java.io.File;
+import java.io.IOException;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DefaultModelTransformationServiceTest {
@@ -25,8 +27,8 @@ public class DefaultModelTransformationServiceTest {
     }
 
     @AfterClass
-    public static void tearDown() {
-
+    public static void tearDown() throws IOException {
+        FileUtils.deleteDirectory(UnitTestHelper.getTestPath().toFile());
     }
 
     @Test
@@ -58,9 +60,13 @@ public class DefaultModelTransformationServiceTest {
 
     @Test
     public void test_03d_transformSysMLToReqIF() {
-        File inSysML = new File(resourcePath + "/samplefiles/04_Papyrus_ReqExchange/04_Papyrus_ReqExchange.uml");
-        File outReqIF = new File(resourcePath + "/unitTest/Test_03d.reqif");
+        File inSysML = new File(resourcePath + "/unitTest/transformation/04_Papyrus_ReqExchange.uml");
+        File outReqIF = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_Test.reqif").toFile();
+        File validationFile = new File(resourcePath + "/unitTest/transformation/validate/04_Papyrus_ReqExchange_Test.reqif");
         Assert.assertTrue(modelTransformationService.transform(inSysML.toPath(), outReqIF.toPath()));
+
+        //EcoreUtil.EqualityHelper();
+
     }
 
 }
