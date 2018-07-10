@@ -33,6 +33,9 @@ import org.eclipse.uml2.uml.resources.util.UMLResourcesUtil;
 
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Collections;
 import java.util.Map;
 
 public class DefaultModelService { //implements ModelService{
@@ -51,6 +54,20 @@ public class DefaultModelService { //implements ModelService{
 
         return reqif;
 
+    }
+
+    public static boolean saveReqifModel(ReqIF reqIFModel, Path filePath) {
+        ResourceSet resSet = new ResourceSetImpl();
+
+        Resource resource = resSet.createResource(URI.createFileURI(filePath.toString()));
+        resource.getContents().add(reqIFModel);
+        try {
+            resource.save(Collections.EMPTY_MAP);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private static String reqIFECoreFilePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\model\\reqif\\reqif10.ecore";
