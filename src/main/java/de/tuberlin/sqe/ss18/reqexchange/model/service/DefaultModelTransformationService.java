@@ -329,13 +329,12 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         // check the result for success
         if(result.getSeverity() == Diagnostic.OK) {
             // Save to File
-            DefaultModelService.saveModelToFile(output, outFile);
+            return DefaultModelService.saveModelToFile(output, outFile);
         } else {
             // turn the result diagnostic into status and send it to error log
             System.out.println("Transformation failed:" + result);
             return false;
         }
-        return false;
     }
 
 }

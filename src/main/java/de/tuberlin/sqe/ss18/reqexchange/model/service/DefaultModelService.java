@@ -250,8 +250,9 @@ public class DefaultModelService { //implements ModelService{
         }
         else {
             System.out.println("Unsupported excel file extension!");
+            return true;
         }
-        return false;
+        return true;
 
     }
 

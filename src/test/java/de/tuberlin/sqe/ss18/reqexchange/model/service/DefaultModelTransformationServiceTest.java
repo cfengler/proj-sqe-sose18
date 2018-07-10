@@ -84,8 +84,8 @@ public class DefaultModelTransformationServiceTest {
         Path reqIF = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_TreeTable_Test.reqif");
         Path excel = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_TreeTable_Test.xlsx");
 
-        modelTransformationService.transform(sysML, reqIF);
-        modelTransformationService.transform(reqIF, excel);
+        Assert.assertTrue(modelTransformationService.transform(sysML, reqIF));
+        Assert.assertTrue(modelTransformationService.transform(reqIF, excel));
 
         Assert.assertTrue(excel.toFile().exists());
     }
