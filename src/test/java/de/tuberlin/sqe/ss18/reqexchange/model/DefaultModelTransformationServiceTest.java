@@ -45,9 +45,9 @@ public class DefaultModelTransformationServiceTest {
     @Test
     public void test_03b1_transformXlsx() {
         //TODO:implement
-        //transformation reqif to xlsx
+        //transformation reqif to excel
         //füge Requirement hinzu
-        //transformattion xlsx to reqif
+        //transformattion excel to reqif
         //check result of reqif against expected file
     }
 
@@ -158,7 +158,7 @@ public class DefaultModelTransformationServiceTest {
     public void test_04_transformSysML2ReqIF2Excel() {
         Path sysML = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("04_Papyrus_ReqExchange_TreeTable.uml");
         Path reqIF = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_TreeTable_Test.reqif");
-        Path excel = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_TreeTable_Test.xlsx");
+        Path excel = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_TreeTable_Test.excel");
 
         Assert.assertTrue(modelTransformationService.transform(sysML, reqIF));
         Assert.assertTrue(modelTransformationService.transform(reqIF, excel));

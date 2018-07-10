@@ -327,7 +327,7 @@ public class ClientController {
 
         Project project3 = new Project();
         project3.setName("Microsoft GitHub");
-        project3.setWorkingModelFilePath(Paths.get("testdatei.xlsx"));
+        project3.setWorkingModelFilePath(Paths.get("testdatei.excel"));
         ProjectViewModel viewModel3 = new ProjectViewModel(project3);
         viewModel3.setCanPull(true);
         viewModel3.setCanPush(true);

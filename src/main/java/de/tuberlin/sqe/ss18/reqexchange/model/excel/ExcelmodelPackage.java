@@ -1,6 +1,6 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.xlsx;
+package de.tuberlin.sqe.ss18.reqexchange.model.excel;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -54,7 +54,7 @@ public interface ExcelmodelPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	ExcelmodelPackage eINSTANCE = de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl
+	ExcelmodelPackage eINSTANCE = de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl
 			.init();
 
 	/**
@@ -62,7 +62,7 @@ public interface ExcelmodelPackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see NamedElement
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getNamedElement()
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getNamedElement()
 	 * @generated
 	 */
 	int NAMED_ELEMENT = 1;
@@ -95,11 +95,11 @@ public interface ExcelmodelPackage extends EPackage {
 	int NAMED_ELEMENT_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.WorkbookImpl <em>Workbook</em>}' class.
+	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.WorkbookImpl <em>Workbook</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.WorkbookImpl
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getWorkbook()
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.WorkbookImpl
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getWorkbook()
 	 * @generated
 	 */
 	int WORKBOOK = 0;
@@ -141,11 +141,11 @@ public interface ExcelmodelPackage extends EPackage {
 	int WORKBOOK_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.WorksheetImpl <em>Worksheet</em>}' class.
+	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.WorksheetImpl <em>Worksheet</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.WorksheetImpl
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getWorksheet()
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.WorksheetImpl
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getWorksheet()
 	 * @generated
 	 */
 	int WORKSHEET = 2;
@@ -187,11 +187,11 @@ public interface ExcelmodelPackage extends EPackage {
 	int WORKSHEET_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.RowImpl <em>Row</em>}' class.
+	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.RowImpl <em>Row</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.RowImpl
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getRow()
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.RowImpl
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getRow()
 	 * @generated
 	 */
 	int ROW = 3;
@@ -233,11 +233,11 @@ public interface ExcelmodelPackage extends EPackage {
 	int ROW_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.CellImpl <em>Cell</em>}' class.
+	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.CellImpl <em>Cell</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.CellImpl
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getCell()
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.CellImpl
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getCell()
 	 * @generated
 	 */
 	int CELL = 4;
@@ -279,11 +279,11 @@ public interface ExcelmodelPackage extends EPackage {
 	int CELL_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.BooleanCellImpl <em>Boolean Cell</em>}' class.
+	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.BooleanCellImpl <em>Boolean Cell</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.BooleanCellImpl
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getBooleanCell()
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.BooleanCellImpl
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getBooleanCell()
 	 * @generated
 	 */
 	int BOOLEAN_CELL = 5;
@@ -334,11 +334,11 @@ public interface ExcelmodelPackage extends EPackage {
 	int BOOLEAN_CELL_OPERATION_COUNT = CELL_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.StringCellImpl <em>String Cell</em>}' class.
+	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.StringCellImpl <em>String Cell</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.StringCellImpl
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getStringCell()
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.StringCellImpl
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getStringCell()
 	 * @generated
 	 */
 	int STRING_CELL = 6;
@@ -389,11 +389,11 @@ public interface ExcelmodelPackage extends EPackage {
 	int STRING_CELL_OPERATION_COUNT = CELL_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.NumericCellImpl <em>Numeric Cell</em>}' class.
+	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.NumericCellImpl <em>Numeric Cell</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.NumericCellImpl
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getNumericCell()
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.NumericCellImpl
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getNumericCell()
 	 * @generated
 	 */
 	int NUMERIC_CELL = 7;
@@ -444,11 +444,11 @@ public interface ExcelmodelPackage extends EPackage {
 	int NUMERIC_CELL_OPERATION_COUNT = CELL_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.EnumCellImpl <em>Enum Cell</em>}' class.
+	 * The meta object id for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.EnumCellImpl <em>Enum Cell</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.EnumCellImpl
-	 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getEnumCell()
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.EnumCellImpl
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getEnumCell()
 	 * @generated
 	 */
 	int ENUM_CELL = 8;
@@ -753,11 +753,11 @@ public interface ExcelmodelPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.WorkbookImpl <em>Workbook</em>}' class.
+		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.WorkbookImpl <em>Workbook</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.WorkbookImpl
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getWorkbook()
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.WorkbookImpl
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getWorkbook()
 		 * @generated
 		 */
 		EClass WORKBOOK = eINSTANCE.getWorkbook();
@@ -775,7 +775,7 @@ public interface ExcelmodelPackage extends EPackage {
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see NamedElement
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getNamedElement()
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getNamedElement()
 		 * @generated
 		 */
 		EClass NAMED_ELEMENT = eINSTANCE.getNamedElement();
@@ -789,11 +789,11 @@ public interface ExcelmodelPackage extends EPackage {
 		EAttribute NAMED_ELEMENT__NAME = eINSTANCE.getNamedElement_Name();
 
 		/**
-		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.WorksheetImpl <em>Worksheet</em>}' class.
+		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.WorksheetImpl <em>Worksheet</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.WorksheetImpl
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getWorksheet()
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.WorksheetImpl
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getWorksheet()
 		 * @generated
 		 */
 		EClass WORKSHEET = eINSTANCE.getWorksheet();
@@ -807,11 +807,11 @@ public interface ExcelmodelPackage extends EPackage {
 		EReference WORKSHEET__ROWS = eINSTANCE.getWorksheet_Rows();
 
 		/**
-		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.RowImpl <em>Row</em>}' class.
+		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.RowImpl <em>Row</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.RowImpl
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getRow()
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.RowImpl
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getRow()
 		 * @generated
 		 */
 		EClass ROW = eINSTANCE.getRow();
@@ -833,11 +833,11 @@ public interface ExcelmodelPackage extends EPackage {
 		EAttribute ROW__ROW_NUM = eINSTANCE.getRow_RowNum();
 
 		/**
-		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.CellImpl <em>Cell</em>}' class.
+		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.CellImpl <em>Cell</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.CellImpl
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getCell()
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.CellImpl
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getCell()
 		 * @generated
 		 */
 		EClass CELL = eINSTANCE.getCell();
@@ -859,11 +859,11 @@ public interface ExcelmodelPackage extends EPackage {
 		EAttribute CELL__ROW_INDEX = eINSTANCE.getCell_RowIndex();
 
 		/**
-		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.BooleanCellImpl <em>Boolean Cell</em>}' class.
+		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.BooleanCellImpl <em>Boolean Cell</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.BooleanCellImpl
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getBooleanCell()
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.BooleanCellImpl
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getBooleanCell()
 		 * @generated
 		 */
 		EClass BOOLEAN_CELL = eINSTANCE.getBooleanCell();
@@ -877,11 +877,11 @@ public interface ExcelmodelPackage extends EPackage {
 		EAttribute BOOLEAN_CELL__BOOL_VALUE = eINSTANCE.getBooleanCell_BoolValue();
 
 		/**
-		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.StringCellImpl <em>String Cell</em>}' class.
+		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.StringCellImpl <em>String Cell</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.StringCellImpl
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getStringCell()
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.StringCellImpl
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getStringCell()
 		 * @generated
 		 */
 		EClass STRING_CELL = eINSTANCE.getStringCell();
@@ -895,11 +895,11 @@ public interface ExcelmodelPackage extends EPackage {
 		EAttribute STRING_CELL__STRING_VALUE = eINSTANCE.getStringCell_StringValue();
 
 		/**
-		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.NumericCellImpl <em>Numeric Cell</em>}' class.
+		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.NumericCellImpl <em>Numeric Cell</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.NumericCellImpl
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getNumericCell()
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.NumericCellImpl
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getNumericCell()
 		 * @generated
 		 */
 		EClass NUMERIC_CELL = eINSTANCE.getNumericCell();
@@ -913,11 +913,11 @@ public interface ExcelmodelPackage extends EPackage {
 		EAttribute NUMERIC_CELL__NUMERIC_VALUE = eINSTANCE.getNumericCell_NumericValue();
 
 		/**
-		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.EnumCellImpl <em>Enum Cell</em>}' class.
+		 * The meta object literal for the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.EnumCellImpl <em>Enum Cell</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.EnumCellImpl
-		 * @see de.tuberlin.sqe.ss18.reqexchange.model.xlsx.impl.ExcelmodelPackageImpl#getEnumCell()
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.EnumCellImpl
+		 * @see de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelPackageImpl#getEnumCell()
 		 * @generated
 		 */
 		EClass ENUM_CELL = eINSTANCE.getEnumCell();
