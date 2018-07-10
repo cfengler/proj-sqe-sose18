@@ -1,4 +1,4 @@
-package de.tuberlin.sqe.ss18.reqexchange.client.service;
+package de.tuberlin.sqe.ss18.reqexchange.model.service;
 
 import de.tuberlin.sqe.ss18.reqexchange.UnitTestHelper;
 import de.tuberlin.sqe.ss18.reqexchange.model.service.DefaultModelService;
