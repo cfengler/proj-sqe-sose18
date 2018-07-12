@@ -1,6 +1,6 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.excel;
+package de.tuberlin.sqe.ss18.reqexchange.model.excelmodel;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -13,11 +13,11 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link Cell#getColumnIndex <em>Column Index</em>}</li>
- *   <li>{@link Cell#getRowIndex <em>Row Index</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Cell#getColumnIndex <em>Column Index</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Cell#getRowIndex <em>Row Index</em>}</li>
  * </ul>
  *
- * @see ExcelmodelPackage#getCell()
+ * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage#getCell()
  * @model abstract="true"
  * @generated
  */
@@ -32,14 +32,14 @@ public interface Cell extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Column Index</em>' attribute.
 	 * @see #setColumnIndex(int)
-	 * @see ExcelmodelPackage#getCell_ColumnIndex()
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage#getCell_ColumnIndex()
 	 * @model
 	 * @generated
 	 */
 	int getColumnIndex();
 
 	/**
-	 * Sets the value of the '{@link Cell#getColumnIndex <em>Column Index</em>}' attribute.
+	 * Sets the value of the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Cell#getColumnIndex <em>Column Index</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Column Index</em>' attribute.
@@ -58,14 +58,14 @@ public interface Cell extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Row Index</em>' attribute.
 	 * @see #setRowIndex(int)
-	 * @see ExcelmodelPackage#getCell_RowIndex()
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage#getCell_RowIndex()
 	 * @model
 	 * @generated
 	 */
 	int getRowIndex();
 
 	/**
-	 * Sets the value of the '{@link Cell#getRowIndex <em>Row Index</em>}' attribute.
+	 * Sets the value of the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Cell#getRowIndex <em>Row Index</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Row Index</em>' attribute.

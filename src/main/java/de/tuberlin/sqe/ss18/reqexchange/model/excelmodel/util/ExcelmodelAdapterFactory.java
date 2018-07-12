@@ -1,8 +1,9 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.excel.util;
+package de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.util;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.*;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.*;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
@@ -15,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see ExcelmodelPackage
+ * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage
  * @generated
  */
 public class ExcelmodelAdapterFactory extends AdapterFactoryImpl {
@@ -91,11 +92,6 @@ public class ExcelmodelAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseBooleanCell(BooleanCell object) {
-			return createBooleanCellAdapter();
-		}
-
-		@Override
 		public Adapter caseStringCell(StringCell object) {
 			return createStringCellAdapter();
 		}
@@ -106,8 +102,8 @@ public class ExcelmodelAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseEnumCell(EnumCell object) {
-			return createEnumCellAdapter();
+		public Adapter caseBooleanCell(BooleanCell object) {
+			return createBooleanCellAdapter();
 		}
 
 		@Override
@@ -130,13 +126,13 @@ public class ExcelmodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link Workbook <em>Workbook</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Workbook <em>Workbook</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see Workbook
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Workbook
 	 * @generated
 	 */
 	public Adapter createWorkbookAdapter() {
@@ -144,13 +140,13 @@ public class ExcelmodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link NamedElement <em>Named Element</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.NamedElement <em>Named Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see NamedElement
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.NamedElement
 	 * @generated
 	 */
 	public Adapter createNamedElementAdapter() {
@@ -158,13 +154,13 @@ public class ExcelmodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link Worksheet <em>Worksheet</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Worksheet <em>Worksheet</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see Worksheet
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Worksheet
 	 * @generated
 	 */
 	public Adapter createWorksheetAdapter() {
@@ -172,13 +168,13 @@ public class ExcelmodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link Row <em>Row</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Row <em>Row</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see Row
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Row
 	 * @generated
 	 */
 	public Adapter createRowAdapter() {
@@ -186,13 +182,13 @@ public class ExcelmodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link Cell <em>Cell</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Cell <em>Cell</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see Cell
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Cell
 	 * @generated
 	 */
 	public Adapter createCellAdapter() {
@@ -200,27 +196,13 @@ public class ExcelmodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link BooleanCell <em>Boolean Cell</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.StringCell <em>String Cell</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see BooleanCell
-	 * @generated
-	 */
-	public Adapter createBooleanCellAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link StringCell <em>String Cell</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see StringCell
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.StringCell
 	 * @generated
 	 */
 	public Adapter createStringCellAdapter() {
@@ -228,13 +210,13 @@ public class ExcelmodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link NumericCell <em>Numeric Cell</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.NumericCell <em>Numeric Cell</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see NumericCell
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.NumericCell
 	 * @generated
 	 */
 	public Adapter createNumericCellAdapter() {
@@ -242,16 +224,16 @@ public class ExcelmodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link EnumCell <em>Enum Cell</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.BooleanCell <em>Boolean Cell</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see EnumCell
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.BooleanCell
 	 * @generated
 	 */
-	public Adapter createEnumCellAdapter() {
+	public Adapter createBooleanCellAdapter() {
 		return null;
 	}
 

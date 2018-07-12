@@ -1,9 +1,9 @@
 package de.tuberlin.sqe.ss18.reqexchange.model;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelModel2File;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelFactory;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelPackage;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.Workbook;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelModel2File;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelFactory;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Workbook;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
-import org.eclipse.m2m.qvt.oml.ModelExtent;
 import org.eclipse.ocl.ecore.OCL;
 import org.eclipse.ocl.ecore.delegate.OCLDelegateDomain;
 import org.eclipse.papyrus.sysml14.sysmlPackage;

@@ -1,8 +1,9 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.excel.util;
+package de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.util;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.*;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.*;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -18,7 +19,7 @@ import org.eclipse.emf.ecore.util.Switch;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see ExcelmodelPackage
+ * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage
  * @generated
  */
 public class ExcelmodelSwitch<T> extends Switch<T> {
@@ -104,15 +105,6 @@ public class ExcelmodelSwitch<T> extends Switch<T> {
 				result = defaultCase(theEObject);
 			return result;
 		}
-		case ExcelmodelPackage.BOOLEAN_CELL: {
-			BooleanCell booleanCell = (BooleanCell) theEObject;
-			T result = caseBooleanCell(booleanCell);
-			if (result == null)
-				result = caseCell(booleanCell);
-			if (result == null)
-				result = defaultCase(theEObject);
-			return result;
-		}
 		case ExcelmodelPackage.STRING_CELL: {
 			StringCell stringCell = (StringCell) theEObject;
 			T result = caseStringCell(stringCell);
@@ -131,11 +123,11 @@ public class ExcelmodelSwitch<T> extends Switch<T> {
 				result = defaultCase(theEObject);
 			return result;
 		}
-		case ExcelmodelPackage.ENUM_CELL: {
-			EnumCell enumCell = (EnumCell) theEObject;
-			T result = caseEnumCell(enumCell);
+		case ExcelmodelPackage.BOOLEAN_CELL: {
+			BooleanCell booleanCell = (BooleanCell) theEObject;
+			T result = caseBooleanCell(booleanCell);
 			if (result == null)
-				result = caseCell(enumCell);
+				result = caseCell(booleanCell);
 			if (result == null)
 				result = defaultCase(theEObject);
 			return result;
@@ -221,21 +213,6 @@ public class ExcelmodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Boolean Cell</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Boolean Cell</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseBooleanCell(BooleanCell object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>String Cell</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -266,17 +243,17 @@ public class ExcelmodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Enum Cell</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Boolean Cell</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Enum Cell</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Boolean Cell</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseEnumCell(EnumCell object) {
+	public T caseBooleanCell(BooleanCell object) {
 		return null;
 	}
 

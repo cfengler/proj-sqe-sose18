@@ -1,6 +1,6 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.excel;
+package de.tuberlin.sqe.ss18.reqexchange.model.excelmodel;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -13,17 +13,17 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link Worksheet#getRows <em>Rows</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Worksheet#getRows <em>Rows</em>}</li>
  * </ul>
  *
- * @see ExcelmodelPackage#getWorksheet()
+ * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage#getWorksheet()
  * @model
  * @generated
  */
 public interface Worksheet extends NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Rows</b></em>' containment reference list.
-	 * The list contents are of type {@link Row}.
+	 * The list contents are of type {@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Row}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Rows</em>' containment reference list isn't clear,
@@ -31,7 +31,7 @@ public interface Worksheet extends NamedElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Rows</em>' containment reference list.
-	 * @see ExcelmodelPackage#getWorksheet_Rows()
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage#getWorksheet_Rows()
 	 * @model containment="true"
 	 * @generated
 	 */

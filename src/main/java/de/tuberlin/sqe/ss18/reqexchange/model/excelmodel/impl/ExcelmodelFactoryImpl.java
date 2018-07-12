@@ -1,8 +1,9 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.excel.impl;
+package de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.impl;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.*;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.*;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -61,14 +62,12 @@ public class ExcelmodelFactoryImpl extends EFactoryImpl implements ExcelmodelFac
 			return createWorksheet();
 		case ExcelmodelPackage.ROW:
 			return createRow();
-		case ExcelmodelPackage.BOOLEAN_CELL:
-			return createBooleanCell();
 		case ExcelmodelPackage.STRING_CELL:
 			return createStringCell();
 		case ExcelmodelPackage.NUMERIC_CELL:
 			return createNumericCell();
-		case ExcelmodelPackage.ENUM_CELL:
-			return createEnumCell();
+		case ExcelmodelPackage.BOOLEAN_CELL:
+			return createBooleanCell();
 		default:
 			throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -109,16 +108,6 @@ public class ExcelmodelFactoryImpl extends EFactoryImpl implements ExcelmodelFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public BooleanCell createBooleanCell() {
-		BooleanCellImpl booleanCell = new BooleanCellImpl();
-		return booleanCell;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public StringCell createStringCell() {
 		StringCellImpl stringCell = new StringCellImpl();
 		return stringCell;
@@ -139,9 +128,9 @@ public class ExcelmodelFactoryImpl extends EFactoryImpl implements ExcelmodelFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EnumCell createEnumCell() {
-		EnumCellImpl enumCell = new EnumCellImpl();
-		return enumCell;
+	public BooleanCell createBooleanCell() {
+		BooleanCellImpl booleanCell = new BooleanCellImpl();
+		return booleanCell;
 	}
 
 	/**

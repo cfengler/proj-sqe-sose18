@@ -1,6 +1,6 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.excel;
+package de.tuberlin.sqe.ss18.reqexchange.model.excelmodel;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see ExcelmodelPackage
+ * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage
  * @generated
  */
 public interface ExcelmodelFactory extends EFactory {
@@ -19,8 +19,7 @@ public interface ExcelmodelFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	ExcelmodelFactory eINSTANCE = de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.ExcelmodelFactoryImpl
-			.init();
+	ExcelmodelFactory eINSTANCE = de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.impl.ExcelmodelFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Workbook</em>'.
@@ -50,15 +49,6 @@ public interface ExcelmodelFactory extends EFactory {
 	Row createRow();
 
 	/**
-	 * Returns a new object of class '<em>Boolean Cell</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Boolean Cell</em>'.
-	 * @generated
-	 */
-	BooleanCell createBooleanCell();
-
-	/**
 	 * Returns a new object of class '<em>String Cell</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -77,13 +67,13 @@ public interface ExcelmodelFactory extends EFactory {
 	NumericCell createNumericCell();
 
 	/**
-	 * Returns a new object of class '<em>Enum Cell</em>'.
+	 * Returns a new object of class '<em>Boolean Cell</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Enum Cell</em>'.
+	 * @return a new object of class '<em>Boolean Cell</em>'.
 	 * @generated
 	 */
-	EnumCell createEnumCell();
+	BooleanCell createBooleanCell();
 
 	/**
 	 * Returns the package supported by this factory.

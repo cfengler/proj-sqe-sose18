@@ -1,6 +1,6 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.excel;
+package de.tuberlin.sqe.ss18.reqexchange.model.excelmodel;
 
 /**
  * <!-- begin-user-doc -->
@@ -11,17 +11,16 @@ package de.tuberlin.sqe.ss18.reqexchange.model.excel;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link BooleanCell#isBoolValue <em>Bool Value</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.BooleanCell#isBoolValue <em>Bool Value</em>}</li>
  * </ul>
  *
- * @see ExcelmodelPackage#getBooleanCell()
+ * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage#getBooleanCell()
  * @model
  * @generated
  */
 public interface BooleanCell extends Cell {
 	/**
 	 * Returns the value of the '<em><b>Bool Value</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Bool Value</em>' attribute isn't clear,
@@ -30,14 +29,14 @@ public interface BooleanCell extends Cell {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Bool Value</em>' attribute.
 	 * @see #setBoolValue(boolean)
-	 * @see ExcelmodelPackage#getBooleanCell_BoolValue()
-	 * @model default="false"
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage#getBooleanCell_BoolValue()
+	 * @model
 	 * @generated
 	 */
 	boolean isBoolValue();
 
 	/**
-	 * Sets the value of the '{@link BooleanCell#isBoolValue <em>Bool Value</em>}' attribute.
+	 * Sets the value of the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.BooleanCell#isBoolValue <em>Bool Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Bool Value</em>' attribute.

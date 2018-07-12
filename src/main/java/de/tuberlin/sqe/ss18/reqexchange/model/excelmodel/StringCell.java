@@ -1,6 +1,6 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.excel;
+package de.tuberlin.sqe.ss18.reqexchange.model.excelmodel;
 
 /**
  * <!-- begin-user-doc -->
@@ -11,10 +11,10 @@ package de.tuberlin.sqe.ss18.reqexchange.model.excel;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link StringCell#getStringValue <em>String Value</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.StringCell#getStringValue <em>String Value</em>}</li>
  * </ul>
  *
- * @see ExcelmodelPackage#getStringCell()
+ * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage#getStringCell()
  * @model
  * @generated
  */
@@ -29,14 +29,14 @@ public interface StringCell extends Cell {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>String Value</em>' attribute.
 	 * @see #setStringValue(String)
-	 * @see ExcelmodelPackage#getStringCell_StringValue()
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage#getStringCell_StringValue()
 	 * @model
 	 * @generated
 	 */
 	String getStringValue();
 
 	/**
-	 * Sets the value of the '{@link StringCell#getStringValue <em>String Value</em>}' attribute.
+	 * Sets the value of the '{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.StringCell#getStringValue <em>String Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>String Value</em>' attribute.

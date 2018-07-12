@@ -1,9 +1,9 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.excel.impl;
+package de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.impl;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.BooleanCell;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelPackage;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.BooleanCell;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.BooleanCellImpl#isBoolValue <em>Bool Value</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.impl.BooleanCellImpl#isBoolValue <em>Bool Value</em>}</li>
  * </ul>
  *
  * @generated

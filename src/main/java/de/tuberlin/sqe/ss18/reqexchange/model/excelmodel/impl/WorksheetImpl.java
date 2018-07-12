@@ -1,10 +1,10 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.excel.impl;
+package de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.impl;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelPackage;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.Row;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.Worksheet;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Row;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Worksheet;
 
 import java.util.Collection;
 
@@ -30,8 +30,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.WorksheetImpl#getName <em>Name</em>}</li>
- *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excel.impl.WorksheetImpl#getRows <em>Rows</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.impl.WorksheetImpl#getName <em>Name</em>}</li>
+ *   <li>{@link de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.impl.WorksheetImpl#getRows <em>Rows</em>}</li>
  * </ul>
  *
  * @generated

@@ -1,7 +1,7 @@
 package de.tuberlin.sqe.ss18.reqexchange.model;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelModel2File;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.Workbook;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelModel2File;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Workbook;
 import de.tuberlin.sqe.ss18.reqexchange.project.ReqExchangeFileType;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;

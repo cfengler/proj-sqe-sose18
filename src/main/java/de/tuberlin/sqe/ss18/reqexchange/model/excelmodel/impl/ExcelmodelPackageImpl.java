@@ -1,18 +1,17 @@
 /**
  */
-package de.tuberlin.sqe.ss18.reqexchange.model.excel.impl;
+package de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.impl;
 
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.BooleanCell;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.Cell;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.EnumCell;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelFactory;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.ExcelmodelPackage;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.NamedElement;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.NumericCell;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.Row;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.StringCell;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.Workbook;
-import de.tuberlin.sqe.ss18.reqexchange.model.excel.Worksheet;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.BooleanCell;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Cell;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelFactory;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.NamedElement;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.NumericCell;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Row;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.StringCell;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Workbook;
+import de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.Worksheet;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -68,13 +67,6 @@ public class ExcelmodelPackageImpl extends EPackageImpl implements ExcelmodelPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass booleanCellEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass stringCellEClass = null;
 
 	/**
@@ -89,7 +81,7 @@ public class ExcelmodelPackageImpl extends EPackageImpl implements ExcelmodelPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass enumCellEClass = null;
+	private EClass booleanCellEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -102,7 +94,7 @@ public class ExcelmodelPackageImpl extends EPackageImpl implements ExcelmodelPac
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see ExcelmodelPackage#eNS_URI
+	 * @see de.tuberlin.sqe.ss18.reqexchange.model.excelmodel.ExcelmodelPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
@@ -267,24 +259,6 @@ public class ExcelmodelPackageImpl extends EPackageImpl implements ExcelmodelPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getBooleanCell() {
-		return booleanCellEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getBooleanCell_BoolValue() {
-		return (EAttribute) booleanCellEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getStringCell() {
 		return stringCellEClass;
 	}
@@ -321,8 +295,8 @@ public class ExcelmodelPackageImpl extends EPackageImpl implements ExcelmodelPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getEnumCell() {
-		return enumCellEClass;
+	public EClass getBooleanCell() {
+		return booleanCellEClass;
 	}
 
 	/**
@@ -330,17 +304,8 @@ public class ExcelmodelPackageImpl extends EPackageImpl implements ExcelmodelPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEnumCell_Enums() {
-		return (EAttribute) enumCellEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getEnumCell_EnumValue() {
-		return (EAttribute) enumCellEClass.getEStructuralFeatures().get(1);
+	public EAttribute getBooleanCell_BoolValue() {
+		return (EAttribute) booleanCellEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -389,18 +354,14 @@ public class ExcelmodelPackageImpl extends EPackageImpl implements ExcelmodelPac
 		createEAttribute(cellEClass, CELL__COLUMN_INDEX);
 		createEAttribute(cellEClass, CELL__ROW_INDEX);
 
-		booleanCellEClass = createEClass(BOOLEAN_CELL);
-		createEAttribute(booleanCellEClass, BOOLEAN_CELL__BOOL_VALUE);
-
 		stringCellEClass = createEClass(STRING_CELL);
 		createEAttribute(stringCellEClass, STRING_CELL__STRING_VALUE);
 
 		numericCellEClass = createEClass(NUMERIC_CELL);
 		createEAttribute(numericCellEClass, NUMERIC_CELL__NUMERIC_VALUE);
 
-		enumCellEClass = createEClass(ENUM_CELL);
-		createEAttribute(enumCellEClass, ENUM_CELL__ENUMS);
-		createEAttribute(enumCellEClass, ENUM_CELL__ENUM_VALUE);
+		booleanCellEClass = createEClass(BOOLEAN_CELL);
+		createEAttribute(booleanCellEClass, BOOLEAN_CELL__BOOL_VALUE);
 	}
 
 	/**
@@ -434,10 +395,9 @@ public class ExcelmodelPackageImpl extends EPackageImpl implements ExcelmodelPac
 		// Add supertypes to classes
 		workbookEClass.getESuperTypes().add(this.getNamedElement());
 		worksheetEClass.getESuperTypes().add(this.getNamedElement());
-		booleanCellEClass.getESuperTypes().add(this.getCell());
 		stringCellEClass.getESuperTypes().add(this.getCell());
 		numericCellEClass.getESuperTypes().add(this.getCell());
-		enumCellEClass.getESuperTypes().add(this.getCell());
+		booleanCellEClass.getESuperTypes().add(this.getCell());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(workbookEClass, Workbook.class, "Workbook", !IS_ABSTRACT, !IS_INTERFACE,
@@ -470,12 +430,6 @@ public class ExcelmodelPackageImpl extends EPackageImpl implements ExcelmodelPac
 		initEAttribute(getCell_RowIndex(), ecorePackage.getEInt(), "rowIndex", null, 0, 1, Cell.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(booleanCellEClass, BooleanCell.class, "BooleanCell", !IS_ABSTRACT, !IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getBooleanCell_BoolValue(), ecorePackage.getEBoolean(), "boolValue", "false", 0, 1,
-				BooleanCell.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
-				!IS_DERIVED, IS_ORDERED);
-
 		initEClass(stringCellEClass, StringCell.class, "StringCell", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStringCell_StringValue(), ecorePackage.getEString(), "stringValue", null, 0, 1,
@@ -488,12 +442,11 @@ public class ExcelmodelPackageImpl extends EPackageImpl implements ExcelmodelPac
 				NumericCell.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(enumCellEClass, EnumCell.class, "EnumCell", !IS_ABSTRACT, !IS_INTERFACE,
+		initEClass(booleanCellEClass, BooleanCell.class, "BooleanCell", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getEnumCell_Enums(), ecorePackage.getEEnumerator(), "Enums", null, 0, 1, EnumCell.class,
-				IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEnumCell_EnumValue(), ecorePackage.getEString(), "EnumValue", null, 0, 1, EnumCell.class,
-				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBooleanCell_BoolValue(), ecorePackage.getEBoolean(), "boolValue", null, 0, 1,
+				BooleanCell.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
