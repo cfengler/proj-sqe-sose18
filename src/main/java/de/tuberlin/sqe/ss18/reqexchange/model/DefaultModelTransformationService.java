@@ -139,21 +139,29 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         } else if (ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
             return transformSysmlToReqif(sourcePath.toFile(), destinationPath.toFile());
         } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Excel.getFiletypes().contains(destinationPathExtension)) {
-            if(destinationPathExtension.equals("xls")) {
-                return transformReqifToExcelXls(sourcePath.toFile(), destinationPath.toFile());
-            } else {
+            if(destinationPathExtension.equals("xlsx")) {
                 return transformReqifToExcelXlsx(sourcePath.toFile(), destinationPath.toFile());
+            } else {
+                return transformReqifToExcelXls(sourcePath.toFile(), destinationPath.toFile());
             }
         } else if (ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
-            if(sourcePathExtension.equals("xls")) {
-                return transformExcelToReqifXls(sourcePath.toFile(), destinationPath.toFile());
-            } else {
+            if(sourcePathExtension.equals("xlsx")) {
                 return transformExcelToReqifXlsx(sourcePath.toFile(), destinationPath.toFile());
+            } else {
+                return transformExcelToReqifXls(sourcePath.toFile(), destinationPath.toFile());
             }
         } else if (ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
-            return transformWordToReqif(sourcePath.toFile(), destinationPath.toFile());
+            if(sourcePathExtension.equals("docx")) {
+                return transformWordToReqifDocx(sourcePath.toFile(), destinationPath.toFile());
+            } else {
+                return transformWordToReqifDoc(sourcePath.toFile(), destinationPath.toFile());
+            }
         } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Word.getFiletypes().contains(destinationPathExtension)) {
-            return transformReqifToWord(sourcePath.toFile(), destinationPath.toFile());
+            if(destinationPathExtension.equals("docx")) {
+                return transformReqifToWordDocx(sourcePath.toFile(), destinationPath.toFile());
+            } else {
+                return transformReqifToWordDoc(sourcePath.toFile(), destinationPath.toFile());
+            }
         } else {
             System.out.println("DefaultModelTransformationService.transform Extension not supported");
             return false;
@@ -233,13 +241,25 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         return copy(sourceFile, destinationFile);
     }
 
-    private boolean transformReqifToWord(File sourceFile, File destinationFile) {
+    private boolean transformReqifToWordDocx(File sourceFile, File destinationFile) {
         //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
         return copy(sourceFile, destinationFile);
     }
 
-    private boolean transformWordToReqif(File sourceFile, File destinationFile) {
+    private boolean transformReqifToWordDoc(File sourceFile, File destinationFile) {
+        //TODO: also first validate source Files with Model Validator
+        //TODO: remove with correct implementation
+        return copy(sourceFile, destinationFile);
+    }
+
+    private boolean transformWordToReqifDocx(File sourceFile, File destinationFile) {
+        //TODO: also first validate source Files with Model Validator
+        //TODO: remove with correct implementation
+        return copy(sourceFile, destinationFile);
+    }
+
+    private boolean transformWordToReqifDoc(File sourceFile, File destinationFile) {
         //TODO: also first validate source Files with Model Validator
         //TODO: remove with correct implementation
         return copy(sourceFile, destinationFile);

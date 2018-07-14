@@ -125,7 +125,6 @@ public class ClientController {
                 filetypeFilters.add("*." + s);
             }
             chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(filetype.getName(), filetypeFilters));
-            //chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("ReqIF File", "*.reqif", "*.reqifz"));
             File chosen = chooser.showOpenDialog(grid.getScene().getWindow());
             if(chosen != null) {
                 filename.setText(chosen.getAbsolutePath());
