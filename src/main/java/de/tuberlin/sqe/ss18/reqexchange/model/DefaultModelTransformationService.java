@@ -91,7 +91,10 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         /*
             Find right method for handling current combination of model types based on file extension
          */
-        if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.SysML.getFiletypes().contains(destinationPathExtension)) {
+        if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
+            return copy(sourcePath.toFile(), destinationPath.toFile());
+        }
+        else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.SysML.getFiletypes().contains(destinationPathExtension)) {
             return transformReqifToSysml(sourcePath.toFile(), destinationPath.toFile());
         } else if (ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
             return transformSysmlToReqif(sourcePath.toFile(), destinationPath.toFile());
@@ -293,6 +296,20 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         } else {
             // turn the result diagnostic into status and send it to error log
             System.out.println("Transformation failed:" + result);
+            return false;
+        }
+    }
+
+    private boolean copy(File sourceFile, File destinationFile) {
+        if (!sourceFile.exists()) {
+            return false;
+        }
+
+        try {
+            FileUtils.copyFile(sourceFile, destinationFile);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
             return false;
         }
     }
