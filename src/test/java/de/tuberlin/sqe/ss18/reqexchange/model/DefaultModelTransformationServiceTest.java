@@ -43,34 +43,62 @@ public class DefaultModelTransformationServiceTest {
     }
 
     @Test
-    public void test_03b1_transformXlsx() {
-        //TODO:implement
-        //transformation reqif to excel
-        //füge Requirement hinzu
-        //transformattion excel to reqif
-        //check result of reqif against expected file
+    public void test_01a_TransformReqIFToXls() {
+        // TODO: Better Testing @Magnus?
+        Assert.assertTrue(modelTransformationService.transform(UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("validate").resolve("04_Papyrus_ReqExchange_Test.reqif"), UnitTestHelper.getTestPath().resolve("Dummy.xls")));
     }
 
     @Test
-    public void test_03b2_transformDocx() {
+    public void test_01b_TransformReqIFToXlsx() {
+        // TODO: Better Testing @Magnus?
+        Assert.assertTrue(modelTransformationService.transform(UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("validate").resolve("04_Papyrus_ReqExchange_Test.reqif"), UnitTestHelper.getTestPath().resolve("Dummy.xlsx")));
+    }
+
+    @Test
+    public void test_01c_TransformReqIFToDocx() {
         //TODO: implement
-        //transformation reqif to docx
-        //füge Requirement hinzu
-        //transformattion docx to reqif
-        //check result of reqif against expected file
+        Assert.assertTrue(modelTransformationService.transform(UnitTestHelper.getTestPath().resolve("Dummy.reqif"), UnitTestHelper.getTestPath().resolve("Dummy.docx")));
     }
 
     @Test
-    public void test_03c_transformSysML() {
-        //TODO:implement
-        //transformation reqif to sysml
-        //füge Requirement hinzu
-        //transformattion sysml to reqif
-        //check result of reqif against expected file
+    public void test_01d_TransformReqIFToDoc() {
+        //TODO: implement
+        Assert.assertTrue(modelTransformationService.transform(UnitTestHelper.getTestPath().resolve("Dummy.reqif"), UnitTestHelper.getTestPath().resolve("Dummy.doc")));
+    }
+
+
+    @Test
+    public void test_02a_TransformXlsxToReqIF() {
+        //TODO: implement
+        Assert.assertTrue(modelTransformationService.transform(UnitTestHelper.getTestPath().resolve("Dummy.xlsx"), UnitTestHelper.getTestPath().resolve("Dummy.reqif")));
     }
 
     @Test
-    public void test_03d_TransformSysMLToReqIF_Structure() {
+    public void test_02b_TransformXlsToReqIF() {
+        //TODO: implement
+        Assert.assertTrue(modelTransformationService.transform(UnitTestHelper.getTestPath().resolve("Dummy.xls"), UnitTestHelper.getTestPath().resolve("Dummy.reqif")));
+    }
+
+    @Test
+    public void test_02a_TransformDocxToReqIF() {
+        //TODO: implement
+        Assert.assertTrue(modelTransformationService.transform(UnitTestHelper.getTestPath().resolve("Dummy.docx"), UnitTestHelper.getTestPath().resolve("Dummy.reqif")));
+    }
+
+    @Test
+    public void test_02b_TransformDocToReqIF() {
+        //TODO: implement
+        Assert.assertTrue(modelTransformationService.transform(UnitTestHelper.getTestPath().resolve("Dummy.doc"), UnitTestHelper.getTestPath().resolve("Dummy.reqif")));
+    }
+
+    @Test
+    public void test_2c_TransformSysMLToReqIF() {
+        //TODO: implement
+        Assert.assertTrue(modelTransformationService.transform(UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("04_Papyrus_ReqExchange.uml"), UnitTestHelper.getTestPath().resolve("Dummy.reqif")));
+    }
+
+    @Test
+    public void test_02c1_TransformSysMLToReqIF_Structure() {
         Path inSysML = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("04_Papyrus_ReqExchange.uml");
         Path outReqIF = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_Test.reqif");
         Path validationFile = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("validate").resolve("04_Papyrus_ReqExchange_Test.reqif");
@@ -87,7 +115,7 @@ public class DefaultModelTransformationServiceTest {
     }
 
     @Test
-    public void test_03e_TransformSysMLToReqIF_Content() {
+    public void test_02c2_TransformSysMLToReqIF_Content() {
         Path inSysML = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("04_Papyrus_ReqExchange.uml");
         Path outReqIF = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_Test.reqif");
         Assert.assertTrue(modelTransformationService.transform(inSysML, outReqIF));
@@ -155,7 +183,7 @@ public class DefaultModelTransformationServiceTest {
 
 
     @Test
-    public void test_04_TransformSysML2ReqIF2Excel() {
+    public void test_03_TransformSysML2ReqIF2Excel() {
         Path sysML = UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("04_Papyrus_ReqExchange_TreeTable.uml");
         Path reqIF = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_TreeTable_Test.reqif");
         Path excel = UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_TreeTable_Test.xlsx");
@@ -164,6 +192,29 @@ public class DefaultModelTransformationServiceTest {
         Assert.assertTrue(modelTransformationService.transform(reqIF, excel));
 
         Assert.assertTrue(excel.toFile().exists());
+    }
+
+    @Test
+    public void test_04a_TransformNullInput() {
+        Assert.assertFalse(modelTransformationService.transform(null, null));
+        Assert.assertFalse(modelTransformationService.transform(UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_TreeTable_Test.reqif"), null));
+    }
+
+    @Test
+    public void test_04b_TransformNotFilePath() {
+        Assert.assertFalse(modelTransformationService.transform(UnitTestHelper.getTestPath(), null));
+        Assert.assertFalse(modelTransformationService.transform(UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_TreeTable_Test.reqif"), UnitTestHelper.getTestPath()));
+    }
+
+    @Test
+    public void test_04c_TransformNotFromOrToReqIF() {
+        Assert.assertFalse(modelTransformationService.transform(UnitTestHelper.getTestPath().resolve("04_Papyrus_ReqExchange_TreeTable_Test.xlsx"), UnitTestHelper.getTestPath().getParent().resolve("unitTest").resolve("transformation").resolve("04_Papyrus_ReqExchange.uml")));
+    }
+
+    @Test
+    public void test_04d_TransformUnknownExtension() {
+        //TODO: implement
+        Assert.assertFalse(modelTransformationService.transform(UnitTestHelper.getTestPath().resolve("Dummy.reqif"), UnitTestHelper.getTestPath().resolve("Dummy.xxx")));
     }
 
 }

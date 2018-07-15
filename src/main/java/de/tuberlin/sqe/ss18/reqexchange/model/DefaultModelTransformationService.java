@@ -161,39 +161,12 @@ public class DefaultModelTransformationService implements ModelTransformationSer
     }
 
     private boolean transformExcelToReqifXls(File sourceFile, File destinationFile) {
-        //create xlsxModel out of the file
-        HSSFWorkbook xlsWorkbook;
-        try {
-            xlsWorkbook = new HSSFWorkbook(new FileInputStream(sourceFile));
-        } catch (IOException e) {
-            System.out.println("DefaultModelTransformationService.transform error reading excel file");
-            return false;
-        }
-
-        //transform xlsModel to excelModel
-        Workbook excelWorkbook = ExcelModel2File.transformXlsModelToExcelModel(xlsWorkbook);
-
         //TODO: QVTO Transformation Excel to ReqIF
         System.out.println("DefaultModelTransformationService.transform transformation currently not supported");
         return false;
     }
 
     private boolean transformExcelToReqifXlsx(File sourceFile, File destinationFile) {
-        //create xlsxModel out of the file
-        XSSFWorkbook xlsxWorkbook;
-        try {
-            xlsxWorkbook = new XSSFWorkbook(sourceFile);
-        } catch (IOException e) {
-            System.out.println("DefaultModelTransformationService.transform error reading excel file");
-            return false;
-        } catch (InvalidFormatException e) {
-            System.out.println("DefaultModelTransformationService.transform invalid excel file");
-            return false;
-        }
-
-        //transform xlsxModel to excelModel
-        Workbook excelWorkbook = ExcelModel2File.transformXlsxModelToExcelModel(xlsxWorkbook);
-
         //TODO: QVTO Transformation Excel to ReqIF
         System.out.println("DefaultModelTransformationService.transform transformation currently not supported");
         return false;
