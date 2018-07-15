@@ -48,7 +48,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
 
     /**
      * Transformation wrapper method. Identifies the model types of the given Paths and choose the right methods for their transformation.
-     * Note: Some directions might not be implemented at this time.
+     * Note: Some directions might not be implemented at this time and will return false and a error message in console.
      * @param sourcePath - Path of the model file which should be transformed. Has to have one of the correct file extension associated with the File (See ReqExchangeFileType)
      * @param destinationPath - Path to the model file which should be the outcome of the transformation. File can be filled, empty or not created. Only make sure the Paht has the correct file extension associated with the File (See ReqExchangeFileType)
      * @return true if transformation was successful, false otherwise
@@ -91,15 +91,7 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         /*
             Find right method for handling current combination of model types based on file extension
          */
-        if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
-            return copy(sourcePath.toFile(), destinationPath.toFile());
-        } else if (ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.SysML.getFiletypes().contains(destinationPathExtension)) {
-            return copy(sourcePath.toFile(), destinationPath.toFile());
-        } else if (ReqExchangeFileType.Excel.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Excel.getFiletypes().contains(destinationPathExtension)) {
-            return copy(sourcePath.toFile(), destinationPath.toFile());
-        } else if (ReqExchangeFileType.Word.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.Word.getFiletypes().contains(destinationPathExtension)) {
-            return copy(sourcePath.toFile(), destinationPath.toFile());
-        } else if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.SysML.getFiletypes().contains(destinationPathExtension)) {
+        if (ReqExchangeFileType.ReqIF.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.SysML.getFiletypes().contains(destinationPathExtension)) {
             return transformReqifToSysml(sourcePath.toFile(), destinationPath.toFile());
         } else if (ReqExchangeFileType.SysML.getFiletypes().contains(sourcePathExtension) && ReqExchangeFileType.ReqIF.getFiletypes().contains(destinationPathExtension)) {
             return transformSysmlToReqif(sourcePath.toFile(), destinationPath.toFile());
@@ -134,9 +126,9 @@ public class DefaultModelTransformationService implements ModelTransformationSer
     }
 
     private boolean transformReqifToSysml(File sourceFile, File destinationFile) {
-        //TODO: also first validate source Files with Model Validator
-        //TODO: remove with correct implementation
-        return copy(sourceFile, destinationFile);
+        //TODO: QVTO Transformation ReqIF to SysML
+        System.out.println("DefaultModelTransformationService.transform transformation currently not supported");
+        return false;
     }
 
     private boolean transformSysmlToReqif(File sourceFile, File destinationFile) {
@@ -178,10 +170,9 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         //transform xlsModel to excelModel
         Workbook excelWorkbook = ExcelModel2File.transformXlsModelToExcelModel(xlsWorkbook);
 
-        //TODO transform excelModel to reqifModel to file
-
-        //return true;
-        return copy(sourceFile, destinationFile);
+        //TODO: QVTO Transformation Excel to ReqIF
+        System.out.println("DefaultModelTransformationService.transform transformation currently not supported");
+        return false;
     }
 
     private boolean transformExcelToReqifXlsx(File sourceFile, File destinationFile) {
@@ -200,50 +191,35 @@ public class DefaultModelTransformationService implements ModelTransformationSer
         //transform xlsxModel to excelModel
         Workbook excelWorkbook = ExcelModel2File.transformXlsxModelToExcelModel(xlsxWorkbook);
 
-        //TODO transform excelModel to reqifModel to file
-
-        //return true;
-        return copy(sourceFile, destinationFile);
+        //TODO: QVTO Transformation Excel to ReqIF
+        System.out.println("DefaultModelTransformationService.transform transformation currently not supported");
+        return false;
     }
 
     private boolean transformReqifToWordDocx(File sourceFile, File destinationFile) {
-        //TODO: also first validate source Files with Model Validator
-        //TODO: remove with correct implementation
-        return copy(sourceFile, destinationFile);
+        //TODO: QVTO Transformation ReqIF to Word (docx)
+        System.out.println("DefaultModelTransformationService.transform transformation currently not supported");
+        return false;
     }
 
     private boolean transformReqifToWordDoc(File sourceFile, File destinationFile) {
-        //TODO: also first validate source Files with Model Validator
-        //TODO: remove with correct implementation
-        return copy(sourceFile, destinationFile);
+        //TODO: QVTO Transformation ReqIF to Word (doc)
+        System.out.println("DefaultModelTransformationService.transform transformation currently not supported");
+        return false;
     }
 
     private boolean transformWordToReqifDocx(File sourceFile, File destinationFile) {
-        //TODO: also first validate source Files with Model Validator
-        //TODO: remove with correct implementation
-        return copy(sourceFile, destinationFile);
+        //TODO: QVTO Transformation Word (docx) to ReqIF
+        System.out.println("DefaultModelTransformationService.transform transformation currently not supported");
+        return false;
     }
 
     private boolean transformWordToReqifDoc(File sourceFile, File destinationFile) {
-        //TODO: also first validate source Files with Model Validator
-        //TODO: remove with correct implementation
-        return copy(sourceFile, destinationFile);
+        //TODO: QVTO Transformation Word (doc) to ReqIF
+        System.out.println("DefaultModelTransformationService.transform transformation currently not supported");
+        return false;
     }
 
-    //TODO: remove when other model transformations work
-    private boolean copy(File sourceFile, File destinationFile) {
-        if (!sourceFile.exists()) {
-            return false;
-        }
-
-        try {
-            FileUtils.copyFile(sourceFile, destinationFile);
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     /**
      * Runs the transformation. Currently are models transformed via QVT-Operational.
