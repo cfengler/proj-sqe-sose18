@@ -72,7 +72,38 @@
         </ownedOperation>
       </packagedElement>
     </packagedElement>
-    <packagedElement xmi:type="uml:Package" xmi:id="_SqvhkIQ9EeiGI7Kx4f_-0Q" name="implementation"/>
+    <packagedElement xmi:type="uml:Package" xmi:id="_SqvhkIQ9EeiGI7Kx4f_-0Q" name="implementation">
+      <packagedElement xmi:type="uml:Association" xmi:id="_vtvU8IiWEeiTk5pjorssxA" memberEnd="_vt5tAIiWEeiTk5pjorssxA _vt8wUYiWEeiTk5pjorssxA">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_vt4e4IiWEeiTk5pjorssxA" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_vt5F8IiWEeiTk5pjorssxA" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_vt8wUYiWEeiTk5pjorssxA" name="defaultgitservice" type="_2JjFoIc0EeiiOKOpKZLISw" association="_vtvU8IiWEeiTk5pjorssxA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_2GgN0IiWEeiTk5pjorssxA" memberEnd="_2Ghb8IiWEeiTk5pjorssxA _2GiDAIiWEeiTk5pjorssxA">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2Gg04IiWEeiTk5pjorssxA" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2Gg04YiWEeiTk5pjorssxA" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_2GiDAIiWEeiTk5pjorssxA" name="gitservice" type="_2JNHYYc0EeiiOKOpKZLISw" association="_2GgN0IiWEeiTk5pjorssxA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_5F8acIiWEeiTk5pjorssxA" memberEnd="_5F9okYiWEeiTk5pjorssxA _5F-PoYiWEeiTk5pjorssxA">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_5F9BgIiWEeiTk5pjorssxA" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_5F9okIiWEeiTk5pjorssxA" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_5F-PoYiWEeiTk5pjorssxA" name="defaultprojectservice" type="_2Z3ZkIc0EeiiOKOpKZLISw" association="_5F8acIiWEeiTk5pjorssxA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_CNTAgIiXEeiTk5pjorssxA" memberEnd="_CNVcwYiXEeiTk5pjorssxA _CNWD0oiXEeiTk5pjorssxA">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_CNU1sIiXEeiTk5pjorssxA" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_CNVcwIiXEeiTk5pjorssxA" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_CNWD0oiXEeiTk5pjorssxA" name="projectservice" type="_2ZxS8Ic0EeiiOKOpKZLISw" association="_CNTAgIiXEeiTk5pjorssxA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_FshgcIiXEeiTk5pjorssxA" memberEnd="_FsiHgoiXEeiTk5pjorssxA _FsiukIiXEeiTk5pjorssxA">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_FsiHgIiXEeiTk5pjorssxA" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_FsiHgYiXEeiTk5pjorssxA" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_FsiukIiXEeiTk5pjorssxA" name="clientviewmodel" type="_2czY0Ic0EeiiOKOpKZLISw" association="_FshgcIiXEeiTk5pjorssxA"/>
+      </packagedElement>
+    </packagedElement>
     <packagedElement xmi:type="uml:Model" xmi:id="_gmHZYIc0EeiiOKOpKZLISw" name="ReqExchange">
       <packagedElement xmi:type="uml:Package" xmi:id="_2IOP8Ic0EeiiOKOpKZLISw" name="reqexchange">
         <packagedElement xmi:type="uml:Package" xmi:id="_2IRTQIc0EeiiOKOpKZLISw" name="de">
@@ -274,6 +305,10 @@
                       <ownedOperation xmi:type="uml:Operation" xmi:id="_2JNHYIc0EeiiOKOpKZLISw" name="save" visibility="private"/>
                     </packagedElement>
                     <packagedElement xmi:type="uml:Interface" xmi:id="_2JNHYYc0EeiiOKOpKZLISw" name="GitService" visibility="public">
+                      <ownedAttribute xmi:type="uml:Property" xmi:id="_2Ghb8IiWEeiTk5pjorssxA" name="project" type="_2JNucYc0EeiiOKOpKZLISw" association="_2GgN0IiWEeiTk5pjorssxA">
+                        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2Ghb8YiWEeiTk5pjorssxA"/>
+                        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_2Ghb8oiWEeiTk5pjorssxA" value="1"/>
+                      </ownedAttribute>
                       <ownedOperation xmi:type="uml:Operation" xmi:id="_2JOVgIc0EeiiOKOpKZLISw" name="clone" visibility="private">
                         <ownedParameter xmi:type="uml:Parameter" xmi:id="_2JOVgYc0EeiiOKOpKZLISw" direction="return">
                           <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_vAIV4I7PEdySGvm5GN66HA"/>
@@ -408,6 +443,10 @@
                       <ownedAttribute xmi:type="uml:Property" xmi:id="_2JjssIc0EeiiOKOpKZLISw" name="pathService" visibility="private" type="_2IwbcYc0EeiiOKOpKZLISw" isUnique="false" aggregation="composite" association="_C0TmYIdIEeiiOKOpKZLISw"/>
                       <ownedAttribute xmi:type="uml:Property" xmi:id="_2JkTwIc0EeiiOKOpKZLISw" name="gitPropertiesService" visibility="private" type="_2JKEEYc0EeiiOKOpKZLISw" isUnique="false" aggregation="composite" association="_fbQ_wIdIEeiiOKOpKZLISw"/>
                       <ownedAttribute xmi:type="uml:Property" xmi:id="_2JmwAIc0EeiiOKOpKZLISw" name="credentialsProvider" visibility="private" type="_2JkTwYc0EeiiOKOpKZLISw" isUnique="false"/>
+                      <ownedAttribute xmi:type="uml:Property" xmi:id="_vt5tAIiWEeiTk5pjorssxA" name="project" type="_2JNucYc0EeiiOKOpKZLISw" association="_vtvU8IiWEeiTk5pjorssxA">
+                        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vt8JQIiWEeiTk5pjorssxA"/>
+                        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vt8wUIiWEeiTk5pjorssxA" value="1"/>
+                      </ownedAttribute>
                       <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_2JjFoYc0EeiiOKOpKZLISw" name="DefaultGitService implements GitService" client="_2JjFoIc0EeiiOKOpKZLISw" supplier="_2JNHYYc0EeiiOKOpKZLISw" contract="_2JNHYYc0EeiiOKOpKZLISw"/>
                       <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_2JpzUYc0EeiiOKOpKZLISw" name="DefaultGitService" specification="_2JnXEIc0EeiiOKOpKZLISw">
                         <language>JAVA</language>
@@ -838,6 +877,10 @@
                       <ownedOperation xmi:type="uml:Operation" xmi:id="_2anAcIc0EeiiOKOpKZLISw" name="Project" visibility="public" method="_2ao1oIc0EeiiOKOpKZLISw"/>
                     </packagedElement>
                     <packagedElement xmi:type="uml:Interface" xmi:id="_2ZxS8Ic0EeiiOKOpKZLISw" name="ProjectService" visibility="public">
+                      <ownedAttribute xmi:type="uml:Property" xmi:id="_CNVcwYiXEeiTk5pjorssxA" name="project" type="_2JNucYc0EeiiOKOpKZLISw" association="_CNTAgIiXEeiTk5pjorssxA">
+                        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_CNWD0IiXEeiTk5pjorssxA"/>
+                        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_CNWD0YiXEeiTk5pjorssxA" value="1"/>
+                      </ownedAttribute>
                       <ownedOperation xmi:type="uml:Operation" xmi:id="_2ZxS8Yc0EeiiOKOpKZLISw" name="getAll" visibility="private">
                         <ownedParameter xmi:type="uml:Parameter" xmi:id="_2ZxS8oc0EeiiOKOpKZLISw" type="_2JNucYc0EeiiOKOpKZLISw" direction="return">
                           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2ZxS84c0EeiiOKOpKZLISw"/>
@@ -892,6 +935,10 @@
                       <ownedAttribute xmi:type="uml:Property" xmi:id="_2Z5OwIc0EeiiOKOpKZLISw" name="gitService" visibility="private" type="_2JNHYYc0EeiiOKOpKZLISw" isUnique="false" aggregation="composite" association="_ukb-U4dIEeiiOKOpKZLISw"/>
                       <ownedAttribute xmi:type="uml:Property" xmi:id="_2Z5OwYc0EeiiOKOpKZLISw" name="modelTransformationService" visibility="private" type="_2J-jcYc0EeiiOKOpKZLISw" isUnique="false" aggregation="composite" association="_ukdMc4dIEeiiOKOpKZLISw"/>
                       <ownedAttribute xmi:type="uml:Property" xmi:id="_2Z510Ic0EeiiOKOpKZLISw" name="modelValidationService" visibility="private" type="_2Kb2cYc0EeiiOKOpKZLISw" isUnique="false" aggregation="composite" association="_ukdzg4dIEeiiOKOpKZLISw"/>
+                      <ownedAttribute xmi:type="uml:Property" xmi:id="_5F9okYiWEeiTk5pjorssxA" name="project" type="_2JNucYc0EeiiOKOpKZLISw" association="_5F8acIiWEeiTk5pjorssxA">
+                        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5F9okoiWEeiTk5pjorssxA"/>
+                        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5F-PoIiWEeiTk5pjorssxA" value="1"/>
+                      </ownedAttribute>
                       <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_2Z4AoIc0EeiiOKOpKZLISw" name="DefaultProjectService implements ProjectService" client="_2Z3ZkIc0EeiiOKOpKZLISw" supplier="_2ZxS8Ic0EeiiOKOpKZLISw" contract="_2ZxS8Ic0EeiiOKOpKZLISw"/>
                       <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_2Z85IIc0EeiiOKOpKZLISw" name="DefaultProjectService" specification="_2Z510Yc0EeiiOKOpKZLISw">
                         <language>JAVA</language>
@@ -4857,6 +4904,7 @@
                     </packagedElement>
                     <packagedElement xmi:type="uml:Class" xmi:id="_2aymoIc0EeiiOKOpKZLISw" name="DefaultJsonSerializerService" visibility="public">
                       <generalization xmi:type="uml:Generalization" xmi:id="_2aymoYc0EeiiOKOpKZLISw"/>
+                      <generalization xmi:type="uml:Generalization" xmi:id="_xs_IAIdmEeiVX6ke7eneyA" general="_2cf20Ic0EeiiOKOpKZLISw"/>
                       <ownedAttribute xmi:type="uml:Property" xmi:id="_2a1C4Ic0EeiiOKOpKZLISw" name="gson" visibility="private" type="_2azNsIc0EeiiOKOpKZLISw" isUnique="false"/>
                       <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_2a24EIc0EeiiOKOpKZLISw" name="DefaultJsonSerializerService" specification="_2a1C4Yc0EeiiOKOpKZLISw">
                         <language>JAVA</language>
@@ -5499,6 +5547,10 @@
                         <ownedAttribute xmi:type="uml:Property" xmi:id="_2dR58Ic0EeiiOKOpKZLISw" name="projectService" visibility="private" type="_2ZxS8Ic0EeiiOKOpKZLISw" isUnique="false" aggregation="composite" association="_JXnF4IdJEeiiOKOpKZLISw"/>
                         <ownedAttribute xmi:type="uml:Property" xmi:id="_2dUWMYc0EeiiOKOpKZLISw" name="projects" visibility="private" type="_2dShAoc0EeiiOKOpKZLISw" isUnique="false"/>
                         <ownedAttribute xmi:type="uml:Property" xmi:id="_2dWLYYc0EeiiOKOpKZLISw" name="busy" visibility="private" type="_2dUWMoc0EeiiOKOpKZLISw" isUnique="false"/>
+                        <ownedAttribute xmi:type="uml:Property" xmi:id="_FsiHgoiXEeiTk5pjorssxA" name="projectviewmodel" type="_2c3DMYc0EeiiOKOpKZLISw" association="_FshgcIiXEeiTk5pjorssxA">
+                          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_FsiHg4iXEeiTk5pjorssxA"/>
+                          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_FsiHhIiXEeiTk5pjorssxA" value="1"/>
+                        </ownedAttribute>
                         <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_2dYAkoc0EeiiOKOpKZLISw" name="ClientViewModel" specification="_2dWLYoc0EeiiOKOpKZLISw">
                           <language>JAVA</language>
                           <body>
