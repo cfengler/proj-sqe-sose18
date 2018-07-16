@@ -70,7 +70,7 @@ public class ProjectInfoController extends BorderPane {
             b.prefHeightProperty().bind(this.widthProperty().multiply(0.25));
             b.disableProperty().bind(clientViewModel.busyProperty());
         }
-        buttonSync.disableProperty().bind(projectViewModel.canPushProperty().not().or(clientViewModel.busyProperty()).or(projectViewModel.canPullProperty().not()));
+        buttonSync.disableProperty().bind(projectViewModel.canPushProperty().not().and(projectViewModel.canPullProperty().not()).or(clientViewModel.busyProperty()));
 
         labelProjectName.textProperty().bind(projectViewModel.nameProperty());
         ObjectExpression<Font> fontTracking = Bindings.createObjectBinding(() -> Font.font(getWidth() / 10), widthProperty());

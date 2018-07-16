@@ -3,6 +3,10 @@ package de.tuberlin.sqe.ss18.reqexchange.project;
 import de.tuberlin.sqe.ss18.reqexchange.UnitTestHelper;
 import de.tuberlin.sqe.ss18.reqexchange.project.Project;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
@@ -10,6 +14,7 @@ import org.junit.runners.MethodSorters;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Iterator;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DefaultProjectServiceTest {
@@ -97,7 +102,7 @@ public class DefaultProjectServiceTest {
     }
 
     @Test
-    public void test_03a_exportProject_reqIF() throws GitAPIException, IOException {
+    public void test_03a_exportProject_reqIF() throws IOException {
         //TODO: implement
         Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
         Assert.assertTrue(UnitTestHelper.addProjectToRemoteRepository(UnitTestHelper.getOneRequirementReqifWorkingFilePath()));
@@ -125,11 +130,39 @@ public class DefaultProjectServiceTest {
                 UnitTestHelper.TEST_PROJECT_NAME,
                 UnitTestHelper.getTestReqifWorkingFilePath());
 
-        UnitTestHelper.getProjectService().export(project, UnitTestHelper.getExportXlsxFilePath());
+        Assert.assertTrue(UnitTestHelper.getProjectService().export(project, UnitTestHelper.getExportXlsxFilePath()));
 
-        Assert.assertTrue(FileUtils.contentEquals(
-                UnitTestHelper.getOneRequirementXlsxWorkingFilePath().toFile(),
-                UnitTestHelper.getExportXlsxFilePath().toFile()));
+        XSSFWorkbook validateWorkbook = new XSSFWorkbook(new FileInputStream(UnitTestHelper.getOneRequirementXlsxWorkingFilePath().toFile()));
+        XSSFWorkbook exportedWorkwook = new XSSFWorkbook(new FileInputStream(UnitTestHelper.getExportXlsxFilePath().toFile()));
+        XSSFSheet validateSheet = validateWorkbook.getSheetAt(0);
+        XSSFSheet exportedSheet = exportedWorkwook.getSheetAt(0);
+
+        Iterator<Row> validateRowIterator = validateSheet.iterator();
+        Iterator<Row> exportedRowIterator = exportedSheet.iterator();
+
+        while (validateRowIterator.hasNext()) {
+            Row validateRow = validateRowIterator.next();
+            Assert.assertTrue(exportedRowIterator.hasNext());
+            Row exportedRow = exportedRowIterator.next();
+
+            Iterator<Cell> validateCellIterator = validateRow.cellIterator();
+            Iterator<Cell> exportedCellIterator = exportedRow.cellIterator();
+
+            while (validateCellIterator.hasNext()) {
+                Cell validateCell = validateCellIterator.next();
+                Assert.assertTrue(exportedCellIterator.hasNext());
+                Cell exportedCell = exportedCellIterator.next();
+
+                Assert.assertEquals(validateCell.getStringCellValue(), exportedCell.getStringCellValue());
+            }
+        }
+
+        exportedWorkwook.close();
+        validateWorkbook.close();
+
+//        Assert.assertTrue(FileUtils.contentEquals(
+//                UnitTestHelper.getOneRequirementXlsxWorkingFilePath().toFile(),
+//                UnitTestHelper.getExportXlsxFilePath().toFile()));
     }
 
     @Test
@@ -142,7 +175,7 @@ public class DefaultProjectServiceTest {
                 UnitTestHelper.TEST_PROJECT_NAME,
                 UnitTestHelper.getTestReqifWorkingFilePath());
 
-        UnitTestHelper.getProjectService().export(project, UnitTestHelper.getExportSysmlFilePath());
+        Assert.assertTrue(UnitTestHelper.getProjectService().export(project, UnitTestHelper.getExportSysmlFilePath()));
 
         Assert.assertTrue(FileUtils.contentEquals(
                 UnitTestHelper.getOneRequirementSysmlWorkingFilePath().toFile(),
@@ -180,7 +213,6 @@ public class DefaultProjectServiceTest {
 
     @Test
     public void test_04a_synchronizeProject_localChanges() throws IOException {
-        //TODO: debug
         Assert.assertTrue(UnitTestHelper.clearRemoteRepository());
 
         Assert.assertTrue(UnitTestHelper.copyFiles(

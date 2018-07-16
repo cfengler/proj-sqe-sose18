@@ -43,6 +43,9 @@ import java.util.Map;
 
 public class DefaultModelService implements ModelService{
 
+    /**
+     * Register all needed packages on instantiation.
+     */
     static {
         registerReqIFPackages();
         //TODO: check register Function for SysML and Xlsx
@@ -50,6 +53,11 @@ public class DefaultModelService implements ModelService{
         registerExcelPackages();
     }
 
+    /**
+     * Load a ReqIF Ecore Model from Path.
+     * @param filePath - Path to file which contains the ReqIF Model
+     * @return ReqIF Object Instance
+     */
     public ReqIF loadReqIFModel(Path filePath) {
         if (!Files.exists(filePath)) {
             return null;
@@ -58,6 +66,13 @@ public class DefaultModelService implements ModelService{
         Resource resource = resSet.getResource(URI.createFileURI(filePath.toFile().getAbsolutePath()), true);
         return (ReqIF) resource.getContents().get(0);
     }
+
+    /**
+     * Saves ReqIF Objects to file via the ResourceFactory.
+     * @param reqIFModel ReqIF Object which should be saved
+     * @param filePath File in which the ReqIF Model should be saved
+     * @return
+     */
 
     public boolean saveReqIFModel(ReqIF reqIFModel, Path filePath) {
         ResourceSet resSet = new ResourceSetImpl();
@@ -97,56 +112,16 @@ public class DefaultModelService implements ModelService{
 //        return false;
 //    }
 
-    //private static String reqIFECoreFilePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\model\\reqif\\reqif10.ecore";
-    //private static String reqIFFilePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\samplefiles\\02_ReqIF_oneReq\\My.reqif";
-
-//    public static void main(String[] args) {
-//
-//        initECore();
-//
-//        //String filePath = "/home/julian/IdeaProjects/proj-sqe-sose18/src/main/resources/samplefiles/04_Papyrus_ReqExchange_TreeTable/04_Papyrus_ReqExchange_TreeTable.uml";
-//        //String filePath = "C:\\Users\\CFengler\\IdeaProjects\\reqexchange\\src\\main\\resources\\samplefiles\\02_ReqIF_oneReq\\My.reqif";
-//        //File file = new File(filePath);
-//
-//        //Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("library", new XMIResourceFactoryImpl());
-//
-//        //EObject eobj = getReqIFModel(file);
-//
-//        //System.out.println(eobj);
-//
-//    }
-
-    //private static EPackage reqIFPackage;
-
-//    private static void initECore() {
-//        /*
-//         * load existing EPackage
-//         */
-//        EcorePackage.eINSTANCE.eClass();
-//        /*Initialize your EPackage*/
-//        final Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-//        final Map<String, Object> m = reg.getExtensionToFactoryMap();
-//        m.put(EcorePackage.eNAME, new XMIResourceFactoryImpl());
-//
-//        final ResourceSet resSet = new ResourceSetImpl();
-//        Resource resource = null;
-//        try {
-//            resource = resSet.getResource(URI.createFileURI(reqIFECoreFilePath), true);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        /*load root and cast to EPackage*/
-//        reqIFPackage = (EPackage) resource.getContents().get(0);
-//
-//        //reqIFPackage.eClass();
-//
-//        //ResourceSet reqIFResourceSet = reqIFPackage.get
-//    }
-
 
     /*
         Example
         https://www.programcreek.com/java-api-examples/?code=ZhengshuaiPENG/org.lovian.eaxmireader/org.lovian.eaxmireader-master/src/org/lovian/eaxmireader/module/InitResourceSet.java#
+     */
+
+    /**
+     * Parses a SysML Model in XML representation to a Ecoremodel version from SysML
+     * @param filePath - Path to the file which should be loaded and parsed to a SysML Model
+     * @return EList of EObjects. EObjects might be Models, Requirements etc.
      */
     public EList<EObject> loadSysMLModel(Path filePath) {
         //TODO initialisierung in stttatic register methode
@@ -173,6 +148,10 @@ public class DefaultModelService implements ModelService{
         return saveModelToFile(umlModel, filePath.toFile());
     }
 
+
+    /**
+     * Register all needed Packages for reading, writing and transforming SysML Models.
+     */
     public static void registerSysMLPackages() {
         UMLPackage.eINSTANCE.eClass();
 
@@ -203,6 +182,9 @@ public class DefaultModelService implements ModelService{
         */
     }
 
+    /**
+     * Register all needed Packages for reading, writing and transforming ReqIF Models.
+     */
     public static void registerReqIFPackages() {
         ReqIF10Package.eINSTANCE.eClass();
 
@@ -211,15 +193,21 @@ public class DefaultModelService implements ModelService{
         m.put("reqif", new ReqIF10ResourceFactoryImpl());
     }
 
+    /**
+     * Register all needed Packages for working with and transformations of Excelmodels. Reading and writing are not done via EMF.
+     */
     public static void registerExcelPackages() {
         ExcelmodelPackage.eINSTANCE.eClass();
     }
 
+
+    /**
+     * Persistence wrapper method. Save Ecore EObjects in a file.
+     * @param outObjects - Ecore Objects which should be saved
+     * @param outFile - File in which the Ecore Objects should be saved
+     * @return true if successfull, false otherwise
+     */
     public boolean saveModelToFile(List<EObject> outObjects, File outFile) {
-
-        // the output objects got captured in the transformedModel extent
-
-
         if(outObjects.get(0) instanceof Workbook) {
             return saveModelToFile((Workbook) outObjects.get(0), outFile);
         }
@@ -230,6 +218,12 @@ public class DefaultModelService implements ModelService{
 
     }
 
+    /**
+     * Examine File ending and handle saveing of different Ecore Models which cant get saved over their Resource.
+     * @param transformedModel - Excel Model of Type Workbook which should be saved
+     * @param outFile - File in which the Excel Model should be saved
+     * @return true if successfull, false otherwise
+     */
     private boolean saveModelToFile(Workbook transformedModel, File outFile){
         ExcelmodelFactory factory =  ExcelmodelFactory.eINSTANCE;
         Workbook excelWorkbook = transformedModel;
@@ -272,6 +266,12 @@ public class DefaultModelService implements ModelService{
 
     }
 
+    /**
+     * Saves all Ecore Objects to file which can be saved via their ResourceFactory.
+     * @param outObjects - Ecore Objects which should be saved
+     * @param outFile - File in which the Ecore Objects should be saved
+     * @return true if successfull, false otherwise
+     */
     private static boolean saveModelToFileWithEcoreResourceFactory(List<EObject> outObjects, File outFile) {
         // the output objects got captured in the transformedModel extent
         // let's persist them using a resource
